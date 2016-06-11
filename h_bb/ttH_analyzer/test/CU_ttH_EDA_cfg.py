@@ -71,10 +71,10 @@ process.ttHbb.input_tags.muons = cms.InputTag("ttHLeptons")
 process.ttHbb.input_tags.taus = cms.InputTag("ttHLeptons")
 
     
-#process.TFileService = cms.Service("TFileService",
-#	fileName = cms.string('ttHtausNtuple.root')
-#       #fileName = cms.string('ttHtausNtuple_ttJets.root')
-#)
+process.TFileService = cms.Service("TFileService",
+	fileName = cms.string('ttHtausNtuple.root')
+       #fileName = cms.string('ttHtausNtuple_ttJets.root')
+)
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
