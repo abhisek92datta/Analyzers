@@ -26,14 +26,14 @@ Triggers:
 
 ## Event cuts
 Cuts:
-    min_tight_lepton_pT : 20
-    min_ele_pT : 30
-    min_mu_pT : 25
-    min_veto_ele_pT : 15
-    min_veto_mu_pT : 15
+    min_tight_lepton_pT : 20.0
+    min_ele_pT : 30.0
+    min_mu_pT : 25.0
+    min_veto_ele_pT : 15.0
+    min_veto_mu_pT : 15.0
 #   min_tau_pT : 20.
-    min_jet_pT : 30
-    min_bjet_pT : 30
+    min_jet_pT : 30.0
+    min_bjet_pT : 30.0
     max_ele_eta : 2.1
     max_mu_eta : 2.1
     max_veto_ele_eta : 2.4
