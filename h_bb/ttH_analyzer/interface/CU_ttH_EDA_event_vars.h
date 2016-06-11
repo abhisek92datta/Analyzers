@@ -33,7 +33,9 @@ struct CU_ttH_EDA_event_vars {
 
 	/// Number of tags per event
 	int n_electrons;
+	int n_veto_electrons;
 	int n_muons;
+	int n_veto_muons;
 	int n_taus;
 	int n_jets;
 	int n_btags;
