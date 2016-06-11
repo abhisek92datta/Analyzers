@@ -49,9 +49,13 @@ struct CU_ttH_EDA_event_vars {
 
 	/// Particle container vectors
 	std::vector<pat::Electron> e_selected;
+	std::vector<pat::Electron> e_veto_selected;
 	std::vector<pat::Electron> e_selected_sorted;
+	std::vector<pat::Electron> e_veto_selected_sorted;
 	std::vector<pat::Muon> mu_selected;
+	std::vector<pat::Muon> mu_veto_selected;
 	std::vector<pat::Muon> mu_selected_sorted;
+	std::vector<pat::Muon> mu_veto_selected_sorted;
 	std::vector<pat::Tau> tau_selected;
 	std::vector<pat::Tau> tau_selected_sorted;
 	
