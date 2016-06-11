@@ -4,8 +4,8 @@
 #
 ## Generic parameters
 Generic:
-    # Analysis type choice: 'tau_ssleptons', 'ditaus_lepton'
-    analysis_type: 'tau_ssleptons'
+    # Analysis type choice: 'Analyze_lepton_jet', 'Analyze_dilepton'
+    analysis_type: 'Analyze_lepton_jet'
     verbosity: false
     # Prints events' triggers. Depends on verbosity and collect_trigger_stats
     print_HLT_event_path: false
@@ -17,25 +17,31 @@ Triggers:
     # Performs unnecessary loops to collect all trigger data
     collect_trigger_stats: false
     ## Single lepton triggers:
-    HLT_electron_triggers: ['HLT_Ele27_eta2p1_WP75_Gsf_v1']
-    HLT_muon_triggers: ['HLT_IsoMu24_eta2p1_v1']
+    HLT_electron_triggers: ['HLT_Ele27_WP85_Gsf_v*']
+    HLT_muon_triggers: ['HLT_IsoMu17_eta2p1_v* ']
     ## Dilepton triggers:    
-    HLT_electron_electron_triggers: ['HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v1']
-    HLT_electron_muon_triggers: ['HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1','HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v1']
-    HLT_muon_muon_triggers: ['HLT_Mu30_TkMu11_v1','HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1','HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1']
+    HLT_electron_electron_triggers: ['HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*']
+    HLT_electron_muon_triggers: ['HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v*','HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v*']
+    HLT_muon_muon_triggers: ['HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v* ','HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v*']
 
 ## Event cuts
 Cuts:
     min_tight_lepton_pT : 20
-    min_ele_pT : 7.
-    min_mu_pT : 5.
-    min_tau_pT : 20.
-    min_jet_pT : 25.
-    min_bjet_pT : 20.
+    min_ele_pT : 30
+    min_mu_pT : 25
+    min_veto_ele_pT = 15
+    min_veto_mu_pT = 15
+#   min_tau_pT : 20.
+    min_jet_pT : 30
+    min_bjet_pT : 30
+    max_ele_eta = 2.1
+    max_mu_eta = 2.1
+    max_veto_ele_eta = 2.4
+    max_veto_mu_eta = 2.4
     max_jet_eta : 2.4
-    max_bjet_eta : 2.5
-    min_njets : 2
-    min_nbtags : 1
+    max_bjet_eta : 2.4
+    min_njets : 4
+    min_nbtags : 2
    
 # Jets
 Jets :
