@@ -1,6 +1,6 @@
-# Configurations for ttH tautau analysis
+# Configurations for ttH bb analysis
 #
-# Zhengcheng Tao
+# Abhisek Datta
 #
 
 import FWCore.ParameterSet.Config as cms
@@ -8,7 +8,7 @@ import FWCore.ParameterSet.Config as cms
 from Analyzers.ttH_analyzer.CU_ttH_read_yaml.py import *
 
 ttHtaus =  cms.EDAnalyzer('CU_ttH_EDA',
-        # Analysis type choice: 'tau_ssleptons', 'ditaus_lepton'
+        # Analysis type choice
         analysis_type = cms.string(analysis_type),
         # Generic
         verbosity = cms.bool(verbosity),
@@ -28,9 +28,15 @@ ttHtaus =  cms.EDAnalyzer('CU_ttH_EDA',
         min_tight_lepton_pT = cms.double(min_tight_lepton_pT),
         min_ele_pT = cms.double(min_ele_pT),
         min_mu_pT = cms.double(min_mu_pT),
-        min_tau_pT = cms.double(min_tau_pT),
+        min_veto_ele_pT = cms.double(min_veto_ele_pT),
+        min_veto_mu_pT = cms.double(min_veto_mu_pT),
+        #min_tau_pT = cms.double(min_tau_pT),
         min_jet_pT = cms.double(min_jet_pT),
         min_bjet_pT = cms.double(min_bjet_pT),
+        max_ele_eta = cms.double(max_ele_eta),
+        max_mu_eta = cms.double(max_mu_eta),
+        max_veto_ele_eta = cms.double(max_veto_ele_eta),
+        max_veto_mu_eta = cms.double(max_veto_mu_eta),
         max_jet_eta = cms.double(max_jet_eta),
         max_bjet_eta = cms.double(max_bjet_eta),
         min_njets = cms.int32(min_njets),
