@@ -50,9 +50,15 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	min_tight_lepton_pT (iConfig.getParameter<double>("min_tight_lepton_pT")),
 	min_ele_pT (iConfig.getParameter<double>("min_ele_pT")),
 	min_mu_pT (iConfig.getParameter<double>("min_mu_pT")),
-	min_tau_pT (iConfig.getParameter<double>("min_tau_pT")),
+	min_veto_ele_pT (iConfig.getParameter<double>("min_veto_ele_pT")),
+	min_veto_mu_pT (iConfig.getParameter<double>("min_veto_mu_pT")),
+	//min_tau_pT (iConfig.getParameter<double>("min_tau_pT")),
 	min_jet_pT (iConfig.getParameter<double>("min_jet_pT")),
 	min_bjet_pT (iConfig.getParameter<double>("min_bjet_pT")),
+	max_ele_eta (iConfig.getParameter<double>("max_ele_eta")),
+	max_mu_eta (iConfig.getParameter<double>("max_mu_eta")),
+	max_veto_ele_eta (iConfig.getParameter<double>("max_veto_ele_eta")),
+	max_veto_mu_eta (iConfig.getParameter<double>("max_veto_mu_eta")),
 	max_jet_eta (iConfig.getParameter<double>("max_jet_eta")),
 	max_bjet_eta (iConfig.getParameter<double>("max_bjet_eta")),
 	min_njets (iConfig.getParameter<int>("min_njets")),
@@ -87,7 +93,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
 	Set_up_Tree();
 
-    reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
+    	reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
 	reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
 	//Set_up_MVA_2lss(reader_2lss_ttV, "2lss_ttV_BDTG");
 	Set_up_MVA_2lss(reader_2lss_ttbar, "2lss_ttbar_BDTG");
