@@ -172,6 +172,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	//TopTagger toptagger;
 
 	/// Other functions
+	void Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_ej(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_muj(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_dimuj(CU_ttH_EDA_event_vars &);
@@ -248,6 +249,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	/// Output file is opened/closed through CMS py config
 	edm::Service<TFileService> fs_;
+
+	// flag for determining whether to select an event for writing
+	bool event_selection = false;
 
 	/// Common sample parameters
 	unsigned long event_count; // running event counter
