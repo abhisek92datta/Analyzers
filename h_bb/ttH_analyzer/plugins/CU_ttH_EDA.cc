@@ -157,31 +157,38 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_mu_pT, muonID::muonPreselection);
+		*(handle.muons), min_mu_pT, muonID::muonTight, max_mu_eta);
+	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
+		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, max_veto_mu_eta);
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
-		*(handle.electrons), min_ele_pT, electronID::electronPreselection);
+		*(handle.electrons), min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
+	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+		*(handle.electrons), min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
 
 	// Should add tauID in leptonID package into MiniAODHelper
-	for (const auto& tau : *(handle.taus)) {
-		if (tau.userFloat("idPreselection")>0.5 and tau.pt()>min_tau_pT)
-			local.tau_selected.push_back(tau);
-	}
+	//for (const auto& tau : *(handle.taus)) {
+	//	if (tau.userFloat("idPreselection")>0.5 and tau.pt()>min_tau_pT)
+	//		local.tau_selected.push_back(tau);
+	//}
 	//local.tau_selected = miniAODhelper.GetSelectedTaus(
 	//	*(handle.taus),	min_tau_pT, tau::tauPreselection);
 
 	// remove overlap
 	local.e_selected = removeOverlapdR(local.e_selected, local.mu_selected, 0.05);
-	local.tau_selected = removeOverlapdR(local.tau_selected, local.mu_selected, 0.4);
-	local.tau_selected = removeOverlapdR(local.tau_selected, local.e_selected, 0.4);
+	local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
+	//local.tau_selected = removeOverlapdR(local.tau_selected, local.mu_selected, 0.4);
+	//local.tau_selected = removeOverlapdR(local.tau_selected, local.e_selected, 0.4);
 	
 	local.n_electrons = static_cast<int>(local.e_selected.size());
+	local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
 	local.n_muons = static_cast<int>(local.mu_selected.size());
-	local.n_taus = static_cast<int>(local.tau_selected.size());
+	local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
+	//local.n_taus = static_cast<int>(local.tau_selected.size());
 
 	/// Sort leptons by pT
 	local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
 	local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
-	local.tau_selected_sorted = miniAODhelper.GetSortedByPt(local.tau_selected);
+	//local.tau_selected_sorted = miniAODhelper.GetSortedByPt(local.tau_selected);
 
 	/// Jet selection
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(handle.jets);
@@ -242,13 +249,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	*/
 
 	// Produce sync ntuple
-	tauNtuple.initialize();
-	tauNtuple.write_ntuple(local);
+	//tauNtuple.initialize();
+	//tauNtuple.write_ntuple(local);
 
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
-		Check_Fill_Print_ej(local);
-		Check_Fill_Print_muj(local);
+		if (event_selection)
+			Check_Fill_Print_single_lepton(local);
+		//Check_Fill_Print_ej(local);
+		//Check_Fill_Print_muj(local);
 	}
 
 	if (analysis_type == Analyze_dilepton) {
