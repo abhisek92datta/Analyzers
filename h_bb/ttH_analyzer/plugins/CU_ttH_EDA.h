@@ -262,9 +262,15 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float min_tight_lepton_pT;
 	float min_ele_pT;	
 	float min_mu_pT;
-	float min_tau_pT;
+	float min_veto_ele_pT;
+	float min_veto_mu_pT;
+	//float min_tau_pT;
 	float min_jet_pT;
 	float min_bjet_pT;
+	float max_ele_eta;
+	float max_mu_eta;
+	float max_veto_ele_eta;
+	float max_veto_mu_eta;
 	float max_jet_eta;
 	float max_bjet_eta;
 	int min_njets;
@@ -302,6 +308,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// 	TH1D* h_muon_selection;
 
 	/// Write-out files
+	FILE *events_single_lepton;
+	
 	FILE *events_e_cut1, *events_e_cut2, *events_e_cut3, *events_e_cut4,
 		*events_e_cut5, *events_e_cut6, *events_e_cut7;
 
@@ -321,7 +329,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	// tree and ntuple
 	TTree *eventTree;
-	CU_ttH_EDA_Ntuple tauNtuple;
+	CU_ttH_EDA_Ntuple bbNtuple;
 
 	// TMVA Reader
 	TMVA::Reader *reader_2lss_ttV;
