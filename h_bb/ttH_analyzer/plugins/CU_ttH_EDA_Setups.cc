@@ -7,6 +7,7 @@
 void CU_ttH_EDA::Close_output_files()
 {
 	if (analysis_type == Analyze_lepton_jet) {
+		fclose(events_single_lepton);
 		fclose(events_e_cut1);
 		fclose(events_e_cut2);
 		fclose(events_e_cut3);
@@ -218,6 +219,8 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
 void CU_ttH_EDA::Set_up_output_files()
 {
 	if (analysis_type == Analyze_lepton_jet) {
+		events_single_lepton = fopen("CU_events_single_lepton_cuts.csv", "w");
+		/*
 		events_e_cut1 = fopen("Outputs/CU_events_e_cut1.dat", "w");
 		events_e_cut2 = fopen("Outputs/CU_events_e_cut2.dat", "w");
 		events_e_cut3 = fopen("Outputs/CU_events_e_cut3.dat", "w");
@@ -233,6 +236,7 @@ void CU_ttH_EDA::Set_up_output_files()
 		events_mu_cut5 = fopen("Outputs/CU_events_mu_cut5.dat", "w");
 		events_mu_cut6 = fopen("Outputs/CU_events_mu_cut6.dat", "w");
 		events_mu_cut7 = fopen("Outputs/CU_events_mu_cut7.dat", "w");
+		*/
 	}
 
 	if (analysis_type == Analyze_dilepton) {
