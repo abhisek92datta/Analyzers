@@ -186,8 +186,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.n_taus = static_cast<int>(local.tau_selected.size());
 
 	/// Sort leptons by pT
-	local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
-	local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
+	//local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
+	//local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
 	//local.tau_selected_sorted = miniAODhelper.GetSortedByPt(local.tau_selected);
 
 	/// Jet selection
@@ -211,7 +211,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// overlap removal by dR
 	local.jets_selected = removeOverlapdR(local.jets_selected, local.mu_selected, 0.4);
 	local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
-	local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
+	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
 	local.jets_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetLoose,
@@ -251,6 +251,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Produce sync ntuple
 	//tauNtuple.initialize();
 	//tauNtuple.write_ntuple(local);
+
+	
+
+
+
 
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
