@@ -133,10 +133,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
 
+	// counter for no of primary vertices
+	int n_prim_V = 0;
+
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	Check_filters(handle.filterResults);
-	Check_vertices_set_MAODhelper(handle.vertices);
+	Check_vertices_set_MAODhelper(handle.vertices, n_prim_V);
 	// 	Check_beam_spot(BS);	// dumb implementation
 
 	// Setting rho
@@ -184,6 +187,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.n_muons = static_cast<int>(local.mu_selected.size());
 	local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
 	//local.n_taus = static_cast<int>(local.tau_selected.size());
+	
+	local.n_leptons = local.n_electrons + local.n_muons;
 
 	/// Sort leptons by pT
 	//local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
@@ -252,10 +257,27 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//tauNtuple.initialize();
 	//tauNtuple.write_ntuple(local);
 
-	
+	// flag for determining whether to select an event for writing
+	bool event_selection = false;
 
+	// Event selection criteria for single lepton events
 
-
+	if ( local.pass_single_e == true || local.pass_single_mu == true ) {
+		if (n_prim_V > 0) {
+			if (local.n_leptons == 1) {
+				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
+					if (local.n_jets >= 4 && local.n_btags >= 2) {
+						event_selection = true;
+					}
+				}	
+				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == true) {
+					if (local.n_jets >= 4 && local.n_btags >= 2) {
+						event_selection = true;
+					}
+				}
+			}
+		}
+	}
 
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
