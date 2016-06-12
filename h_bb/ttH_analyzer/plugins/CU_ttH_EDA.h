@@ -250,9 +250,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	/// Output file is opened/closed through CMS py config
 	edm::Service<TFileService> fs_;
 
-	// flag for determining whether to select an event for writing
-	bool event_selection = false;
-
 	/// Common sample parameters
 	unsigned long event_count; // running event counter
 
