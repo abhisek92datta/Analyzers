@@ -320,7 +320,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
 	fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", local.jets_selected_sorted[0].pt(), local.jets_selected_sorted[1].pt(), local.jets_selected_sorted[2].pt(), local.jets_selected_sorted[3].pt(), local.jets_selected_sorted[0].bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"), local.jets_selected_sorted[1].bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"), local.jets_selected_sorted[2].bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"), local.jets_selected_sorted[3].bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") );
 	fprintf(events_single_lepton, "%d, %d, %d, %d, %d, ", met_passed, local.n_jets, local.n_btags, b_weight, ttH_cat);
-	fprintf(events_single_lepton, "0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0");
+	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0");
 }
 
 void CU_ttH_EDA::Check_Fill_Print_muj(CU_ttH_EDA_event_vars &local)
