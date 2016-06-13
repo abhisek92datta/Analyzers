@@ -81,6 +81,9 @@ struct CU_ttH_EDA_event_vars {
 	double MHT;
 	double metLD;
 	
+	int n_prim_V;
+	bool event_selection;
+	
 	// Gen Particles
 	std::vector<reco::GenParticle> genHiggs;
 	std::vector<reco::GenParticle> genTops;
