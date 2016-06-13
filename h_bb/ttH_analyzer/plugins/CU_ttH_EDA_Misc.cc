@@ -171,7 +171,7 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 }
 
 int CU_ttH_EDA::Check_vertices_set_MAODhelper(
-	edm::Handle<reco::VertexCollection> vertices, int &n_prim_V)
+	edm::Handle<reco::VertexCollection> vertices, CU_ttH_EDA_event_vars &local)
 {
 	/// Primary vertex handling
 	if (!vertices.isValid())
@@ -201,7 +201,7 @@ int CU_ttH_EDA::Check_vertices_set_MAODhelper(
 		miniAODhelper.SetVertex(
 			vertex); // FIXME?: overload miniAODhelper::SetVertex(reco::Vertex&)
 
-	n_prim_V = n_PVs;
+	local.n_prim_V = n_PVs;
 	return 0;
 }
 
