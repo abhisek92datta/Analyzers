@@ -139,7 +139,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	Check_filters(handle.filterResults);
-	Check_vertices_set_MAODhelper(handle.vertices, n_prim_V);
+	Check_vertices_set_MAODhelper(handle.vertices, local);
 	// 	Check_beam_spot(BS);	// dumb implementation
 
 	// Setting rho
