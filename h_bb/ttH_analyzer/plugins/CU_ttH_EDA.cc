@@ -134,7 +134,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Set_up_handles(iEvent, handle, token);
 
 	// counter for no of primary vertices
-	int n_prim_V = 0;
+	local.n_prim_V = 0;
 
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
@@ -258,21 +258,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//tauNtuple.write_ntuple(local);
 
 	// flag for determining whether to select an event for writing
-	bool event_selection = false;
+	local.event_selection = false;
 
 	// Event selection criteria for single lepton events
 
 	if ( local.pass_single_e == true || local.pass_single_mu == true ) {
-		if (n_prim_V > 0) {
+		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
 				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
 					if (local.n_jets >= 4 && local.n_btags >= 2) {
-						event_selection = true;
+						local.event_selection = true;
 					}
 				}	
 				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == true) {
 					if (local.n_jets >= 4 && local.n_btags >= 2) {
-						event_selection = true;
+						local.event_selection = true;
 					}
 				}
 			}
@@ -281,7 +281,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
-		if (event_selection)
+		if (local.event_selection)
 			Check_Fill_Print_single_lepton(local);
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
