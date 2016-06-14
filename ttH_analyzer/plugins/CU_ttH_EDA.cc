@@ -266,7 +266,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
 				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
-					if (local.e_selected[0].eta() < max_e_eta) {
+					if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= 4 && local.n_btags >= 2) {
 							local.event_selection = true;
 						}
