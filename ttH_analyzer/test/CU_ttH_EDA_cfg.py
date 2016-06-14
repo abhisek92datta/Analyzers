@@ -68,7 +68,7 @@ process.ttHLeptons.rhoParam = "fixedGridRhoFastjetCentralNeutral"
 # use leptons from LeptonID producer
 process.ttHbb.input_tags.electrons = cms.InputTag("ttHLeptons")
 process.ttHbb.input_tags.muons = cms.InputTag("ttHLeptons")
-process.ttHbb.input_tags.taus = cms.InputTag("ttHLeptons")
+#process.ttHbb.input_tags.taus = cms.InputTag("ttHLeptons")
 
     
 process.TFileService = cms.Service("TFileService",
