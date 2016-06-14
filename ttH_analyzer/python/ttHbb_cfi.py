@@ -5,7 +5,7 @@
 
 import FWCore.ParameterSet.Config as cms
 
-from Analyzers.ttH_analyzer.CU_ttH_read_yaml.py import *
+from Analyzers.ttH_analyzer.CU_ttH_read_yaml import *
 
 ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         # Analysis type choice
