@@ -1,6 +1,6 @@
 # Analyzers
 
-This is for both "ttH : H to tau tau" and "ttH " H to bb" analysis
+This is for "ttH " -  H to bb" analysis
 
 #Installation :
 
@@ -48,4 +48,4 @@ scram b -j 16
 
 Run :
 
-Now go to any of the two analysis directories and run using cmsRun 
+cmsRun <config_file_name> 
