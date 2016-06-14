@@ -290,8 +290,8 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("electrons"));
 	token.muons = consumes<pat::MuonCollection>(
 		config.getParameter<edm::InputTag>("muons"));
-	token.taus = consumes<pat::TauCollection>(
-	    config.getParameter<edm::InputTag>("taus"));
+	//token.taus = consumes<pat::TauCollection>(
+	  //  config.getParameter<edm::InputTag>("taus"));
 	token.jets = consumes<pat::JetCollection>(
 	    config.getParameter<edm::InputTag>("jets"));
 	token.METs = consumes<pat::METCollection>(
@@ -323,7 +323,7 @@ void CU_ttH_EDA::Set_up_Tree()
 	//std::cout << "CanSplit() :" << ntuple->CanSplit() << std::endl;
 	//ntuple->Dump();
 	*/
-	tauNtuple.set_up_branches(eventTree);
+	//tauNtuple.set_up_branches(eventTree);
 }
 
 void CU_ttH_EDA::Set_up_MVA_2lss(TMVA::Reader * reader, const std::string fname)
