@@ -57,7 +57,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             #"fixedGridRhoFastjetAll"
             electrons = cms.InputTag("slimmedElectrons"),
             muons = cms.InputTag("slimmedMuons"),
-            taus = cms.InputTag("slimmedTaus"),
+            #taus = cms.InputTag("slimmedTaus"),
             jets = cms.InputTag("slimmedJets"),
             mets = cms.InputTag("slimmedMETs"),
             pfcand = cms.InputTag("packedPFCandidates"),
