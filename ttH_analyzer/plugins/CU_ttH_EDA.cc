@@ -160,13 +160,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_mu_pT, muonID::muonTight, max_mu_eta);
+		*(handle.muons), min_mu_pT, muonID::muonTight);
 	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, max_veto_mu_eta);
+		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL);
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
-		*(handle.electrons), min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
+		*(handle.electrons), min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-		*(handle.electrons), min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+		*(handle.electrons), min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15);
 
 	// Should add tauID in leptonID package into MiniAODHelper
 	//for (const auto& tau : *(handle.taus)) {
@@ -266,13 +266,17 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
 				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
-					if (local.n_jets >= 4 && local.n_btags >= 2) {
-						local.event_selection = true;
+					if (local.e_selected[0].eta() < max_e_eta) {
+						if (local.n_jets >= 4 && local.n_btags >= 2) {
+							local.event_selection = true;
+						}
 					}
 				}	
 				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == true) {
-					if (local.n_jets >= 4 && local.n_btags >= 2) {
-						local.event_selection = true;
+					if (local.mu_selected[0].eta() < max_mu_eta) {
+						if (local.n_jets >= 4 && local.n_btags >= 2) {
+							local.event_selection = true;
+						}
 					}
 				}
 			}
@@ -295,11 +299,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	if (analysis_type == Analyze_tau_ssleptons) {
 		// Event selection
-		if (pass_event_sel_2lss1tauh(local)) {
-			tauNtuple.write_evtMVAvars_2lss(local);
-			//tauNtuple.MVA_2lss_ttV = mva(tauNtuple,reader_2lss_ttV);
-			tauNtuple.MVA_2lss_ttbar = mva(tauNtuple,reader_2lss_ttbar);
-		}
+		//if (pass_event_sel_2lss1tauh(local)) {
+		//	tauNtuple.write_evtMVAvars_2lss(local);
+		//	//tauNtuple.MVA_2lss_ttV = mva(tauNtuple,reader_2lss_ttV);
+		//	tauNtuple.MVA_2lss_ttbar = mva(tauNtuple,reader_2lss_ttbar);
+		//}
 	}
 
 	if (analysis_type == Analyze_ditaus_lepton) {
