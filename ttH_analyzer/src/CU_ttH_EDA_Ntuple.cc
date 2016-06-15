@@ -240,7 +240,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(const std::vector<pat::Electron>& 
 		ele1_isfakeablesel = electrons[1].userFloat("idFakeable") > 0.5;
 	}
 }
-
+/*
 void CU_ttH_EDA_Ntuple::fill_ntuple_taus(const std::vector<pat::Tau>& taus)
 {
 	if (taus.size() > 0) {
@@ -311,7 +311,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_taus(const std::vector<pat::Tau>& taus)
 		tau1_againstElectronTightMVA6 = taus[1].tauID("againstElectronTightMVA6");
 	}
 }
-
+*/
 void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets)
 {
 	if (jets.size() > 0) {
