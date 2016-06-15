@@ -40,4 +40,4 @@ scram b -j 16
 
 Run :
 
-cmsRun "config_file_name" 
+cmsRun ttH_analyzer/test/CU_ttH_EDA_cfg.py
