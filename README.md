@@ -36,8 +36,10 @@ cd ..
 
 Compile:
 
-scram b -j 16
+scram b -j 32
 
 Run :
+
+cd Analyzers/
 
 cmsRun ttH_analyzer/test/CU_ttH_EDA_cfg.py
