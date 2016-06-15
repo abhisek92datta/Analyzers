@@ -72,7 +72,7 @@ process.ttHbb.input_tags.muons = cms.InputTag("ttHLeptons")
 
     
 process.TFileService = cms.Service("TFileService",
-	fileName = cms.string('ttHtausNtuple.root')
+	fileName = cms.string('ttHbbNtuple.root')
        #fileName = cms.string('ttHtausNtuple_ttJets.root')
 )
 
