@@ -34,18 +34,10 @@ git checkout CMSSW_7_6_3
 
 cd ..
 
-For ttH, get LeptonID package shared with ttH-Multilepton group:
-
-git clone https://github.com/cms-ttH/ttH-LeptonID.git
-
-mkdir ttH
-
-mv ttH-LeptonID ttH/LeptonID
-
 Compile:
 
 scram b -j 16
 
 Run :
 
-cmsRun <config_file_name> 
+cmsRun "config_file_name" 
