@@ -83,7 +83,7 @@ struct edm_Handles {
 
 	Handle<pat::ElectronCollection> electrons;
 	Handle<pat::MuonCollection> muons;
-	Handle<pat::TauCollection> taus;
+	//Handle<pat::TauCollection> taus;
 
 	Handle<pat::JetCollection> jets;
 	Handle<pat::METCollection> METs;
@@ -111,7 +111,7 @@ struct edm_Tokens {
 
 	EDGetTokenT<pat::ElectronCollection> electrons;
 	EDGetTokenT<pat::MuonCollection> muons;
-	EDGetTokenT<pat::TauCollection> taus;
+	//EDGetTokenT<pat::TauCollection> taus;
 
 	EDGetTokenT<pat::JetCollection> jets;
 	EDGetTokenT<pat::METCollection> METs;
