@@ -57,17 +57,17 @@ process.source = cms.Source("PoolSource",
 )
 
 # LeptonID producer from ttH Multi-lepton group
-#process.load("ttH.LeptonID.ttHLeptons_cfi")
+process.load("ttH.LeptonID.ttHLeptons_cfi")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
 # re-define parameter sets here if necessary
-#process.ttHLeptons.rhoParam = "fixedGridRhoFastjetCentralNeutral"
+process.ttHLeptons.rhoParam = "fixedGridRhoFastjetCentralNeutral"
 # use leptons from LeptonID producer
-#process.ttHbb.input_tags.electrons = cms.InputTag("ttHLeptons")
-#process.ttHbb.input_tags.muons = cms.InputTag("ttHLeptons")
+process.ttHbb.input_tags.electrons = cms.InputTag("ttHLeptons")
+process.ttHbb.input_tags.muons = cms.InputTag("ttHLeptons")
 #process.ttHbb.input_tags.taus = cms.InputTag("ttHLeptons")
 
     
@@ -78,6 +78,6 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
- #   * process.ttHLeptons
+    * process.ttHLeptons
     * process.ttHbb
 )
