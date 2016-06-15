@@ -198,8 +198,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float getMHT(CU_ttH_EDA_event_vars &);
 	
 	// event selection
-	bool pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &);
-	bool pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &);
+	//bool pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &);
+	//bool pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &);
 
 	// MVA
 	void Set_up_MVA_2lss(TMVA::Reader *, const std::string);
