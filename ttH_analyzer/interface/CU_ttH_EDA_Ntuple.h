@@ -171,6 +171,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    ele1_ismvasel;
 	int    ele1_isfakeablesel;
 	
+	/*
 	// taus
 	double tau0_pt;
 	double tau0_eta;
@@ -224,6 +225,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    tau1_againstElectronLooseMVA6;
 	int    tau1_againstElectronMediumMVA6;
 	int    tau1_againstElectronTightMVA6;
+	*/
 	// jets
 	double jet0_pt;
 	double jet0_eta;
