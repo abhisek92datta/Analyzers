@@ -913,12 +913,12 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 		MHT_x -= ele.px();
 		MHT_y -= ele.py();
 	}
-
+	/*
 	for (auto & tau : local.tau_selected_sorted) {
 		MHT_x -= tau.px();
 		MHT_y -= tau.py();
 	}
-
+	*/
 	for (auto & jet : local.jets_selected_sorted) {
 		MHT_x -= jet.px();
 		MHT_y -= jet.py();
@@ -926,7 +926,7 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
-
+/*
 bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)
 {
 	int nbMedium = 0;   // csv > 0.800
@@ -967,7 +967,7 @@ bool CU_ttH_EDA::pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &local)
 			(nbLoose >=2 or nbMedium >= 1)
 			);
 }
-
+*/
 double CU_ttH_EDA::mva(CU_ttH_EDA_Ntuple& ntuple, TMVA::Reader *reader)
 {
 	mvaMaxLepEta = ntuple.max_lep_eta;
