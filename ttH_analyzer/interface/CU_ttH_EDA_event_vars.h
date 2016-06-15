@@ -37,7 +37,7 @@ struct CU_ttH_EDA_event_vars {
 	int n_muons;
 	int n_veto_muons;
 	int n_leptons;
-	int n_taus;
+	//int n_taus;
 	int n_jets;
 	int n_btags;
 	int n_ttags;
