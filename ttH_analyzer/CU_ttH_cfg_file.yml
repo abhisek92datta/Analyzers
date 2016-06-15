@@ -5,7 +5,7 @@
 ## Generic parameters
 Generic:
     # Analysis type choice: 'Analyze_lepton_jet', 'Analyze_dilepton'
-    analysis_type: 'Analyze_lepton_jet'
+    analysis_type: 'lepton+jet'
     verbosity: false
     # Prints events' triggers. Depends on verbosity and collect_trigger_stats
     print_HLT_event_path: false
