@@ -51,8 +51,8 @@ void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
 	fill_ntuple_electrons(local.e_selected_sorted);
 		
 	// Taus
-	n_presel_tau = local.n_taus;
-	fill_ntuple_taus(local.tau_selected_sorted);
+	//n_presel_tau = local.n_taus;
+	//fill_ntuple_taus(local.tau_selected_sorted);
 
 	// Jets
 	n_presel_jet = local.n_jets;
@@ -469,6 +469,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	ele1_ismvasel = -9999;
 	ele1_isfakeablesel = -9999;
 	
+	/*
 	// taus
 	tau0_pt = -9999.;
 	tau0_eta = -9999.;
@@ -522,7 +523,8 @@ void CU_ttH_EDA_Ntuple::initialize()
 	tau1_againstElectronLooseMVA6 = -9999;
 	tau1_againstElectronMediumMVA6 = -9999;
 	tau1_againstElectronTightMVA6 = -9999;
-		
+	*/
+	
 	// jets
 	jet0_pt = -9999.;
 	jet0_eta = -9999.;
@@ -568,7 +570,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("n_cutsel_ele", &n_cutsel_ele);
 	tree->Branch("n_mvasel_ele", &n_mvasel_ele);
 	tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
-	tree->Branch("n_presel_tau", &n_presel_tau);
+	//tree->Branch("n_presel_tau", &n_presel_tau);
 	tree->Branch("n_presel_jet", &n_presel_jet);
 	tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
 	tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
@@ -671,6 +673,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("ele1_iscutsel", &ele1_iscutsel);
 	tree->Branch("ele1_ismvasel", &ele1_ismvasel);
 	tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
+	/*
 	// taus
 	tree->Branch("tau0_pt", &tau0_pt);
 	tree->Branch("tau0_eta", &tau0_eta);
@@ -724,7 +727,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("tau1_againstElectronLooseMVA6", &tau1_againstElectronLooseMVA6);
 	tree->Branch("tau1_againstElectronMediumMVA6", &tau1_againstElectronMediumMVA6);
 	tree->Branch("tau1_againstElectronTightMVA6", &tau1_againstElectronTightMVA6);
-
+	*/
 	// jets
 	tree->Branch("jet0_pt", &jet0_pt);
 	tree->Branch("jet0_eta", &jet0_eta);
