@@ -159,23 +159,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 	
 	// to get electron mva values
-	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
-	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
-	mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"));
-   	mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"));
-	Handle<edm::ValueMap<float>> mvaValues;
-	Handle<edm::ValueMap<int>> mvaCategories;
-	iEvent.getByToken(mvaValuesMapToken_, mvaValues);
-	iEvent.getByToken(mvaCategoriesMapToken_, mvaCategories);
-	edm::Handle<edm::View<pat::Electron> > electrons_for_mva;
-	iEvent.getByToken(token.electrons,electrons_for_mva);
+	//EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
+	//EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
+	//mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"));
+   	//mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"));
+	//Handle<edm::ValueMap<float>> mvaValues;
+	//Handle<edm::ValueMap<int>> mvaCategories;
+	//iEvent.getByToken(mvaValuesMapToken_, mvaValues);
+	//iEvent.getByToken(mvaCategoriesMapToken_, mvaCategories);
+	//Handle<edm::View<pat::Electron> > electrons_for_mva;
+	//iEvent.getByToken(token.electrons,electrons_for_mva);
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_mu_pT, muonID::muonTight);
 	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL);
-	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(electrons_for_mva, mvaValues, mvaCategories);	
+	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
