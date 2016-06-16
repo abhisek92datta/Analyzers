@@ -312,7 +312,7 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("mvaValues"));
    	token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
    	    config.getParameter<edm::InputTag>("mvaCategories"));
-   	token.electrons_for_mva_token = consumes<edm::ValueMap<int>>(
+   	token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
    	    config.getParameter<edm::InputTag>("electrons"));
 }
 
