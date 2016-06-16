@@ -169,6 +169,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//iEvent.getByToken(mvaCategoriesMapToken_, mvaCategories);
 	//Handle<edm::View<pat::Electron> > electrons_for_mva;
 	//iEvent.getByToken(token.electrons,electrons_for_mva);
+	
+	mvaValues = (*mvaValues.product());
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
