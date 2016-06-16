@@ -51,6 +51,7 @@ struct CU_ttH_EDA_event_vars {
 	bool pass_elemu;
 
 	/// Particle container vectors
+	std::vector<pat::Electron> e_with_id;
 	std::vector<pat::Electron> e_selected;
 	std::vector<pat::Electron> e_veto_selected;
 	std::vector<pat::Electron> e_selected_sorted;
