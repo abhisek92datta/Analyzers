@@ -183,6 +183,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for (const auto& ele : local.e_with_id) {
 		std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	}
+	std::cout<<"\n";
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
