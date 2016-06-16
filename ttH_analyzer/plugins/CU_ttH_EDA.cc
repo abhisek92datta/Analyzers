@@ -309,6 +309,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			}
 		}
 	}
+	std::cout<<local.n_leptons<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+	std::cout<<"\n";
 
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
