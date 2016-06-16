@@ -97,6 +97,9 @@ struct edm_Handles {
 	//Handle<boosted::SubFilterJetCollection> subfilter_jets;
 
 	Handle<pat::PackedGenParticleCollection> MC_packed;
+	Handle<edm::ValueMap<float>> mvaValues;
+	Handle<edm::ValueMap<int>> mvaCategories;
+	Handle<edm::View<pat::Electron> > electrons_for_mva;
 };
 
 struct edm_Tokens {
@@ -125,6 +128,8 @@ struct edm_Tokens {
 	//EDGetTokenT<boosted::SubFilterJetCollection> subfilter_jets;
 	
 	EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
+	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
+	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
 };
 
 /// Set up handles with getByToken from edm::Event
