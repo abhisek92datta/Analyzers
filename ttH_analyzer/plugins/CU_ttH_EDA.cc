@@ -184,7 +184,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	//}
 	for (const auto& ele : *(handle.electrons)) {
-		std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<""\n";
+		std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"    ";
 	}
 	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
