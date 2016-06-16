@@ -130,6 +130,7 @@ struct edm_Tokens {
 	EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
+	EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
 };
 
 /// Set up handles with getByToken from edm::Event
