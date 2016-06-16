@@ -34,12 +34,6 @@ git checkout CMSSW_7_6_3
 
 cd ..
 
-git clone https://github.com/cms-ttH/ttH-LeptonID.git
-
-mkdir ttH
-
-mv ttH-LeptonID ttH/LeptonID
-
 Compile:
 
 scram b -j 32
