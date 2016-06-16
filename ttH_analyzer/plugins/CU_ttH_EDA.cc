@@ -170,14 +170,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//Handle<edm::View<pat::Electron> > electrons_for_mva;
 	//iEvent.getByToken(token.electrons,electrons_for_mva);
 	
-	handle.mvaValues = (*handle.mvaValues.product());
+	edm::ValueMap<float> ele_mvaValues = (*handle.mvaValues.product());
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_mu_pT, muonID::muonTight);
 	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL);
-	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
+	//local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
+	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, ele_mvaValues, handle.mvaCategories);	
 	
 	for (const auto& ele : local.e_with_id) {
 		std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
