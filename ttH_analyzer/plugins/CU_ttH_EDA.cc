@@ -167,13 +167,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Handle<edm::ValueMap<int>> mvaCategories;
 	iEvent.getByToken(mvaValuesMapToken_, mvaValues);
 	iEvent.getByToken(mvaCategoriesMapToken_, mvaCategories);
+	edm::Handle<edm::View<pat::Electron> > electrons_for_mva;
+	iEvent.getByToken(token.electrons,electrons_for_mva);
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_mu_pT, muonID::muonTight);
 	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL);
-	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(*(handle.electrons), mvaValues, mvaCategories);	
+	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(electrons_for_mva, mvaValues, mvaCategories);	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
