@@ -308,6 +308,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("prunedgen"));
 	token.MC_packed = consumes<pat::PackedGenParticleCollection>(
 	    config.getParameter<edm::InputTag>("packedgen"));
+	token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
+	    config.getParameter<edm::InputTag>("mvaValues"));
+   	token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
+   	    config.getParameter<edm::InputTag>("mvaCategories"));
 }
 
 void CU_ttH_EDA::Set_up_Tree()
