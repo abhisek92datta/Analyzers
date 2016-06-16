@@ -294,14 +294,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			if (local.n_leptons == 1) {
 				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
 					if (local.e_selected[0].eta() < max_ele_eta) {
-						if (local.n_jets >= min_n_jets && local.n_btags >= min_n_btags) {
+						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
 					}
 				}	
 				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == true) {
 					if (local.mu_selected[0].eta() < max_mu_eta) {
-						if (local.n_jets >= min_n_jets && local.n_btags >= min_n_btags) {
+						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
 					}
