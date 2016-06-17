@@ -92,8 +92,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_output_files();
 
 	Set_up_Tree();
-	
-	std::cout<<"n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 
     	reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
 	reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
@@ -305,14 +303,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if ( local.pass_single_e == true || local.pass_single_mu == true ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
-				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
+				//if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
+				if (local.n_electrons == 1 && local.n_veto_electrons == 1) {
 					if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
 					}
 				}	
-				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
+				//else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
+				else if (local.n_muons == 1 && local.n_veto_muons == 1) {
 					if (local.mu_selected[0].eta() < max_mu_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
@@ -325,6 +325,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if(local.n_leptons==1) {
 		std::cout<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
+		if (event_selection!=0)
+			sel_count++;
 	}
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
@@ -365,6 +367,8 @@ void CU_ttH_EDA::beginJob()
 	TH1::SetDefaultSumw2(true);
 
 	event_count = 0;
+	std::cout<<"n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
+	int sel_count = 0;
 }
 
 // ------------ method called once each job just after ending the event loop
@@ -510,6 +514,7 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 			<< std::endl;
 	}
 
+	std::cout <<"Number of events selected = "<<sel_count<<"\n\n";
 	std::cout
 		<< "***************************************************************"
 		<< std::endl;
