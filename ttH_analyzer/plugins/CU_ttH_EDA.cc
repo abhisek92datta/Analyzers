@@ -92,6 +92,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_output_files();
 
 	Set_up_Tree();
+	
+	std::cout<<"n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 
     	reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
 	reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
@@ -187,10 +189,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"    ";
 	//}
 	
-	local.e_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
-	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15);
+	//local.e_selected = miniAODhelper.GetSelectedElectrons(
+	//	local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15);
+	//local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+	//	local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15);
+		
+	// electron selection without ID check
+	for (const auto& ele : *(handle.electrons)) {
+		if (ele.pt()>min_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
+			local.e_selected.push_back(ele);
+	}
+		
+	for (const auto& ele : *(handle.electrons)) {
+		if (ele.pt()>min_veto_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
+			local.e_veto_selected.push_back(ele);
+	}
 
 	// Should add tauID in leptonID package into MiniAODHelper
 	//for (const auto& tau : *(handle.taus)) {
@@ -292,14 +305,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if ( local.pass_single_e == true || local.pass_single_mu == true ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
-				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == true) {
+				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
 					if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
 					}
 				}	
-				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == true) {
+				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
 					if (local.mu_selected[0].eta() < max_mu_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
@@ -310,7 +323,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		std::cout<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
 	}
 	/// Check tags, fill hists, print events
