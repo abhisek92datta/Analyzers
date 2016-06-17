@@ -325,7 +325,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if(local.n_leptons==1) {
 		std::cout<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
-		if (event_selection!=0)
+		if (local.event_selection!=0)
 			sel_count++;
 	}
 	/// Check tags, fill hists, print events
@@ -368,7 +368,7 @@ void CU_ttH_EDA::beginJob()
 
 	event_count = 0;
 	std::cout<<"n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
-	int sel_count = 0;
+	sel_count = 0;
 }
 
 // ------------ method called once each job just after ending the event loop
