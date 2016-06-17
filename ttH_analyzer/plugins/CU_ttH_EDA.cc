@@ -300,7 +300,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	// Event selection criteria for single lepton events
 
-	if ( local.pass_single_e == true || local.pass_single_mu == true ) {
+	//if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
 				//if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
@@ -321,9 +321,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 				}
 			}
 		}
-	}
+	//}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
@@ -367,7 +367,7 @@ void CU_ttH_EDA::beginJob()
 	TH1::SetDefaultSumw2(true);
 
 	event_count = 0;
-	std::cout<<"n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
+	std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 	selection_count = 0;
 }
 
