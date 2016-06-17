@@ -180,10 +180,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
 	//local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, ele_mvaValues, handle.mvaCategories);	
 	
-	//for (const auto& ele : local.e_with_id) {
-	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
-	//}
-	//std::cout<<"\n";
+	for (const auto& ele : local.e_with_id) {
+		std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
+	}
+	std::cout<<"\n";
 	//for (const auto& ele : *(handle.electrons)) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"    ";
 	//}
@@ -324,8 +324,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	//}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
-		std::cout<<"\n";
+		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		//std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
 	}
@@ -368,8 +368,8 @@ void CU_ttH_EDA::beginJob()
 	TH1::SetDefaultSumw2(true);
 
 	event_count = 0;
-	//std::cout<<"event_nr     pre_sel      mva_cat     mva_val \n\n";
-	std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
+	std::cout<<"event_nr     pre_sel      mva_cat     mva_val \n\n";
+	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 	selection_count = 0;
 }
 
