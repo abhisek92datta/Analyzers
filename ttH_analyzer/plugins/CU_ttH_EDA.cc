@@ -179,9 +179,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
 	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, coneSize::R04, corrType::deltaBeta, max_ele_eta);
+		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, coneSize::R04, corrType::deltaBeta, max_veto_ele_eta);
+		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
 	
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
