@@ -64,7 +64,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             beamspot = cms.InputTag("offlineBeamSpot"),
             packedgen = cms.InputTag("packedGenParticles"),
             prunedgen = cms.InputTag("prunedGenParticles"),
-            mvaValues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
-            mvaCategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories")
+            mvaValues = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Values",""),
+            mvaCategories = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories","")
         )
 )
