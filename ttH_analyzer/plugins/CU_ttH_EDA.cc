@@ -252,9 +252,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
 	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
-	local.jets_selected_tag = miniAODhelper.GetSelectedJets(
+	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetLoose,
 		MAODHelper_b_tag_strength);
+	
+	for (const auto& jet : local.jets_selected_tag_old) {
+		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89)
+			local.jets_selected_tag.push_back(jet);
+	}
 		
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
