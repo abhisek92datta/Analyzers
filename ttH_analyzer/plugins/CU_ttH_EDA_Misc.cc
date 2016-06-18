@@ -313,15 +313,15 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	int met_passed = 1;
 	float met_pt = 0;
 	float met_phi = 0;
-	int pdgId;
+	//int pdgId;
 	fprintf(events_single_lepton, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_single_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 1) {
-		pdgId = 11;
+		//pdgId = 11;
 		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), local.e_selected[0].trackIso(), local.e_selected[0].pdgId());
 	}
 	if (local.n_muons == 1) {
-		pdgId = -13;
+		//pdgId = -13;
 		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), local.mu_selected[0].trackIso(), local.mu_selected[0].pdgId());
 	}
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
