@@ -97,6 +97,7 @@ struct edm_Handles {
 	//Handle<boosted::HTTTopJetCollection> top_jets;
 	//Handle<boosted::SubFilterJetCollection> subfilter_jets;
 
+	Handle<reco::JetCorrector> jet_corrector;
 	Handle<pat::PackedGenParticleCollection> MC_packed;
 	Handle<edm::ValueMap<float>> mvaValues;
 	Handle<edm::ValueMap<int>> mvaCategories;
