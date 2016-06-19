@@ -54,6 +54,7 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
+#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
 
 /// Higgs and top tagger
 //#include "MiniAOD/BoostedObjects/interface/HTTTopJet.h"
