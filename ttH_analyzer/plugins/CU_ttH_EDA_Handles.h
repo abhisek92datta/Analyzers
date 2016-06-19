@@ -128,7 +128,7 @@ struct edm_Tokens {
 	//EDGetTokenT<boosted::HTTTopJetCollection> top_jets;
 	//EDGetTokenT<boosted::SubFilterJetCollection> subfilter_jets;
 	
-	edm::EDGetTokenT<reco::JetCorrector> jetCorrectorToken_;
+	EDGetTokenT<reco::JetCorrector> jetCorrectorToken_;
 	EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
