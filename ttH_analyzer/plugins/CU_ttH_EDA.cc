@@ -256,7 +256,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
 	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetLoose,
+		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetTight,
 		MAODHelper_b_tag_strength);
 	
 	local.b_weight = 0;
