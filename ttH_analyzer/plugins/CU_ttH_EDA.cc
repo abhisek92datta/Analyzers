@@ -289,8 +289,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	float metld = 0.00397 * met + 0.00265 * mht;
 	local.MHT = mht;
 	local.metLD = metld;
-	//local.met_pt = met;
-	//local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
+	local.met_pt = met;
+	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
 	
 	/*
 	/// Get Corrected MET, !!!not yet used!!!
@@ -309,19 +309,19 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	// Event selection criteria for single lepton events
 
-	//if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
+	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
-				//if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
-				if (local.n_electrons == 1 && local.n_veto_electrons == 1) {
+				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
+				//if (local.n_electrons == 1 && local.n_veto_electrons == 1) {
 					//if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
 					//}
 				}	
-				//else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
-				else if (local.n_muons == 1 && local.n_veto_muons == 1) {
+				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
+				//else if (local.n_muons == 1 && local.n_veto_muons == 1) {
 					//if (local.mu_selected[0].eta() < max_mu_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
@@ -330,9 +330,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 				}
 			}
 		}
-	//}
+	}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<Check_triggers_iterator(trigger_on_HLT_mu, handle.triggerResults)<<"  "<<"  "<<local.n_electrons<<"  "<<Check_triggers_iterator(trigger_on_HLT_e, handle.triggerResults)<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
