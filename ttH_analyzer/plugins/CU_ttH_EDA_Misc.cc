@@ -1000,13 +1000,13 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
       
       if( jet.genJet() ){
         if( iSysType == sysType::JERup ){
-	        jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	        jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else {
-  	        jerSF = miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+  	        jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
       }
      
@@ -1016,6 +1016,74 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
   }
 
   return outputJets;
+}
+
+double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
+
+  double factor = 1.;
+    
+  double scale_JER = 1., scale_JERup = 1., scale_JERdown = 1.;
+  double extrauncertainty=1.5;
+  
+  if( jetAbsETA<0.5 ){ 
+    scale_JER = 1.095; scale_JERup = 1.095 + 0.018*extrauncertainty; scale_JERdown = 1.095 - 0.018*extrauncertainty;
+  }
+  else if( jetAbsETA<0.8 ){ 
+    scale_JER = 1.120; scale_JERup = 1.120 + 0.028*extrauncertainty; scale_JERdown = 1.120 - 0.028*extrauncertainty;
+  }
+  else if( jetAbsETA<1.1 ){ 
+    scale_JER = 1.097; scale_JERup = 1.097 + 0.017*extrauncertainty; scale_JERdown = 1.097 - 0.017*extrauncertainty;
+  }
+  else if( jetAbsETA<1.3 ){ 
+    scale_JER = 1.103; scale_JERup = 1.103 + 0.033*extrauncertainty; scale_JERdown = 1.103 - 0.033*extrauncertainty;
+  }
+  else if( jetAbsETA<1.7 ){ 
+    scale_JER = 1.118; scale_JERup = 1.118 + 0.014*extrauncertainty; scale_JERdown = 1.118 - 0.014*extrauncertainty;
+  }
+  else if( jetAbsETA<1.9 ){ 
+    scale_JER = 1.100; scale_JERup = 1.100 + 0.033*extrauncertainty; scale_JERdown = 1.100 - 0.033*extrauncertainty;
+  }
+  else if( jetAbsETA<2.1 ){ 
+    scale_JER = 1.162; scale_JERup = 1.162 + 0.044*extrauncertainty; scale_JERdown = 1.162 - 0.044*extrauncertainty;
+  }
+  else if( jetAbsETA<2.3 ){ 
+    scale_JER = 1.160; scale_JERup = 1.160 + 0.048*extrauncertainty; scale_JERdown = 1.160 - 0.048*extrauncertainty;
+  }
+  else if( jetAbsETA<2.5 ){ 
+    scale_JER = 1.161; scale_JERup = 1.161 + 0.060*extrauncertainty; scale_JERdown = 1.161 - 0.060*extrauncertainty;
+  }
+  else if( jetAbsETA<2.8 ){ 
+    scale_JER = 1.209; scale_JERup = 1.209 + 0.059*extrauncertainty; scale_JERdown = 1.209 - 0.059*extrauncertainty;
+  }
+  else if( jetAbsETA<3.0 ){ 
+    scale_JER = 1.564; scale_JERup = 1.564 + 0.321*extrauncertainty; scale_JERdown = 1.564 - 0.321*extrauncertainty;
+  }
+  else if( jetAbsETA<3.2 ){ 
+    scale_JER = 1.384; scale_JERup = 1.384 + 0.033*extrauncertainty; scale_JERdown = 1.384 - 0.033*extrauncertainty;
+  }
+  else if( jetAbsETA<5.0 ){ 
+    scale_JER = 1.216; scale_JERup = 1.216 + 0.050*extrauncertainty; scale_JERdown = 1.216 - 0.050*extrauncertainty;
+  }
+
+  double jetPt_JER = recojetPT;
+  double jetPt_JERup = recojetPT;
+  double jetPt_JERdown = recojetPT;
+
+  double diff_recojet_genjet = recojetPT - genjetPT;
+
+  if( genjetPT>10. ){
+    jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
+    jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
+    jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
+  }
+
+  if( returnType==1 )       factor = jetPt_JERup/recojetPT;
+  else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
+  else                      factor = jetPt_JER/recojetPT;
+
+  if( !(genjetPT>10.) ) factor = 1.;
+
+  return factor;
 }
 
 /*
