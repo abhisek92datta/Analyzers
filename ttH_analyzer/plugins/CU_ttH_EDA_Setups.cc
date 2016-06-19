@@ -314,8 +314,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
    	    config.getParameter<edm::InputTag>("mvaCategories"));
    	token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
    	    config.getParameter<edm::InputTag>("electrons"));
-   	token.jetCorrectorToken_ = consumes<reco::JetCorrector>(
-   	    config.getParameter<edm::InputTag>("jet_corrector"));
 }
 
 void CU_ttH_EDA::Set_up_Tree()
