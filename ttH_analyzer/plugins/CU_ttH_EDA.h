@@ -170,8 +170,10 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 								 edm::Handle<edm::TriggerResults>);
 
 	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const sysType::sysType iSysType=sysType::NA);
-	void SetFactorizedJetCorrector();
-
+	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
+	FactorizedJetCorrector* _jetCorrector;
+	JetCorrectionUncertainty* _jetCorrectorUnc;
+	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
 	//				 CU_ttH_EDA_event_vars &); // FIXME: uses b-tag medium WP
