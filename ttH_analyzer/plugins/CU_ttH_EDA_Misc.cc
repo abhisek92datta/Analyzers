@@ -952,7 +952,7 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 }
 
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysType::sysType iSysType ){
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysType::sysType iSysType, double rho ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -962,7 +962,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysTy
  //    return inputJets;
   //}
 
-  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it, auto rho ){
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
     
     pat::Jet jet = (*it);
     double scale = 1.;
