@@ -208,8 +208,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	*(handle.taus),	min_tau_pT, tau::tauPreselection);
 
 	// remove overlap
-	//local.e_selected = removeOverlapdR(local.e_selected, local.mu_selected, 0.05);
-	//local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
+	local.e_selected = removeOverlapdR(local.e_selected, local.mu_selected, 0.05);
+	local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
 	//local.tau_selected = removeOverlapdR(local.tau_selected, local.mu_selected, 0.4);
 	//local.tau_selected = removeOverlapdR(local.tau_selected, local.e_selected, 0.4);
 	
@@ -241,8 +241,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
+	//local.jets_selected = miniAODhelper.GetSelectedJets(
+	//	*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	local.jets_selected = miniAODhelper.GetSelectedJets(
-		*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+	
 	// ???
 	// jetID::jetTight in MiniAODHelper (branch CMSSW_7_6_3, 03/15/2016) is actually loose WP suggested by Jet POG for 13TeV
 	// ???
