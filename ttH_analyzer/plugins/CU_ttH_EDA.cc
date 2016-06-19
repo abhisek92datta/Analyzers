@@ -88,8 +88,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	// Load_configuration(static_cast<string>("Configs/config_analyzer.yaml"));
 
 	Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
-	jetCorrectorToken_ = consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("jet_corrector"));
-	
 	Set_up_histograms();
 	Set_up_output_files();
 
