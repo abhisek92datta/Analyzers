@@ -284,7 +284,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.MHT = mht;
 	local.metLD = metld;
 	local.met_pt = met;
-	local.met_phi = arctan(pfMET.py()/pfMET.px());
+	local.met_phi = arctan(local.pfMET.py()/local.pfMET.px());
 	
 	/*
 	/// Get Corrected MET, !!!not yet used!!!
