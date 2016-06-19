@@ -924,6 +924,8 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 		MHT_y -= jet.py();
 	}
 
+	local.met_pt = sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
+	local.met_phi = atan(MHT_y/MHT_x);
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 /*
