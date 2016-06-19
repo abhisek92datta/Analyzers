@@ -289,8 +289,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	float metld = 0.00397 * met + 0.00265 * mht;
 	local.MHT = mht;
 	local.metLD = metld;
-	local.met_pt = met;
-	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
+	//local.met_pt = met;
+	//local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
 	
 	/*
 	/// Get Corrected MET, !!!not yet used!!!
@@ -332,7 +332,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	//}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<Check_triggers_iterator(trigger_on_HLT_mu, triggerResults)<<"  "<<"  "<<local.n_electrons<<"  "<<Check_triggers_iterator(trigger_on_HLT_e, triggerResults)<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
