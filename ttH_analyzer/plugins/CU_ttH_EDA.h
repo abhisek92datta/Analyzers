@@ -169,7 +169,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	bool Check_triggers_iterator(const vector<string> &,
 								 edm::Handle<edm::TriggerResults>);
 
-	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const sysType::sysType iSysType=sysType::NA, double);
+	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
