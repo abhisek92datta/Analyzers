@@ -199,6 +199,12 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	float getMHT(CU_ttH_EDA_event_vars &);
 	
+	// Jet Energy Correction
+	
+	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const edm::Event&, const edm::EventSetup&, const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
+	pat::Jet GetCorrectedJet(const pat::Jet&, const edm::Event&, const edm::EventSetup&, const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
+	int jetcorrectorIsSet;	
+
 	// event selection
 	//bool pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &);
 	//bool pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &);
