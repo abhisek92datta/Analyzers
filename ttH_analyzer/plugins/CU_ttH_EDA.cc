@@ -150,7 +150,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//miniAODhelper.SetJetCorrector(
 	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
 
-	//miniAODhelper.SetJetCorrector(&jet_corrector);
+	jetcorrectorIsSet = 1;
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
