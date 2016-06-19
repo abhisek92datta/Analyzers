@@ -256,13 +256,19 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetLoose,
 		MAODHelper_b_tag_strength);
 	
+	local.b_weight = 0;
+	
 	for (const auto& jet : local.jets_selected_tag_old) {
-		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89)
+		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
+			local.b_weight = local.b_weight + miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
 			local.jets_selected_tag.push_back(jet);
+		}
 	}
 		
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
+	
+	local.b_weight = local.b_weight/local.n_btags;
 
 	/// Sort jets by pT
 	local.jets_selected_sorted =
@@ -284,7 +290,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.MHT = mht;
 	local.metLD = metld;
 	local.met_pt = met;
-	local.met_phi = arctan(local.pfMET.py()/local.pfMET.px());
+	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
 	
 	/*
 	/// Get Corrected MET, !!!not yet used!!!
