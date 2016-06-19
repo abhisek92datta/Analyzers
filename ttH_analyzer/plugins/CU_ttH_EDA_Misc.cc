@@ -326,7 +326,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	}
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
 	fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", local.jets_selected_sorted[0].pt(), local.jets_selected_sorted[1].pt(), local.jets_selected_sorted[2].pt(), local.jets_selected_sorted[3].pt(), miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-	fprintf(events_single_lepton, "%.4f, %.4f, %d, %d, %d, %d, %d, ", local.met_pt, local.met_phi, met_passed, local.n_jets, local.n_btags, local.b_weight, ttH_cat);
+	fprintf(events_single_lepton, "%.4f, %.4f, %d, %d, %d, %.4f, %d, ", local.met_pt, local.met_phi, met_passed, local.n_jets, local.n_btags, local.b_weight, ttH_cat);
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \n");
 }
 
