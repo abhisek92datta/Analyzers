@@ -5,6 +5,7 @@
 #include <memory>
 #include <cstdio>	// printf, fprintf
 #include <stdexcept> // standard exceptions
+#include <cmath>      // arctan
 
 /// CMSSW user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
