@@ -332,7 +332,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	//}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<Check_triggers_iterator(trigger_on_HLT_mu, triggerResults)<<"  "<<"  "<<local.n_electrons<<"  "<<Check_triggers_iterator(trigger_on_HLT_e, triggerResults)<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<Check_triggers_iterator(trigger_on_HLT_mu, handle.triggerResults)<<"  "<<"  "<<local.n_electrons<<"  "<<Check_triggers_iterator(trigger_on_HLT_e, handle.triggerResults)<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
