@@ -962,7 +962,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysTy
  //    return inputJets;
   //}
 
-  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it, auto rho ){
     
     pat::Jet jet = (*it);
     double scale = 1.;
@@ -971,7 +971,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysTy
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(handle.srcRho); //=fixedGridRhoFastjetAll
+    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
 
     scale = _jetCorrector->getCorrection();
     jet.scaleEnergy( scale );
