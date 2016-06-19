@@ -318,11 +318,11 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_single_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 1) {
 		//pdgId = 11;
-		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), local.e_selected[0].ecalIso(), local.e_selected[0].pdgId());
+		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), local.e_selected[0].hcalIso(), local.e_selected[0].pdgId());
 	}
 	if (local.n_muons == 1) {
 		//pdgId = -13;
-		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), local.mu_selected[0].ecalIso(), local.mu_selected[0].pdgId());
+		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), local.mu_selected[0].hcalIso(), local.mu_selected[0].pdgId());
 	}
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
 	fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", local.jets_selected_sorted[0].pt(), local.jets_selected_sorted[1].pt(), local.jets_selected_sorted[2].pt(), local.jets_selected_sorted[3].pt(), miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
