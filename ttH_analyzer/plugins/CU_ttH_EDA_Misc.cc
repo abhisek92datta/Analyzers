@@ -928,6 +928,85 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	//local.met_phi = atan(MHT_y/MHT_x);
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
+
+void CU_ttH_EDA::SetFactorizedJetCorrector(){
+
+    //setting up the JetCorrector
+    std::vector<JetCorrectorParameters> corrParams;
+    for (size_t i = 0; i < _JESFiles.size(); ++i) {
+      JetCorrectorParameters* params = new JetCorrectorParameters(_JESFiles[i]);
+      corrParams.push_back(*params);
+    }
+    _jetCorrector = new FactorizedJetCorrector(corrParams);
+
+    // initialize the jet corrector uncertainty
+    if (_shift == JES_UP || _shift == JES_DOWN) {
+      if (_JESUncFile.empty()) {
+        throw std::runtime_error("MiniAODToPxlio: JES shift requested by JESUncFile is empty");
+      }
+      _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    }
+
+
+  //factorizedjetcorrectorIsSet = true;
+}
+
+std::vector<pat::Jet> 
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysType::sysType iSysType ){
+	
+  std::vector<pat::Jet> outputJets;
+
+  //if( !(factorizedjetcorrectorIsSet && rhoIsSet) ){
+  // std::cout << " !! ERROR !! Trying to use FWLite Framework GetCorrectedJets without setting factorized jet corrector !" << std::endl;
+
+ //    return inputJets;
+  //}
+
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
+    
+    pat::Jet jet = (*it);
+    double scale = 1.;
+
+    jet.setP4(jet.correctedJet(0).p4());
+    _jetCorrector->setJetPt(jet.pt());
+    _jetCorrector->setJetEta(jet.eta());
+    _jetCorrector->setJetA(jet.jetArea());
+    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+
+    scale = _jetCorrector->getCorrection();
+    jet.scaleEnergy( scale );
+
+    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
+      _jetCorrectorUnc->setJetPt(jet.pt());
+      _jetCorrectorUnc->setJetEta(jet.eta()); // here you must use the CORRECTED jet pt
+      double unc = 1;
+      double jes = 1;
+      if( iSysType==sysType::JESup ){
+	unc = _jetCorrectorUnc->getUncertainty(true);
+	jes = 1 + unc;
+      }
+      else if( iSysType==sysType::JESdown ){
+	unc = _jetCorrectorUnc->getUncertainty(false);
+	jes = 1 - unc;
+      }
+
+      jet.scaleEnergy( jes );
+    }
+
+    outputJets.push_back(jet);
+  }
+
+  return outputJets;
+}
+
+
+
+
+
+
+
+
+
 /*
 bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)
 {
