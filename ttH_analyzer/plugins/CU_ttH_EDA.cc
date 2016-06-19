@@ -239,7 +239,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
-		GetCorrectedJets(local.jets_no_mu_e, sysType::NA, rho);
+		GetCorrectedJets(local.jets_no_mu_e, sysType::NA, *rho);
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
