@@ -88,7 +88,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	// Load_configuration(static_cast<string>("Configs/config_analyzer.yaml"));
 
 	Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
-	edm::EDGetTokenT<reco::JetCorrector> jetCorrectorToken_;
 	jetCorrectorToken_ = consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("jet_corrector"));
 	
 	Set_up_histograms();
@@ -155,7 +154,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	edm::Handle<reco::JetCorrector> jet_corrector;
 	iEvent.getByToken(jetCorrectorToken_, jet_corrector);
-	miniAODhelper.corrector = jet_corrector;
+	miniAODhelper.SetJetCorrector(jet_corrector);
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
