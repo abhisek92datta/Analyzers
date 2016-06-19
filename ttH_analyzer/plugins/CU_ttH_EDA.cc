@@ -64,7 +64,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	min_njets (iConfig.getParameter<int>("min_njets")),
 	min_nbtags (iConfig.getParameter<int>("min_nbtags")),
 	// Jets
-	jet_corrector (iConfig.getParameter<string>("jet_corrector")),
+	//jet_corrector (iConfig.getParameter<string>("jet_corrector")),
 	// miniAODhelper
 	isdata (iConfig.getParameter<bool>("using_real_data")),
 	MAODHelper_b_tag_strength (iConfig.getParameter<string>("b_tag_strength")[0])
@@ -88,6 +88,9 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	// Load_configuration(static_cast<string>("Configs/config_analyzer.yaml"));
 
 	Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
+	edm::EDGetTokenT<reco::JetCorrector> jetCorrectorToken_;
+	jetCorrectorToken_ = consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("jet_corrector"));
+	
 	Set_up_histograms();
 	Set_up_output_files();
 
@@ -147,8 +150,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetRho(*rho);
 
 	/// Get and set miniAODhelper's jet corrector from the event setup
-	miniAODhelper.SetJetCorrector(
-		JetCorrector::getJetCorrector(jet_corrector, iSetup));
+	//miniAODhelper.SetJetCorrector(
+	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
+
+	edm::Handle<reco::JetCorrector> jet_corrector;
+	iEvent.getByToken(jetCorrectorToken_, jet_corrector);
+	miniAODhelper.corrector = jet_corrector;
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
@@ -237,6 +244,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
 	local.jets_corrected =
 		miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
+	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
