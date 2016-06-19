@@ -929,7 +929,7 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 
-void CU_ttH_EDA::SetFactorizedJetCorrector(){
+void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     //setting up the JetCorrector
     std::vector<JetCorrectorParameters> corrParams;
@@ -940,7 +940,7 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(){
     _jetCorrector = new FactorizedJetCorrector(corrParams);
 
     // initialize the jet corrector uncertainty
-    if (_shift == JES_UP || _shift == JES_DOWN) {
+    if (iSysType == sysType::JESup || iSysType == sysType::JESdown ) {
       if (_JESUncFile.empty()) {
         throw std::runtime_error("MiniAODToPxlio: JES shift requested by JESUncFile is empty");
       }
@@ -971,7 +971,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const sysTy
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+    _jetCorrector->setRho(handle.srcRho); //=fixedGridRhoFastjetAll
 
     scale = _jetCorrector->getCorrection();
     jet.scaleEnergy( scale );
