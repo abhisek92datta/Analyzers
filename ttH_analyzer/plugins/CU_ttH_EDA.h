@@ -173,6 +173,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
+	double getJERfactor( const int, const double, const double, const double );
 	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
