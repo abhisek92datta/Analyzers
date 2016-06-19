@@ -60,7 +60,8 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-#include "JetMETCorrections/Objects/interface/JetCorrector.h"
+//#include "JetMETCorrections/Objects/interface/JetCorrector.h"
+#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 
@@ -279,7 +280,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int min_njets;
 	int min_nbtags;
 
-	std::string jet_corrector;
+	//std::string jet_corrector;
 	
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
