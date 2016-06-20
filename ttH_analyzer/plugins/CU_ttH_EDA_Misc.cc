@@ -936,7 +936,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, edm_Handles
 
   if( !doJES && !doJER ) return inputJets;
 
-  miniAODhelper.CheckSetUp();
+  //miniAODhelper.CheckSetUp();
 
   std::vector<pat::Jet> outputJets;
 
@@ -952,7 +952,7 @@ CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const
 
   if( !doJES && !doJER ) return inputJet;
 
-  miniAODhelper.CheckSetUp();
+  //miniAODhelper.CheckSetUp();
 
   pat::Jet outputJet = inputJet;
     
@@ -964,6 +964,9 @@ CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const
     else std::cout << " !! ERROR !! Trying to use Full Framework GetCorrectedJets without setting jet corrector !" << std::endl;
 
     outputJet.scaleEnergy( scale*corrFactor );
+
+    std::string inputJECfile = ( isData ) ? string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt" : string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
+    jecUnc_ = new JetCorrectionUncertainty(inputJECfile);
 
     if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
 
