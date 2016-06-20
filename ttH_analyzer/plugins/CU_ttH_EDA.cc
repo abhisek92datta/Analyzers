@@ -161,11 +161,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		trigger = trigger_on_HLT_e.begin();	 
 		 std::string trigger_it;
 		 char c;
+		 std::string s;
 		 //unsigned int hltIndex;
 		 for (int i=6; i>=1; i--) {
 		 	trigger_it.assign(*trigger);
 		 	c = (char)i;
-		 	trigger_it.push_back(c);
+		 	s = c;
+		 	trigger_it.append(s);
 		 	std::cout<<trigger_it<<"  ";
 		 	//sprintf(trigger_it,"%s%d",trigger,i);
 		 //	hltIndex = hlt_config.triggerIndex(trigger_it);
