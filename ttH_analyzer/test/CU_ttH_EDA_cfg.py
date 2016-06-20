@@ -3,9 +3,11 @@ import FWCore.ParameterSet.Config as cms
 from RecoJets.Configuration.RecoJets_cff import *
 from RecoJets.Configuration.RecoPFJets_cff import *
 #from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
+from JetMETCorrections.Configuration.CorrectedJetProducers_cff import *
 from JetMETCorrections.Configuration.CorrectedJetProducersAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
+from JetMETCorrections.Configuration.CorrectedJetProducersDefault_cff import *
 
 process = cms.Process("MAOD")
 
