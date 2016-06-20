@@ -121,13 +121,17 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 {
 	for (std::vector<std::string>::const_iterator trigger = triggers.begin();
 		 trigger != triggers.end(); ++trigger) {
-		unsigned int hltIndex = hlt_config.triggerIndex(*trigger);
-
-		if (hltIndex >= triggerResults->size())
-			continue;
-
-		if (triggerResults->accept(hltIndex))
-			return true;
+		 
+		 std::string trigger_it;
+		 unsigned int hltIndex;
+		 for (int i=6; i>=1; i--) {
+		 	sprintf(trigger_it,"%s%d",trigger,i);
+		 	hltIndex = hlt_config.triggerIndex(*trigger_it);
+		 	if (hltIndex >= triggerResults->size())
+		 		continue;
+		 	if (triggerResults->accept(hltIndex))
+		   		return true;
+		 }
 	}
 
 	return false;
