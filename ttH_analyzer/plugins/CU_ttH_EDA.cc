@@ -235,11 +235,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
 	local.jets_no_mu_e =
 		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
-	local.jets_corrected =
-		miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
-	//SetFactorizedJetCorrector();
 	//local.jets_corrected =
-	//	GetCorrectedJets(local.jets_no_mu_e, *rho);
+	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
+	SetFactorizedJetCorrector();
+	local.jets_corrected =
+		GetCorrectedJets(local.jets_no_mu_e, *rho);
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
@@ -259,23 +259,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
 	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
-	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
+	local.jets_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetTight,
 		MAODHelper_b_tag_strength);
 	
-	local.b_weight = 0;
+	local.b_weight = 1;
 	
-	for (const auto& jet : local.jets_selected_tag_old) {
-		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
-			local.b_weight = local.b_weight + miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
-			local.jets_selected_tag.push_back(jet);
-		}
-	}
+	//for (const auto& jet : local.jets_selected_tag_old) {
+	//	if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
+	//		local.b_weight = local.b_weight + miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
+	//		local.jets_selected_tag.push_back(jet);
+	//	}
+	//}
 		
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
 	
-	local.b_weight = local.b_weight/local.n_btags;
+	//local.b_weight = local.b_weight/local.n_btags;
 
 	/// Sort jets by pT
 	local.jets_selected_sorted =
