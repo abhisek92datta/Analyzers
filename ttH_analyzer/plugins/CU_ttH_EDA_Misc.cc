@@ -1005,13 +1005,13 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
       
       if( jet.genJet() ){
         if( iSysType == sysType::JERup ){
-	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else {
-  	      jerSF = miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
       }
      
