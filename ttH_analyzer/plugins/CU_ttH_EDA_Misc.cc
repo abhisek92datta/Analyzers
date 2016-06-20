@@ -943,16 +943,8 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
     _jetCorrector = new FactorizedJetCorrector(corrParams);
 
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer13_V5_DATA_Uncertainty_AK5PFchs.txt";	
-
-    // initialize the jet corrector uncertainty
-    if (iSysType == sysType::JESup || iSysType == sysType::JESdown ) {
-      if (_JESUncFile.empty()) {
-        throw std::runtime_error("MiniAODToPxlio: JES shift requested by JESUncFile is empty");
-      }
-      _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    }
-
-
+    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    
   //factorizedjetcorrectorIsSet = true;
 }
 
@@ -978,7 +970,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+    _jetCorrector->setRho(fixedGridRhoFastJetAll); //=fixedGridRhoFastjetAll
 
     scale = _jetCorrector->getCorrection();
     jet.scaleEnergy( scale );
