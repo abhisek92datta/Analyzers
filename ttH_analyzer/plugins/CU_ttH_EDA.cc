@@ -159,7 +159,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 		std::vector<std::string>::const_iterator trigger;
 		trigger = trigger_on_HLT_e.begin();	 
-		 char trigger_it[1000];
+		std::string trigger_it;
 		 char i=6;
 		 //unsigned int hltIndex;
 		 while ((int)i>=1) {
