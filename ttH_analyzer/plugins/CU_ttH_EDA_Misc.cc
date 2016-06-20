@@ -932,7 +932,7 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 // Jet Energy Corrections
 
 std::vector<pat::Jet> 
-GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Event& event, const edm::EventSetup& setup, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
 
   if( !doJES && !doJER ) return inputJets;
 
@@ -941,14 +941,14 @@ GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Event& event
   std::vector<pat::Jet> outputJets;
 
   for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
-    outputJets.push_back(GetCorrectedJet(*it,event,setup,iSysType,doJES,doJER,corrFactor,uncFactor));
+    outputJets.push_back(GetCorrectedJet(*it, handle, iSysType,doJES,doJER,corrFactor,uncFactor));
   }
 
   return outputJets;
 }
 
 pat::Jet 
-MiniAODHelper::GetCorrectedJet(const pat::Jet& inputJet, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
 
   if( !doJES && !doJER ) return inputJet;
 
@@ -997,10 +997,8 @@ MiniAODHelper::GetCorrectedJet(const pat::Jet& inputJet, const sysType::sysType 
       else {
 	      jerSF = getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
       }
-      // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
-    // else     std::cout << "    ==> can't find genJet" << std::endl;
-
+   
     outputJet.scaleEnergy( jerSF*corrFactor );
   }
 
