@@ -929,84 +929,98 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 
-// Jet Energy Corrections
+void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
-std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+    //setting up the JetCorrector
+    std::vector<JetCorrectorParameters> corrParams;
+    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt");
+    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt");
+    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt");
 
-  if( !doJES && !doJER ) return inputJets;
+    corrParams.push_back(*L1JetPar);
+    corrParams.push_back(*L2JetPar);
+    corrParams.push_back(*L3JetPar);
+    _jetCorrector = new FactorizedJetCorrector(corrParams);
 
-  //miniAODhelper.CheckSetUp();
+    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer13_V5_DATA_Uncertainty_AK5PFchs.txt";	
 
-  std::vector<pat::Jet> outputJets;
+    // initialize the jet corrector uncertainty
+    if (iSysType == sysType::JESup || iSysType == sysType::JESdown ) {
+      if (_JESUncFile.empty()) {
+        throw std::runtime_error("MiniAODToPxlio: JES shift requested by JESUncFile is empty");
+      }
+      _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    }
 
-  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
-    outputJets.push_back(GetCorrectedJet(*it, handle, iSysType,doJES,doJER,corrFactor,uncFactor));
-  }
 
-  return outputJets;
+  //factorizedjetcorrectorIsSet = true;
 }
 
-pat::Jet 
-CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+std::vector<pat::Jet> 
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+	
+  std::vector<pat::Jet> outputJets;
 
-  if( !doJES && !doJER ) return inputJet;
+  //if( !(factorizedjetcorrectorIsSet && rhoIsSet) ){
+  // std::cout << " !! ERROR !! Trying to use FWLite Framework GetCorrectedJets without setting factorized jet corrector !" << std::endl;
 
-  //miniAODhelper.CheckSetUp();
+ //    return inputJets;
+  //}
 
-  pat::Jet outputJet = inputJet;
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
     
-  /// JES
-  if( doJES ){
+    pat::Jet jet = (*it);
     double scale = 1.;
 
-    if( jetcorrectorIsSet ) scale = handle.corrector->correction(outputJet);
-    else std::cout << " !! ERROR !! Trying to use Full Framework GetCorrectedJets without setting jet corrector !" << std::endl;
+    // JES
 
-    outputJet.scaleEnergy( scale*corrFactor );
+    jet.setP4(jet.correctedJet(0).p4());
+    _jetCorrector->setJetPt(jet.pt());
+    _jetCorrector->setJetEta(jet.eta());
+    _jetCorrector->setJetA(jet.jetArea());
+    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
 
-    //std::string inputJECfile = ( isData ) ? string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt" : string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
-    std::string inputJECfile = string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
-    jecUnc_ = new JetCorrectionUncertainty(inputJECfile);
+    scale = _jetCorrector->getCorrection();
+    jet.scaleEnergy( scale );
 
     if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
-
-      jecUnc_->setJetEta(outputJet.eta());
-      jecUnc_->setJetPt(outputJet.pt()); // here you must use the CORRECTED jet pt
+      _jetCorrectorUnc->setJetPt(jet.pt());
+      _jetCorrectorUnc->setJetEta(jet.eta()); // here you must use the CORRECTED jet pt
       double unc = 1;
       double jes = 1;
       if( iSysType==sysType::JESup ){
-	      unc = jecUnc_->getUncertainty(true);
-	      jes = 1 + (unc*uncFactor);
+	unc = _jetCorrectorUnc->getUncertainty(true);
+	jes = 1 + unc;
       }
       else if( iSysType==sysType::JESdown ){
-	      unc = jecUnc_->getUncertainty(false);
-	      jes = 1 - (unc*uncFactor);
+	unc = _jetCorrectorUnc->getUncertainty(false);
+	jes = 1 - unc;
       }
 
-      outputJet.scaleEnergy( jes );
+      jet.scaleEnergy( jes );
     }
+
+    /// JER
+      double jerSF = 1.;
+      
+      if( jet.genJet() ){
+        if( iSysType == sysType::JERup ){
+	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+        }
+        else if( iSysType == sysType::JERdown ){
+	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+        }
+        else {
+  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+        }
+      }
+     
+      jet.scaleEnergy( jerSF*corrFactor );
+    
+    outputJets.push_back(jet);
   }
 
-  /// JER
-  if( doJER){
-    double jerSF = 1.;
-    if( outputJet.genJet() ){
-      if( iSysType == sysType::JERup ){
-	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
-      }
-      else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
-      }
-      else {
-	      jerSF = miniAODhelper.getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
-      }
-    }
-   
-    outputJet.scaleEnergy( jerSF*corrFactor );
-  }
-
-  return outputJet;
+  return outputJets;
 }
 
 double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
@@ -1076,12 +1090,6 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
 
   return factor;
 }
-
-
-
-
-
-
 
 /*
 bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)

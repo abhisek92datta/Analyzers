@@ -64,7 +64,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	min_njets (iConfig.getParameter<int>("min_njets")),
 	min_nbtags (iConfig.getParameter<int>("min_nbtags")),
 	// Jets
-	//jet_corrector (iConfig.getParameter<string>("jet_corrector")),
+	jet_corrector (iConfig.getParameter<string>("jet_corrector")),
 	// miniAODhelper
 	isdata (iConfig.getParameter<bool>("using_real_data")),
 	MAODHelper_b_tag_strength (iConfig.getParameter<string>("b_tag_strength")[0])
@@ -147,10 +147,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetRho(*rho);
 
 	/// Get and set miniAODhelper's jet corrector from the event setup
-	//miniAODhelper.SetJetCorrector(
-	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
-
-	jetcorrectorIsSet = 1;
+	miniAODhelper.SetJetCorrector(
+		JetCorrector::getJetCorrector(jet_corrector, iSetup));
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
@@ -239,9 +237,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
+	SetFactorizedJetCorrector();
 	local.jets_corrected =
-		GetCorrectedJets(local.jets_no_mu_e, handle);
-	
+		GetCorrectedJets(local.jets_no_mu_e, *rho);
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(

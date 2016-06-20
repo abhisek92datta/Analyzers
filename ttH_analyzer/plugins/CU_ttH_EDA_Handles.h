@@ -54,7 +54,6 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
-#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
 
 /// Higgs and top tagger
 //#include "MiniAOD/BoostedObjects/interface/HTTTopJet.h"
@@ -97,7 +96,6 @@ struct edm_Handles {
 	//Handle<boosted::HTTTopJetCollection> top_jets;
 	//Handle<boosted::SubFilterJetCollection> subfilter_jets;
 
-	Handle<reco::JetCorrector> corrector;
 	Handle<pat::PackedGenParticleCollection> MC_packed;
 	Handle<edm::ValueMap<float>> mvaValues;
 	Handle<edm::ValueMap<int>> mvaCategories;
@@ -129,7 +127,6 @@ struct edm_Tokens {
 	//EDGetTokenT<boosted::HTTTopJetCollection> top_jets;
 	//EDGetTokenT<boosted::SubFilterJetCollection> subfilter_jets;
 	
-	EDGetTokenT<reco::JetCorrector> jetCorrectorToken_;
 	EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;

@@ -42,7 +42,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         min_njets = cms.int32(min_njets),
         min_nbtags = cms.int32(min_nbtags),
         # Jets
-        jet_corrector = cms.InputTag(jet_corrector),
+        jet_corrector = cms.string(jet_corrector),
         # MiniAODhelper
         using_real_data = cms.bool(using_real_data),
         ## available choices '-': none, 'L': loose, 'M': medium, 'T': tight

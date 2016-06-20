@@ -50,6 +50,10 @@
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "DataFormats/Candidate/interface/Candidate.h"
 
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
+
 #include "PhysicsTools/SelectorUtils/interface/JetIDSelectionFunctor.h"
 #include "PhysicsTools/SelectorUtils/interface/strbitset.h"
 
@@ -60,8 +64,7 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-//#include "JetMETCorrections/Objects/interface/JetCorrector.h"
-#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
+#include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 
@@ -166,6 +169,12 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	bool Check_triggers_iterator(const vector<string> &,
 								 edm::Handle<edm::TriggerResults>);
 
+	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
+	FactorizedJetCorrector* _jetCorrector;
+	JetCorrectionUncertainty* _jetCorrectorUnc;
+	double getJERfactor( const int, const double, const double, const double );
+	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
 	//				 CU_ttH_EDA_event_vars &); // FIXME: uses b-tag medium WP
@@ -199,14 +208,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	float getMHT(CU_ttH_EDA_event_vars &);
 	
-	// Jet Energy Correction
-	
-	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, edm_Handles& , const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
-	pat::Jet GetCorrectedJet(const pat::Jet&, edm_Handles&, const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
-	double getJERfactor( const int , const double , const double , const double );
-	JetCorrectionUncertainty *jecUnc_;
-	int jetcorrectorIsSet;	
-
 	// event selection
 	//bool pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &);
 	//bool pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &);
@@ -288,7 +289,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int min_njets;
 	int min_nbtags;
 
-	//std::string jet_corrector;
+	std::string jet_corrector;
 	
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
