@@ -160,13 +160,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::vector<std::string>::const_iterator trigger;
 		trigger = trigger_on_HLT_e.begin();	 
 		 std::string trigger_it;
-		 unsigned int hltIndex;
+		 //unsigned int hltIndex;
 		 for (int i=6; i>=1; i--) {
 		 	trigger_it.assign(*trigger);
 		 	trigger_it.push_back(char(i));
 		 	std::cout<<trigger_it<<"  ";
 		 	//sprintf(trigger_it,"%s%d",trigger,i);
-		 	hltIndex = hlt_config.triggerIndex(trigger_it);
+		 //	hltIndex = hlt_config.triggerIndex(trigger_it);
 		 	
 		 	//if (handle.triggerResults->accept(hltIndex))
 		   	//	return true;
