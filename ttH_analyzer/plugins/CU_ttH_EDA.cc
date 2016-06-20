@@ -167,10 +167,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		 	std::cout<<trigger_it<<"  ";
 		 	//sprintf(trigger_it,"%s%d",trigger,i);
 		 	hltIndex = hlt_config.triggerIndex(trigger_it);
-		 	if (hltIndex >= handle.triggerResults->size())
-		 		continue;
-		 	if (handle.triggerResults->accept(hltIndex))
-		   		return true;
+		 	
+		 	//if (handle.triggerResults->accept(hltIndex))
+		   	//	return true;
 		 }
 		std::cout<<"\n";
 	
