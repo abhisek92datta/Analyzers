@@ -929,167 +929,89 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 
-void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
-
-    //setting up the JetCorrector
-    std::vector<JetCorrectorParameters> corrParams;
-    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt");
-    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt");
-    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt");
-
-    corrParams.push_back(*L1JetPar);
-    corrParams.push_back(*L2JetPar);
-    corrParams.push_back(*L3JetPar);
-    _jetCorrector = new FactorizedJetCorrector(corrParams);
-
-    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer13_V5_DATA_Uncertainty_AK5PFchs.txt";	
-
-    // initialize the jet corrector uncertainty
-    if (iSysType == sysType::JESup || iSysType == sysType::JESdown ) {
-      if (_JESUncFile.empty()) {
-        throw std::runtime_error("MiniAODToPxlio: JES shift requested by JESUncFile is empty");
-      }
-      _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    }
-
-
-  //factorizedjetcorrectorIsSet = true;
-}
+// Jet Energy Corrections
 
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
-	
+GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Event& event, const edm::EventSetup& setup, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+
+  if( !doJES && !doJER ) return inputJets;
+
+  miniAODhelper.CheckSetUp();
+
   std::vector<pat::Jet> outputJets;
 
-  //if( !(factorizedjetcorrectorIsSet && rhoIsSet) ){
-  // std::cout << " !! ERROR !! Trying to use FWLite Framework GetCorrectedJets without setting factorized jet corrector !" << std::endl;
-
- //    return inputJets;
-  //}
-
   for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
-    
-    pat::Jet jet = (*it);
-    double scale = 1.;
-
-    // JES
-
-    jet.setP4(jet.correctedJet(0).p4());
-    _jetCorrector->setJetPt(jet.pt());
-    _jetCorrector->setJetEta(jet.eta());
-    _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
-
-    scale = _jetCorrector->getCorrection();
-    jet.scaleEnergy( scale );
-
-    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
-      _jetCorrectorUnc->setJetPt(jet.pt());
-      _jetCorrectorUnc->setJetEta(jet.eta()); // here you must use the CORRECTED jet pt
-      double unc = 1;
-      double jes = 1;
-      if( iSysType==sysType::JESup ){
-	unc = _jetCorrectorUnc->getUncertainty(true);
-	jes = 1 + unc;
-      }
-      else if( iSysType==sysType::JESdown ){
-	unc = _jetCorrectorUnc->getUncertainty(false);
-	jes = 1 - unc;
-      }
-
-      jet.scaleEnergy( jes );
-    }
-
-    /// JER
-      double jerSF = 1.;
-      
-      if( jet.genJet() ){
-        if( iSysType == sysType::JERup ){
-	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else if( iSysType == sysType::JERdown ){
-	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else {
-  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-      }
-     
-      jet.scaleEnergy( jerSF*corrFactor );
-    
-    outputJets.push_back(jet);
+    outputJets.push_back(GetCorrectedJet(*it,event,setup,iSysType,doJES,doJER,corrFactor,uncFactor));
   }
 
   return outputJets;
 }
 
-double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
+pat::Jet 
+MiniAODHelper::GetCorrectedJet(const pat::Jet& inputJet, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
 
-  double factor = 1.;
+  if( !doJES && !doJER ) return inputJet;
+
+  miniAODhelper.CheckSetUp();
+
+  pat::Jet outputJet = inputJet;
     
-  double scale_JER = 1., scale_JERup = 1., scale_JERdown = 1.;
-  double extrauncertainty=1.5;
-  
-  if( jetAbsETA<0.5 ){ 
-    scale_JER = 1.095; scale_JERup = 1.095 + 0.018*extrauncertainty; scale_JERdown = 1.095 - 0.018*extrauncertainty;
-  }
-  else if( jetAbsETA<0.8 ){ 
-    scale_JER = 1.120; scale_JERup = 1.120 + 0.028*extrauncertainty; scale_JERdown = 1.120 - 0.028*extrauncertainty;
-  }
-  else if( jetAbsETA<1.1 ){ 
-    scale_JER = 1.097; scale_JERup = 1.097 + 0.017*extrauncertainty; scale_JERdown = 1.097 - 0.017*extrauncertainty;
-  }
-  else if( jetAbsETA<1.3 ){ 
-    scale_JER = 1.103; scale_JERup = 1.103 + 0.033*extrauncertainty; scale_JERdown = 1.103 - 0.033*extrauncertainty;
-  }
-  else if( jetAbsETA<1.7 ){ 
-    scale_JER = 1.118; scale_JERup = 1.118 + 0.014*extrauncertainty; scale_JERdown = 1.118 - 0.014*extrauncertainty;
-  }
-  else if( jetAbsETA<1.9 ){ 
-    scale_JER = 1.100; scale_JERup = 1.100 + 0.033*extrauncertainty; scale_JERdown = 1.100 - 0.033*extrauncertainty;
-  }
-  else if( jetAbsETA<2.1 ){ 
-    scale_JER = 1.162; scale_JERup = 1.162 + 0.044*extrauncertainty; scale_JERdown = 1.162 - 0.044*extrauncertainty;
-  }
-  else if( jetAbsETA<2.3 ){ 
-    scale_JER = 1.160; scale_JERup = 1.160 + 0.048*extrauncertainty; scale_JERdown = 1.160 - 0.048*extrauncertainty;
-  }
-  else if( jetAbsETA<2.5 ){ 
-    scale_JER = 1.161; scale_JERup = 1.161 + 0.060*extrauncertainty; scale_JERdown = 1.161 - 0.060*extrauncertainty;
-  }
-  else if( jetAbsETA<2.8 ){ 
-    scale_JER = 1.209; scale_JERup = 1.209 + 0.059*extrauncertainty; scale_JERdown = 1.209 - 0.059*extrauncertainty;
-  }
-  else if( jetAbsETA<3.0 ){ 
-    scale_JER = 1.564; scale_JERup = 1.564 + 0.321*extrauncertainty; scale_JERdown = 1.564 - 0.321*extrauncertainty;
-  }
-  else if( jetAbsETA<3.2 ){ 
-    scale_JER = 1.384; scale_JERup = 1.384 + 0.033*extrauncertainty; scale_JERdown = 1.384 - 0.033*extrauncertainty;
-  }
-  else if( jetAbsETA<5.0 ){ 
-    scale_JER = 1.216; scale_JERup = 1.216 + 0.050*extrauncertainty; scale_JERdown = 1.216 - 0.050*extrauncertainty;
+  /// JES
+  if( doJES ){
+    double scale = 1.;
+
+    if( jetcorrectorIsSet ) scale = handle.corrector->correction(outputJet);
+    else std::cout << " !! ERROR !! Trying to use Full Framework GetCorrectedJets without setting jet corrector !" << std::endl;
+
+    outputJet.scaleEnergy( scale*corrFactor );
+
+    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
+
+      jecUnc_->setJetEta(outputJet.eta());
+      jecUnc_->setJetPt(outputJet.pt()); // here you must use the CORRECTED jet pt
+      double unc = 1;
+      double jes = 1;
+      if( iSysType==sysType::JESup ){
+	      unc = jecUnc_->getUncertainty(true);
+	      jes = 1 + (unc*uncFactor);
+      }
+      else if( iSysType==sysType::JESdown ){
+	      unc = jecUnc_->getUncertainty(false);
+	      jes = 1 - (unc*uncFactor);
+      }
+
+      outputJet.scaleEnergy( jes );
+    }
   }
 
-  double jetPt_JER = recojetPT;
-  double jetPt_JERup = recojetPT;
-  double jetPt_JERdown = recojetPT;
+  /// JER
+  if( doJER){
+    double jerSF = 1.;
+    if( outputJet.genJet() ){
+      if( iSysType == sysType::JERup ){
+	      jerSF = getJERfactor(uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      else if( iSysType == sysType::JERdown ){
+	      jerSF = getJERfactor(-uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      else {
+	      jerSF = getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
+    }
+    // else     std::cout << "    ==> can't find genJet" << std::endl;
 
-  double diff_recojet_genjet = recojetPT - genjetPT;
-
-  if( genjetPT>10. ){
-    jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
-    jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
-    jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
+    outputJet.scaleEnergy( jerSF*corrFactor );
   }
 
-  if( returnType==1 )       factor = jetPt_JERup/recojetPT;
-  else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
-  else                      factor = jetPt_JER/recojetPT;
-
-  if( !(genjetPT>10.) ) factor = 1.;
-
-  return factor;
+  return outputJet;
 }
+
+
+
+
+
+
 
 /*
 bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)
