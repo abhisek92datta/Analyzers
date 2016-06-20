@@ -204,7 +204,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, edm_Handles& , const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
 	pat::Jet GetCorrectedJet(const pat::Jet&, edm_Handles&, const sysType::sysType iSysType=sysType::NA, const bool& doJES=true, const bool& doJER=true, const float& corrFactor = 1, const float& uncFactor = 1);
 	double getJERfactor( const int , const double , const double , const double ){
-
+	JetCorrectionUncertainty *jecUnc_;
 	int jetcorrectorIsSet;	
 
 	// event selection
