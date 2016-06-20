@@ -125,7 +125,9 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 		 std::string trigger_it;
 		 unsigned int hltIndex;
 		 for (int i=6; i>=1; i--) {
-		 	sprintf(trigger_it,"%s%d",trigger,i);
+		 	trigger_it.assign(trigger);
+		 	trigger_it.push_back("i");
+		 	//sprintf(trigger_it,"%s%d",trigger,i);
 		 	hltIndex = hlt_config.triggerIndex(trigger_it);
 		 	if (hltIndex >= triggerResults->size())
 		 		continue;
