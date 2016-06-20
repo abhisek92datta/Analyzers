@@ -78,11 +78,12 @@ process.TFileService = cms.Service("TFileService",
 )
 
 process.p = cms.Path(
-    process.ak4PFCHSL1Fastjet
-    * process.ak4PFchsL2Relative
-    * process.ak4PFchsL3Absolute
-    * process.ak4PFchsL1L2L3
-    * process.electronMVAValueMapProducer
+    #process.ak4PFCHSL1Fastjet
+    #* process.ak4PFchsL2Relative
+    #* process.ak4PFchsL3Absolute
+    #* process.ak4PFchsL1L2L3
+    #* process.electronMVAValueMapProducer
+    process.electronMVAValueMapProducer
  #  * process.ttHLeptons
     * process.ttHbb
 )
