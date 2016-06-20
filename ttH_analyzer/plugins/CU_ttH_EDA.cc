@@ -235,20 +235,20 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
 	local.jets_no_mu_e =
 		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
-	local.jets_corrected =
-		miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
-	//SetFactorizedJetCorrector();
 	//local.jets_corrected =
-	//	GetCorrectedJets(local.jets_no_mu_e, *rho);
+	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
+	SetFactorizedJetCorrector();
+	local.jets_corrected =
+		GetCorrectedJets(local.jets_no_mu_e, *rho);
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
-	local.jets_selected = miniAODhelper.GetSelectedJets(
-		*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
-	//	local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+	//	*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+	local.jets_selected = miniAODhelper.GetSelectedJets(
+		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	
 	// ???
 	// jetID::jetTight in MiniAODHelper (branch CMSSW_7_6_3, 03/15/2016) is actually loose WP suggested by Jet POG for 13TeV
