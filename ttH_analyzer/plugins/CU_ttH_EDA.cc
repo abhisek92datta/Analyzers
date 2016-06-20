@@ -158,6 +158,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		h_flt->Fill(0., 1);
 	}
 	
+		trigger = trigger_on_HLT_e.begin();	 
+		 std::string trigger_it;
+		 unsigned int hltIndex;
+		 for (int i=6; i>=1; i--) {
+		 	trigger_it.assign(*trigger);
+		 	trigger_it.push_back(char(i));
+		 	std::cout<<trigger_it<<"  ";
+		 	//sprintf(trigger_it,"%s%d",trigger,i);
+		 	hltIndex = hlt_config.triggerIndex(trigger_it);
+		 	if (hltIndex >= handle.triggerResults->size())
+		 		continue;
+		 	if (handle.triggerResults->accept(hltIndex))
+		   		return true;
+		 }
+		std::cout<<"\n";
+	
+	
 	// to get electron mva values
 	//EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	//EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
@@ -339,8 +356,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
-		std::cout<<"\n";
+		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		//std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
 	}
