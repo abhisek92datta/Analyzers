@@ -251,43 +251,38 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.tau_selected_sorted = miniAODhelper.GetSortedByPt(local.tau_selected);
 
 	/// Jet selection
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(handle.jets);
+	//local.jets_raw = miniAODhelper.GetUncorrectedJets(handle.jets);
 	//local.jets_no_mu =
 	//	miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
 	//local.jets_no_mu_e =
 	//	miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
-	
-	// overlap removal by dR
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_selected, 0.4);
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_selected, 0.4);
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
-	SetFactorizedJetCorrector();
-	local.jets_corrected =
-		GetCorrectedJets(local.jets_raw, *rho);
+	//SetFactorizedJetCorrector();
+	//local.jets_corrected =
+	//	GetCorrectedJets(local.jets_raw, *rho);
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
-	//local.jets_selected = miniAODhelper.GetSelectedJets(
-	//	*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+		*(handle.jets), min_jet_pT, max_jet_eta, jetID::jetTight, '-');
+	//local.jets_selected = miniAODhelper.GetSelectedJets(
+	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	
 	// ???
 	// jetID::jetTight in MiniAODHelper (branch CMSSW_7_6_3, 03/15/2016) is actually loose WP suggested by Jet POG for 13TeV
 	// ???
 
 	// overlap removal by dR
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.mu_selected, 0.4);
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
+	local.jets_selected = removeOverlapdR(local.jets_selected, local.mu_selected, 0.4);
+	local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
 	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
 	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetTight,
+		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::jetTight,
 		MAODHelper_b_tag_strength);
 	
 	local.b_weight = 1;
