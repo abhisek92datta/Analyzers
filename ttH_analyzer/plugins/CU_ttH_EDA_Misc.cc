@@ -123,11 +123,12 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 		 trigger != triggers.end(); ++trigger) {
 		 
 		 std::string trigger_it;
+		 char s[100];
 		 unsigned int hltIndex;
 		 for (int i=6; i>=1; i--) {
 		 	trigger_it.assign(*trigger);
-		 	trigger_it.push_back(char(i));
-		 	//sprintf(trigger_it,"%s%d",trigger,i);
+		 	sprintf(s,"%d",i);
+		 	trigger_it.append(s);
 		 	hltIndex = hlt_config.triggerIndex(trigger_it);
 		 	if (hltIndex >= triggerResults->size())
 		 		continue;
