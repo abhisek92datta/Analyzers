@@ -14,8 +14,8 @@ process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
-#process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
-process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
+process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
+#process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
@@ -78,11 +78,12 @@ process.TFileService = cms.Service("TFileService",
 )
 
 process.p = cms.Path(
-    process.ak4PFCHSL1Fastjet
-    * process.ak4PFchsL2Relative
-    * process.ak4PFchsL3Absolute
-    * process.ak4PFchsL1L2L3
-    * process.electronMVAValueMapProducer
+  #  process.ak4PFCHSL1Fastjet
+   # * process.ak4PFchsL2Relative
+    #* process.ak4PFchsL3Absolute
+    #* process.ak4PFchsL1L2L3
+    #* process.electronMVAValueMapProducer
+     process.electronMVAValueMapProducer
  #  * process.ttHLeptons
     * process.ttHbb
 )
