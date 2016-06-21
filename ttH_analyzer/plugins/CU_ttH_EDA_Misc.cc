@@ -128,7 +128,7 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 		 for (int i=6; i>=1; i--) {
 		 	trigger_it.assign(*trigger);
 		 	sprintf(s,"%d",i);
-		 	//trigger_it.append(s);
+		 	trigger_it.append(s);
 		 	hltIndex = hlt_config.triggerIndex(trigger_it);
 		 	if (hltIndex >= triggerResults->size())
 		 		continue;
