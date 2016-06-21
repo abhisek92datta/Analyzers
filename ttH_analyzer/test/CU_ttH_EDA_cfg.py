@@ -2,8 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 from RecoJets.Configuration.RecoJets_cff import *
 from RecoJets.Configuration.RecoPFJets_cff import *
-#from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
-from JetMETCorrections.Configuration.CorrectedJetProducersAllAlgos_cff import *
+from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
 
@@ -15,7 +14,6 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
-#process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
@@ -24,7 +22,7 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 process.ak4PFCHSL1Fastjet = cms.ESProducer(
-	'L1FastjetCorrectorProducer',
+	'L1FastjetCorrectionESProducer',
 	level       = cms.string('L1FastJet'),
 	algorithm   = cms.string('AK4PFchs'),
 	#srcRho      = cms.InputTag( 'fixedGridRhoFastjetAll' )
@@ -37,12 +35,12 @@ process.ak4PFchsL2Relative = ak5PFL2Relative.clone( algorithm = 'AK4PFchs' )
 #process.ak4PFchsL3Absolute = ak4CaloL3Absolute.clone( algorithm = 'AK4PFchs' )
 process.ak4PFchsL3Absolute = ak5PFL3Absolute.clone( algorithm = 'AK4PFchs' )
 
-process.ak4PFchsL1L2L3 = cms.ESProducer("ChainedJetCorrectorProducer",
-	correctors = cms.VInputTag(
+process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
+	correctors = cms.vstring(
 		'ak4PFCHSL1Fastjet', 
 		'ak4PFchsL2Relative', 
 		'ak4PFchsL3Absolute'),
-        #useCondDB = cms.untracked.bool(True)
+        useCondDB = cms.untracked.bool(True)
 )
 
 #process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring())
@@ -78,12 +76,7 @@ process.TFileService = cms.Service("TFileService",
 )
 
 process.p = cms.Path(
-  #  process.ak4PFCHSL1Fastjet
-   # * process.ak4PFchsL2Relative
-    #* process.ak4PFchsL3Absolute
-    #* process.ak4PFchsL1L2L3
-    #* process.electronMVAValueMapProducer
-     process.electronMVAValueMapProducer
- #  * process.ttHLeptons
+    process.electronMVAValueMapProducer
+ #   * process.ttHLeptons
     * process.ttHbb
 )
