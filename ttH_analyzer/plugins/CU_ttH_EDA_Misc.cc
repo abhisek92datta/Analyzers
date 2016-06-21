@@ -975,7 +975,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
 
     // JES
 
-    jet.setP4(jet.correctedJet(0).p4());
+    //jet.setP4(jet.correctedJet(0).p4());
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
