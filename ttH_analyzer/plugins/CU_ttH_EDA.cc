@@ -252,10 +252,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Jet selection
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(handle.jets);
-	local.jets_no_mu =
-		miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
-	local.jets_no_mu_e =
-		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
+	//local.jets_no_mu =
+	//	miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
+	//local.jets_no_mu_e =
+	//	miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
 	SetFactorizedJetCorrector();
