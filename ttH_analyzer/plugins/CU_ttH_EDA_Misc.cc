@@ -951,7 +951,7 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
     corrParams.push_back(*L3JetPar);
     _jetCorrector = new FactorizedJetCorrector(corrParams);
 
-    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
+    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
     
   //factorizedjetcorrectorIsSet = true;
