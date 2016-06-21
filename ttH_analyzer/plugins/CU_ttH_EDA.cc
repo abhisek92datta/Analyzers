@@ -64,7 +64,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	min_njets (iConfig.getParameter<int>("min_njets")),
 	min_nbtags (iConfig.getParameter<int>("min_nbtags")),
 	// Jets
-	jet_corrector (iConfig.getParameter<string>("jet_corrector")),
+	//jet_corrector (iConfig.getParameter<string>("jet_corrector")),
 	// miniAODhelper
 	isdata (iConfig.getParameter<bool>("using_real_data")),
 	MAODHelper_b_tag_strength (iConfig.getParameter<string>("b_tag_strength")[0])
@@ -147,8 +147,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetRho(*rho);
 
 	/// Get and set miniAODhelper's jet corrector from the event setup
-	miniAODhelper.SetJetCorrector(
-		JetCorrector::getJetCorrector(jet_corrector, iSetup));
+	//miniAODhelper.SetJetCorrector(
+	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
+
+	jetcorrectorIsSet = 1;
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
@@ -157,27 +159,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		h_hlt->Fill(0., 1);
 		h_flt->Fill(0., 1);
 	}
-	/*
-		std::vector<std::string>::const_iterator trigger;
-		trigger = trigger_on_HLT_e.begin();	 
-		std::string trigger_it;
-		char i=6;
-		char s[100]; 
-		 //unsigned int hltIndex;
-		 while ((int)i>=1) {
-		 	trigger_it.assign(*trigger);
-		 	sprintf(s,"%d",i);
-		 	trigger_it.append(s);
-		 	std::cout<<trigger_it<<"  ";
-		 	
-		 //	hltIndex = hlt_config.triggerIndex(trigger_it);
-		 	
-		 	//if (handle.triggerResults->accept(hltIndex))
-		   	//	return true;
-		   	i--;
-		 }
-		std::cout<<"\n";
-	*/
 	
 	// to get electron mva values
 	//EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
@@ -257,11 +238,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_no_mu_e =
 		miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
 	//local.jets_corrected =
-	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
-	SetFactorizedJetCorrector();
-	local.jets_corrected =
-		GetCorrectedJets(local.jets_no_mu_e, *rho);
+	//miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
 	
+	local.jets_corrected = GetCorrectedJets(local.jets_no_mu_e, handle);
+
+
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
@@ -284,11 +265,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_corrected, min_bjet_pT, max_bjet_eta, jetID::jetTight,
 		MAODHelper_b_tag_strength);
 	
-	local.b_weight = 1;
+	local.b_weight = 0;
 	
 	for (const auto& jet : local.jets_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
-			local.b_weight = local.b_weight * miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
+			local.b_weight = local.b_weight + miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
 			local.jets_selected_tag.push_back(jet);
 		}
 	}
@@ -296,7 +277,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
 	
-	//local.b_weight = local.b_weight/local.n_btags;
+	local.b_weight = local.b_weight/local.n_btags;
 
 	/// Sort jets by pT
 	local.jets_selected_sorted =

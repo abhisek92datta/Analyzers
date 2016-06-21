@@ -121,20 +121,13 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 {
 	for (std::vector<std::string>::const_iterator trigger = triggers.begin();
 		 trigger != triggers.end(); ++trigger) {
-		 
-		 std::string trigger_it;
-		 char s[100];
-		 unsigned int hltIndex;
-		 for (int i=6; i>=1; i--) {
-		 	trigger_it.assign(*trigger);
-		 	sprintf(s,"%d",i);
-		 	trigger_it.append(s);
-		 	hltIndex = hlt_config.triggerIndex(trigger_it);
-		 	if (hltIndex >= triggerResults->size())
-		 		continue;
-		 	if (triggerResults->accept(hltIndex))
-		   		return true;
-		 }
+		unsigned int hltIndex = hlt_config.triggerIndex(*trigger);
+
+		if (hltIndex >= triggerResults->size())
+			continue;
+
+		if (triggerResults->accept(hltIndex))
+			return true;
 	}
 
 	return false;
@@ -317,9 +310,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	int is_DL = 0;
 	//int b_weight = 1;
 	int ttH_cat = 53;
-	int met_passed = 0;
-	if (local.met_pt > 30)
-		met_passed = 1;
+	int met_passed = 1;
 	//float met_pt = 0;
 	//float met_phi = 0;
 	//int pdgId;
@@ -327,11 +318,11 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_single_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 1) {
 		//pdgId = 11;
-		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
+		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), local.e_selected[0].trackIso(), local.e_selected[0].pdgId());
 	}
 	if (local.n_muons == 1) {
 		//pdgId = -13;
-		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
+		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), local.mu_selected[0].trackIso(), local.mu_selected[0].pdgId());
 	}
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
 	fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", local.jets_selected_sorted[0].pt(), local.jets_selected_sorted[1].pt(), local.jets_selected_sorted[2].pt(), local.jets_selected_sorted[3].pt(), miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
@@ -938,93 +929,89 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 
-void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
-
-    //setting up the JetCorrector
-    std::vector<JetCorrectorParameters> corrParams;
-    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt");
-    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt");
-    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt");
-
-    corrParams.push_back(*L1JetPar);
-    corrParams.push_back(*L2JetPar);
-    corrParams.push_back(*L3JetPar);
-    _jetCorrector = new FactorizedJetCorrector(corrParams);
-
-    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
-    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    
-  //factorizedjetcorrectorIsSet = true;
-}
+// Jet Energy Corrections
 
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
-	
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+
+  if( !doJES && !doJER ) return inputJets;
+
+ // miniAODhelper.CheckSetUp();
+
   std::vector<pat::Jet> outputJets;
 
-  //if( !(factorizedjetcorrectorIsSet && rhoIsSet) ){
-  // std::cout << " !! ERROR !! Trying to use FWLite Framework GetCorrectedJets without setting factorized jet corrector !" << std::endl;
-
- //    return inputJets;
-  //}
-
   for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
-    
-    pat::Jet jet = (*it);
-    double scale = 1.;
-
-    // JES
-
-    jet.setP4(jet.correctedJet(0).p4());
-    _jetCorrector->setJetPt(jet.pt());
-    _jetCorrector->setJetEta(jet.eta());
-    _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
-
-    scale = _jetCorrector->getCorrection();
-    jet.scaleEnergy( scale );
-
-    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
-      _jetCorrectorUnc->setJetPt(jet.pt());
-      _jetCorrectorUnc->setJetEta(jet.eta()); // here you must use the CORRECTED jet pt
-      double unc = 1;
-      double jes = 1;
-      if( iSysType==sysType::JESup ){
-	unc = _jetCorrectorUnc->getUncertainty(true);
-	jes = 1 + unc;
-      }
-      else if( iSysType==sysType::JESdown ){
-	unc = _jetCorrectorUnc->getUncertainty(false);
-	jes = 1 - unc;
-      }
-
-      jet.scaleEnergy( jes );
-    }
-
-    /// JER
-      double jerSF = 1.;
-      
-      if( jet.genJet() ){
-        if( iSysType == sysType::JERup ){
-	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else if( iSysType == sysType::JERdown ){
-	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else {
-  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-      }
-     
-      jet.scaleEnergy( jerSF*corrFactor );
-    
-    outputJets.push_back(jet);
+    outputJets.push_back(GetCorrectedJet(*it, handle, iSysType,doJES,doJER,corrFactor,uncFactor));
   }
 
   return outputJets;
 }
 
-double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
+pat::Jet 
+CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const sysType::sysType iSysType, const bool& doJES, const bool& doJER, const float& corrFactor, const float& uncFactor){
+
+  if( !doJES && !doJER ) return inputJet;
+
+  //miniAODhelper.CheckSetUp();
+
+  pat::Jet outputJet = inputJet;
+    
+  /// JES
+  if( doJES ){
+    double scale = 1.;
+
+    if( jetcorrectorIsSet ) scale = handle.corrector->correction(outputJet);
+    else std::cout << " !! ERROR !! Trying to use Full Framework GetCorrectedJets without setting jet corrector !" << std::endl;
+
+    outputJet.scaleEnergy( scale*corrFactor );
+
+    
+    std::string inputJECfile = ( isData ) ? string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt" : string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
+    jecUnc_ = new JetCorrectionUncertainty(inputJECfile);
+
+    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
+
+      jecUnc_->setJetEta(outputJet.eta());
+      jecUnc_->setJetPt(outputJet.pt()); // here you must use the CORRECTED jet pt
+      double unc = 1;
+      double jes = 1;
+      if( iSysType==sysType::JESup ){
+	      unc = jecUnc_->getUncertainty(true);
+	      jes = 1 + (unc*uncFactor);
+      }
+      else if( iSysType==sysType::JESdown ){
+	      unc = jecUnc_->getUncertainty(false);
+	      jes = 1 - (unc*uncFactor);
+      }
+
+      outputJet.scaleEnergy( jes );
+    }
+  }
+
+  /// JER
+  if( doJER){
+    double jerSF = 1.;
+    if( outputJet.genJet() ){
+      if( iSysType == sysType::JERup ){
+	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      else if( iSysType == sysType::JERdown ){
+	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      else {
+	      jerSF = miniAODhelper.getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+      }
+      // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
+    }
+    // else     std::cout << "    ==> can't find genJet" << std::endl;
+
+    outputJet.scaleEnergy( jerSF*corrFactor );
+  }
+
+  return outputJet;
+}
+
+   double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
 
   double factor = 1.;
     
