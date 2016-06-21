@@ -157,6 +157,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		h_hlt->Fill(0., 1);
 		h_flt->Fill(0., 1);
 	}
+	/*
 		std::vector<std::string>::const_iterator trigger;
 		trigger = trigger_on_HLT_e.begin();	 
 		std::string trigger_it;
@@ -176,7 +177,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		   	i--;
 		 }
 		std::cout<<"\n";
-	
+	*/
 	
 	// to get electron mva values
 	//EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
