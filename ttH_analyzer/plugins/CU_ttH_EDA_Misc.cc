@@ -993,18 +993,15 @@ CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const
     double jerSF = 1.;
     if( outputJet.genJet() ){
       if( iSysType == sysType::JERup ){
-	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+	      jerSF = getJERfactor(uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
       }
       else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+	      jerSF = getJERfactor(-uncFactor, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
       }
       else {
-	      jerSF = miniAODhelper.getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
+	      jerSF = getJERfactor(0, fabs(outputJet.eta()), outputJet.genJet()->pt(), outputJet.pt());
       }
-      // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
-    // else     std::cout << "    ==> can't find genJet" << std::endl;
-
     outputJet.scaleEnergy( jerSF*corrFactor );
   }
 
