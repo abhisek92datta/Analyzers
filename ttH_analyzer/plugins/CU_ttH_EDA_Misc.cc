@@ -965,7 +965,7 @@ CU_ttH_EDA::GetCorrectedJet(const pat::Jet& inputJet, edm_Handles& handle, const
 
     outputJet.scaleEnergy( scale*corrFactor );
 
-    
+    bool isData = false;
     std::string inputJECfile = ( isData ) ? string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt" : string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
     jecUnc_ = new JetCorrectionUncertainty(inputJECfile);
 
