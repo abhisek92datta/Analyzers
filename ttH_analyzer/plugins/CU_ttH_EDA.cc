@@ -371,7 +371,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 	
 	//if (event_count==2844551) {
-	std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags<<"   "<<local.jets_selected_sorted[3].pt();
+	//std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags<<"   "<<local.jets_selected_sorted[3].pt();
 	std::cout<<"\n";
 	//}
 	
