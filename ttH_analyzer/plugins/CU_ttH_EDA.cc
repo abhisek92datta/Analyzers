@@ -120,10 +120,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
-
-	if (local.event_nr != 2844551)
-		return;
-	
 	
 	/// Triggers have not fired yet. Check_triggers, Check_filters will adjust
 	local.pass_single_e = false;
@@ -132,6 +128,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_double_e = false;
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
+
+	if (local.event_nr != 2844551)
+		return;
+	
 
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
