@@ -376,6 +376,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//std::cout<<"\n";
 	//}
 	
+	std::cout<<"\n";
 	std::cout<<local.event_nr<<"   "<<local.n_jets<<"   "<<local.n_btags<<"\n\n";
 	std::cout<<"pT   eta    CSV \n";
 	local.jets_corrected =
