@@ -371,7 +371,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 	
 	//if (event_count==2844551) {
-	std::cout<<"event_no   lep   e    e_v    mu    mu_v    jets   btags   jet4_pt\n\n";
 	std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags<<"   "<<local.jets_selected_sorted[3].pt();
 	std::cout<<"\n";
 	//}
@@ -424,6 +423,7 @@ void CU_ttH_EDA::beginJob()
 	event_count = 0;
 	//std::cout<<"event_nr     pre_sel      mva_cat     mva_val \n\n";
 	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
+	std::cout<<"event_no   lep   e    e_v    mu    mu_v    jets   btags   jet4_pt\n\n";
 	selection_count = 0;
 }
 
