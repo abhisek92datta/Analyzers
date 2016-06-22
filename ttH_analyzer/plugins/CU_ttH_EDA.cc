@@ -129,8 +129,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	//if (local.event_nr != 2844551 && local.event_nr != 3861185 && local.event_nr != 3903951 && local.event_nr != 933149 && local.event_nr != 2206569 && local.event_nr != 909382 && local.event_nr != 2646919 && local.event_nr != 287432 && local.event_nr != 325159 && local.event_nr != 325616 && local.event_nr != 3846211 )
-	//	return;
+	if (local.event_nr != 329848 && local.event_nr != 918493 && local.event_nr != 922677 && local.event_nr != 923498 && local.event_nr != 1086517 && local.event_nr != 1094598 && local.event_nr != 1095976 && local.event_nr != 2844525 && local.event_nr != 2846224 && local.event_nr != 2991228 && local.event_nr != 3152405 && local.event_nr != 3892446 && local.event_nr != 3896127 && local.event_nr != 276186 && local.event_nr != 277594 && local.event_nr != 278270 && local.event_nr != 311560 && local.event_nr != 340532 )
+		return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -371,20 +371,17 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	
-	//if (event_count==2844551) {
-	//std::cout<<event_count<<"   "<<local.event_nr<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags<<"   "<<miniAODhelper.GetSortedByPt(local.jets_corrected)[3].pt();
-	//std::cout<<"\n";
-	//}
-	/*
 	std::cout<<"\n";
-	std::cout<<local.event_nr<<"   "<<local.n_jets<<"   "<<local.n_btags<<"\n\n";
+	std::cout<<local.event_nr<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
+	std::cout<<"\n";
 	std::cout<<"pT   eta    CSV \n";
 	local.jets_corrected =
 		miniAODhelper.GetSortedByPt(local.jets_corrected);
 	for (const auto& jet : local.jets_corrected) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
-	*/
+	std::cout<<"\n";
+	
 	if(local.n_leptons==1) {
 		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		//std::cout<<"\n";
