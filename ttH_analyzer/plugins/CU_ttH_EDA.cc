@@ -121,6 +121,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
 
+	//if (event_count != 328113 ) 
+	//	return;
+	
 	/// Triggers have not fired yet. Check_triggers, Check_filters will adjust
 	local.pass_single_e = false;
 	local.pass_single_mu = false;
@@ -347,31 +350,37 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
-				if (local.n_electrons == 1 && local.n_veto_electrons == 1 && local.pass_single_e == 1) {
-				//if (local.n_electrons == 1 && local.n_veto_electrons == 1) {
+				if (local.n_electrons == 1) {
+					if (local.n_veto_electrons == 1 && local.pass_single_e == 1) {
 					//if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
-					//}
+					}
 				}	
-				else if (local.n_muons == 1 && local.n_veto_muons == 1 && local.pass_single_mu == 1) {
-				//else if (local.n_muons == 1 && local.n_veto_muons == 1) {
+				else if (local.n_muons == 1) {
+					if (local.n_veto_muons == 1 && local.pass_single_mu == 1) {
 					//if (local.mu_selected[0].eta() < max_mu_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
-					//}
+					}
 				}
 			}
 		}
 	}
+	
+	//std::cout<<"event_no   lep   e    e_v    mu    mu_v    jets   btags\n\n";
+	//std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
+	//std::cout<<"\n\n";
+	
 	if(local.n_leptons==1) {
-		std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
-		std::cout<<"\n";
+		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
+		//std::cout<<"\n";
 		if (local.event_selection!=0)
 			selection_count++;
 	}
+	
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
 		if (local.event_selection)
@@ -412,7 +421,7 @@ void CU_ttH_EDA::beginJob()
 
 	event_count = 0;
 	//std::cout<<"event_nr     pre_sel      mva_cat     mva_val \n\n";
-	std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
+	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 	selection_count = 0;
 }
 
