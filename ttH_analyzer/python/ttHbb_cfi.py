@@ -53,8 +53,8 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             pv = cms.InputTag("offlineSlimmedPrimaryVertices"),
             sv = cms.InputTag("slimmedSecondaryVertices"),
             pileup = cms.InputTag("addPileupInfo"),
-            rho = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
-            #"fixedGridRhoFastjetAll"
+            rho = cms.InputTag("fixedGridRhoFastjetAll"),
+            #"fixedGridRhoFastjetCentralNeutral"
             electrons = cms.InputTag("slimmedElectrons"),
             muons = cms.InputTag("slimmedMuons"),
             #taus = cms.InputTag("slimmedTaus"),
