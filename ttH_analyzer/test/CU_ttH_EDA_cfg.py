@@ -13,7 +13,8 @@ process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
-process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
+#process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
+process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
