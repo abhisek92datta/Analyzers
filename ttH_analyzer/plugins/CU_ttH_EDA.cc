@@ -121,8 +121,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
 
-	//if (event_count != 328113 ) 
-	//	return;
+	if (event_count != 2844551 ) 
+		return;
 	
 	/// Triggers have not fired yet. Check_triggers, Check_filters will adjust
 	local.pass_single_e = false;
@@ -370,9 +370,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	
-	//std::cout<<"event_no   lep   e    e_v    mu    mu_v    jets   btags\n\n";
-	//std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
-	//std::cout<<"\n\n";
+	std::cout<<"event_no   lep   e    e_v    mu    mu_v    jets   btags\n\n";
+	std::cout<<event_count<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
+	std::cout<<"\n\n";
 	
 	if(local.n_leptons==1) {
 		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
