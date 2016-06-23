@@ -270,7 +270,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	*(handle.jets), 0, 9999, jetID::jetTight, '-');
 	local.jets_raw = CheckJetID(*(handle.jets));
 	
-	std::cout<<local.jets_raw<<"\n\n";
+	std::cout<<local.jets_raw.size()<<"\n\n";
 	for (const auto& iJet : *(handle.jets)) {
 		std::cout<<iJet.pt()<<"  ";
 		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
