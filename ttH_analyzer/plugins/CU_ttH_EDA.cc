@@ -234,8 +234,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	*(handle.taus),	min_tau_pT, tau::tauPreselection);
 
 	// remove overlap
-	local.e_selected = removeOverlapdR(local.e_selected, local.mu_selected, 0.05);
-	local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
+	//local.e_selected = removeOverlapdR(local.e_selected, local.mu_selected, 0.05);
+	//local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
 	//local.tau_selected = removeOverlapdR(local.tau_selected, local.mu_selected, 0.4);
 	//local.tau_selected = removeOverlapdR(local.tau_selected, local.e_selected, 0.4);
 	
