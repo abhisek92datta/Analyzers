@@ -270,15 +270,17 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	*(handle.jets), 0, 9999, jetID::jetTight, '-');
 	local.jets_raw = CheckJetID(*(handle.jets));
 	
+	// overlap removal by dR
+	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
+	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
+	
 	std::cout<<local.jets_raw.size()<<"\n\n";
 	for (const auto& iJet : *(handle.jets)) {
 		std::cout<<iJet.pt()<<"  ";
 		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
 	}
 	std::cout<<"\n\n";
-	// overlap removal by dR
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
+	
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
