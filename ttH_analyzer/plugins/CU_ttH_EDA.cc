@@ -129,8 +129,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	//if (local.event_nr != 329848 && local.event_nr != 918493 && local.event_nr != 922677 && local.event_nr != 923498 && local.event_nr != 1086517 && local.event_nr != 1094598 && local.event_nr != 1095976 && local.event_nr != 2844525 && local.event_nr != 2846224 && local.event_nr != 2991228 && local.event_nr != 3152405 && local.event_nr != 3892446 && local.event_nr != 3896127 && local.event_nr != 276186 && local.event_nr != 277594 && local.event_nr != 278270 && local.event_nr != 311560 && local.event_nr != 340532 )
-	//	return;
+	if (local.event_nr != 3887314 && local.event_nr != 2259651 ) 
+		return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -371,7 +371,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	
-	/*
+	
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
 	std::cout<<"\n";
@@ -382,7 +382,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
 	std::cout<<"\n";
-	*/
+	
 	
 	if(local.n_leptons==1) {
 		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
