@@ -283,21 +283,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
 		GetCorrectedJets(local.jets_raw, *rho);
-	
-		std::cout<<local.jets_corrected.size()<<"\n\n";
-	for (const auto& iJet : local.jets_corrected) {
-		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
-	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
-	}
-	
 		
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
 	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
-		
+		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
+	
+	
+	std::cout<<local.jets_selected.size()<<"\n\n";
+	for (const auto& iJet : local.jets_selected) {
+		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
+	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
+	}
+	
 
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
 	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
@@ -312,7 +312,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
 
 	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
-		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::jetLoose,
+		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
 	local.b_weight = 1;
