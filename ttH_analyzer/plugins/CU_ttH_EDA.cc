@@ -129,9 +129,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	if (local.event_nr != 3887314 && local.event_nr != 2259651) 
+	//if (local.event_nr != 3887314 && local.event_nr != 2259651) 
 	//if (local.event_nr != 325616)
-		return;
+	//	return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -220,20 +220,20 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	//}
-	std::cout<<"\n";
-	std::cout<<"electrons : \n";
+	//std::cout<<"\n";
+	//std::cout<<"electrons : \n";
 	// electron selection without ID check
-	for (const auto& ele : *(handle.electrons)) {
+	//for (const auto& ele : *(handle.electrons)) {
 	//	if (ele.pt()>min_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
 	//		local.e_selected.push_back(ele);
-		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
-	}
-	std::cout<<"\n";
-	std::cout<<"muons : \n";
-	for (const auto& mu : *(handle.muons)) {
-		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
-	}
-	std::cout<<"\n";
+	//	std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
+	//}
+	//std::cout<<"\n";
+	//std::cout<<"muons : \n";
+	//for (const auto& mu : *(handle.muons)) {
+	//	std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
+	//}
+	//std::cout<<"\n";
 	
 		
 	//for (const auto& ele : *(handle.electrons)) {
@@ -306,14 +306,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	*/
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
-	
+	/*
 	std::cout<<"Jets :\n";
 	std::cout<<local.jets_selected.size()<<"\n\n";
 	for (const auto& iJet : local.jets_selected) {
 		std::cout<<iJet.pt()<<"  "<<iJet.eta();
 		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
 	}
-	
+	*/
 
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
 	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
@@ -617,7 +617,13 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 			<< std::endl;
 	}
 
-	std::cout <<"Number of events selected = "<<selection_count<<"\n\n";
+	std::cout
+		<< "***************************************************************"
+		<< std::endl;
+	std::cout <<"Number of events selected = "<<selection_count<< std::endl;
+	std::cout
+		<< "***************************************************************"
+		<< std::endl;
 	std::cout
 		<< "***************************************************************"
 		<< std::endl;
