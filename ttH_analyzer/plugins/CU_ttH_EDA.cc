@@ -391,7 +391,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	
-	
+	/*
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
 	std::cout<<"\n";
@@ -405,7 +405,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for (const auto& jet : local.jets_selected_sorted) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
-	
+	*/
 	if(local.n_leptons==1) {
 		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
 		//std::cout<<"\n";
