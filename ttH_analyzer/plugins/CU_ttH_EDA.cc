@@ -129,9 +129,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	//if (local.event_nr != 3887314 && local.event_nr != 2259651 && local.event_nr!= 325616) 
-	if (local.event_nr != 325616)
-		return;
+	//if (local.event_nr != 3887314 && local.event_nr != 2259651) 
+	//if (local.event_nr != 325616)
+	//	return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -274,7 +274,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
 	
-	std::cout<<"\n\n";
+	//std::cout<<"\n\n";
 	
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
@@ -291,13 +291,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
 	
-	
+	/*
 	std::cout<<local.jets_selected.size()<<"\n\n";
 	for (const auto& iJet : local.jets_selected) {
 		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
 	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
 	}
-	
+	*/
 
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
 	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
