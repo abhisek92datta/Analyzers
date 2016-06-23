@@ -938,6 +938,32 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
 }
 
+std::vector<pat::Jet> 
+CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets) {
+    std::vector<pat::Jet> outputJets;
+    bool loose = false;
+    for (const auto& iJet : inputJets) {
+    	 loose = (
+		  iJet.neutralHadronEnergyFraction() < 0.99 &&
+		  iJet.chargedEmEnergyFraction() < 0.99 &&
+		  iJet.neutralEmEnergyFraction() < 0.99 &&
+		  (iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )  > 1
+		  );
+      
+    	if( fabs(iJet.eta())<2.4 ){
+		 loose = ( loose &&
+		 iJet.chargedHadronEnergyFraction() > 0.0 &&
+		 iJet.chargedMultiplicity() > 0
+	      	);
+    	}
+    if (loose == true)
+    	outputJets.push_back(iJet);
+    }
+    return outputJets;
+}
+
+
+
 void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     //setting up the JetCorrector
