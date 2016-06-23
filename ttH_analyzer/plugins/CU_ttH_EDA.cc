@@ -274,11 +274,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
 	
-	std::cout<<local.jets_raw.size()<<"\n\n";
-	for (const auto& iJet : local.jets_raw) {
-		std::cout<<iJet.pt()<<"  ";
-		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
-	}
 	std::cout<<"\n\n";
 	
 	//local.jets_corrected =
@@ -288,6 +283,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
 		GetCorrectedJets(local.jets_raw, *rho);
+		
+	std::cout<<local.jets_corrected.size()<<"\n\n";
+	for (const auto& iJet : local.jets_corrected) {
+		std::cout<<iJet.pt()<<"  "<<iJet.eta()<<"\n";
+	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
+	}
 	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
