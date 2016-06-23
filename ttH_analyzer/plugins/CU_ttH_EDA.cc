@@ -270,8 +270,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		*(handle.jets), 0, 9999, jetID::jetTight, '-');
 	
 	// overlap removal by dR
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_selected, 0.4);
-	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_selected, 0.4);
+	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
+	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
 	//local.jets_corrected =
 	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
