@@ -212,13 +212,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	//}
-	//std::cout<<"\n";
-	
+	std::cout<<"\n";
+	std::cout<<"electrons : \n";
 	// electron selection without ID check
-	//for (const auto& ele : *(handle.electrons)) {
+	for (const auto& ele : *(handle.electrons)) {
 	//	if (ele.pt()>min_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
 	//		local.e_selected.push_back(ele);
-	//}
+		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
+	}
+	std::cout<<"\n";
+	std::cout<<"muons : \n";
+	for (const auto& mu : *(handle.muons)) {
+		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
+	}
+	std::cout<<"\n";
+	
 		
 	//for (const auto& ele : *(handle.electrons)) {
 	//	if (ele.pt()>min_veto_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
@@ -291,13 +299,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
 	
-	/*
+	std::cout<<"Jets :\n";
 	std::cout<<local.jets_selected.size()<<"\n\n";
 	for (const auto& iJet : local.jets_selected) {
-		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
-	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
+		std::cout<<iJet.pt()<<"  "<<iJet.eta();
+		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
 	}
-	*/
+	
 
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
 	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
