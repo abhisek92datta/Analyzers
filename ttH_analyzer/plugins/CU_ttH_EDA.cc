@@ -283,6 +283,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
 		GetCorrectedJets(local.jets_raw, *rho);
+	
+		std::cout<<local.jets_corrected.size()<<"\n\n";
+	for (const auto& iJet : local.jets_corrected) {
+		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
+	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
+	}
+	
 		
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
@@ -291,12 +298,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 		
-	std::cout<<local.jets_selected.size()<<"\n\n";
-	for (const auto& iJet : local.jets_selected) {
-		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
-	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
-	}
-			
 
 	//local.jets_selected = miniAODhelper.GetSelectedJets(
 	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
