@@ -222,8 +222,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//}
 	std::cout<<"\n";
 	std::cout<<"electrons : \n";
-	for (const auto& ele : local.e_with_id) {
-		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.PassesMVAid80(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
+	for (const auto& ele : *(handle.electrons)) {
+		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
 	}
 	std::cout<<"\n";
 	std::cout<<"muons : \n";
