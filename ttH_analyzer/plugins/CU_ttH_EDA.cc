@@ -201,13 +201,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04, corrType::deltaBeta, max_mu_eta);
-	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
+	for (const auto& mu : *(handle.muons)) {
+		if (mu.pt()>min_veto_mu_pT)
+			local.mu_veto_selected.push_back(mu);
+	}
+	//local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
+	//	*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
 	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
-	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+	for (const auto& ele : *(handle.electrons)) {
+		if (ele.pt()>min_veto_ele_pT)
+			local.e_veto_selected.push_back(ele);
+	}
+	//local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+	//	local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
 	
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
