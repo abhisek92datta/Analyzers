@@ -293,7 +293,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		
 	std::cout<<local.jets_selected.size()<<"\n\n";
 	for (const auto& iJet : local.jets_selected) {
-		std::cout<<iJet.pt()<<"  "<<iJet.eta()<<"\n";
+		std::cout<<iJet.pt()<<"  "<<bool( iJet.pt() < min_jet_pT )<<"  "<<iJet.eta()<<"  "<<bool( fabs(iJet.eta()) > max_jet_eta )<<"\n";
 	//	std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
 	}
 			
