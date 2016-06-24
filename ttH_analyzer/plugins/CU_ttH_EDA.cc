@@ -305,7 +305,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	 	GetCorrectedJets(local.jets_raw, *rho);
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
-		
+	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
+	
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
