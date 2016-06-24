@@ -42,6 +42,10 @@ Cuts:
     min_njets : 4
     min_nbtags : 2
    
+# Jets
+Jets :
+    jet_corrector : 'ak4PFchsL1L2L3'
+
 # MiniAODhelper
 MiniAODhelper :
   using_real_data : false
