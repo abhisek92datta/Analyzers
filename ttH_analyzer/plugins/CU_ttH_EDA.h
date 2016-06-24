@@ -302,9 +302,12 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	std::string jet_corrector;
 	
+	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
+  	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
+
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
-	CSVHelper csvhelper;
+	CSVHelper csvhelper(inputFileHF, inputFileLF);
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
