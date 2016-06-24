@@ -307,7 +307,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
   	TH1D *h_csv_wgt_hf[9][6];
     	TH1D *c_csv_wgt_hf[9][6];
     	TH1D *h_csv_wgt_lf[9][4][3];
-	const int nHFptBins;
+	int nHFptBins;
 	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
                        std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
         void fillCSVHistos(TFile *fileHF, TFile *fileLF);
