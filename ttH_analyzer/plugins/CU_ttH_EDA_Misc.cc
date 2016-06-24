@@ -317,7 +317,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	int is_SL = 1;
 	int is_DL = 0;
 	//int b_weight = 1;
-	int ttH_cat = 53;
+	int ttH_cat = 0;
 	int met_passed = 0;
 	if (local.met_pt > 30)
 		met_passed = 1;
