@@ -181,10 +181,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
-	std::string inputFileHF;
-	std::string inputFileLF;
-	TFile* f_CSVwgt_HF;
-	TFile* f_CSVwgt_LF;
+	//TFile* f_CSVwgt_HF;
+	//TFile* f_CSVwgt_LF;
 	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
@@ -302,8 +300,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	std::string jet_corrector;
 	
-	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
-  	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
+	std::string inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
+  	std::string inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
 
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
