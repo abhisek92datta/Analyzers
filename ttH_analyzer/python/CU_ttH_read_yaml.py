@@ -24,7 +24,6 @@ min_ele_pT = cfg["Cuts"]["min_ele_pT"]
 min_mu_pT = cfg["Cuts"]["min_mu_pT"]
 min_veto_ele_pT = cfg["Cuts"]["min_veto_ele_pT"]
 min_veto_mu_pT = cfg["Cuts"]["min_veto_mu_pT"]
-#min_tau_pT = cfg["Cuts"]["min_tau_pT"]
 min_jet_pT = cfg["Cuts"]["min_jet_pT"]
 min_bjet_pT = cfg["Cuts"]["min_bjet_pT"]
 max_ele_eta = cfg["Cuts"]["max_ele_eta"]
@@ -36,12 +35,9 @@ max_bjet_eta = cfg["Cuts"]["max_bjet_eta"]
 min_njets = cfg["Cuts"]["min_njets"]
 min_nbtags = cfg["Cuts"]["min_nbtags"]
 
-
 jet_corrector = cfg["Jets"]["jet_corrector"]
 
-
 using_real_data = cfg["MiniAODhelper"]["using_real_data"]
-
 
 b_tag_strength = cfg["B_tag"]["b_tag_strength"]
 
