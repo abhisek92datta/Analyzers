@@ -393,7 +393,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 	}
 	if(local.event_selection!=0) {	
-	std::cout<<"\n";
+	std::cout<<local.event_nr<<"\n";
 	std::cout<<"electrons : \n";
 	for (const auto& ele : *(handle.electrons)) {
 		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
