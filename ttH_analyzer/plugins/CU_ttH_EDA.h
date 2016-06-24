@@ -302,6 +302,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	std::string inputFileHF;
   	std::string inputFileLF;
+  	TFile *f_CSVwgt_HF;
+  	TFile *f_CSVwgt_LF;
 
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
