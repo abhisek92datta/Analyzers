@@ -1397,7 +1397,7 @@ CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas
 }
 
 void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
-	int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
+	//int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
 	
   	for( std::vector<pat::Jet>::const_iterator iJet = local.jets_selected.begin(); iJet != local.jets_selected.end(); iJet++ ){ 
 		 local.vec_jet_pt.push_back(iJet->pt());
