@@ -129,9 +129,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	if (local.event_nr != 3887314 && local.event_nr != 2259651 && local.event_nr != 3887313 && local.event_nr != 3887320) 
+	//if (local.event_nr != 3887314 && local.event_nr != 2259651 && local.event_nr != 3887313 && local.event_nr != 3887320) 
 	//if (local.event_nr != 325616)
-		return;
+	//	return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -220,18 +220,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	//}
-	
-	std::cout<<"\n";
-	std::cout<<"electrons : \n";
-	for (const auto& ele : *(handle.electrons)) {
-		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
-	}
-	std::cout<<"\n";
-	std::cout<<"muons : \n";
-	for (const auto& mu : *(handle.muons)) {
-		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
-	}
-	std::cout<<"\n";
 	
 		
 	//for (const auto& ele : *(handle.electrons)) {
@@ -404,6 +392,20 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			}
 		}
 	}
+	if(local.event_selection!=0) {	
+	std::cout<<"\n";
+	std::cout<<"electrons : \n";
+	for (const auto& ele : *(handle.electrons)) {
+		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
+	}
+	std::cout<<"\n";
+	std::cout<<"muons : \n";
+	for (const auto& mu : *(handle.muons)) {
+		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
+	}
+	std::cout<<"\n";
+	}
+	
 	
 	/*
 	std::cout<<"\n";
