@@ -129,9 +129,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	//if (local.event_nr != 3887314 && local.event_nr != 2259651) 
+	if (local.event_nr != 3887314 && local.event_nr != 2259651 && local.event_nr != 3887313 && local.event_nr != 3887320) 
 	//if (local.event_nr != 325616)
-	//	return;
+		return;
 	
 
 	/// Create and set up edm:Handles in stack mem.
@@ -220,7 +220,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//for (const auto& ele : local.e_with_id) {
 	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
 	//}
-	/*
+	
 	std::cout<<"\n";
 	std::cout<<"electrons : \n";
 	for (const auto& ele : *(handle.electrons)) {
@@ -232,7 +232,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
 	}
 	std::cout<<"\n";
-	*/
+	
 		
 	//for (const auto& ele : *(handle.electrons)) {
 	//	if (ele.pt()>min_veto_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
@@ -294,16 +294,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
 
-	//SetFactorizedJetCorrector();
-	//local.jets_corrected =
-	//	GetCorrectedJets(local.jets_raw, *rho);
+	SetFactorizedJetCorrector();
+	local.jets_corrected =
+		GetCorrectedJets(local.jets_raw, *rho);
 		
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
 	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_raw, min_jet_pT, max_jet_eta, jetID::none, '-');
+		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
 	/*
 	std::cout<<"Jets :\n";
 	std::cout<<local.jets_selected.size()<<"\n\n";
