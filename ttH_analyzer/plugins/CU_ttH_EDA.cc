@@ -102,10 +102,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
   	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
 	//csvhelper = new CSVHelper::CSVHelper(inputFileHF, inputFileLF);
-	f_CSVwgt_HF = new TFile (std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root" );
-	f_CSVwgt_LF = new TFile (std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root" );
-	//f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF.c_str());
-	//f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
+	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF.c_str());
+	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
 	fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 
@@ -339,7 +337,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
-	//local.b_weight = 1;
+	local.b_weight = 1;
 	
 	for (const auto& jet : local.jets_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
@@ -352,7 +350,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
 	
 	// to get b-weight
-	getbweight(local);
+	//getbweight(local);
 
 	//local.b_weight = local.b_weight/local.n_btags;
 
