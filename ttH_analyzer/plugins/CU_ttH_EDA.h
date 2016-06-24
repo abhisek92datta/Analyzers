@@ -181,6 +181,11 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
+	std::string inputFileHF;
+	std::string inputFileLF;
+	TFile* f_CSVwgt_HF;
+	TFile* f_CSVwgt_LF;
+	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
 	//				 CU_ttH_EDA_event_vars &); // FIXME: uses b-tag medium WP
