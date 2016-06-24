@@ -290,8 +290,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("electrons"));
 	token.muons = consumes<pat::MuonCollection>(
 		config.getParameter<edm::InputTag>("muons"));
-	//token.taus = consumes<pat::TauCollection>(
-	  //  config.getParameter<edm::InputTag>("taus"));
 	token.jets = consumes<pat::JetCollection>(
 	    config.getParameter<edm::InputTag>("jets"));
 	token.METs = consumes<pat::METCollection>(
@@ -300,10 +298,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("pfcand"));
 	token.BS = consumes<reco::BeamSpot>(
 	    config.getParameter<edm::InputTag>("beamspot"));
-	//token.top_jets = consumes<boosted::HTTTopJetCollection>(
-	//	edm::InputTag("HTTTopJetsPFMatcher", "heptopjets", "p"));
-	//token.subfilter_jets = consumes<boosted::SubFilterJetCollection>(
-	//	edm::InputTag("CA12JetsCA3FilterjetsPFMatcher", "subfilterjets", "p"));	
 	token.MC_particles = consumes<reco::GenParticleCollection>(
 	    config.getParameter<edm::InputTag>("prunedgen"));
 	token.MC_packed = consumes<pat::PackedGenParticleCollection>(
@@ -353,6 +347,14 @@ void CU_ttH_EDA::Set_up_MVA_2lss(TMVA::Reader * reader, const std::string fname)
 	const std::string base = std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/";
 
 	reader->BookMVA("BDTG method", base + fname + ".weights.xml");
+}
+
+void CU_ttH_EDA::Set_up_b_weights(){
+	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_2015_11_20.root";
+  	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_2015_11_20.root";
+	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
+	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
+	fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 
 #endif
