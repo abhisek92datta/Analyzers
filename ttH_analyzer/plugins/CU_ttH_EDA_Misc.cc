@@ -1323,7 +1323,8 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	
 	//local.b_weight=0;
 	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, iSys, csvWgtHF, csvWgtLF, csvWgtCF);
-          
+        //if (local.b_weight >= 1)
+        //	local.b_weight = 1;
 }
 
 
