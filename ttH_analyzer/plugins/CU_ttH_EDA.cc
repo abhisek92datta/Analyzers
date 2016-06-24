@@ -139,12 +139,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Set_up_handles(iEvent, handle, token);
 
 	// counter for no of primary vertices
-	local.n_prim_V = 0;
+	//local.n_prim_V = 0;
 
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	Check_filters(handle.filterResults);
-	Check_vertices_set_MAODhelper(handle.vertices, local);
+	//Check_vertices_set_MAODhelper(handle.vertices, local);
+	Check_vertices_set_MAODhelper(handle.vertices);
 	// 	Check_beam_spot(BS);	// dumb implementation
 
 	local.n_prim_V = 1;
@@ -290,7 +291,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
-	 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
+	 	GetCorrectedJets(local.jets_raw, *rho);
+	//local.jets_corrected =
+	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 		
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
