@@ -177,7 +177,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	double getJERfactor( const int, const double, const double, const double );
-	double getbweight (CU_ttH_EDA_event_vars &);
+	void getbweight (CU_ttH_EDA_event_vars &);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
