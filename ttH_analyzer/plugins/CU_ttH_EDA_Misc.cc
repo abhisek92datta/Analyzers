@@ -1406,8 +1406,9 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
     		 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
 	 } 
 	
-	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
-                       local.vec_jet_hadronFlavour, iSys, local.csvWgtHF, local.csvWgtLF, local.csvWgtCF);
+	local.b_weight=0;
+	//local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+        //               local.vec_jet_hadronFlavour, iSys, local.csvWgtHF, local.csvWgtLF, local.csvWgtCF);
 }
 
 
