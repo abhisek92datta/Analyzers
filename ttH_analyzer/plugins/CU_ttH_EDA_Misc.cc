@@ -1309,7 +1309,7 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> 
 }
 
 void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
-	int iSys = 7; // none - 0,  JESUp - 7 , JESDown - 8
+	int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
 	double csvWgtHF, csvWgtLF, csvWgtCF;
 	csvWgtHF = csvWgtLF = csvWgtCF = 0;
 	
