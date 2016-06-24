@@ -492,8 +492,8 @@ void CU_ttH_EDA::beginJob()
 	inputFileHF = "data/csv_rwt_hf_IT_FlatSF.root";
   	inputFileLF = "data/csv_rwt_lf_IT_FlatSF.root";
 
-  	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/" + inputFileHF).c_str());
-	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/" + inputFileLF).c_str());
+  	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/" + inputFileHF).c_str());
+	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/" + inputFileLF).c_str());
 	csvhelper.fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 
