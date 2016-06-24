@@ -378,7 +378,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.event_selection = false;
 
 	// Event selection criteria for single lepton events
+	Check_SL_Event_Selection(local);
 
+	/*
 	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
@@ -401,6 +403,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			}
 		}
 	}
+	*/
 	/*
 	if(local.event_selection!=0) {	
 	std::cout<<local.event_nr<<"\n";
