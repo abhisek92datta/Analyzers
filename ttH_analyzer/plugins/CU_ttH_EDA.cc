@@ -97,6 +97,11 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
 	//Set_up_MVA_2lss(reader_2lss_ttV, "2lss_ttV_BDTG");
 	Set_up_MVA_2lss(reader_2lss_ttbar, "2lss_ttbar_BDTG");
+	
+	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
+  	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
+	//csvhelper.CSVHelper(inputFileHF, inputFileLF);
+	csvhelper = new CSVHelper(inputFileHF, inputFileLF);
 }
 
 /// Destructor
@@ -488,12 +493,7 @@ void CU_ttH_EDA::beginJob()
 	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 	//std::cout<<"sl_no  event_no   lep   e    e_v    mu    mu_v    jets   btags   jet4_pt\n\n";
 	selection_count = 0;
-	
-	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
-  	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
-	//csvhelper.CSVHelper(inputFileHF, inputFileLF);
-	csvhelper = new CSVHelper(inputFileHF, inputFileLF);
-	
+
   	//f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
 	//f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
 	//csvhelper.fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
