@@ -67,6 +67,7 @@
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
+#include "MiniAOD/MiniAODHelper/interface/CSVHelper.h"
 
 /// ROOT includes
 #include "TH1.h"
@@ -176,6 +177,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	double getJERfactor( const int, const double, const double, const double );
+	double getbweight (CU_ttH_EDA_event_vars &);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
@@ -297,6 +299,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
+	CSVHelper csvhelper;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
