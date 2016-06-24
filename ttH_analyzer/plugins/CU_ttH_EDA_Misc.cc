@@ -125,7 +125,7 @@ bool CU_ttH_EDA::Check_triggers_iterator(
 		 std::string trigger_it;
 		 char s[100];
 		 unsigned int hltIndex;
-		 for (int i=1; i>=1; i--) {
+		 for (int i=6; i>=1; i--) {
 		 	trigger_it.assign(*trigger);
 		 	sprintf(s,"%d",i);
 		 	trigger_it.append(s);
