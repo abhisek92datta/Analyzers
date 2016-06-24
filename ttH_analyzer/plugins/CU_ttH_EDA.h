@@ -159,6 +159,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 					   CU_ttH_EDA_event_vars &); // adjusts event variables
 	int Check_filters(edm::Handle<edm::TriggerResults>);
 	int Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection>);
+	int Check_PV(edm::Handle<reco::VertexCollection>);   // check primary vertex
 
 	// trigger iterator, part of Check_triggers()
 	bool Check_triggers_iterator(const vector<string> &, edm::Handle<edm::TriggerResults>);
