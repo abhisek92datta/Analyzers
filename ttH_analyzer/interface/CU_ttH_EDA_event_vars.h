@@ -89,6 +89,7 @@ struct CU_ttH_EDA_event_vars {
 	double metLD;
 	double met_pt, met_phi;
 	double b_weight;
+	double csvWgtHF, csvWgtLF, csvWgtCF;
 	
 	int n_prim_V;
 	bool event_selection;
