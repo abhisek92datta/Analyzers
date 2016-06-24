@@ -1119,6 +1119,33 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
   return factor;
 }
 
+void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
+	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
+		if (local.n_prim_V > 0) {
+			if (local.n_leptons == 1) {
+				if (local.n_electrons == 1) {
+					if (local.n_veto_electrons == 1 && local.n_veto_muons == 0 && local.pass_single_e == 1) {
+					//if (local.e_selected[0].eta() < max_ele_eta) {
+						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
+							local.event_selection = true;
+						}
+					}
+				}	
+				else if (local.n_muons == 1) {
+					if (local.n_veto_muons == 1 && local.n_veto_electrons == 0 && local.pass_single_mu == 1) {
+					//if (local.mu_selected[0].eta() < max_mu_eta) {
+						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
+							local.event_selection = true;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
 /*
 bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)
 {
