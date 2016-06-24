@@ -37,7 +37,6 @@ struct CU_ttH_EDA_event_vars {
 	int n_muons;
 	int n_veto_muons;
 	int n_leptons;
-	//int n_taus;
 	int n_jets;
 	int n_btags;
 	int n_ttags;
@@ -60,8 +59,6 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<pat::Muon> mu_veto_selected;
 	std::vector<pat::Muon> mu_selected_sorted;
 	std::vector<pat::Muon> mu_veto_selected_sorted;
-	//std::vector<pat::Tau> tau_selected;
-	//std::vector<pat::Tau> tau_selected_sorted;
 	
 	std::vector<pat::Jet> jets_raw;
 	std::vector<pat::Jet> jets_no_mu;
@@ -90,7 +87,6 @@ struct CU_ttH_EDA_event_vars {
 	double metLD;
 	double met_pt, met_phi;
 	double b_weight;
-	//double csvWgtHF, csvWgtLF, csvWgtCF;
 	
 	int n_prim_V;
 	bool event_selection;
