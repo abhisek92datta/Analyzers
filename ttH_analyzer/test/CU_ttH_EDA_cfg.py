@@ -26,7 +26,7 @@ process.ak4PFCHSL1Fastjet = cms.ESProducer(
 	'L1FastjetCorrectionESProducer',
 	level       = cms.string('L1FastJet'),
 	algorithm   = cms.string('AK4PFchs'),
-	srcRho      = cms.InputTag( 'fixedGridRhoFastjetAll' )
+	srcRho      = cms.InputTag( 'fixedGridRhoFastjetAll' ),
         #srcRho      = cms.InputTag( 'fixedGridRhoFastjetCentralNeutral' ),
         useCondDB   = cms.untracked.bool(True)
 )
