@@ -102,8 +102,10 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root";
   	inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root";
 	//csvhelper = new CSVHelper::CSVHelper(inputFileHF, inputFileLF);
-	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
-	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
+	f_CSVwgt_HF = new TFile (std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_76x_2016_02_08.root" );
+	f_CSVwgt_LF = new TFile (std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_76x_2016_02_08.root" );
+	//f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF.c_str());
+	//f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
 	fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 
@@ -116,6 +118,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	Close_output_files();
 	
 	//delete csvhelper;
+	delete f_CSVwgt_HF;
+	delete f_CSVwgt_LF;
 	delete reader_2lss_ttV;
 	delete reader_2lss_ttbar;
 }
