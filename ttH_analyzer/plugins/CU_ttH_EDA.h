@@ -67,7 +67,7 @@
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
-#include "MiniAOD/MiniAODHelper/interface/CSVHelper.h"
+//#include "MiniAOD/MiniAODHelper/interface/CSVHelper.h"
 
 /// ROOT includes
 #include "TH1.h"
@@ -314,7 +314,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
-	CSVHelper *csvhelper;
+	//CSVHelper *csvhelper;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
