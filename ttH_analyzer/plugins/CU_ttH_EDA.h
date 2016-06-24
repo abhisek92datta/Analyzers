@@ -67,7 +67,6 @@
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
-//#include "MiniAOD/MiniAODHelper/interface/CSVHelper.h"
 
 /// ROOT includes
 #include "TH1.h"
@@ -133,11 +132,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	void beginRun(const edm::Run &, const edm::EventSetup &) override;
 	void endRun(const edm::Run &, const edm::EventSetup &) override;
 
-	// 	virtual void beginLuminosityBlock(edm::LuminosityBlock const&,
-	// 		edm::EventSetup const&) override;
-	// 	virtual void endLuminosityBlock(edm::LuminosityBlock const&,
-	// 		edm::EventSetup const&) override;
-
 	/// One-time-run functions
 	void Close_output_files();		 // at ~CU_ttH_EDA()
 	void Load_configuration(string); // at CU_ttH_EDA(), runs _MAODH()
@@ -146,7 +140,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	void Set_up_histograms();			 // at CU_ttH_EDA()
 	void Set_up_output_files();			 // at CU_ttH_EDA()
 	void Set_up_tokens(const edm::ParameterSet &);
-
+	void Set_up_b_weights();			// at CU_ttH_EDA()
 	void Set_up_Tree();
 
 	int Set_up_Run_histograms_triggers(); // at beginRun(), after
@@ -165,24 +159,21 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 					   CU_ttH_EDA_event_vars &); // adjusts event variables
 	int Check_filters(edm::Handle<edm::TriggerResults>);
 	int Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection>);
-	//int Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection>, CU_ttH_EDA_event_vars &);
 
 	// trigger iterator, part of Check_triggers()
-	bool Check_triggers_iterator(const vector<string> &,
-								 edm::Handle<edm::TriggerResults>);
+	bool Check_triggers_iterator(const vector<string> &, edm::Handle<edm::TriggerResults>);
 	
 	std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&);
 	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
-	FactorizedJetCorrector* _jetCorrector;
-	JetCorrectionUncertainty* _jetCorrectorUnc;
 	double getJERfactor( const int, const double, const double, const double );
 	void getbweight (CU_ttH_EDA_event_vars &);
 	
-	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
+	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
+                       std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
+        void fillCSVHistos(TFile *fileHF, TFile *fileLF);
 	
-	//TFile* f_CSVwgt_HF;
-	//TFile* f_CSVwgt_LF;
+	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
@@ -216,10 +207,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 		removeOverlapdR(const std::vector<T1>& v1, const std::vector<T2>& v2, double dR = 0.02);
 
 	float getMHT(CU_ttH_EDA_event_vars &);
-	
-	// event selection
-	//bool pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &);
-	//bool pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &);
 
 	// MVA
 	void Set_up_MVA_2lss(TMVA::Reader *, const std::string);
@@ -286,7 +273,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float min_mu_pT;
 	float min_veto_ele_pT;
 	float min_veto_mu_pT;
-	//float min_tau_pT;
 	float min_jet_pT;
 	float min_bjet_pT;
 	float max_ele_eta;
@@ -300,6 +286,11 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	std::string jet_corrector;
 	
+	// for JEC
+	FactorizedJetCorrector* _jetCorrector;
+	JetCorrectionUncertainty* _jetCorrectorUnc;
+	
+	// for b-weights
 	std::string inputFileHF;
   	std::string inputFileLF;
   	TFile *f_CSVwgt_HF;
@@ -307,14 +298,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
   	TH1D *h_csv_wgt_hf[9][6];
     	TH1D *c_csv_wgt_hf[9][6];
     	TH1D *h_csv_wgt_lf[9][4][3];
-	//int nHFptBins;
-	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
-                       std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
-        void fillCSVHistos(TFile *fileHF, TFile *fileLF);
-
+	
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
-	//CSVHelper csvhelper;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
@@ -338,9 +324,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	TH1D *h_hlt;
 	TH1D *h_flt;
-
-	// 	TH1D* h_electron_selection;
-	// 	TH1D* h_muon_selection;
 
 	/// Write-out files
 	FILE *events_single_lepton;
