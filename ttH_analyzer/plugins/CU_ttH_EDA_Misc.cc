@@ -1319,10 +1319,9 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
     	 	 local.vec_jet_csv.push_back(iJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     		 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
 	 } 
-	//std::cout<<local.vec_jet_pt.size()<<"  "<<local.vec_jet_eta.size()<<"  "<<local.vec_jet_csv.size()<<"  "<<local.vec_jet_hadronFlavour.size()<<"\n";
 	
 	//local.b_weight=0;
-	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, iSys, csvWgtHF, csvWgtLF, csvWgtCF);
+	local.b_weight = csvhelper->getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, iSys, csvWgtHF, csvWgtLF, csvWgtCF);
         //if (local.b_weight >= 1)
         //	local.b_weight = 1;
 }
