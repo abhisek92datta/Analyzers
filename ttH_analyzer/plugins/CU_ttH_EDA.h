@@ -314,7 +314,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
-	CSVHelper *csvhelper;
+	CSVHelper csvhelper;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
