@@ -488,6 +488,13 @@ void CU_ttH_EDA::beginJob()
 	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
 	//std::cout<<"sl_no  event_no   lep   e    e_v    mu    mu_v    jets   btags   jet4_pt\n\n";
 	selection_count = 0;
+	
+	inputFileHF = "data/csv_rwt_hf_IT_FlatSF.root";
+  	inputFileLF = "data/csv_rwt_lf_IT_FlatSF.root";
+
+  	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/" + inputFileHF).c_str());
+	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/" + inputFileLF).c_str());
+	csvhelper.fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 
 // ------------ method called once each job just after ending the event loop
