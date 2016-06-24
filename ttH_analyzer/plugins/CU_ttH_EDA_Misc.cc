@@ -1144,6 +1144,19 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
+void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
+	int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
+	
+  	for( std::vector<pat::Jet>::const_iterator iJet = local.jets_selected.begin(); iJet != local.jets_selected.end(); iJet++ ){ 
+		 local.vec_jet_pt.push_back(iJet->pt());
+		 local.vec_jet_eta.push_back(iJet->eta());
+    	 	 local.vec_jet_csv.push_back(iJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+    		 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
+	 } 
+	
+	local.b_weight = csvhelper.getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                       local.vec_jet_hadronFlavour, iSys, local.csvWgtHF, local.csvWgtLF, local.csvWgtCF);
+}
 
 
 /*
