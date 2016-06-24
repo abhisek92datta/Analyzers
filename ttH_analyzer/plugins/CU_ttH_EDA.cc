@@ -185,72 +185,37 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Jet selection
 	
-	//local.jets_raw = miniAODhelper.GetUncorrectedJets(handle.jets);
-	//local.jets_no_mu =
-	//	miniAODhelper.RemoveOverlaps(local.mu_selected, local.jets_raw);
-	//local.jets_no_mu_e =
-	//	miniAODhelper.RemoveOverlaps(local.e_selected, local.jets_no_mu);
-	//local.jets_corrected =
-	//	miniAODhelper.GetCorrectedJets(local.jets_no_mu_e, iEvent, iSetup);
-	
 	//ID selection
-	//local.jets_raw = miniAODhelper.GetSelectedJets(
-	//	*(handle.jets), 0, 9999, jetID::jetTight, '-');
 	local.jets_raw = CheckJetID(*(handle.jets));
 	
 	// overlap removal by dR
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
 	local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
-	
-	//std::cout<<"\n\n";
-	
-	//local.jets_corrected =
-	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
+
+	// uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
 
+	// Jet Energy Correction
 	SetFactorizedJetCorrector();
 	local.jets_corrected =
 	 	GetCorrectedJets(local.jets_raw, *rho);
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
+	
+	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
 	
-	/*
-	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
-	*/
+	// Jet selection
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
-	/*
-	std::cout<<"Jets :\n";
-	std::cout<<local.jets_selected.size()<<"\n\n";
-	for (const auto& iJet : local.jets_selected) {
-		std::cout<<iJet.pt()<<"  "<<iJet.eta();
-		std::cout<<iJet.neutralHadronEnergyFraction()<<"  "<<iJet.chargedEmEnergyFraction()<<"  "<<iJet.neutralEmEnergyFraction()<<"  "<<(iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )<<"  "<<iJet.chargedHadronEnergyFraction()<<"  "<<iJet.chargedMultiplicity()<<"\n";
-	}
-	*/
-
-	//local.jets_selected = miniAODhelper.GetSelectedJets(
-	//local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetTight, '-');
 	
-	// ???
-	// jetID::jetTight in MiniAODHelper (branch CMSSW_7_6_3, 03/15/2016) is actually loose WP suggested by Jet POG for 13TeV
-	// ???
-
-	// overlap removal by dR
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.mu_selected, 0.4);
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.e_selected, 0.4);
-	//local.jets_selected = removeOverlapdR(local.jets_selected, local.tau_selected, 0.4);
-
+	// b-tagged jet selection
 	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
 		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
-	//local.b_weight = 1;
-	
 	for (const auto& jet : local.jets_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
-			//local.b_weight = local.b_weight * miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
 			local.jets_selected_tag.push_back(jet);
 		}
 	}
@@ -260,8 +225,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	// to get b-weight
 	getbweight(local);
-
-	//local.b_weight = local.b_weight/local.n_btags;
 
 	/// Sort jets by pT
 	local.jets_selected_sorted =
@@ -284,14 +247,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.metLD = metld;
 	local.met_pt = met;
 	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
-	
-	/*
-	/// Get Corrected MET, !!!not yet used!!!
-	// may need to be placed in CU_ttH_EDA_event_vars
-	local.MET_corrected =
-		handle.METs->front(); // miniAODhelper.GetCorrectedMET( METs.at(0),
-							  // pfJets_forMET, iSysType );
-	*/
 
 	// Produce sync ntuple
 	//tauNtuple.initialize();
@@ -303,67 +258,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Event selection criteria for single lepton events
 	Check_SL_Event_Selection(local);
 
-	/*
-	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
-		if (local.n_prim_V > 0) {
-			if (local.n_leptons == 1) {
-				if (local.n_electrons == 1) {
-					if (local.n_veto_electrons == 1 && local.n_veto_muons == 0 && local.pass_single_e == 1) {
-					//if (local.e_selected[0].eta() < max_ele_eta) {
-						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
-							local.event_selection = true;
-						}
-					}
-				}	
-				else if (local.n_muons == 1) {
-					if (local.n_veto_muons == 1 && local.n_veto_electrons == 0 && local.pass_single_mu == 1) {
-					//if (local.mu_selected[0].eta() < max_mu_eta) {
-						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
-							local.event_selection = true;
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
-	/*
-	if(local.event_selection!=0) {	
-	std::cout<<local.event_nr<<"\n";
-	std::cout<<"electrons : \n";
-	for (const auto& ele : *(handle.electrons)) {
-		std::cout<<ele.pt()<<"  "<<ele.eta()<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<miniAODhelper.GetElectronRelIso(ele)<<"\n";
-	}
-	std::cout<<"\n";
-	std::cout<<"muons : \n";
-	for (const auto& mu : *(handle.muons)) {
-		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"  "<<miniAODhelper.GetMuonRelIso(mu)<<"\n";
-	}
-	std::cout<<"\n";
-	}
-	*/
-	
-	/*
-	std::cout<<"\n";
-	std::cout<<local.event_nr<<"   "<<local.n_leptons<<"   "<<local.n_electrons<<"   "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"   "<<local.n_jets<<"   "<<local.n_btags;
-	std::cout<<"\n";
-	std::cout<<"pT   eta    CSV \n";
-	local.jets_corrected =
-		miniAODhelper.GetSortedByPt(local.jets_corrected);
-	for (const auto& jet : local.jets_corrected) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-	}
-	std::cout<<"\n";
-	for (const auto& jet : local.jets_selected_sorted) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-	}
-	*/
-	if(local.n_leptons==1) {
-		//std::cout<<local.n_prim_V<<"  "<<local.n_leptons<<"  "<<local.n_muons<<"  "<<local.pass_single_mu<<"  "<<"  "<<local.n_electrons<<"  "<<local.pass_single_e<<"  "<<local.n_jets<<"  "<<local.n_btags<<"  "<<local.event_selection<<"\n";
-		//std::cout<<"\n";
-		if (local.event_selection!=0)
-			selection_count++;
-	}
+	if (local.event_selection!=0)
+		selection_count++;
 	
 	/// Check tags, fill hists, print events
 	if (analysis_type == Analyze_lepton_jet) {
@@ -379,22 +275,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		Check_Fill_Print_elemuj(local);
 	}
 	
-	if (analysis_type == Analyze_tau_ssleptons) {
-		// Event selection
-		//if (pass_event_sel_2lss1tauh(local)) {
-		//	tauNtuple.write_evtMVAvars_2lss(local);
-		//	//tauNtuple.MVA_2lss_ttV = mva(tauNtuple,reader_2lss_ttV);
-		//	tauNtuple.MVA_2lss_ttbar = mva(tauNtuple,reader_2lss_ttbar);
-		//}
-	}
-
-	if (analysis_type == Analyze_ditaus_lepton) {
-		// Event selection
-		//if (pass_event_sel_1l12tauh(local))
-	}
-
 	eventTree->Fill();
-	
 }
 
 // ------------ method called once each job just before starting event loop
@@ -404,9 +285,6 @@ void CU_ttH_EDA::beginJob()
 	TH1::SetDefaultSumw2(true);
 
 	event_count = 0;
-	//std::cout<<"event_nr     pre_sel      mva_cat     mva_val \n\n";
-	//std::cout<<"n_PV   n_lep    n_mu    mu_trig    n_ele    e_trig     n_jets    n_btags    event_sel \n";
-	//std::cout<<"sl_no  event_no   lep   e    e_v    mu    mu_v    jets   btags   jet4_pt\n\n";
 	selection_count = 0;
 }
 
@@ -422,7 +300,6 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 	if (!hlt_config.init(iRun, iSetup, hltTag, hlt_config_changed)) {
 		std::cerr << "Warning, didn't find trigger process HLT,\t" << hltTag
 				  << std::endl;
-
 		return;
 	}
 
@@ -433,7 +310,6 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 	if (!filter_config.init(iRun, iSetup, filterTag, filter_config_changed)) {
 		std::cerr << "Warning, didn't find filter process HLT,\t" << filterTag
 				  << std::endl;
-
 		return;
 	}
 
@@ -447,7 +323,6 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 		if (Set_up_Run_histograms_triggers() != 0) {
 			std::cerr << "Setting up histograms for trigger/filter counts has "
 					  << "failed\n";
-
 			return;
 		}
 	}
@@ -568,24 +443,6 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 		<< "***************************************************************"
 		<< std::endl;
 }
-
-// ------------ method called when starting to processes a luminosity block
-// ------------
-/*
-void CU_ttH_EDA::beginLuminosityBlock(edm::LuminosityBlock const&,
-edm::EventSetup const&)
-{
-}
-*/
-
-// ------------ method called when ending the processing of a luminosity block
-// ------------
-/*
-void CU_ttH_EDA::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup
-const&)
-{
-}
-*/
 
 // ------------ method fills 'descriptions' with the allowed parameters for the
 // module  ------------
