@@ -147,6 +147,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Check_vertices_set_MAODhelper(handle.vertices, local);
 	// 	Check_beam_spot(BS);	// dumb implementation
 
+	local.n_prim_V = 1;
+	
+	reco::VertexCollection::const_iterator vtx = vertices->begin();
+	if (vtx->isFake() || vtx->ndof() < 4.0 || abs(vtx->z()) > 24.0 || abs(vtx->position().Rho()) > 2.0)
+		local.n_prim_V = 0;
+
 	// Setting rho
 	auto rho = handle.srcRho;
 	miniAODhelper.SetRho(*rho);
@@ -392,6 +398,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			}
 		}
 	}
+	/*
 	if(local.event_selection!=0) {	
 	std::cout<<local.event_nr<<"\n";
 	std::cout<<"electrons : \n";
@@ -405,7 +412,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 	std::cout<<"\n";
 	}
-	
+	*/
 	
 	/*
 	std::cout<<"\n";
