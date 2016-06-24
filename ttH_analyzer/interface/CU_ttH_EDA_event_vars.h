@@ -76,7 +76,7 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<double> vec_jet_pt;
   	std::vector<double> vec_jet_eta;
  	std::vector<double> vec_jet_csv;
- 	std::vector<int>    vec_jet_hadronFlavour;
+ 	std::vector<int> vec_jet_hadronFlavour;
 
 	/// Other quantities
 	pat::MET pfMET;
