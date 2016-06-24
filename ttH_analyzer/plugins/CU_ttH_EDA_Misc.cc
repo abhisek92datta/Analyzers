@@ -177,9 +177,7 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 	return 0;
 }
 
-int CU_ttH_EDA::Check_vertices_set_MAODhelper(
-	//edm::Handle<reco::VertexCollection> vertices, CU_ttH_EDA_event_vars &local)
-	edm::Handle<reco::VertexCollection> vertices)
+int CU_ttH_EDA::Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection> vertices)
 {
 	/// Primary vertex handling
 	if (!vertices.isValid())
@@ -209,7 +207,6 @@ int CU_ttH_EDA::Check_vertices_set_MAODhelper(
 		miniAODhelper.SetVertex(
 			vertex); // FIXME?: overload miniAODhelper::SetVertex(reco::Vertex&)
 
-	//local.n_prim_V = n_PVs;
 	return 0;
 }
 
@@ -316,22 +313,16 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 {
 	int is_SL = 1;
 	int is_DL = 0;
-	//int b_weight = 1;
 	int ttH_cat = 0;
 	int met_passed = 0;
 	if (local.met_pt > 30)
 		met_passed = 1;
-	//float met_pt = 0;
-	//float met_phi = 0;
-	//int pdgId;
 	fprintf(events_single_lepton, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_single_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 1) {
-		//pdgId = 11;
 		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
 	}
 	if (local.n_muons == 1) {
-		//pdgId = -13;
 		fprintf(events_single_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
 	}
 	fprintf(events_single_lepton, "0, 0, 0, 0, 0, 0, 0, ");
@@ -923,12 +914,6 @@ float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 		MHT_x -= ele.px();
 		MHT_y -= ele.py();
 	}
-	/*
-	for (auto & tau : local.tau_selected_sorted) {
-		MHT_x -= tau.px();
-		MHT_y -= tau.py();
-	}
-	*/
 	for (auto & jet : local.jets_selected_sorted) {
 		MHT_x -= jet.px();
 		MHT_y -= jet.py();
@@ -964,7 +949,6 @@ CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets) {
 }
 
 
-
 void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     //setting up the JetCorrector
@@ -980,8 +964,6 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    
-  //factorizedjetcorrectorIsSet = true;
 }
 
 std::vector<pat::Jet> 
@@ -989,20 +971,12 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
 	
   std::vector<pat::Jet> outputJets;
 
-  //if( !(factorizedjetcorrectorIsSet && rhoIsSet) ){
-  // std::cout << " !! ERROR !! Trying to use FWLite Framework GetCorrectedJets without setting factorized jet corrector !" << std::endl;
-
- //    return inputJets;
-  //}
-
   for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
     
     pat::Jet jet = (*it);
     double scale = 1.;
 
-    // JES
-
-    //jet.setP4(jet.correctedJet(0).p4());
+    /// JES
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
@@ -1051,6 +1025,8 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
   return outputJets;
 }
 
+// JER factors for 76X
+// Use miniAODHelper's function for 74X factors
 double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
 
   double factor = 1.;
@@ -1125,7 +1101,6 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 			if (local.n_leptons == 1) {
 				if (local.n_electrons == 1) {
 					if (local.n_veto_electrons == 1 && local.n_veto_muons == 0 && local.pass_single_e == 1) {
-					//if (local.e_selected[0].eta() < max_ele_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
@@ -1133,7 +1108,6 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 				}	
 				else if (local.n_muons == 1) {
 					if (local.n_veto_muons == 1 && local.n_veto_electrons == 0 && local.pass_single_mu == 1) {
-					//if (local.mu_selected[0].eta() < max_mu_eta) {
 						if (local.n_jets >= min_njets && local.n_btags >= min_nbtags) {
 							local.event_selection = true;
 						}
@@ -1309,7 +1283,6 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> 
 }
 
 void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
-	//int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
 	double csvWgtHF, csvWgtLF, csvWgtCF;
 	csvWgtHF = csvWgtLF = csvWgtCF = 0;
 	
@@ -1320,55 +1293,9 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
     		 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
 	 } 
 	
-	//local.b_weight=0;
 	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
-        //if (local.b_weight >= 1)
-        //	local.b_weight = 1;
 }
 
-
-/*
-bool CU_ttH_EDA::pass_event_sel_2lss1tauh(CU_ttH_EDA_event_vars &local)
-{
-	int nbMedium = 0;   // csv > 0.800
-	int nbLoose = 0;    // csv > 0.460
-	for (auto & j : local.jets_selected_sorted) {
-		float csv = j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-		if (csv > 0.460) {
-			++nbLoose;
-			if (csv > 0.800)
-				++nbMedium;
-		}
-	}
-	
-	return (local.n_electrons + local.n_muons == 2 and
-			local.n_jets >= 4 and
-			local.metLD > 0.2 and
-			(nbLoose >=2 or nbMedium >= 1)
-			);
-}
-
-bool CU_ttH_EDA::pass_event_sel_1l2tauh(CU_ttH_EDA_event_vars &local)
-{
-	int nbMedium = 0;   // csv > 0.800
-	int nbLoose = 0;    // csv > 0.460
-	for (auto & j : local.jets_selected_sorted) {
-		float csv = j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-		if (csv > 0.460) {
-			++nbLoose;
-			if (csv > 0.800)
-				++nbMedium;
-		}
-	}
-	
-	return (
-			local.n_electrons + local.n_muons == 1 and
-			local.n_taus >= 2 and
-			local.n_jets >= 2 and
-			(nbLoose >=2 or nbMedium >= 1)
-			);
-}
-*/
 double CU_ttH_EDA::mva(CU_ttH_EDA_Ntuple& ntuple, TMVA::Reader *reader)
 {
 	mvaMaxLepEta = ntuple.max_lep_eta;
