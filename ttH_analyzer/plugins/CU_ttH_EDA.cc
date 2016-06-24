@@ -52,7 +52,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	min_mu_pT (iConfig.getParameter<double>("min_mu_pT")),
 	min_veto_ele_pT (iConfig.getParameter<double>("min_veto_ele_pT")),
 	min_veto_mu_pT (iConfig.getParameter<double>("min_veto_mu_pT")),
-	//min_tau_pT (iConfig.getParameter<double>("min_tau_pT")),
 	min_jet_pT (iConfig.getParameter<double>("min_jet_pT")),
 	min_bjet_pT (iConfig.getParameter<double>("min_bjet_pT")),
 	max_ele_eta (iConfig.getParameter<double>("max_ele_eta")),
@@ -84,8 +83,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
 	Load_configuration_set_type(config_analysis_type);
 	Load_configuration_MAODH(isdata);
-	
-	// Load_configuration(static_cast<string>("Configs/config_analyzer.yaml"));
 
 	Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
 	Set_up_histograms();
@@ -95,7 +92,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
     	reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
 	reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
-	//Set_up_MVA_2lss(reader_2lss_ttV, "2lss_ttV_BDTG");
 	Set_up_MVA_2lss(reader_2lss_ttbar, "2lss_ttbar_BDTG");
 	
 	Set_up_b_weights();
@@ -109,7 +105,6 @@ CU_ttH_EDA::~CU_ttH_EDA()
 
 	Close_output_files();
 	
-	//delete csvhelper;
 	delete f_CSVwgt_HF;
 	delete f_CSVwgt_LF;
 	delete reader_2lss_ttV;
@@ -134,30 +129,17 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 
-	//if (local.event_nr != 3887314 && local.event_nr != 2259651 && local.event_nr != 3887313 && local.event_nr != 3887320) 
-	//if (local.event_nr != 325616)
-	//	return;
-	
-
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
 
-	// counter for no of primary vertices
-	//local.n_prim_V = 0;
-
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	Check_filters(handle.filterResults);
-	//Check_vertices_set_MAODhelper(handle.vertices, local);
 	Check_vertices_set_MAODhelper(handle.vertices);
 	// 	Check_beam_spot(BS);	// dumb implementation
 
-	local.n_prim_V = 1;
-	
-	reco::VertexCollection::const_iterator vtx = handle.vertices->begin();
-	if (vtx->isFake() || vtx->ndof() < 4.0 || abs(vtx->z()) > 24.0 || abs(vtx->position().Rho()) > 2.0)
-		local.n_prim_V = 0;
+	local.n_prim_V = Check_PV(handle.vertices);
 
 	// Setting rho
 	auto rho = handle.srcRho;
@@ -167,107 +149,39 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetJetCorrector(
 		JetCorrector::getJetCorrector(jet_corrector, iSetup));
 
-	// 	weight_gen = event_gen_info.product()->weight();
+	// weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
 
 	if (trigger_stats) {
 		h_hlt->Fill(0., 1);
 		h_flt->Fill(0., 1);
 	}
-	/*
-		std::vector<std::string>::const_iterator trigger;
-		trigger = trigger_on_HLT_e.begin();	 
-		std::string trigger_it;
-		char i=6;
-		char s[100]; 
-		 //unsigned int hltIndex;
-		 while ((int)i>=1) {
-		 	trigger_it.assign(*trigger);
-		 	sprintf(s,"%d",i);
-		 	trigger_it.append(s);
-		 	std::cout<<trigger_it<<"  ";
-		 	
-		 //	hltIndex = hlt_config.triggerIndex(trigger_it);
-		 	
-		 	//if (handle.triggerResults->accept(hltIndex))
-		   	//	return true;
-		   	i--;
-		 }
-		std::cout<<"\n";
-	*/
-	
-	// to get electron mva values
-	//EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
-	//EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
-	//mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"));
-   	//mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(edm::InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"));
-	//Handle<edm::ValueMap<float>> mvaValues;
-	//Handle<edm::ValueMap<int>> mvaCategories;
-	//iEvent.getByToken(mvaValuesMapToken_, mvaValues);
-	//iEvent.getByToken(mvaCategoriesMapToken_, mvaCategories);
-	//Handle<edm::View<pat::Electron> > electrons_for_mva;
-	//iEvent.getByToken(token.electrons,electrons_for_mva);
-	
-	//edm::ValueMap<float> ele_mvaValues = (*handle.mvaValues.product());
 
 	/// Lepton selection
 	local.mu_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04, corrType::deltaBeta, max_mu_eta);
-	//for (const auto& mu : *(handle.muons)) {
-	//	if (mu.pt()>min_veto_mu_pT && mu.eta()<max_veto_mu_eta)
-	//		local.mu_veto_selected.push_back(mu);
-	//}
 	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
 		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
 	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
 	local.e_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
-	//for (const auto& ele : *(handle.electrons)) {
-	//	if (ele.pt()>min_veto_ele_pT && ele.eta()<max_veto_ele_eta)
-	//		local.e_veto_selected.push_back(ele);
-	//}
 	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
 		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
 	
-	//for (const auto& ele : local.e_with_id) {
-	//	std::cout<<event_count<<"  "<<miniAODhelper.PassesMVAidPreselection(ele)<<"  "<<ele.userInt("mvaCategory")<<"  "<<ele.userFloat("mvaValue")<<"\n";
-	//}
-	
-		
-	//for (const auto& ele : *(handle.electrons)) {
-	//	if (ele.pt()>min_veto_ele_pT && miniAODhelper.PassesMVAidPreselection(ele) && miniAODhelper.GetElectronRelIso(ele)<=0.15)
-	//		local.e_veto_selected.push_back(ele);
-	//}
-
-	// Should add tauID in leptonID package into MiniAODHelper
-	//for (const auto& tau : *(handle.taus)) {
-	//	if (tau.userFloat("idPreselection")>0.5 and tau.pt()>min_tau_pT)
-	//		local.tau_selected.push_back(tau);
-	//}
-	//local.tau_selected = miniAODhelper.GetSelectedTaus(
-	//	*(handle.taus),	min_tau_pT, tau::tauPreselection);
-
-	// remove overlap
+	/// remove overlap
 	//local.e_selected = removeOverlapdR(local.e_selected, local.mu_veto_selected, 0.05);
 	//local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
-	//local.tau_selected = removeOverlapdR(local.tau_selected, local.mu_selected, 0.4);
-	//local.tau_selected = removeOverlapdR(local.tau_selected, local.e_selected, 0.4);
 	
 	local.n_electrons = static_cast<int>(local.e_selected.size());
 	local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
 	local.n_muons = static_cast<int>(local.mu_selected.size());
 	local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
-	//local.n_taus = static_cast<int>(local.tau_selected.size());
-	
-	//std::cout<<local.n_electrons<<"  "<<local.n_veto_electrons<<"  "<<local.n_muons<<"  "<<local.n_veto_muons<<"\n";
-	//std::cout<<"\n";
 	
 	local.n_leptons = local.n_electrons + local.n_muons;
 
 	/// Sort leptons by pT
 	//local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
 	//local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
-	//local.tau_selected_sorted = miniAODhelper.GetSortedByPt(local.tau_selected);
 
 	/// Jet selection
 	
