@@ -210,6 +210,16 @@ int CU_ttH_EDA::Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection
 	return 0;
 }
 
+int CU_ttH_EDA::Check_PV(edm::Handle<reco::VertexCollection> vertices){
+	reco::VertexCollection::const_iterator vtx = vertices->begin();
+	if (vtx->isFake() || vtx->ndof() < 4.0 || abs(vtx->z()) > 24.0 || abs(vtx->position().Rho()) > 2.0)
+		return 0;
+	else 
+		return 1;
+}
+
+
+
 /*
 /// Taggers
 int CU_ttH_EDA::Higgs_tagger(
