@@ -170,8 +170,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetRho(*rho);
 
 	/// Get and set miniAODhelper's jet corrector from the event setup
-	miniAODhelper.SetJetCorrector(
-		JetCorrector::getJetCorrector(jet_corrector, iSetup));
+	//miniAODhelper.SetJetCorrector(
+	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
 
 	// 	weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
