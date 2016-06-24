@@ -149,7 +149,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	local.n_prim_V = 1;
 	
-	reco::VertexCollection::const_iterator vtx = vertices->begin();
+	reco::VertexCollection::const_iterator vtx = handle.vertices->begin();
 	if (vtx->isFake() || vtx->ndof() < 4.0 || abs(vtx->z()) > 24.0 || abs(vtx->position().Rho()) > 2.0)
 		local.n_prim_V = 0;
 
