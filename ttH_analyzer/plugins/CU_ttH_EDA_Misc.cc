@@ -1397,7 +1397,8 @@ CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas
 }
 
 void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
-	//int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
+	int iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
+	double csvWgtHF, csvWgtLF, csvWgtCF;
 	
   	for( std::vector<pat::Jet>::const_iterator iJet = local.jets_selected.begin(); iJet != local.jets_selected.end(); iJet++ ){ 
 		 local.vec_jet_pt.push_back(iJet->pt());
@@ -1405,10 +1406,9 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
     	 	 local.vec_jet_csv.push_back(iJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     		 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
 	 } 
-	
-	local.b_weight=0;
-	//local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
-        //               local.vec_jet_hadronFlavour, iSys, local.csvWgtHF, local.csvWgtLF, local.csvWgtCF);
+
+	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                       local.vec_jet_hadronFlavour, iSys, csvWgtHF, csvWgtLF, csvWgtCF);
 }
 
 
