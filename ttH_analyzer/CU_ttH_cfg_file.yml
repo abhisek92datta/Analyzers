@@ -17,9 +17,7 @@ Triggers:
     # Performs unnecessary loops to collect all trigger data
     collect_trigger_stats: false
     ## Single lepton triggers:
-    #HLT_electron_triggers: ['HLT_Ele27_eta2p1_WPLoose_Gsf_v1']
     HLT_electron_triggers: ['HLT_Ele27_WP85_Gsf_v']
-    #HLT_muon_triggers: ['HLT_IsoMu20_v','HLT_IsoTkMu20_v']
     HLT_muon_triggers: ['HLT_IsoMu17_eta2p1_v']
     ## Dilepton triggers:    
     HLT_electron_electron_triggers: ['HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*']
@@ -33,7 +31,6 @@ Cuts:
     min_mu_pT : 25.0
     min_veto_ele_pT : 15.0
     min_veto_mu_pT : 15.0
-#   min_tau_pT : 20.
     min_jet_pT : 30.0
     min_bjet_pT : 30.0
     max_ele_eta : 2.1
@@ -44,10 +41,6 @@ Cuts:
     max_bjet_eta : 2.4
     min_njets : 4
     min_nbtags : 2
-   
-# Jets
-Jets :
-    jet_corrector : 'ak4PFchsL1L2L3'
    
 # MiniAODhelper
 MiniAODhelper :
