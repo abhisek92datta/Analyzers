@@ -288,16 +288,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup);
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
 
-	SetFactorizedJetCorrector();
-	local.jets_corrected =
-		GetCorrectedJets(local.jets_raw, *rho);
+	//SetFactorizedJetCorrector();
+	//local.jets_corrected =
+	// 	GetCorrectedJets(local.jets_raw, *rho);
 		
 	/*
 	local.jets_selected = miniAODhelper.GetSelectedJets(
 		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::jetLoose, '-');
 	*/
 	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
+		local.jets_raw, min_jet_pT, max_jet_eta, jetID::none, '-');
 	/*
 	std::cout<<"Jets :\n";
 	std::cout<<local.jets_selected.size()<<"\n\n";
