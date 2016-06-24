@@ -326,11 +326,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
-	local.b_weight = 1;
+	//local.b_weight = 1;
 	
 	for (const auto& jet : local.jets_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
-			local.b_weight = local.b_weight * miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
+			//local.b_weight = local.b_weight * miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags");
 			local.jets_selected_tag.push_back(jet);
 		}
 	}
@@ -338,6 +338,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
 	
+	// to get b-weight
+	getbweight(local);
+
 	//local.b_weight = local.b_weight/local.n_btags;
 
 	/// Sort jets by pT
