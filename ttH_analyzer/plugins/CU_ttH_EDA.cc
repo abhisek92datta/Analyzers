@@ -47,7 +47,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	trigger_on_HLT_emu (iConfig.getParameter<std::vector<string>>("HLT_electron_muon_triggers")),
 	trigger_on_HLT_mumu (iConfig.getParameter<std::vector<string>>("HLT_muon_muon_triggers")),
 	// Cuts
-	//min_tight_lepton_pT (iConfig.getParameter<double>("min_tight_lepton_pT")),
 	min_ele_pT (iConfig.getParameter<double>("min_ele_pT")),
 	min_mu_pT (iConfig.getParameter<double>("min_mu_pT")),
 	min_veto_ele_pT (iConfig.getParameter<double>("min_veto_ele_pT")),
@@ -62,8 +61,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	max_bjet_eta (iConfig.getParameter<double>("max_bjet_eta")),
 	min_njets (iConfig.getParameter<int>("min_njets")),
 	min_nbtags (iConfig.getParameter<int>("min_nbtags")),
-	// Jets
-	//jet_corrector (iConfig.getParameter<string>("jet_corrector")),
 	// miniAODhelper
 	isdata (iConfig.getParameter<bool>("using_real_data")),
 	MAODHelper_b_tag_strength (iConfig.getParameter<string>("b_tag_strength")[0])
@@ -89,10 +86,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_output_files();
 
 	Set_up_Tree();
-
-    	//reader_2lss_ttV = new TMVA::Reader("!Color:!Silent");
-	//reader_2lss_ttbar = new TMVA::Reader("!Color:!Silent");
-	//Set_up_MVA_2lss(reader_2lss_ttbar, "2lss_ttbar_BDTG");
 	
 	Set_up_b_weights();
 }
@@ -107,8 +100,6 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	
 	delete f_CSVwgt_HF;
 	delete f_CSVwgt_LF;
-	//delete reader_2lss_ttV;
-	//delete reader_2lss_ttbar;
 }
 
 // ------------ method called for each event  ------------
@@ -144,10 +135,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Setting rho
 	auto rho = handle.srcRho;
 	miniAODhelper.SetRho(*rho);
-
-	// Get and set miniAODhelper's jet corrector from the event setup
-	//miniAODhelper.SetJetCorrector(
-	//	JetCorrector::getJetCorrector(jet_corrector, iSetup));
 
 	// weight_gen = event_gen_info.product()->weight();
 	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
