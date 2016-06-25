@@ -158,30 +158,40 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 
 	/// Lepton selection
-	local.mu_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04, corrType::deltaBeta, max_mu_eta);
-	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
-		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
-	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);	
-	local.e_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
-	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
 	
+	if (analysis_type == Analyze_lepton_jet) {
+		local.mu_selected = miniAODhelper.GetSelectedMuons(
+			*(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04, corrType::deltaBeta, max_mu_eta);
+		local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
+			*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
+		local.e_selected = miniAODhelper.GetSelectedElectrons(
+			local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
+		local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+			local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+		local.n_electrons = static_cast<int>(local.e_selected.size());
+		local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
+		local.n_muons = static_cast<int>(local.mu_selected.size());
+		local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
+		local.n_leptons = local.n_electrons + local.n_muons;
+	}
+	
+	else if (analysis_type == Analyze_dilepton) {
+		local.mu_selected = miniAODhelper.GetSelectedMuons(
+			*(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_di_mu2_eta);
+		local.e_selected = miniAODhelper.GetSelectedElectrons(
+			local.e_with_id, min_di_ele2_pT, electronID::electronEndOf15MVA80iso0p15, max_di_ele2_eta);
+		local.n_electrons = static_cast<int>(local.e_selected.size());
+		local.n_muons = static_cast<int>(local.mu_selected.size());
+		/// Sort leptons by pT
+		local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
+		local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
+		local.n_leptons = local.n_electrons + local.n_muons;
+	}
+
 	/// remove overlap
 	//local.e_selected = removeOverlapdR(local.e_selected, local.mu_veto_selected, 0.05);
 	//local.e_veto_selected = removeOverlapdR(local.e_veto_selected, local.mu_veto_selected, 0.05);
-	
-	local.n_electrons = static_cast<int>(local.e_selected.size());
-	local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
-	local.n_muons = static_cast<int>(local.mu_selected.size());
-	local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
-	
-	local.n_leptons = local.n_electrons + local.n_muons;
-
-	/// Sort leptons by pT
-	//local.mu_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_selected);
-	//local.e_selected_sorted = miniAODhelper.GetSortedByPt(local.e_selected);
 
 	/// Jet selection
 	
@@ -206,9 +216,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
 	
 	// Jet selection
-	local.jets_selected = miniAODhelper.GetSelectedJets(
-		local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
-	
+	if (analysis_type == Analyze_lepton_jet) {
+		local.jets_selected = miniAODhelper.GetSelectedJets(
+			local.jets_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
+	}
+	else if (analysis_type == Analyze_dilepton) {
+		local.jets_selected = miniAODhelper.GetSelectedJets(
+			local.jets_corrected, min_jet2_pT, max_jet_eta, jetID::none, '-');
+	}
+
 	// b-tagged jet selection
 	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
 		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
@@ -247,6 +263,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.metLD = metld;
 	local.met_pt = met;
 	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
+	local.met_passed = 0;
+	local.mll_passed = 0;
 
 	// Produce sync ntuple
 	//tauNtuple.initialize();
@@ -256,7 +274,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.event_selection = false;
 
 	// Event selection criteria for single lepton events
-	Check_SL_Event_Selection(local);
+	if (analysis_type == Analyze_lepton_jet) {
+		Check_SL_Event_Selection(local);
+	}
+	else if (analysis_type == Analyze_dilepton) {
+		Check_DL_Event_Selection(local);
+	}
 
 	if (local.event_selection!=0)
 		selection_count++;
@@ -270,9 +293,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 
 	if (analysis_type == Analyze_dilepton) {
-		Check_Fill_Print_dimuj(local);
-		Check_Fill_Print_dielej(local);
-		Check_Fill_Print_elemuj(local);
+		if (local.event_selection)
+			Check_Fill_Print_di_lepton(local);
+		//Check_Fill_Print_dimuj(local);
+		//Check_Fill_Print_dielej(local);
+		//Check_Fill_Print_elemuj(local);
 	}
 	
 	eventTree->Fill();
