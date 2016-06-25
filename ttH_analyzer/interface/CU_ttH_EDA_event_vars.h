@@ -86,6 +86,7 @@ struct CU_ttH_EDA_event_vars {
 	double MHT;
 	double metLD;
 	double met_pt, met_phi;
+	int met_passed;
 	double b_weight;
 	
 	int n_prim_V;
