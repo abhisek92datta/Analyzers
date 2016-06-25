@@ -1305,18 +1305,5 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	
 	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
 }
-/*
-double CU_ttH_EDA::mva(CU_ttH_EDA_Ntuple& ntuple, TMVA::Reader *reader)
-{
-	mvaMaxLepEta = ntuple.max_lep_eta;
-	mvaNJets25 = ntuple.n_presel_jet;  // what jet?
-	mvaMinDrLep1J = ntuple.mindr_lep0_jet;
-	mvaMinDrLep2J = ntuple.mindr_lep1_jet;
-	mvaMET = std::min(ntuple.PFMET, 400.);
-	mvaAvgDrJ = ntuple.avg_dr_jet;
-	mvaMTMetLep1 = ntuple.MT_met_lep0;
-	
-	return reader->EvaluateMVA("BDTG method");
-}
-*/
+
 #endif
