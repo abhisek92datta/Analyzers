@@ -382,6 +382,7 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 	}
 
 	if (analysis_type == Analyze_dilepton) {
+		/*
 		std::cout
 			<< "***************************************************************"
 			<< std::endl;
@@ -417,6 +418,7 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 		std::cout
 			<< "***************************************************************"
 			<< std::endl;
+		*/	
 	}
 
 	if (trigger_stats)
