@@ -293,8 +293,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 
 	if (analysis_type == Analyze_dilepton) {
-		if (local.event_selection)
-			Check_Fill_Print_di_lepton(local);
+		//if (local.event_selection)
+			//Check_Fill_Print_di_lepton(local);
 		//Check_Fill_Print_dimuj(local);
 		//Check_Fill_Print_dielej(local);
 		//Check_Fill_Print_elemuj(local);
