@@ -19,7 +19,7 @@ HLT_electron_muon_triggers = cfg["Triggers"]["HLT_electron_muon_triggers"]
 HLT_muon_muon_triggers = cfg["Triggers"]["HLT_muon_muon_triggers"]
 
 
-min_tight_lepton_pT = cfg["Cuts"]["min_tight_lepton_pT"]
+#min_tight_lepton_pT = cfg["Cuts"]["min_tight_lepton_pT"]
 min_ele_pT = cfg["Cuts"]["min_ele_pT"]
 min_mu_pT = cfg["Cuts"]["min_mu_pT"]
 min_veto_ele_pT = cfg["Cuts"]["min_veto_ele_pT"]
@@ -35,7 +35,7 @@ max_bjet_eta = cfg["Cuts"]["max_bjet_eta"]
 min_njets = cfg["Cuts"]["min_njets"]
 min_nbtags = cfg["Cuts"]["min_nbtags"]
 
-jet_corrector = cfg["Jets"]["jet_corrector"]
+#jet_corrector = cfg["Jets"]["jet_corrector"]
 
 using_real_data = cfg["MiniAODhelper"]["using_real_data"]
 
