@@ -81,7 +81,7 @@ struct CU_ttH_EDA_event_vars {
 	pat::MET MET_corrected;
 	double dimuon_mass;
 	double dielectron_mass;
-	double dilepton_mass;
+	double mll;
 
 	double MHT;
 	double metLD;
