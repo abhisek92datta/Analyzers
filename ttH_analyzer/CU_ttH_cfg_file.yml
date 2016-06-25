@@ -30,23 +30,29 @@ Cuts:
     min_mu_pT : 25.0
     min_veto_ele_pT : 15.0
     min_veto_mu_pT : 15.0
-    min_di_ele1_pT : 20
-    min_di_ele2_pT : 15
-    min_di_mu1_pT : 20
-    min_di_mu2_pT : 15
+    min_di_ele1_pT : 20.0
+    min_di_ele2_pT : 15.0
+    min_di_mu1_pT : 20.0
+    min_di_mu2_pT : 15.0
     min_jet_pT : 30.0
+    min_jet2_pT : 20.0
     min_bjet_pT : 30.0
     max_ele_eta : 2.1
     max_mu_eta : 2.1
     max_veto_ele_eta : 2.4
     max_veto_mu_eta : 2.4
     max_di_ele1_eta : 2.4
-    max_di_ele1_eta : 2.4
-    max_di_ele1_eta : 2.4
+    max_di_ele2_eta : 2.4
+    max_di_mu1_eta : 2.4
+    max_di_mu2_eta : 2.4
     max_jet_eta : 2.4
     max_bjet_eta : 2.4
     min_njets : 4
+    min_di_njets : 2
     min_nbtags : 2
+    min_di_nbtags : 1
+    min_di_mll : 20.0
+    min_di_met : 40.0
 
 # MiniAODhelper
 MiniAODhelper :
