@@ -1305,7 +1305,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	
 	local.b_weight = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
 }
-
+/*
 double CU_ttH_EDA::mva(CU_ttH_EDA_Ntuple& ntuple, TMVA::Reader *reader)
 {
 	mvaMaxLepEta = ntuple.max_lep_eta;
@@ -1318,5 +1318,5 @@ double CU_ttH_EDA::mva(CU_ttH_EDA_Ntuple& ntuple, TMVA::Reader *reader)
 	
 	return reader->EvaluateMVA("BDTG method");
 }
-
+*/
 #endif
