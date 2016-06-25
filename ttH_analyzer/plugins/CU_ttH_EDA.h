@@ -210,8 +210,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float getMHT(CU_ttH_EDA_event_vars &);
 
 	// MVA
-	void Set_up_MVA_2lss(TMVA::Reader *, const std::string);
-	double mva(CU_ttH_EDA_Ntuple &, TMVA::Reader *);
+	//void Set_up_MVA_2lss(TMVA::Reader *, const std::string);
+	//double mva(CU_ttH_EDA_Ntuple &, TMVA::Reader *);
 	
 	/*
 	* Variable section
@@ -285,7 +285,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int min_njets;
 	int min_nbtags;
 
-	std::string jet_corrector;
+	//std::string jet_corrector;
 	
 	// for JEC
 	FactorizedJetCorrector* _jetCorrector;
@@ -351,16 +351,16 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	CU_ttH_EDA_Ntuple bbNtuple;
 
 	// TMVA Reader
-	TMVA::Reader *reader_2lss_ttV;
-	TMVA::Reader *reader_2lss_ttbar;
+	//TMVA::Reader *reader_2lss_ttV;
+	//TMVA::Reader *reader_2lss_ttbar;
 	// MVA variables
-	float mvaMaxLepEta;
-	float mvaNJets25;
-	float mvaMinDrLep1J;
-	float mvaMinDrLep2J;
-	float mvaMET;
-	float mvaAvgDrJ;
-	float mvaMTMetLep1;
+	//float mvaMaxLepEta;
+	//float mvaNJets25;
+	//float mvaMinDrLep1J;
+	//float mvaMinDrLep2J;
+	//float mvaMET;
+	//float mvaAvgDrJ;
+	//float mvaMTMetLep1;
 
 };
 
