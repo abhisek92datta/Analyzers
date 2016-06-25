@@ -269,7 +269,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// double weight_gen;
 
 	/// Cuts
-	float min_tight_lepton_pT;
+	//float min_tight_lepton_pT;
 	float min_ele_pT;	
 	float min_mu_pT;
 	float min_veto_ele_pT;
