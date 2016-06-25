@@ -208,10 +208,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 		removeOverlapdR(const std::vector<T1>& v1, const std::vector<T2>& v2, double dR = 0.02);
 
 	float getMHT(CU_ttH_EDA_event_vars &);
-
-	// MVA
-	//void Set_up_MVA_2lss(TMVA::Reader *, const std::string);
-	//double mva(CU_ttH_EDA_Ntuple &, TMVA::Reader *);
 	
 	/*
 	* Variable section
@@ -269,7 +265,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// double weight_gen;
 
 	/// Cuts
-	//float min_tight_lepton_pT;
 	float min_ele_pT;	
 	float min_mu_pT;
 	float min_veto_ele_pT;
@@ -284,8 +279,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float max_bjet_eta;
 	int min_njets;
 	int min_nbtags;
-
-	//std::string jet_corrector;
 	
 	// for JEC
 	FactorizedJetCorrector* _jetCorrector;
@@ -349,18 +342,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// tree and ntuple
 	TTree *eventTree;
 	CU_ttH_EDA_Ntuple bbNtuple;
-
-	// TMVA Reader
-	//TMVA::Reader *reader_2lss_ttV;
-	//TMVA::Reader *reader_2lss_ttbar;
-	// MVA variables
-	//float mvaMaxLepEta;
-	//float mvaNJets25;
-	//float mvaMinDrLep1J;
-	//float mvaMinDrLep2J;
-	//float mvaMET;
-	//float mvaAvgDrJ;
-	//float mvaMTMetLep1;
 
 };
 
