@@ -47,7 +47,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	trigger_on_HLT_emu (iConfig.getParameter<std::vector<string>>("HLT_electron_muon_triggers")),
 	trigger_on_HLT_mumu (iConfig.getParameter<std::vector<string>>("HLT_muon_muon_triggers")),
 	// Cuts
-	min_tight_lepton_pT (iConfig.getParameter<double>("min_tight_lepton_pT")),
+	//min_tight_lepton_pT (iConfig.getParameter<double>("min_tight_lepton_pT")),
 	min_ele_pT (iConfig.getParameter<double>("min_ele_pT")),
 	min_mu_pT (iConfig.getParameter<double>("min_mu_pT")),
 	min_veto_ele_pT (iConfig.getParameter<double>("min_veto_ele_pT")),
