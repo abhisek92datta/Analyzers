@@ -26,7 +26,6 @@ Triggers:
 
 ## Event cuts
 Cuts:
-    #min_tight_lepton_pT : 20.0
     min_ele_pT : 30.0
     min_mu_pT : 25.0
     min_veto_ele_pT : 15.0
@@ -41,9 +40,6 @@ Cuts:
     max_bjet_eta : 2.4
     min_njets : 4
     min_nbtags : 2
-   
-# Jets
-    #jet_corrector : 'ak4PFchsL1L2L3'
 
 # MiniAODhelper
 MiniAODhelper :
