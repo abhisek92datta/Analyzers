@@ -25,7 +25,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         HLT_electron_muon_triggers = cms.vstring(HLT_electron_muon_triggers),
         HLT_muon_muon_triggers = cms.vstring(HLT_muon_muon_triggers),
         # Cuts
-        min_tight_lepton_pT = cms.double(min_tight_lepton_pT),
+        #min_tight_lepton_pT = cms.double(min_tight_lepton_pT),
         min_ele_pT = cms.double(min_ele_pT),
         min_mu_pT = cms.double(min_mu_pT),
         min_veto_ele_pT = cms.double(min_veto_ele_pT),
@@ -41,7 +41,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         min_njets = cms.int32(min_njets),
         min_nbtags = cms.int32(min_nbtags),
         # Jets
-        jet_corrector = cms.string(jet_corrector),
+        #jet_corrector = cms.string(jet_corrector),
         # MiniAODhelper
         using_real_data = cms.bool(using_real_data),
         ## available choices '-': none, 'L': loose, 'M': medium, 'T': tight
