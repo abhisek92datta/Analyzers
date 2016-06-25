@@ -148,13 +148,6 @@ void CU_ttH_EDA::Set_up_histograms()
 		h_tth_syncex1_elemu->GetXaxis()->SetBinLabel(6, ">=1 b-tags");
 	}
 
-	if (analysis_type == Analyze_tau_ssleptons) {
-
-	}
-
-	if (analysis_type == Analyze_ditaus_lepton) {
-
-	}
 }
 
 /// Prepare histograms for trigger/filter counts
