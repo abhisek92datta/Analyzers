@@ -173,6 +173,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
         void fillCSVHistos(TFile *fileHF, TFile *fileLF);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
+	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
 	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
@@ -183,6 +184,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	/// Other functions
 	void Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &);
+	void Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_ej(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_muj(CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_dimuj(CU_ttH_EDA_event_vars &);
