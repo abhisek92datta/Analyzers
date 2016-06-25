@@ -269,16 +269,29 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float min_mu_pT;
 	float min_veto_ele_pT;
 	float min_veto_mu_pT;
+	float min_di_ele1_pT;
+	float min_di_ele2_pT;
+	float min_di_mu1_pT;
+	float min_di_mu2_pT;
 	float min_jet_pT;
+	float min_jet2_pT;
 	float min_bjet_pT;
 	float max_ele_eta;
 	float max_mu_eta;
 	float max_veto_ele_eta;
 	float max_veto_mu_eta;
+	float max_di_ele1_eta;
+	float max_di_ele2_eta;
+	float max_di_mu1_eta;
+	float max_di_mu2_eta;
 	float max_jet_eta;
 	float max_bjet_eta;
 	int min_njets;
+	int min_di_njets;
 	int min_nbtags;
+	int min_di_nbtags;
+	float min_di_mll;
+	float min_di_met;
 	
 	// for JEC
 	FactorizedJetCorrector* _jetCorrector;
