@@ -42,8 +42,9 @@ max_bjet_eta = cfg["Cuts"]["max_bjet_eta"]
 min_njets = cfg["Cuts"]["min_njets"]
 min_di_njets = cfg["Cuts"]["min_di_njets"]
 min_nbtags = cfg["Cuts"]["min_nbtags"]
-min_nbtags = cfg["Cuts"]["min_nbtags"]
-min_nbtags = cfg["Cuts"]["min_nbtags"]
+min_di_nbtags = cfg["Cuts"]["min_di_nbtags"]
+min_di_mll = cfg["Cuts"]["min_di_mll"]
+min_di_met = cfg["Cuts"]["min_di_met"]
 
 using_real_data = cfg["MiniAODhelper"]["using_real_data"]
 
