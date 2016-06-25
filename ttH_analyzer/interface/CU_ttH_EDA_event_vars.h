@@ -82,6 +82,7 @@ struct CU_ttH_EDA_event_vars {
 	double dimuon_mass;
 	double dielectron_mass;
 	double mll;
+	int mll_passed;
 
 	double MHT;
 	double metLD;
