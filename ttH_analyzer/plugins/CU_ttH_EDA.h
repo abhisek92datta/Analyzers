@@ -100,8 +100,6 @@
 enum analysis_types {
 	Analyze_lepton_jet,
 	Analyze_dilepton,
-	Analyze_ditaus_lepton,
-	Analyze_tau_ssleptons
 };
 
  /*
