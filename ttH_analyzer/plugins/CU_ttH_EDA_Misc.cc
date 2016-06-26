@@ -346,21 +346,21 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_di_lepton, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_di_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 2) {
-		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
-		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[1].pt(), local.e_selected[1].eta(), local.e_selected[1].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[1].pdgId());
+		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[0].pt(), local.e_selected_sorted[0].eta(), local.e_selected_sorted[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[0].pdgId());
+		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[1].pt(), local.e_selected[1].eta(), local.e_selected_sorted[1].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[1].pdgId());
 	}
 	else if (local.n_muons == 2) {
-		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
-		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[1].pt(), local.mu_selected[1].eta(), local.mu_selected[1].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[1], coneSize::R04, corrType::deltaBeta), local.mu_selected[1].pdgId());
+		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected_sorted[0].pt(), local.mu_selected_sorted[0].eta(), local.mu_selected_sorted[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_selected_sorted[0].pdgId());
+		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected_sorted[1].pt(), local.mu_selected_sorted[1].eta(), local.mu_selected_sorted[1].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected_sorted[1], coneSize::R04, corrType::deltaBeta), local.mu_selected_sorted[1].pdgId());
 	}
 	else {
-		if (local.mu_selected[0].pt() > local.e_selected[0].pt()) {
-			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
-			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
+		if (local.mu_selected_sorted[0].pt() > local.e_selected_sorted[0].pt()) {
+			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected_sorted[0].pt(), local.mu_selected_sorted[0].eta(), local.mu_selected_sorted[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_selected_sorted[0].pdgId());
+			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[0].pt(), local.e_selected_sorted[0].eta(), local.e_selected_sorted[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[0].pdgId());
 		}
 		else {
-			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected[0].pt(), local.e_selected[0].eta(), local.e_selected[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
-			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected[0].pt(), local.mu_selected[0].eta(), local.mu_selected[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
+			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[0].pt(), local.e_selected_sorted[0].eta(), local.e_selected_sorted[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[0].pdgId());
+			fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected_sorted[0].pt(), local.mu_selected_sorted[0].eta(), local.mu_selected_sorted[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_selected_sorted[0].pdgId());
 		}	
 	}
 	fprintf(events_di_lepton, "%.4f, %d, ", local.mll, local.mll_passed);
@@ -1170,21 +1170,21 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
+									E = local.e_selected_sorted[0].energy() + local.e_selected_sorted[1].energy();
+									px = local.e_selected_sorted[0].px() + local.e_selected_sorted[1].px();
+									py = local.e_selected_sorted[0].py() + local.e_selected_sorted[1].py();
+									pz = local.e_selected_sorted[0].pz() + local.e_selected_sorted[1].pz();
+									p = sqrt(px*px + py*py + pz*pz);
+									local.mll = sqrt( E*E - p*p );
+									if (local.met_pt >= min_di_met)
+										local.met_passed = 1;
+									if (local.mll > min_di_mll) {	
+										if (local.mll < 76 && local.mll > 106)
+											local.mll_passed = 1;
+									}
 								}	
 							}	
 						}
-					}
-					E = local.e_selected_sorted[0].energy() + local.e_selected_sorted[1].energy();
-					px = local.e_selected_sorted[0].px() + local.e_selected_sorted[1].px();
-					py = local.e_selected_sorted[0].py() + local.e_selected_sorted[1].py();
-					pz = local.e_selected_sorted[0].pz() + local.e_selected_sorted[1].pz();
-					p = sqrt(px*px + py*py + pz*pz);
-					local.mll = sqrt( E*E - p*p );
-					if (local.met_pt >= min_di_met)
-						local.met_passed = 1;
-					if (local.mll > min_di_mll) {	
-						if (local.mll < 76 && local.mll > 106)
-							local.mll_passed = 1;
 					}
 				}	
 				else if (local.n_muons == 2) {     // di mu
@@ -1193,21 +1193,21 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
+									E = local.mu_selected_sorted[0].energy() + local.mu_selected_sorted[1].energy();
+									px = local.mu_selected_sorted[0].px() + local.mu_selected_sorted[1].px();
+									py = local.mu_selected_sorted[0].py() + local.mu_selected_sorted[1].py();
+									pz = local.mu_selected_sorted[0].pz() + local.mu_selected_sorted[1].pz();
+									p = sqrt(px*px + py*py + pz*pz);
+									local.mll = sqrt( E*E - p*p );
+									if (local.met_pt >= min_di_met)
+										local.met_passed = 1;
+									if (local.mll > min_di_mll) {	
+										if (local.mll < 76 && local.mll > 106)
+											local.mll_passed = 1;
+									}
 								}
 							}	
 						}
-					}
-					E = local.mu_selected_sorted[0].energy() + local.mu_selected_sorted[1].energy();
-					px = local.mu_selected_sorted[0].px() + local.mu_selected_sorted[1].px();
-					py = local.mu_selected_sorted[0].py() + local.mu_selected_sorted[1].py();
-					pz = local.mu_selected_sorted[0].pz() + local.mu_selected_sorted[1].pz();
-					p = sqrt(px*px + py*py + pz*pz);
-					local.mll = sqrt( E*E - p*p );
-					if (local.met_pt >= min_di_met)
-						local.met_passed = 1;
-					if (local.mll > min_di_mll) {	
-						if (local.mll < 76 && local.mll > 106)
-							local.mll_passed = 1;
 					}
 				}  
 				else {     // 1 e 1 mu
@@ -1216,26 +1216,23 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
+									E = local.e_selected_sorted[0].energy() + local.mu_selected_sorted[0].energy();
+									px = local.e_selected_sorted[0].px() + local.mu_selected_sorted[0].px();
+									py = local.e_selected_sorted[0].py() + local.mu_selected_sorted[0].py();
+									pz = local.e_selected_sorted[0].pz() + local.mu_selected_sorted[0].pz();
+									p = sqrt(px*px + py*py + pz*pz);
+									local.mll = sqrt( E*E - p*p );
+									local.met_passed = 1;
+									if (local.mll > min_di_mll) {	
+										local.mll_passed = 1;
+									}
 								}
 							}	
 						}
 					}
-					E = local.e_selected_sorted[0].energy() + local.mu_selected_sorted[0].energy();
-					px = local.e_selected_sorted[0].px() + local.mu_selected_sorted[0].px();
-					py = local.e_selected_sorted[0].py() + local.mu_selected_sorted[0].py();
-					pz = local.e_selected_sorted[0].pz() + local.mu_selected_sorted[0].pz();
-					p = sqrt(px*px + py*py + pz*pz);
-					local.mll = sqrt( E*E - p*p );
-					local.met_passed = 1;
-					if (local.mll > min_di_mll) {	
-						local.mll_passed = 1;
-					}
 				}
 			}
 		}
-	}
-	if (local.mll > min_di_mll) {	
-		local.mll_passed = 1;
 	}
 }
 
