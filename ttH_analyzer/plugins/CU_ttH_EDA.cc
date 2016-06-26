@@ -101,7 +101,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_Tree();
 	
 	Set_up_b_weights();
-	std::cout<<"Constructor\n";
 }
 
 /// Destructor
@@ -122,7 +121,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 {
 	using namespace edm;
 	++event_count;
-	std::cout<<event_count<<"\n";
 
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
@@ -290,7 +288,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		Check_SL_Event_Selection(local);
 	}
 	else if (analysis_type == Analyze_dilepton) {
-		Check_DL_Event_Selection(local);
+		//Check_DL_Event_Selection(local);
 	}
 
 	if (local.event_selection!=0){
@@ -308,7 +306,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	if (analysis_type == Analyze_dilepton) {
 		if (local.event_selection)
-			Check_Fill_Print_di_lepton(local);
+			//Check_Fill_Print_di_lepton(local);
 		//Check_Fill_Print_dimuj(local);
 		//Check_Fill_Print_dielej(local);
 		//Check_Fill_Print_elemuj(local);
