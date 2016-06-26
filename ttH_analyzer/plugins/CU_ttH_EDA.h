@@ -297,6 +297,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	
+	double E,px,py,pz,p;
+	
 	// for b-weights
 	std::string inputFileHF;
   	std::string inputFileLF;
