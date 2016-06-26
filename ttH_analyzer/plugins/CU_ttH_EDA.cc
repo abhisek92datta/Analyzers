@@ -332,6 +332,7 @@ void CU_ttH_EDA::endJob() { return; }
 // ------------ method called when starting to processes a run  ------------
 void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 {
+	std::cout<<"Step 1\n";
 	/// Update HLTConfigProvider(s) for the new run
 	bool hlt_config_changed = true; // init() updates this one
 	if (!hlt_config.init(iRun, iSetup, hltTag, hlt_config_changed)) {
@@ -339,20 +340,20 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 				  << std::endl;
 		return;
 	}
-
+	std::cout<<"Step 2\n";
 	if (hlt_config_changed)
 		std::cout << "New " << hltTag << " config has been loaded.\n";
-
+	std::cout<<"Step 3\n";
 	bool filter_config_changed = true; // init() updates this one
 	if (!filter_config.init(iRun, iSetup, filterTag, filter_config_changed)) {
 		std::cerr << "Warning, didn't find filter process HLT,\t" << filterTag
 				  << std::endl;
 		return;
 	}
-
+	std::cout<<"Step 4\n";
 	if (filter_config_changed)
 		std::cout << "New " << filterTag << " config has been loaded.\n";
-
+	std::cout<<"Step 5\n";
 	/// Set up filter and trigger name vectors and maps
 	if (trigger_stats) {
 		Set_up_trigger_name_vectors();
