@@ -1163,20 +1163,21 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	//double E,px,py,pz,p;
 	if ( local.pass_double_e == 1 || local.pass_double_mu == 1 || local.pass_elemu == 1 ) {
 		if (local.n_prim_V > 0) {
-			if (local.n_leptons == 2) {   // di e
-				if (local.n_electrons == 2) {
-					if ( local.e_selected_sorted[0].pdgId()*local.e_selected_sorted[1].pdgId() < 0  &&  local.pass_double_e == 1) {
+			if (local.n_leptons == 2) {   
+				if (local.n_electrons == 2) {   // di e
+					if ( (local.e_selected_sorted[0].pdgId()*local.e_selected_sorted[1].pdgId() < 0)  &&  local.pass_double_e == 1) {
 						if ( local.e_selected_sorted[0].pt() > min_di_ele1_pT ) {
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
-									E = local.e_selected_sorted[0].energy() + local.e_selected_sorted[1].energy();
-									px = local.e_selected_sorted[0].px() + local.e_selected_sorted[1].px();
-									py = local.e_selected_sorted[0].py() + local.e_selected_sorted[1].py();
-									pz = local.e_selected_sorted[0].pz() + local.e_selected_sorted[1].pz();
-									p = px*px + py*py + pz*pz;
+									//E = local.e_selected_sorted[0].energy() + local.e_selected_sorted[1].energy();
+									//px = local.e_selected_sorted[0].px() + local.e_selected_sorted[1].px();
+									//py = local.e_selected_sorted[0].py() + local.e_selected_sorted[1].py();
+									//pz = local.e_selected_sorted[0].pz() + local.e_selected_sorted[1].pz();
+									//p = px*px + py*py + pz*pz;
 									//p = sqrt(px*px + py*py + pz*pz);
-									local.mll =  E*E - p ;
+									//local.mll =  E*E - p ;
+									local.mll=0;
 									//local.mll = sqrt( E*E - p*p );
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
@@ -1190,18 +1191,19 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 					}
 				}	
 				else if (local.n_muons == 2) {     // di mu
-					if (local.mu_selected_sorted[0].pdgId()*local.mu_selected_sorted[1].pdgId() < 0  &&  local.pass_double_mu == 1) {
+					if ((local.mu_selected_sorted[0].pdgId()*local.mu_selected_sorted[1].pdgId() < 0)  &&  local.pass_double_mu == 1) {
 						if ( local.mu_selected_sorted[0].pt() > min_di_mu1_pT ) {
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
-									E = local.mu_selected_sorted[0].energy() + local.mu_selected_sorted[1].energy();
-									px = local.mu_selected_sorted[0].px() + local.mu_selected_sorted[1].px();
-									py = local.mu_selected_sorted[0].py() + local.mu_selected_sorted[1].py();
-									pz = local.mu_selected_sorted[0].pz() + local.mu_selected_sorted[1].pz();
-									p = px*px + py*py + pz*pz;
+									//E = local.mu_selected_sorted[0].energy() + local.mu_selected_sorted[1].energy();
+									//px = local.mu_selected_sorted[0].px() + local.mu_selected_sorted[1].px();
+									//py = local.mu_selected_sorted[0].py() + local.mu_selected_sorted[1].py();
+									//pz = local.mu_selected_sorted[0].pz() + local.mu_selected_sorted[1].pz();
+									//p = px*px + py*py + pz*pz;
 									//p = sqrt(px*px + py*py + pz*pz);
-									local.mll =  E*E - p ;
+									//local.mll =  E*E - p ;
+									local.mll=0;
 									//local.mll = sqrt( E*E - p*p );
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
@@ -1215,18 +1217,19 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 					}
 				}  
 				else {     // 1 e 1 mu
-					if (local.mu_selected_sorted[0].pdgId()*local.e_selected_sorted[0].pdgId() < 0  &&  local.pass_elemu == 1) {
-						if ( local.mu_selected_sorted[0].pt() > min_di_mu1_pT || local.e_selected_sorted[0].pt() > min_di_ele1_pT ) {
+					if ((local.mu_selected_sorted[0].pdgId()*local.e_selected_sorted[0].pdgId() < 0)  &&  local.pass_elemu == 1) {
+						if ( (local.mu_selected_sorted[0].pt() > min_di_mu1_pT) || (local.e_selected_sorted[0].pt() > min_di_ele1_pT) ) {
 							if (local.n_jets >= min_di_njets && local.n_btags >= min_di_nbtags) {
 								if (local.jets_selected_sorted[0].pt() > min_jet_pT && local.jets_selected_sorted[1].pt() > min_jet_pT) {
 									local.event_selection = true;
-									E = local.e_selected_sorted[0].energy() + local.mu_selected_sorted[0].energy();
-									px = local.e_selected_sorted[0].px() + local.mu_selected_sorted[0].px();
-									py = local.e_selected_sorted[0].py() + local.mu_selected_sorted[0].py();
-									pz = local.e_selected_sorted[0].pz() + local.mu_selected_sorted[0].pz();
-									p = px*px + py*py + pz*pz;
+									//E = local.e_selected_sorted[0].energy() + local.mu_selected_sorted[0].energy();
+									//px = local.e_selected_sorted[0].px() + local.mu_selected_sorted[0].px();
+									//py = local.e_selected_sorted[0].py() + local.mu_selected_sorted[0].py();
+									//pz = local.e_selected_sorted[0].pz() + local.mu_selected_sorted[0].pz();
+									//p = px*px + py*py + pz*pz;
 									//p = sqrt(px*px + py*py + pz*pz);
-									local.mll =  E*E - p ;
+									//local.mll =  E*E - p ;
+									local.mll=0;
 									//local.mll = sqrt( E*E - p*p );
 									local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
