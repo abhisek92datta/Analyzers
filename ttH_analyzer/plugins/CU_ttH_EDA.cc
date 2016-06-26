@@ -285,6 +285,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// flag for determining whether to select an event for writing
 	local.event_selection = false;
 
+	// NOT DOING TRIGGER CHECK AT THE MOMENT
+	local.pass_single_e = 1;
+	local.pass_single_mu = 1;
+	local.pass_double_e = 1;
+	local.pass_double_mu = 1;
+	local.pass_elemu = 1;
+
 	// Event selection criteria for single lepton events
 	if (analysis_type == Analyze_lepton_jet) {
 		Check_SL_Event_Selection(local);
