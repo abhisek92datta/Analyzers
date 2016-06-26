@@ -1203,7 +1203,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
-										if (local.mll < 76 && local.mll > 106)
+										//if (local.mll < 76 && local.mll > 106)
 											local.mll_passed = 1;
 									}
 								}	
@@ -1229,7 +1229,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
-										if (local.mll < 76 && local.mll > 106)
+										//if (local.mll < 76 && local.mll > 106)
 											local.mll_passed = 1;
 									}
 								}
