@@ -1160,7 +1160,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 }
 
 void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
-	double E,px,py,pz,p;
+	//double E,px,py,pz,p;
 	if ( local.pass_double_e == 1 || local.pass_double_mu == 1 || local.pass_elemu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 2) {   // di e
@@ -1174,8 +1174,10 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									px = local.e_selected_sorted[0].px() + local.e_selected_sorted[1].px();
 									py = local.e_selected_sorted[0].py() + local.e_selected_sorted[1].py();
 									pz = local.e_selected_sorted[0].pz() + local.e_selected_sorted[1].pz();
-									p = sqrt(px*px + py*py + pz*pz);
-									local.mll = sqrt( E*E - p*p );
+									p = px*px + py*py + pz*pz;
+									//p = sqrt(px*px + py*py + pz*pz);
+									local.mll =  E*E - p ;
+									//local.mll = sqrt( E*E - p*p );
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
@@ -1197,8 +1199,10 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									px = local.mu_selected_sorted[0].px() + local.mu_selected_sorted[1].px();
 									py = local.mu_selected_sorted[0].py() + local.mu_selected_sorted[1].py();
 									pz = local.mu_selected_sorted[0].pz() + local.mu_selected_sorted[1].pz();
-									p = sqrt(px*px + py*py + pz*pz);
-									local.mll = sqrt( E*E - p*p );
+									p = px*px + py*py + pz*pz;
+									//p = sqrt(px*px + py*py + pz*pz);
+									local.mll =  E*E - p ;
+									//local.mll = sqrt( E*E - p*p );
 									if (local.met_pt >= min_di_met)
 										local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
@@ -1220,8 +1224,10 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									px = local.e_selected_sorted[0].px() + local.mu_selected_sorted[0].px();
 									py = local.e_selected_sorted[0].py() + local.mu_selected_sorted[0].py();
 									pz = local.e_selected_sorted[0].pz() + local.mu_selected_sorted[0].pz();
-									p = sqrt(px*px + py*py + pz*pz);
-									local.mll = sqrt( E*E - p*p );
+									p = px*px + py*py + pz*pz;
+									//p = sqrt(px*px + py*py + pz*pz);
+									local.mll =  E*E - p ;
+									//local.mll = sqrt( E*E - p*p );
 									local.met_passed = 1;
 									if (local.mll > min_di_mll) {	
 										local.mll_passed = 1;
