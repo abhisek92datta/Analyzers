@@ -99,7 +99,7 @@
 
 enum analysis_types {
 	Analyze_lepton_jet,
-	Analyze_dilepton,
+	Analyze_dilepton
 };
 
  /*
@@ -297,7 +297,11 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	
-	double E,px,py,pz,p;
+	double E;
+	double p;
+	double pz;
+	double py;
+	double px;
 	
 	// for b-weights
 	std::string inputFileHF;
