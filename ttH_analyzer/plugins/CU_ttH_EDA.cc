@@ -293,7 +293,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 
 	if (local.event_selection!=0){
-		//std::cout<<local.event_nr<<"\n";
+		std::cout<<local.met_passed<<"\n";
 		selection_count++;
 	}
 	
