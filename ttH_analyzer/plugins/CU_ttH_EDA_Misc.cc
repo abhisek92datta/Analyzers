@@ -343,11 +343,27 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	int is_SL = 0;
 	int is_DL = 1;
 	int ttH_cat = 0;
+	double jet1_pt, jet2_pt, jet3_pt, jet4_pt;
+	double jet1_csv, jet2_csv, jet3_csv, jet4_csv;
+	jet1_pt = jet2_pt = jet3_pt = jet4_pt = 0;
+	jet1_pt = local.jets_selected_sorted[0].pt();
+	jet2_pt = local.jets_selected_sorted[1].pt();
+	if (local.n_jets > 2) {
+		jet3_pt = local.jets_selected_sorted[2].pt();
+		if (local.n_jets > 3) {
+			jet4_pt = local.jets_selected_sorted[3].pt();
+		}
+	}
+	
+	
+	
+	miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags")
+	
 	fprintf(events_di_lepton, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_di_lepton, "%d, %d, ", is_SL, is_DL);
 	if (local.n_electrons == 2) {
 		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[0].pt(), local.e_selected_sorted[0].eta(), local.e_selected_sorted[0].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[0].pdgId());
-		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[1].pt(), local.e_selected[1].eta(), local.e_selected_sorted[1].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[1].pdgId());
+		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.e_selected_sorted[1].pt(), local.e_selected_sorted[1].eta(), local.e_selected_sorted[1].phi(), miniAODhelper.GetElectronRelIso(local.e_selected_sorted[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected_sorted[1].pdgId());
 	}
 	else if (local.n_muons == 2) {
 		fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %d, ", local.mu_selected_sorted[0].pt(), local.mu_selected_sorted[0].eta(), local.mu_selected_sorted[0].phi(), miniAODhelper.GetMuonRelIso(local.mu_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_selected_sorted[0].pdgId());
@@ -364,7 +380,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 		}	
 	}
 	fprintf(events_di_lepton, "%.4f, %d, ", local.mll, local.mll_passed);
-	fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", local.jets_selected_sorted[0].pt(), local.jets_selected_sorted[1].pt(), local.jets_selected_sorted[2].pt(), local.jets_selected_sorted[3].pt(), miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+	fprintf(events_di_lepton, "%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, ", jet1_pt, jet2_pt, jet3_pt, jet4_pt, miniAODhelper.GetJetCSV(local.jets_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_selected_sorted[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 	fprintf(events_di_lepton, "%.4f, %.4f, %d, %d, %d, %.4f, %d, ", local.met_pt, local.met_phi, local.met_passed, local.n_jets, local.n_btags, local.b_weight, ttH_cat);
 	fprintf(events_di_lepton, "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \n");
 }
