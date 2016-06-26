@@ -199,21 +199,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Jet selection
 	
-	//ID selection
-	local.jets_raw = CheckJetID(*(handle.jets));
-	
-	// overlap removal by dR
-	if (analysis_type == Analyze_lepton_jet) {
-		local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
-		local.jets_raw = removeOverlapdR(local.jets_raw, local.e_veto_selected, 0.4);
-	}
-	else if (analysis_type == Analyze_dilepton) {
-		local.jets_raw = removeOverlapdR(local.jets_raw, local.mu_selected, 0.4);
-		local.jets_raw = removeOverlapdR(local.jets_raw, local.e_selected, 0.4);
-	}
-
 	// uncorrected jets
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
+	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 
 	// Jet Energy Correction
 	SetFactorizedJetCorrector();
@@ -222,6 +209,19 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 	
+	//ID selection
+	local.jets_corrected = CheckJetID(local.jets_corrected);
+	
+	// overlap removal by dR
+	if (analysis_type == Analyze_lepton_jet) {
+		local.jets_corrected = removeOverlapdR(local.jets_corrected, local.mu_veto_selected, 0.4);
+		local.jets_corrected = removeOverlapdR(local.jets_corrected, local.e_veto_selected, 0.4);
+	}
+	else if (analysis_type == Analyze_dilepton) {
+		local.jets_corrected = removeOverlapdR(local.jets_corrected, local.mu_selected, 0.4);
+		local.jets_corrected = removeOverlapdR(local.jets_corrected, local.e_selected, 0.4);
+	}
+
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
 	
@@ -236,15 +236,17 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	}
 
 	// b-tagged jet selection
-	local.jets_selected_tag_old = miniAODhelper.GetSelectedJets(
+	local.jets_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
+	/*
 	for (const auto& jet : local.jets_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
 			local.jets_selected_tag.push_back(jet);
 		}
 	}
+	*/
 		
 	local.n_jets = static_cast<int>(local.jets_selected.size());
 	local.n_btags = static_cast<int>(local.jets_selected_tag.size());
