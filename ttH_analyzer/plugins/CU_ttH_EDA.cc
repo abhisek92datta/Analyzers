@@ -101,6 +101,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_Tree();
 	
 	Set_up_b_weights();
+	std::cout<<"Constructor\n";
 }
 
 /// Destructor
@@ -121,6 +122,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 {
 	using namespace edm;
 	++event_count;
+	std::cout<<event_count<<"\n";
 
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
