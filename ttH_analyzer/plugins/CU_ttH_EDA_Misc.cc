@@ -1013,16 +1013,16 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     //setting up the JetCorrector
     std::vector<JetCorrectorParameters> corrParams;
-    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt");
-    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt");
-    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt");
+    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L3Absolute_AK4PFchs.txt");
+    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L2Relative_AK4PFchs.txt");
+    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L1FastJet_AK4PFchs.txt");
 
     corrParams.push_back(*L1JetPar);
     corrParams.push_back(*L2JetPar);
     corrParams.push_back(*L3JetPar);
     _jetCorrector = new FactorizedJetCorrector(corrParams);
 
-    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
+    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
 }
 
@@ -1067,13 +1067,13 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
       
       if( jet.genJet() ){
         if( iSysType == sysType::JERup ){
-	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else {
-  	      jerSF = miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
       }
      
