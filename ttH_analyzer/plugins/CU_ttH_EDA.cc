@@ -201,30 +201,32 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Jet selection
 	
-	// uncorrected jets
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
-
-	// Jet Energy Correction
-	SetFactorizedJetCorrector();
-	local.jets_corrected =
-	 	GetCorrectedJets(local.jets_raw, *rho);
-	//local.jets_corrected =
-	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
-	
 	//ID selection
-	local.jets_corrected = CheckJetID(local.jets_corrected);
+	local.jets_raw = CheckJetID(*(handle.jets));
 
 	// overlap removal by dR
 	//if (analysis_type == Analyze_lepton_jet) {
 	// Single Lepton
-		local.jets_sl_corrected = removeOverlapdR(local.jets_corrected, local.mu_veto_selected, 0.4);
-		local.jets_sl_corrected = removeOverlapdR(local.jets_corrected, local.e_veto_selected, 0.4);
+		local.jets_sl_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
+		local.jets_sl_raw = removeOverlapdR(local.jets_sl_raw, local.e_veto_selected, 0.4);
 	//}
 	//else if (analysis_type == Analyze_dilepton) {
 	// Dilepton
-		local.jets_di_corrected = removeOverlapdR(local.jets_corrected, local.mu_di_selected, 0.4);
-		local.jets_di_corrected = removeOverlapdR(local.jets_corrected, local.e_di_selected, 0.4);
+		local.jets_di_raw = removeOverlapdR(local.jets_raw, local.mu_di_selected, 0.4);
+		local.jets_di_raw = removeOverlapdR(local.jets_di_raw, local.e_di_selected, 0.4);
 	//}
+
+	// uncorrected jets
+	local.jets_sl_raw = miniAODhelper.GetUncorrectedJets(local.jets_sl_raw);
+	local.jets_di_raw = miniAODhelper.GetUncorrectedJets(local.jets_di_raw);
+
+	// Jet Energy Correction
+	SetFactorizedJetCorrector();
+	local.jets_sl_corrected = GetCorrectedJets(local.jets_sl_raw, *rho);
+	local.jets_di_corrected = GetCorrectedJets(local.jets_di_raw, *rho);
+	//local.jets_corrected =
+	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
+
 
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
