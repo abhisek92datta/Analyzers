@@ -111,9 +111,12 @@ struct CU_ttH_EDA_event_vars {
 	int met_passed;
 	double b_weight_sl;
 	double b_weight_di;
-	double jet1SF;
-	double jet1SF_up;
-	double jet1SF_down;
+	double jet1SF_sl;
+	double jet1SF_up_sl;
+	double jet1SF_down_sl;
+	double jet1SF_di;
+	double jet1SF_up_di;
+	double jet1SF_down_di;
 	
 	bool is_e;
 	bool is_mu;
