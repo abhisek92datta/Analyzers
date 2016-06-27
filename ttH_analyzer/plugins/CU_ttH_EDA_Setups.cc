@@ -6,7 +6,7 @@
 
 void CU_ttH_EDA::Close_output_files()
 {
-	if (analysis_type == Analyze_lepton_jet) {
+	//if (analysis_type == Analyze_lepton_jet) {
 		fclose(events_single_lepton);
 		/*
 		fclose(events_e_cut1);
@@ -25,9 +25,9 @@ void CU_ttH_EDA::Close_output_files()
 		fclose(events_mu_cut6);
 		fclose(events_mu_cut7);
 		*/
-	}
+	//}
 
-	if (analysis_type == Analyze_dilepton) {
+	//if (analysis_type == Analyze_dilepton) {
 		fclose(events_di_lepton);
 		/*
 		fclose(events_dimu_cut1);
@@ -52,7 +52,7 @@ void CU_ttH_EDA::Close_output_files()
 		fclose(events_elemu_cut4);
 		fclose(events_elemu_cut5);
 		*/
-	}
+	//}
 }
 
 void CU_ttH_EDA::Set_up_histograms()
@@ -220,10 +220,14 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
 /// Make and open write-out files
 void CU_ttH_EDA::Set_up_output_files()
 {
+	events_combined = fopen("CU_tth_80X.csv", "w");
+	fprintf(events_combined, "run, lumi, event, is_SL, is_DL, lep1_pt, lep1_eta, lep1_phi, lep1_iso, lep1_pdgId, lep2_pt, lep2_eta, lep2_phi, lep2_iso, lep2_pdgId, mll,  mll_passed, jet1_pt,	jet2_pt, jet3_pt, jet4_pt, jet1_CSVv2, jet2_CSVv2, jet3_CSVv2, jet4_CSVv2, MET_pt, MET_phi, met_passed,	n_jets,	n_btags, bWeight, ttHFCategory,	final_discriminant1, final_discriminant2, n_fatjets, pt_fatjet_1, pt_fatjet_2, pt_nonW_1, pt_nonW_2, pt_W1_1, pt_W1_2, pt_W2_1,	pt_W2_2, pt_top_1, pt_top_2, m_top_1, m_top_2, higgstag_fatjet_1, higgstag_fatjet_2, csv2_fatjet_1, csv2_fatjet_2 \n");
+		
+	/*
 	if (analysis_type == Analyze_lepton_jet) {
 		events_single_lepton = fopen("CU_events_single_lepton_cuts.csv", "w");
 		fprintf(events_single_lepton, "run, lumi, event, is_SL,	is_DL, lep1_pt, lep1_eta, lep1_phi, lep1_iso, lep1_pdgId, lep2_pt, lep2_eta, lep2_phi, lep2_iso, lep2_pdgId, mll,  mll_passed, jet1_pt,	jet2_pt, jet3_pt, jet4_pt, jet1_CSVv2, jet2_CSVv2, jet3_CSVv2, jet4_CSVv2, MET_pt, MET_phi, met_passed,	n_jets,	n_btags, bWeight, ttHFCategory,	final_discriminant1, final_discriminant2, n_fatjets, pt_fatjet_1, pt_fatjet_2, pt_nonW_1, pt_nonW_2, pt_W1_1, pt_W1_2, pt_W2_1,	pt_W2_2, pt_top_1, pt_top_2, m_top_1, m_top_2, higgstag_fatjet_1, higgstag_fatjet_2, csv2_fatjet_1, csv2_fatjet_2 \n");
-		/*
+		
 		events_e_cut1 = fopen("Outputs/CU_events_e_cut1.dat", "w");
 		events_e_cut2 = fopen("Outputs/CU_events_e_cut2.dat", "w");
 		events_e_cut3 = fopen("Outputs/CU_events_e_cut3.dat", "w");
@@ -239,13 +243,13 @@ void CU_ttH_EDA::Set_up_output_files()
 		events_mu_cut5 = fopen("Outputs/CU_events_mu_cut5.dat", "w");
 		events_mu_cut6 = fopen("Outputs/CU_events_mu_cut6.dat", "w");
 		events_mu_cut7 = fopen("Outputs/CU_events_mu_cut7.dat", "w");
-		*/
+		
 	}
 
 	if (analysis_type == Analyze_dilepton) {
 		events_di_lepton = fopen("CU_events_di_lepton_cuts.csv", "w");
 		fprintf(events_di_lepton, "run, lumi, event, is_SL,	is_DL, lep1_pt, lep1_eta, lep1_phi, lep1_iso, lep1_pdgId, lep2_pt, lep2_eta, lep2_phi, lep2_iso, lep2_pdgId, mll,  mll_passed, jet1_pt,	jet2_pt, jet3_pt, jet4_pt, jet1_CSVv2, jet2_CSVv2, jet3_CSVv2, jet4_CSVv2, MET_pt, MET_phi, met_passed,	n_jets,	n_btags, bWeight, ttHFCategory,	final_discriminant1, final_discriminant2, n_fatjets, pt_fatjet_1, pt_fatjet_2, pt_nonW_1, pt_nonW_2, pt_W1_1, pt_W1_2, pt_W2_1,	pt_W2_2, pt_top_1, pt_top_2, m_top_1, m_top_2, higgstag_fatjet_1, higgstag_fatjet_2, csv2_fatjet_1, csv2_fatjet_2 \n");
-		/*
+		
 		events_dimu_cut1 = fopen("Outputs/CU_events_dimu_cut1.dat", "w");
 		events_dimu_cut2 = fopen("Outputs/CU_events_dimu_cut2.dat", "w");
 		events_dimu_cut3 = fopen("Outputs/CU_events_dimu_cut3.dat", "w");
@@ -267,8 +271,9 @@ void CU_ttH_EDA::Set_up_output_files()
 		events_elemu_cut3 = fopen("Outputs/CU_events_elemu_cut3.dat", "w");
 		events_elemu_cut4 = fopen("Outputs/CU_events_elemu_cut4.dat", "w");
 		events_elemu_cut5 = fopen("Outputs/CU_events_elemu_cut5.dat", "w");
-		*/
+		
 	}
+	*/
 }
 
 void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
