@@ -222,8 +222,7 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
 void CU_ttH_EDA::Set_up_output_files()
 {
 	events_combined = fopen("CU_tth_80X.csv", "w");
-	fprintf(events_combined, "run, lumi, event, is_SL, is_DL, lep1_pt, lep1_eta, lep1_phi, lep1_iso, lep1_pdgId, lep2_pt, lep2_eta, lep2_phi, lep2_iso, lep2_pdgId, mll,  mll_passed, jet1_pt,	jet2_pt, jet3_pt, jet4_pt, jet1_CSVv2, jet2_CSVv2, jet3_CSVv2, jet4_CSVv2, MET_pt, MET_phi, met_passed,	n_jets,	n_btags, bWeight, ttHFCategory,	final_discriminant1, final_discriminant2, n_fatjets, pt_fatjet_1, pt_fatjet_2, pt_nonW_1, pt_nonW_2, pt_W1_1, pt_W1_2, pt_W2_1,	pt_W2_2, pt_top_1, pt_top_2, m_top_1, m_top_2, higgstag_fatjet_1, higgstag_fatjet_2, csv2_fatjet_1, csv2_fatjet_2 \n");
-		
+	fprintf(events_combined, "run, lumi, is_e, is_mu, is_ee, is_emu, is_mumu, n_jets, n_btags, lep1_pt, lep1_iso, lep1_pdgId, lep2_pt, lep2_iso, lep2_pdgId, jet1_pt, jet2_pt, jet1_CSVv2, jet2_CSVv2, jet1_JecSF, jet1_JecSF_up, jet1_JecSF_down, MET_pt, MET_phi,mll, ttHFCategory, PUWeight, bWeight, triggerSF, lepSF, Q2_upup, Q2_downdown, pdf_up, pdf_down \n");
 	/*
 	if (analysis_type == Analyze_lepton_jet) {
 		events_single_lepton = fopen("CU_events_single_lepton_cuts.csv", "w");
