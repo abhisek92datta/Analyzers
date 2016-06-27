@@ -112,6 +112,12 @@ struct CU_ttH_EDA_event_vars {
 	double b_weight_sl;
 	double b_weight_di;
 	
+	bool is_e;
+	bool is_mu;
+	bool is_ee;
+	bool is_emu;
+	bool is_mumu;
+	
 	int n_prim_V;
 	bool event_selection_SL;
 	bool event_selection_DL;
