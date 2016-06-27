@@ -330,8 +330,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
-	//	if (local.event_selection_SL)
-	//		Check_Fill_Print_single_lepton(local);
+		if (local.event_selection_SL)
+			Check_Fill_Print_single_lepton(local);
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
 	//}
