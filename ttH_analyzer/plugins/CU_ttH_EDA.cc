@@ -325,20 +325,20 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//}
 
 	if (local.event_selection_SL!=0){
-		std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
+		//std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
 		selection_count++;
 	}
 	
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
-		//if (local.event_selection_SL)
-		//	Check_Fill_Print_single_lepton(local);
+		if (local.event_selection_SL!=0)
+			Check_Fill_Print_single_lepton(local);
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
 	//}
 
 	//if (analysis_type == Analyze_dilepton) {
-	//	if (local.event_selection_DL)
+	//	if (local.event_selection_DL!=0)
 	//		Check_Fill_Print_di_lepton(local);
 			//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
