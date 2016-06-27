@@ -321,8 +321,6 @@ int CU_ttH_EDA::Top_tagger(Handle<boosted::HTTTopJetCollection> top_jets,
 
 void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 {
-	float SF,SF_up,SF_down;
-	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
 	fprintf(events_combined, "%d, %d, ", local.n_sl_jets, local.n_sl_btags );
@@ -334,7 +332,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	}
 	fprintf(events_combined, "-1, -1, -1, ");
 	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_sl_selected_sorted[0].pt(), local.jets_sl_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", SF, SF_up, SF_down);
+	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
 	fprintf(events_combined, "-1, -1, -1, ");
 	fprintf(events_combined, "%.4f, ", local.b_weight_sl);
@@ -343,8 +341,6 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 {
-	float SF,SF_up,SF_down;
-	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);
 	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
 	fprintf(events_combined, "%d, %d, ", local.n_di_jets, local.n_di_btags );
@@ -367,7 +363,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 		}	
 	}
 	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_di_selected_sorted[0].pt(), local.jets_di_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", SF, SF_up, SF_down);
+	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_di, local.jet1SF_up_di, local.jet1SF_down_di);
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
 	fprintf(events_combined, "-1, -1, -1, ");
 	fprintf(events_combined, "%.4f, ", local.b_weight_di);
@@ -1010,6 +1006,36 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
 }
+
+double
+CU_ttH_EDA::GetJetSF(const pat::Jet jet, const sysType::sysType iSysType) {
+	double scale = 1;
+	_jetCorrector->setJetPt(jet.pt());
+    	_jetCorrector->setJetEta(jet.eta());
+    	_jetCorrector->setJetA(jet.jetArea());
+    	_jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+
+	 scale = _jetCorrector->getCorrection();
+	
+	if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
+      		_jetCorrectorUnc->setJetPt(jet.pt());
+      		_jetCorrectorUnc->setJetEta(jet.eta());
+      		double unc = 1;
+      		double jes = 1;
+      		if( iSysType==sysType::JESup ){
+			unc = _jetCorrectorUnc->getUncertainty(true);
+			jes = 1 + unc;
+		}
+      		else if( iSysType==sysType::JESdown ){
+			unc = _jetCorrectorUnc->getUncertainty(false);
+			jes = 1 - unc;
+      		}
+      		scale = scale*jes;
+    	}
+	return scale;
+}
+
+
 
 std::vector<pat::Jet> 
 CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
