@@ -6,8 +6,9 @@
 
 void CU_ttH_EDA::Close_output_files()
 {
+	fclose(events_combined);
 	//if (analysis_type == Analyze_lepton_jet) {
-		fclose(events_single_lepton);
+		//fclose(events_single_lepton);
 		/*
 		fclose(events_e_cut1);
 		fclose(events_e_cut2);
@@ -28,7 +29,7 @@ void CU_ttH_EDA::Close_output_files()
 	//}
 
 	//if (analysis_type == Analyze_dilepton) {
-		fclose(events_di_lepton);
+		//fclose(events_di_lepton);
 		/*
 		fclose(events_dimu_cut1);
 		fclose(events_dimu_cut2);
