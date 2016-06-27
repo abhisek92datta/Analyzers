@@ -390,7 +390,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_di_lepton, "-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 \n");
 }
 
-
+/*
 void CU_ttH_EDA::Check_Fill_Print_muj(CU_ttH_EDA_event_vars &local)
 {
 	int fill_itr = 0;
@@ -959,6 +959,7 @@ void CU_ttH_EDA::printDecayChain(const reco::Candidate &p, int &index,
 			printDecayChain(*daug, index, index, details);
 	}
 }
+*/
 /*
 float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
 {
