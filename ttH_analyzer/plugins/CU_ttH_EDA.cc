@@ -325,7 +325,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//}
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
-		std::cout<<local.b_weight_sl<<"  "<<local.b_weight_di<<"\n";
+		std::cout<<local.event_nr<<"  "<<local.event_selection_SL<<"  "<<Clocal.event_selection_DL<<"\n";
 		selection_count++;
 	}
 	
