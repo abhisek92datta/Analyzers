@@ -166,7 +166,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
 	double getJERfactor( const int, const double, const double, const double );
-	double GetJetSF(const pat::Jet&, const sysType::sysType);
+	double GetJetSF(const pat::Jet, const sysType::sysType);
 	void getbweight (CU_ttH_EDA_event_vars &);
 	
 	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
