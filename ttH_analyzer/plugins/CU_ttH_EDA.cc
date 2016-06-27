@@ -338,15 +338,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
-		if (local.event_selection_SL!=0)
+		if (local.event_selection_SL!=0) {
+			local.jet1SF_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::NA,*rho);
+			local.jet1SF_up_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESup,*rho);
+			local.jet1SF_down_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESdown,*rho);
 			Check_Fill_Print_single_lepton(local);
+		}
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
 	//}
 
 	//if (analysis_type == Analyze_dilepton) {
-		else if (local.event_selection_DL!=0)
+		else if (local.event_selection_DL!=0) {
+			local.jet1SF_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::NA,*rho);
+			local.jet1SF_up_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESup,*rho);
+			local.jet1SF_down_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESdown,*rho);
 			Check_Fill_Print_di_lepton(local);
+		}
 			//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
 		//Check_Fill_Print_dielej(local);
