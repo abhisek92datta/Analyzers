@@ -321,9 +321,6 @@ int CU_ttH_EDA::Top_tagger(Handle<boosted::HTTTopJetCollection> top_jets,
 
 void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 {
-	//int is_SL = 1;
-	//int is_DL = 0;
-	int ttH_cat = -1;
 	float SF,SF_up,SF_down;
 	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
@@ -346,9 +343,6 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 {
-	//int is_SL = 0;
-	//int is_DL = 1;
-	int ttH_cat = -1;
 	float SF,SF_up,SF_down;
 	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);
