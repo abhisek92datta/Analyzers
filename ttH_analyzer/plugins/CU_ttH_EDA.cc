@@ -283,12 +283,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_di_selected_tag_sorted =
 		miniAODhelper.GetSortedByPt(local.jets_di_selected_tag);
 		
-	local.jet1SF_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::NA);
-	local.jet1SF_up_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESup);
-	local.jet1SF_down_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESdown);
-	local.jet1SF_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::NA);
-	local.jet1SF_up_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESup);
-	local.jet1SF_down_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESdown);
+	local.jet1SF_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::NA,*rho);
+	local.jet1SF_up_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESup,*rho);
+	local.jet1SF_down_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESdown,*rho);
+	local.jet1SF_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::NA,*rho);
+	local.jet1SF_up_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESup,*rho);
+	local.jet1SF_down_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESdown,*rho);
 
 	/// Top and Higgs tagging using collections through handles. adjusts
 	/// local.<tag>
