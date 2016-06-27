@@ -324,7 +324,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	float SF,SF_up,SF_down;
 	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
-	fprintf(events_combined, "%d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
+	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
 	fprintf(events_combined, "%d, %d, ", local.n_sl_jets, local.n_sl_btags );
 	if (local.n_electrons == 1) {
 		fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_selected[0].pt(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
@@ -346,7 +346,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	float SF,SF_up,SF_down;
 	SF = SF_up = SF_down = 0;
 	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);
-	fprintf(events_combined, "%d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
+	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
 	fprintf(events_combined, "%d, %d, ", local.n_di_jets, local.n_di_btags );
 	if (local.n_di_electrons == 2) {
 		fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
