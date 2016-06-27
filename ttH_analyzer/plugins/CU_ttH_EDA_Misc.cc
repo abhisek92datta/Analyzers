@@ -1216,9 +1216,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									if (local.mll > min_di_mll) {	
 										if (local.mll < 76 || local.mll > 106)
 											local.mll_passed = 1;
-									local.jet1SF_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::NA,*rho);
-									local.jet1SF_up_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESup,*rho);
-									local.jet1SF_down_sl = GetJetSF(local.jets_sl_selected_sorted[0],sysType::JESdown,*rho);
 									}
 								}	
 							}	
@@ -1243,9 +1240,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									if (local.mll > min_di_mll) {	
 										if (local.mll < 76 || local.mll > 106)
 											local.mll_passed = 1;
-									local.jet1SF_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::NA,*rho);
-									local.jet1SF_up_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESup,*rho);
-									local.jet1SF_down_di = GetJetSF(local.jets_di_selected_sorted[0],sysType::JESdown,*rho);
 									}
 								}
 							}	
