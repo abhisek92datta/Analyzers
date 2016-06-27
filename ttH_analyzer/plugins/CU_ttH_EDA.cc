@@ -304,6 +304,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//tauNtuple.initialize();
 	//tauNtuple.write_ntuple(local);
 
+	local.is_e = false;
+	local.is_mu = false;
+	local.is_ee = false;
+	local.is_emu = false;
+	local.is_mumu = false;
+
 	// flag for determining whether to select an event for writing
 	local.event_selection_SL = false;
 	local.event_selection_DL = false;
