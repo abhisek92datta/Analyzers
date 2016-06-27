@@ -341,6 +341,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	/// Write-out files
 	FILE *events_single_lepton;
 	FILE *events_di_lepton;
+	FILE *events_combined;
 	
 	FILE *events_e_cut1, *events_e_cut2, *events_e_cut3, *events_e_cut4,
 		*events_e_cut5, *events_e_cut6, *events_e_cut7;
