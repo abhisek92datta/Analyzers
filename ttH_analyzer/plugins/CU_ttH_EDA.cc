@@ -331,7 +331,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		Check_DL_Event_Selection(local);
 	//}
 
-	if (local.event_selection_SL!=0){
+	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		//std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
 		selection_count++;
 	}
