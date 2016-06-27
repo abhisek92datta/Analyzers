@@ -207,7 +207,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 		std::vector<T1>
 		removeOverlapdR(const std::vector<T1>& v1, const std::vector<T2>& v2, double dR = 0.02);
 
-	float getMHT(CU_ttH_EDA_event_vars &);
+	//float getMHT(CU_ttH_EDA_event_vars &);
 	
 	/*
 	* Variable section
