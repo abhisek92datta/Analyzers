@@ -37,10 +37,16 @@ struct CU_ttH_EDA_event_vars {
 	int n_muons;
 	int n_veto_muons;
 	int n_leptons;
-	int n_jets;
-	int n_btags;
+	int n_sl_jets;
+	int n_sl_btags;
+	int n_di_jets;
+	int n_di_btags;
 	int n_ttags;
 	int n_Htags;
+	
+	int n_di_electrons;
+	int n_di_muons;
+	int n_di_leptons;
 
 	/// Passing-trigger flags
 	bool pass_single_e;
@@ -61,16 +67,28 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<pat::Muon> mu_veto_selected_sorted;
 	
 	std::vector<pat::Electron> e_di_selected;
+	std::vector<pat::Electron> mu_di_selected;
+	std::vector<pat::Electron> e_di_selected_sorted;
+	std::vector<pat::Electron> mu_di_selected_sorted;
 	
 	std::vector<pat::Jet> jets_raw;
 	std::vector<pat::Jet> jets_no_mu;
 	std::vector<pat::Jet> jets_no_mu_e;
 	std::vector<pat::Jet> jets_corrected;
-	std::vector<pat::Jet> jets_selected;
-	std::vector<pat::Jet> jets_selected_sorted;
-	std::vector<pat::Jet> jets_selected_tag_old;
-	std::vector<pat::Jet> jets_selected_tag;
-	std::vector<pat::Jet> jets_selected_tag_sorted;
+	
+	std::vector<pat::Jet> jets_sl_corrected;
+	std::vector<pat::Jet> jets_sl_selected;
+	std::vector<pat::Jet> jets_sl_selected_sorted;
+	std::vector<pat::Jet> jets_sl_selected_tag_old;
+	std::vector<pat::Jet> jets_sl_selected_tag;
+	std::vector<pat::Jet> jets_sl_selected_tag_sorted;
+	
+	std::vector<pat::Jet> jets_di_corrected;
+	std::vector<pat::Jet> jets_di_selected;
+	std::vector<pat::Jet> jets_di_selected_sorted;
+	std::vector<pat::Jet> jets_di_selected_tag_old;
+	std::vector<pat::Jet> jets_di_selected_tag;
+	std::vector<pat::Jet> jets_di_selected_tag_sorted;
 	
 	std::vector<double> vec_jet_pt;
   	std::vector<double> vec_jet_eta;
@@ -91,10 +109,12 @@ struct CU_ttH_EDA_event_vars {
 	double metLD;
 	double met_pt, met_phi;
 	int met_passed;
-	double b_weight;
+	double b_weight_sl;
+	double b_weight_di;
 	
 	int n_prim_V;
-	bool event_selection;
+	bool event_selection_SL;
+	bool event_selection_DL;
 	
 	// Gen Particles
 	std::vector<reco::GenParticle> genHiggs;
