@@ -55,14 +55,14 @@ void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
 	//fill_ntuple_taus(local.tau_selected_sorted);
 
 	// Jets
-	n_presel_jet = local.n_jets;
-	fill_ntuple_jets(local.jets_selected_sorted);
+	//n_presel_jet = local.n_jets;
+	//fill_ntuple_jets(local.jets_selected_sorted);
 	
 	// MET/MHT
 	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
 	PFMETphi = local.pfMET.phi();
-	MHT = local.MHT;
-	metLD = local.metLD;
+	//MHT = local.MHT;
+	//metLD = local.metLD;
 }
 
 void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & local)
@@ -71,7 +71,7 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 	// Get leading and sub-leading leptons
 	lep0_isfakeable = false;
 	lep1_isfakeable = false;
-    lep0_ptRatio = 1.;
+    	lep0_ptRatio = 1.;
 	lep1_ptRatio = 1.;
 
 	update_ldgLeps_vars(local.mu_selected_sorted);
@@ -96,7 +96,8 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 	else
 		lep1_conept = lep1_p4.Pt();
 
-	// mindr_lep_jet	
+	// mindr_lep_jet
+	/*
 	mindr_lep0_jet = 23333.;  // initialize
 	mindr_lep1_jet = 23333.;  // initialize
 	for (auto & jet : local.jets_selected_sorted) {
@@ -107,7 +108,7 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 		if (lep1_p4.DeltaR(jLV) < mindr_lep1_jet)
 			mindr_lep1_jet = lep1_p4.DeltaR(jLV);		
 	}
-	
+	*/
 	// MT_met_lep0
 	double mass_lep0 = lep0_p4.M();
 	double Et_lep0 = sqrt(mass_lep0 * mass_lep0 + lep0_conept * lep0_conept);
@@ -116,6 +117,7 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 		sqrt(mass_lep0*mass_lep0 + 2*local.pfMET.pt()*(Et_lep0 - lep0_conept*cosDphi));
 	
 	// avg_dr_jet
+	/*
 	double sum_dr_jet = 0;
 	int ncomb = 1;
 	if (local.n_jets>=2) {		
@@ -131,6 +133,7 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 		
 	}
 	avg_dr_jet = sum_dr_jet/ncomb;
+	*/
 }
 
 void CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon>& muons)
@@ -312,6 +315,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_taus(const std::vector<pat::Tau>& taus)
 	}
 }
 */
+/*
 void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets)
 {
 	if (jets.size() > 0) {
@@ -346,7 +350,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets)
 		jet3_CSV = jets[3].bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 	}
 }
-
+*/
 void CU_ttH_EDA_Ntuple::initialize()
 {
 	// event variables
@@ -526,6 +530,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	*/
 	
 	// jets
+	/*
 	jet0_pt = -9999.;
 	jet0_eta = -9999.;
 	jet0_phi = -9999.;
@@ -551,6 +556,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	PFMETphi = -9999.;
 	MHT = -9999.;
 	metLD = -9999.;
+	*/
 }
 
 void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
@@ -571,16 +577,16 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("n_mvasel_ele", &n_mvasel_ele);
 	tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
 	//tree->Branch("n_presel_tau", &n_presel_tau);
-	tree->Branch("n_presel_jet", &n_presel_jet);
+	//tree->Branch("n_presel_jet", &n_presel_jet);
 	tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
 	tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
-	tree->Branch("MT_met_lep0", &MT_met_lep0);
+	//tree->Branch("MT_met_lep0", &MT_met_lep0);
 	//tree->Branch("n_jet25_recl", &n_jet25_recl);
 	tree->Branch("mindr_lep0_jet", &mindr_lep0_jet);
 	tree->Branch("mindr_lep1_jet", &mindr_lep1_jet);
 	tree->Branch("lep0_conept", &lep0_conept);
 	tree->Branch("lep1_conept", &lep1_conept);
-	tree->Branch("avg_dr_jet", &avg_dr_jet);
+	//tree->Branch("avg_dr_jet", &avg_dr_jet);
 	// muons
 	tree->Branch("mu0_pt",                   &mu0_pt);
 	tree->Branch("mu0_eta",                  &mu0_eta);
@@ -729,6 +735,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("tau1_againstElectronTightMVA6", &tau1_againstElectronTightMVA6);
 	*/
 	// jets
+	/*
 	tree->Branch("jet0_pt", &jet0_pt);
 	tree->Branch("jet0_eta", &jet0_eta);
 	tree->Branch("jet0_phi", &jet0_phi);
@@ -754,6 +761,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("PFMETphi", &PFMETphi);
 	tree->Branch("MHT", &MHT);
 	tree->Branch("metLD", &metLD);
+	*/
 }
 
 double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
