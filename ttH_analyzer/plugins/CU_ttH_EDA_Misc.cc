@@ -1013,7 +1013,7 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 }
 
 double
-CU_ttH_EDA::GetJetSF(const pat::Jet jet, const sysType::sysType iSysType, double rho) {
+CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho) {
 	double scale = 1;
 	_jetCorrector->setJetPt(jet.pt());
     	_jetCorrector->setJetEta(jet.eta());
