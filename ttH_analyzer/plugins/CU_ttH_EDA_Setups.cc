@@ -222,7 +222,7 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
 void CU_ttH_EDA::Set_up_output_files()
 {
 	events_combined = fopen("CU_tth_80X.csv", "w");
-	fprintf(events_combined, "run, lumi, event, is_e, is_mu, is_ee, is_emu, is_mumu, n_jets, n_btags, lep1_pt, lep1_iso, lep1_pdgId, lep2_pt, lep2_iso, lep2_pdgId, jet1_pt, jet2_pt, jet1_CSVv2, jet2_CSVv2, jet1_JecSF, jet1_JecSF_up, jet1_JecSF_down, MET_pt, MET_phi,mll, ttHFCategory, PUWeight, bWeight, triggerSF, lepSF, Q2_upup, Q2_downdown, pdf_up, pdf_down \n");
+	fprintf(events_combined, "run, lumi, event, is_e, is_mu, is_ee, is_emu, is_mumu, n_jets, n_btags, lep1_pt, lep1_iso, lep1_pdgId, lep2_pt, lep2_iso, lep2_pdgId, jet1_pt, jet2_pt, jet1_CSVv2, jet2_CSVv2, jet1_JecSF, jet1_JecSF_up, jet1_JecSF_down, MET_pt, MET_phi,mll, ttHFCategory, MCWeight, PUWeight, bWeight, triggerSF, lepSF, Q2_upup, Q2_downdown, pdf_up, pdf_down \n");
 	/*
 	if (analysis_type == Analyze_lepton_jet) {
 		events_single_lepton = fopen("CU_events_single_lepton_cuts.csv", "w");
