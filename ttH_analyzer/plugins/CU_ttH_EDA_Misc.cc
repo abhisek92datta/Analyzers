@@ -1195,8 +1195,8 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 			}
 		}
 	}
-	if (local.met_pt > 30)
-		local.met_passed = 1;
+	//if (local.met_pt > 30)
+	//	local.met_passed = 1;
 	local.mll = 0;
 }
 
