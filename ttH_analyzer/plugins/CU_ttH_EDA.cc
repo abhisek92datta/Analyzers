@@ -186,6 +186,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			*(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_di_mu2_eta);
 		local.e_di_selected = miniAODhelper.GetSelectedElectrons(
 			local.e_with_id, min_di_ele2_pT, electronID::electronEndOf15MVA80iso0p15, max_di_ele2_eta);
+		local.e_di_selected = removeOverlapdR(local.e_di_selected, local.mu_di_selected, 0.05);
 		local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
 		local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
 		/// Sort leptons by pT
@@ -373,9 +374,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		else if (local.event_selection_DL!=0) {
 			pat::Jet jet = local.jets_di_selected_sorted[0];
 			jet.setP4(jet.correctedJet(0).p4());
-			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
-			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
-			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
+			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
+			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
+			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			Check_Fill_Print_di_lepton(local);
 		}
 			//std::cout<<local.event_nr<<"\n";
