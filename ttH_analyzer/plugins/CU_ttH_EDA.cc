@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 499906 && local.event_nr!= 133790 && local.event_nr!= 38878 && local.event_nr!= 1822872 && local.event_nr!= 3540674)
-		return;
+	//if (local.event_nr != 499906 && local.event_nr!= 133790 && local.event_nr!= 38878 && local.event_nr!= 1822872 && local.event_nr!= 3540674)
+	//	return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -348,7 +348,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//else if (analysis_type == Analyze_dilepton) {
 		Check_DL_Event_Selection(local);
 	//}
-	
+	/*
 	std::cout<<local.is_ee<<"  "<<local.is_mumu<<"  "<<local.is_emu<<"\n";
 	std::cout<<local.n_di_leptons<<"  "<<local.n_di_electrons<<"   "<<local.n_di_muons<<"  "<<local.n_di_jets<<"  "<<local.n_di_btags<<"\n";
 	for (const auto& e : local.e_di_selected_sorted) {
@@ -361,7 +361,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
 	std::cout<<"\n";
-	
+	*/
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		//std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
