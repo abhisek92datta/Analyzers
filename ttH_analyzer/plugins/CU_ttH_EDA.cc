@@ -133,10 +133,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (event_count < 9000)
-	//	return;
+	if (local.event_nr != 3059321 && local.event_nr!= 3911355)
+		return;
 	
-
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
@@ -348,6 +347,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//else if (analysis_type == Analyze_dilepton) {
 		Check_DL_Event_Selection(local);
 	//}
+	std:cout<<min_di_met<<"\n";
+	std::cout<<local.event_nr<<"  "<<local.met_pt<<"  "<<local.met_passed<<"  "<<local.event_selection_DL<<"\n\n";
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		//std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
