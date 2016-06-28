@@ -258,15 +258,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	// b-tagged jet selection
 	// Single Lepton
-	local.jets_sl_selected_tag_old = miniAODhelper.GetSelectedJets(
+	local.jets_sl_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_sl_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	// Dilepton
-	local.jets_di_selected_tag_old = miniAODhelper.GetSelectedJets(
+	local.jets_di_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_di_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
 	
-	
+	/*
 	for (const auto& jet : local.jets_sl_selected_tag_old) {
 		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
 			local.jets_sl_selected_tag.push_back(jet);
@@ -277,7 +277,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jets_di_selected_tag.push_back(jet);
 		}
 	}
-	
+	*/
 	
 	// Single Lepton	
 	local.n_sl_jets = static_cast<int>(local.jets_sl_selected.size());
@@ -334,11 +334,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.event_selection_DL = false;
 
 	// NOT DOING TRIGGER CHECK AT THE MOMENT
-	//local.pass_single_e = 1;
-	//local.pass_single_mu = 1;
-	//local.pass_double_e = 1;
-	//local.pass_double_mu = 1;
-	//local.pass_elemu = 1;
+	local.pass_single_e = 1;
+	local.pass_single_mu = 1;
+	local.pass_double_e = 1;
+	local.pass_double_mu = 1;
+	local.pass_elemu = 1;
 
 	// Event selection criteria for single lepton events
 	//if (analysis_type == Analyze_lepton_jet) {
