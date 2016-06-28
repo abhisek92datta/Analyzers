@@ -376,7 +376,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//if (analysis_type == Analyze_lepton_jet) {
 		if (local.event_selection_SL!=0) {
 			pat::Jet jet = local.jets_sl_selected_sorted[0];
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
@@ -389,7 +389,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//if (analysis_type == Analyze_dilepton) {
 		else if (local.event_selection_DL!=0) {
 			pat::Jet jet = local.jets_di_selected_sorted[0];
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
