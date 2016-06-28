@@ -347,7 +347,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//else if (analysis_type == Analyze_dilepton) {
 		Check_DL_Event_Selection(local);
 	//}
-	std:cout<<min_di_met<<"\n";
+	std::cout<<min_di_met<<"\n";
 	std::cout<<local.event_nr<<"  "<<local.met_pt<<"  "<<local.met_passed<<"  "<<local.event_selection_DL<<"\n\n";
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
