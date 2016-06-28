@@ -357,11 +357,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for (const auto& mu : local.mu_di_selected_sorted) {
 		std::cout<<mu.pt()<<"  "<<mu.eta()<<"\n";
 	}
+	*/
+	if (local.event_selection_DL!=0){
+	std::cout<<"\n";
+	std::cout<<local.event_nr<<"\n";
 	for (const auto& jet : local.jets_di_selected_sorted) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
 	std::cout<<"\n";
-	*/
+	}
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		//std::cout<<local.event_nr<<"  "<<local.n_electrons<<"   "<<local.n_muons<<"\n";
