@@ -375,7 +375,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
-			//Check_Fill_Print_di_lepton(local);
+			Check_Fill_Print_di_lepton(local);
 		}
 			//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
