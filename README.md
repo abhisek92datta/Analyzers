@@ -6,9 +6,9 @@ This is for "ttH " -  H to bb" analysis
 
 Setup CMSSW environment and get Analyzer repository:
 
-cmsrel CMSSW_7_6_3_patch2
+cmsrel CMSSW_8_0_8_patch1
 
-cd CMSSW_7_6_3_patch2/src/
+cd CMSSW_8_0_8_patch1/src/
 
 cmsenv
 
@@ -26,11 +26,11 @@ Get dependencies:
 
 git clone https://github.com/cms-ttH/MiniAOD.git
 
-Then switch to CMSSW_7_6_3 branch:
+Then switch to CMSSW_8_0_8 branch:
 
 cd MiniAOD
 
-git checkout CMSSW_7_6_3
+git checkout CMSSW_8_0_8
 
 cd ..
 
