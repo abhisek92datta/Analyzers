@@ -1021,6 +1021,7 @@ CU_ttH_EDA::GetJetSF(const pat::Jet jet, const sysType::sysType iSysType, double
     	_jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
 
 	 scale = _jetCorrector->getCorrection();
+	 jet.scaleEnergy( scale );
 	
 	if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
       		_jetCorrectorUnc->setJetPt(jet.pt());
@@ -1036,8 +1037,9 @@ CU_ttH_EDA::GetJetSF(const pat::Jet jet, const sysType::sysType iSysType, double
 			jes = 1 - unc;
       		}
       		scale = scale*jes;
+      		jet.scaleEnergy( jes );
     	}
-    	//scale = scale * miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+    	scale = scale * miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
 	return scale;
 }
 
