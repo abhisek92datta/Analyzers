@@ -186,7 +186,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			*(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_di_mu2_eta);
 		local.e_di_selected = miniAODhelper.GetSelectedElectrons(
 			local.e_with_id, min_di_ele2_pT, electronID::electronEndOf15MVA80iso0p15, max_di_ele2_eta);
-		local.e_di_selected = removeOverlapdR(local.e_di_selected, local.mu_di_selected, 0.05);
+		//local.e_di_selected = removeOverlapdR(local.e_di_selected, local.mu_di_selected, 0.05);
 		local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
 		local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
 		/// Sort leptons by pT
