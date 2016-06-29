@@ -163,7 +163,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	bool Check_triggers_iterator(const vector<string> &, edm::Handle<edm::TriggerResults>);
 	
 	std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&);
-	std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	std::vector<pat::Jet> GetCorrectedJets_JEC(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	std::vector<pat::Jet> GetCorrectedJets_JER(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
 	double getJERfactor( const int, const double, const double, const double );
 	double GetJetSF( pat::Jet, const sysType::sysType, double);
