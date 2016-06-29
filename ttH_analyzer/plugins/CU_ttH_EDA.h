@@ -299,6 +299,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	
+	int i;
+	std::vector<int> index;
+	
 	double E;
 	double p;
 	double pz;
