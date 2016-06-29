@@ -366,7 +366,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for ( auto& jet : local.jets_sl_raw) {
 		std::cout<<jet.pt()<<"\n";
 	}
-	for ( auto& jet : local.jets_sl_JEC_corrected) {
+	for ( auto& jet : local.jets_sl_corrected_JEC) {
 		std::cout<<jet.pt()<<"   ";
 		jet.setP4(jet.correctedJet(0).p4());
 		std::cout<<jet.pt()<<"\n";
