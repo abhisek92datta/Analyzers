@@ -420,9 +420,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			pat::Jet jet = local.jets_sl_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
 			
 			// to get b-weight
@@ -443,10 +443,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			std::cout<<local.event_nr<<"\n";
 			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
-			jet.setP4(jet.correctedJet(0).p4());
+			//jet.setP4(jet.correctedJet(0).p4());
 			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			std::cout<<"\n\n";
