@@ -1311,7 +1311,9 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 }
 
 void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
-	local.lep_sf_id_sl = local.lep_sf_iso_sl = local.lep_sf_id_di = local.lep_sf_iso_di = 0;
+	
+	//local.lep_sf_id_sl = local.lep_sf_iso_sl = local.lep_sf_id_di = local.lep_sf_iso_di = 0;
+	
 	if (local.event_selection_SL!=0) {
 		
 		// Jet SF
@@ -1323,7 +1325,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 		
 		// to get b-weight
 		getbweight(local);
-		/*
+		
 		// Lepton SF
 		if (local.is_e) {
 			local.lep_sf_id_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" );
@@ -1333,7 +1335,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 			local.lep_sf_id_sl = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" );
 			local.lep_sf_iso_sl = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" );
 		}
-		*/
+		
 		
 	}
 
@@ -1349,21 +1351,21 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 		// to get b-weight
 		getbweight(local);
 		
-		/*
+		
 		// Lepton SF
 		if (local.is_ee) {
-			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetElectronSF(  local.e_selected[1].pt() , local.e_selected[1].eta() , 0 , "ID" );
-			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_selected[1].pt() , local.e_selected[1].eta() , 0 , "Iso" );
+			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Iso" );
 		}
 		else if (local.is_mumu) {
-			local.lep_sf_id_di = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_selected[1].pt() , local.mu_selected[1].eta() , 0 , "ID" );
-			local.lep_sf_iso_di = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_selected[1].pt() , local.mu_selected[1].eta() , 0 , "Iso" );
+			local.lep_sf_id_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Iso" );
 		}
 		else if (local.is_emu) {
-			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" );
-			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" );
+			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" );
 		}
-		*/
+		
 
 	}
 }
