@@ -1308,6 +1308,62 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
+void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local) {
+	if (local.event_selection_SL!=0) {
+		
+		// Jet SF
+		pat::Jet jet = local.jets_sl_selected_JEC[0];
+		jet.setP4(jet.correctedJet(0).p4());
+		local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
+		local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
+		local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
+		
+		// to get b-weight
+		getbweight(local);
+		
+		// Lepton SF
+		if (local.is_e) {
+			local.lep_sf_id_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" );
+			local.lep_sf_iso_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" );
+		}
+		else if (local.is_mu) {
+			local.lep_sf_id_sl = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" );
+			local.lep_sf_iso_sl = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" );
+		}
+		
+		
+	}
+
+	if (local.event_selection_DL!=0) {
+	
+		// Jet SF
+		pat::Jet jet = local.jets_di_selected_JEC[0];
+		jet.setP4(jet.correctedJet(0).p4());
+		local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
+		local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
+		local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
+
+		// to get b-weight
+		getbweight(local);
+		
+		// Lepton SF
+		if (local.is_ee) {
+			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetElectronSF(  local.e_selected[1].pt() , local.e_selected[1].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_selected[1].pt() , local.e_selected[1].eta() , 0 , "Iso" );
+		}
+		else if (local.is_mumu) {
+			local.lep_sf_id_di = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_selected[1].pt() , local.mu_selected[1].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_selected[1].pt() , local.mu_selected[1].eta() , 0 , "Iso" );
+		}
+		else if (local.is_emu) {
+			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "ID" );
+			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" );
+		}
+		
+
+	}
+}
+
 
 void CU_ttH_EDA::fillCSVHistos(TFile *fileHF, TFile *fileLF)
 {
