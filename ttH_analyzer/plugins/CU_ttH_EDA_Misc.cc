@@ -1096,7 +1096,6 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
   for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
     
     pat::Jet jet = (*it);
-    double scale = 1.;
 
       double jerSF = 1.;
       
