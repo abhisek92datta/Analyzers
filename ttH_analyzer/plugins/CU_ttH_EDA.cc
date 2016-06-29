@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (local.event_nr != 1805)
-	//	return;
+	if (local.event_nr != 1805)
+		return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -427,7 +427,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			
 			// to get b-weight
 			getbweight(local);
-			//local.b_weight_sl = 0;
 
 			Check_Fill_Print_single_lepton(local);
 			//std::cout<<"\n";
@@ -441,15 +440,19 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		else if (local.event_selection_DL!=0) {
 			pat::Jet jet = local.jets_di_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
+			std::cout<<local.event_nr<<"\n";
+			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
 			jet.setP4(jet.correctedJet(0).p4());
+			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
 			jet.setP4(jet.correctedJet(0).p4());
+			std::cout<<jet.pt()<<"  ";
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
-			
+			std::cout<<"\n\n";
 			// to get b-weight
 			getbweight(local);
-			//local.b_weight_di = 0;
+	
 			Check_Fill_Print_di_lepton(local);
 			//std::cout<<"\n";
 			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
