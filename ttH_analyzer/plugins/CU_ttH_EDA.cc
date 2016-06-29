@@ -316,9 +316,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.n_di_jets = static_cast<int>(local.jets_di_selected.size());
 	local.n_di_btags = static_cast<int>(local.jets_di_selected_tag.size());
 	
-	// to get b-weight
-	getbweight(local);
-
 	/// Sort jets by pT
 	// Single Lepton
 	local.jets_sl_selected_sorted =
@@ -421,8 +418,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			pat::Jet jet = local.jets_sl_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
+			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
+			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
+			
+			// to get b-weight
+			getbweight(local,local.event_selection_SL,local.event_selection_DL);
+
 			Check_Fill_Print_single_lepton(local);
 			std::cout<<"\n";
 			std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
@@ -436,8 +439,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			pat::Jet jet = local.jets_di_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
+			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
+			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
+			
+			// to get b-weight
+			getbweight(local,local.event_selection_SL,local.event_selection_DL);
+			
 			Check_Fill_Print_di_lepton(local);
 			std::cout<<"\n";
 			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
