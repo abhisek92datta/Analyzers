@@ -67,6 +67,7 @@
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
+#include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
 
 /// ROOT includes
 #include "TH1.h"
@@ -173,6 +174,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
                        std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
         void fillCSVHistos(TFile *fileHF, TFile *fileLF);
+        
+        void Fill_addn_quant(CU_ttH_EDA_event_vars &);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
@@ -319,6 +322,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
+	LeptonSFHelper leptonSFhelper;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
