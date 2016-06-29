@@ -1473,6 +1473,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	if (local.event_selection_SL == 1) {
   		for( std::vector<pat::Jet>::const_iterator iJet = local.jets_sl_selected.begin(); iJet != local.jets_sl_selected.end(); iJet++ ){ 
 			 local.vec_jet_pt.push_back(iJet->pt());
+			 std::cout<<iJet->eta()<<"\n";
 			 local.vec_jet_eta.push_back(iJet->eta());
     	 	  	 local.vec_jet_csv.push_back(miniAODhelper.GetJetCSV(*iJet,"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     			 local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
