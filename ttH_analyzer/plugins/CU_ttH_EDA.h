@@ -175,7 +175,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                        std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
         void fillCSVHistos(TFile *fileHF, TFile *fileLF);
         
-        void Fill_addn_quant(CU_ttH_EDA_event_vars &);
+        void Fill_addn_quant(CU_ttH_EDA_event_vars &, double);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
