@@ -260,8 +260,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 		i++;
 	}
-	for (int j : index) {
-		local.jets_sl_selected_JEC.push_back(local.jets_sl_corrected_JEC[j]);
+	if(index.size()!=0) {
+		for (int j : index) {
+			local.jets_sl_selected_JEC.push_back(local.jets_sl_corrected_JEC[j]);
+		}
 	}
 	//}
 	//else if (analysis_type == Analyze_dilepton) {
@@ -277,8 +279,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		}
 		i++;
 	}
-	for (int j : index) {
-		local.jets_di_selected_JEC.push_back(local.jets_di_corrected_JEC[j]);
+	if(index.size()!=0) {
+		for (int j : index) {
+			local.jets_di_selected_JEC.push_back(local.jets_di_corrected_JEC[j]);
+		}
 	}
 	//}
 
@@ -420,6 +424,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
 			Check_Fill_Print_single_lepton(local);
+			std::cout<<"\n";
+			std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
 		}
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
@@ -433,8 +439,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			Check_Fill_Print_di_lepton(local);
-			//std::cout<<"\n";
-			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
+			std::cout<<"\n";
+			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
 		}
 		//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
