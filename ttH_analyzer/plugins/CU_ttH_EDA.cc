@@ -424,7 +424,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
 			
 			// to get b-weight
-			getbweight(local,local.event_selection_SL,local.event_selection_DL);
+			getbweight(local);
 
 			Check_Fill_Print_single_lepton(local);
 			std::cout<<"\n";
@@ -445,7 +445,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			
 			// to get b-weight
-			getbweight(local,local.event_selection_SL,local.event_selection_DL);
+			getbweight(local);
 			
 			Check_Fill_Print_di_lepton(local);
 			std::cout<<"\n";
