@@ -251,8 +251,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Single Lepton
 		//local.jets_sl_selected = miniAODhelper.GetSelectedJets(
 		//	local.jets_sl_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
-	std::vector<int> index;
-	int i=0;
+	index.clear();
+	i=0;
 	for ( auto& jet : local.jets_sl_corrected) {
 		if ( (jet.pt() > min_jet_pT ) && (jet.eta() < max_jet_eta ) ) {
 			local.jets_sl_selected.push_back(jet);	
@@ -263,13 +263,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for (int j : index) {
 		local.jets_sl_selected_JEC.push_back(local.jets_sl_corrected_JEC[j]);
 	}
-	index.clear();
-	i=0;
 	//}
 	//else if (analysis_type == Analyze_dilepton) {
 	// Dilepton
 	//	local.jets_di_selected = miniAODhelper.GetSelectedJets(
 	//		local.jets_di_corrected, min_jet2_pT, max_jet_eta, jetID::none, '-');
+	index.clear();
+	i=0;
 	for ( auto& jet : local.jets_di_corrected) {
 		if ( (jet.pt() > min_jet2_pT ) && (jet.eta() < max_jet_eta ) ) {
 			local.jets_di_selected.push_back(jet);	
