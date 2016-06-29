@@ -388,19 +388,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<mu.pt()<<"  "<<mu.eta()<<"\n";
 	}
 	*/
-	/*
+	
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"\n";
 	for ( auto& jet : local.jets_sl_raw) {
 		std::cout<<jet.pt()<<"\n";
 	}
-	for ( auto& jet : local.jets_sl_corrected_JEC) {
+	std::cout<<"\n";
+	for ( auto& jet : local.jets_sl_selected) {
+		std::cout<<jet.pt()<<"\n";
+	}
+	for ( auto& jet : local.jets_sl_selected_JEC) {
 		std::cout<<jet.pt()<<"   ";
 		jet.setP4(jet.correctedJet(0).p4());
 		std::cout<<jet.pt()<<"\n";
 	}
 	std::cout<<"\n";
-	*/
+	
 	
 	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
