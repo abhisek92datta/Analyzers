@@ -427,8 +427,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			getbweight(local);
 
 			Check_Fill_Print_single_lepton(local);
-			std::cout<<"\n";
-			std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
+			//std::cout<<"\n";
+			//std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
 		}
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
@@ -446,8 +446,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			getbweight(local);
 	
 			Check_Fill_Print_di_lepton(local);
-			std::cout<<"\n";
-			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
+			//std::cout<<"\n";
+			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
 		}
 		//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
