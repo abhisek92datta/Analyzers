@@ -254,7 +254,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	index.clear();
 	i=0;
 	for ( auto& jet : local.jets_sl_corrected) {
-		if ( (jet.pt() > min_jet_pT ) && (jet.eta() < max_jet_eta ) ) {
+		if ( (jet.pt() > min_jet_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
 			local.jets_sl_selected.push_back(jet);	
 			index.push_back(i);
 		}
@@ -273,7 +273,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	index.clear();
 	i=0;
 	for ( auto& jet : local.jets_di_corrected) {
-		if ( (jet.pt() > min_jet2_pT ) && (jet.eta() < max_jet_eta ) ) {
+		if ( (jet.pt() > min_jet2_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
 			local.jets_di_selected.push_back(jet);	
 			index.push_back(i);
 		}
@@ -410,7 +410,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		selection_count++;\
-		std::cout<<local.event_nr<<"\n";
+		//std::cout<<local.event_nr<<"\n";
 	}
 	
 	
