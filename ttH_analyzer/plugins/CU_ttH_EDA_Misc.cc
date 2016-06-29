@@ -336,7 +336,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
 	fprintf(events_combined, "-1, -1, ");
 	fprintf(events_combined, "%.4f, ", local.b_weight_sl);
-	fprintf(events_combined, "-1, -1, -1, -1, -1, -1, \n");
+	fprintf(events_combined, "-1, -1, -1, -1, -1, -1, -1, \n");
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
@@ -367,7 +367,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
 	fprintf(events_combined, "-1, -1, ");
 	fprintf(events_combined, "%.4f, ", local.b_weight_di);
-	fprintf(events_combined, "-1, -1, -1, -1, -1, -1, \n");
+	fprintf(events_combined, "-1, -1, -1, -1, -1, -1, -1, \n");
 }
 
 /*
