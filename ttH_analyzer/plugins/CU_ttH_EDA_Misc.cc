@@ -1466,11 +1466,11 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> 
   return csvWgtTotal;
 }
 
-void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local, bool is_SL, bool is_DL) {
+void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	double csvWgtHF, csvWgtLF, csvWgtCF;
 	csvWgtHF = csvWgtLF = csvWgtCF = 0;
 	
-	if (is_SL == 1) {
+	if (local.event_selection_SL == 1) {
   		for( std::vector<pat::Jet>::const_iterator iJet = local.jets_sl_selected.begin(); iJet != local.jets_sl_selected.end(); iJet++ ){ 
 			 local.vec_jet_pt.push_back(iJet->pt());
 			 local.vec_jet_eta.push_back(iJet->eta());
@@ -1481,7 +1481,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local, bool is_SL, bool is_D
 		local.b_weight_sl = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
 	}
 	
-	else if (is_DL ==1) {
+	else if (local.event_selection_DL ==1) {
 		for( std::vector<pat::Jet>::const_iterator iJet = local.jets_di_selected.begin(); iJet != local.jets_di_selected.end(); iJet++ ){ 
 			 local.vec_jet_pt.push_back(iJet->pt());
 			 local.vec_jet_eta.push_back(iJet->eta());
