@@ -1045,9 +1045,9 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
 }
 
 
-
+//JEC
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -1056,7 +1056,6 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
     pat::Jet jet = (*it);
     double scale = 1.;
 
-    /// JES
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
@@ -1081,8 +1080,24 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, double rho,
 
       jet.scaleEnergy( jes );
     }
+    
+    outputJets.push_back(jet);
+  }
 
-    /// JER
+  return outputJets;
+}
+
+// JER
+std::vector<pat::Jet> 
+CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+	
+  std::vector<pat::Jet> outputJets;
+
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
+    
+    pat::Jet jet = (*it);
+    double scale = 1.;
+
       double jerSF = 1.;
       
       if( jet.genJet() ){
