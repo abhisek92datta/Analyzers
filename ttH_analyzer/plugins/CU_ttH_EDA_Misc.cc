@@ -1479,6 +1479,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	 	} 
 	
 		local.b_weight_sl = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
+		local.b_weight_di = 0;
 	}
 	
 	else if (local.event_selection_DL ==1) {
@@ -1490,6 +1491,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 		 } 
 	
 		local.b_weight_di = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
+		local.b_weight_sl = 0;
 	}
 }
 
