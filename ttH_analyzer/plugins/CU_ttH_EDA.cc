@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 1805)
-		return;
+	//if (local.event_nr != 1805)
+	//	return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -433,10 +433,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			Check_Fill_Print_di_lepton(local);
-			std::cout<<"\n";
-			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
+			//std::cout<<"\n";
+			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
 		}
-			//std::cout<<local.event_nr<<"\n";
+		//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
 		//Check_Fill_Print_dielej(local);
 		//Check_Fill_Print_elemuj(local);
