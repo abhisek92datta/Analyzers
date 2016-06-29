@@ -417,15 +417,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
 		if (local.event_selection_SL!=0) {
-			pat::Jet jet = local.jets_sl_selected_JEC[0];
-			jet.setP4(jet.correctedJet(0).p4());
-			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
-			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
-			local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
-			
-			// to get b-weight
-			getbweight(local);
-
+			Fill_addn_quant(local);
 			Check_Fill_Print_single_lepton(local);
 			//std::cout<<"\n";
 			//std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
@@ -436,15 +428,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	//if (analysis_type == Analyze_dilepton) {
 		else if (local.event_selection_DL!=0) {
-			pat::Jet jet = local.jets_di_selected_JEC[0];
-			jet.setP4(jet.correctedJet(0).p4());
-			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
-			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
-			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
-
-			// to get b-weight
-			getbweight(local);
-	
+			Fill_addn_quant(local);
 			Check_Fill_Print_di_lepton(local);
 			//std::cout<<"\n";
 			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
