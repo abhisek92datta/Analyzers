@@ -1310,15 +1310,15 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
-void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local) {
+void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 	if (local.event_selection_SL!=0) {
 		
 		// Jet SF
 		pat::Jet jet = local.jets_sl_selected_JEC[0];
 		jet.setP4(jet.correctedJet(0).p4());
-		local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
-		local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
-		local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown,*rho);
+		local.jet1SF_sl = GetJetSF(jet,sysType::NA, rho);
+		local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup, rho);
+		local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown, rho);
 		
 		// to get b-weight
 		getbweight(local);
