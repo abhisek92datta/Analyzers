@@ -123,6 +123,11 @@ struct CU_ttH_EDA_event_vars {
 	double jet1SF_up_di;
 	double jet1SF_down_di;
 	
+	double lep_sf_id_sl;
+	double lep_sf_iso_sl;
+	double lep_sf_id_di;
+	double lep_sf_iso_di;
+
 	bool is_e;
 	bool is_mu;
 	bool is_ee;
