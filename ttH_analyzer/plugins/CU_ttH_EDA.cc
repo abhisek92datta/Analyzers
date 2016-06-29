@@ -409,8 +409,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
-		selection_count++;
+		selection_count++;\
+		std::cout<<local.event_nr<<"\n";
 	}
+	
 	
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
@@ -428,8 +430,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			//local.b_weight_sl = 0;
 
 			Check_Fill_Print_single_lepton(local);
-			std::cout<<"\n";
-			std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
+			//std::cout<<"\n";
+			//std::cout<<local.jet1SF_sl<<"  "<<local.jet1SF_up_sl<<"  "<<local.jet1SF_down_sl<<"\n"; 
 		}
 		//Check_Fill_Print_ej(local);
 		//Check_Fill_Print_muj(local);
@@ -449,8 +451,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 			getbweight(local);
 			//local.b_weight_di = 0;
 			Check_Fill_Print_di_lepton(local);
-			std::cout<<"\n";
-			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
+			//std::cout<<"\n";
+			//std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
 		}
 		//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
