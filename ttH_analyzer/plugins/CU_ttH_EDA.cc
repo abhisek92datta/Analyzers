@@ -249,13 +249,37 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Jet selection
 	//if (analysis_type == Analyze_lepton_jet) {
 	// Single Lepton
-		local.jets_sl_selected = miniAODhelper.GetSelectedJets(
-			local.jets_sl_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
+		//local.jets_sl_selected = miniAODhelper.GetSelectedJets(
+		//	local.jets_sl_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
+	std::vector<int> index;
+	int i=0;
+	for ( auto& jet : local.jets_sl_corrected) {
+		if ( (jet.pt() > min_jet_pT ) && (jet.eta() < max_jet_eta ) ) {
+			local.jets_sl_selected.push_back(jet);	
+			index.push_back(i);
+		}
+		i++;
+	}
+	for (int j : index) {
+		local.jets_sl_selected_JEC.push_back(local.jets_sl_corrected_JEC[j]);
+	}
+	index.clear();
+	i=0;
 	//}
 	//else if (analysis_type == Analyze_dilepton) {
 	// Dilepton
-		local.jets_di_selected = miniAODhelper.GetSelectedJets(
-			local.jets_di_corrected, min_jet2_pT, max_jet_eta, jetID::none, '-');
+	//	local.jets_di_selected = miniAODhelper.GetSelectedJets(
+	//		local.jets_di_corrected, min_jet2_pT, max_jet_eta, jetID::none, '-');
+	for ( auto& jet : local.jets_di_corrected) {
+		if ( (jet.pt() > min_jet2_pT ) && (jet.eta() < max_jet_eta ) ) {
+			local.jets_di_selected.push_back(jet);	
+			index.push_back(i);
+		}
+		i++;
+	}
+	for (int j : index) {
+		local.jets_di_selected_JEC.push_back(local.jets_di_corrected_JEC[j]);
+	}
 	//}
 
 	// b-tagged jet selection
@@ -297,11 +321,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.GetSortedByPt(local.jets_sl_selected);
 	local.jets_sl_selected_tag_sorted =
 		miniAODhelper.GetSortedByPt(local.jets_sl_selected_tag);
+	local.jets_sl_selected_JEC =
+		miniAODhelper.GetSortedByPt(local.jets_sl_selected_JEC);
 	// Dilepton	
 	local.jets_di_selected_sorted =
 		miniAODhelper.GetSortedByPt(local.jets_di_selected);
 	local.jets_di_selected_tag_sorted =
 		miniAODhelper.GetSortedByPt(local.jets_di_selected_tag);
+	local.jets_di_selected_JEC =
+		miniAODhelper.GetSortedByPt(local.jets_di_selected_JEC);
 
 	/// Top and Higgs tagging using collections through handles. adjusts
 	/// local.<tag>
@@ -360,7 +388,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<mu.pt()<<"  "<<mu.eta()<<"\n";
 	}
 	*/
-
+	/*
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"\n";
 	for ( auto& jet : local.jets_sl_raw) {
@@ -372,7 +400,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<jet.pt()<<"\n";
 	}
 	std::cout<<"\n";
-	
+	*/
 	
 	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
@@ -382,7 +410,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Check tags, fill hists, print events
 	//if (analysis_type == Analyze_lepton_jet) {
 		if (local.event_selection_SL!=0) {
-			pat::Jet jet = local.jets_sl_selected_sorted[0];
+			pat::Jet jet = local.jets_sl_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_sl = GetJetSF(jet,sysType::NA,*rho);
 			local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup,*rho);
@@ -395,12 +423,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	//if (analysis_type == Analyze_dilepton) {
 		else if (local.event_selection_DL!=0) {
-			pat::Jet jet = local.jets_di_selected_sorted[0];
+			pat::Jet jet = local.jets_di_selected_JEC[0];
 			jet.setP4(jet.correctedJet(0).p4());
 			local.jet1SF_di = GetJetSF(jet,sysType::NA,*rho);
 			local.jet1SF_up_di = GetJetSF(jet,sysType::JESup,*rho);
 			local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown,*rho);
 			Check_Fill_Print_di_lepton(local);
+			std::cout<<"\n";
+			std::cout<<local.jet1SF_di<<"  "<<local.jet1SF_up_di<<"  "<<local.jet1SF_down_di<<"\n"; 
 		}
 			//std::cout<<local.event_nr<<"\n";
 		//Check_Fill_Print_dimuj(local);
