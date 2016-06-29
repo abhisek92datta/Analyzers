@@ -1466,6 +1466,10 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	local.b_weight_sl = getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv, local.vec_jet_hadronFlavour, local.iSys, csvWgtHF, csvWgtLF, csvWgtCF);
 
 	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.vec_jet_pt.clear();
+	local.vec_jet_eta.clear();
+	local.vec_jet_csv.clear();
+	local.vec_jet_hadronFlavour.clear();
 	
 	for( std::vector<pat::Jet>::const_iterator iJet = local.jets_di_selected.begin(); iJet != local.jets_di_selected.end(); iJet++ ){ 
 		 local.vec_jet_pt.push_back(iJet->pt());
