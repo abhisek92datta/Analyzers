@@ -223,8 +223,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	// Jet Energy Correction
 	SetFactorizedJetCorrector();
-	local.jets_sl_corrected = GetCorrectedJets(local.jets_sl_raw, *rho);
-	local.jets_di_corrected = GetCorrectedJets(local.jets_di_raw, *rho);
+	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_sl_raw, *rho);
+	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_di_raw, *rho);
+	local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
+	local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 	
@@ -364,7 +366,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for ( auto& jet : local.jets_sl_raw) {
 		std::cout<<jet.pt()<<"\n";
 	}
-	for ( auto& jet : local.jets_sl_corrected) {
+	for ( auto& jet : local.jets_sl_JEC_corrected) {
 		std::cout<<jet.pt()<<"   ";
 		jet.setP4(jet.correctedJet(0).p4());
 		std::cout<<jet.pt()<<"\n";
