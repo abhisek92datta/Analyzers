@@ -78,6 +78,7 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<pat::Jet> jets_sl_raw;
 	std::vector<pat::Jet> jets_sl_corrected_JEC;
 	std::vector<pat::Jet> jets_sl_corrected;
+	std::vector<pat::Jet> jets_sl_selected_JEC;
 	std::vector<pat::Jet> jets_sl_selected;
 	std::vector<pat::Jet> jets_sl_selected_sorted;
 	std::vector<pat::Jet> jets_sl_selected_tag_old;
@@ -87,6 +88,7 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<pat::Jet> jets_di_raw;
 	std::vector<pat::Jet> jets_di_corrected_JEC;
 	std::vector<pat::Jet> jets_di_corrected;
+	std::vector<pat::Jet> jets_di_selected_JEC;
 	std::vector<pat::Jet> jets_di_selected;
 	std::vector<pat::Jet> jets_di_selected_sorted;
 	std::vector<pat::Jet> jets_di_selected_tag_old;
