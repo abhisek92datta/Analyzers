@@ -1040,7 +1040,7 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
       		jet.scaleEnergy( jes );
     	}
     	if( jet.genJet() )
-    		scale = scale * miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+    		scale = scale * getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
 	return scale;
 }
 
