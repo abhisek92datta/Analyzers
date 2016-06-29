@@ -1039,13 +1039,14 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
       		scale = scale*jes;
       		jet.scaleEnergy( jes );
     	}
-    	if( jet.genJet())
+    	if( jet.genJet()) {
     		if ( iSysType == sysType::NA )
     			scale = scale * miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    		if ( iSysType == sysType::JESup )
+    		else if ( iSysType == sysType::JESup )
     			scale = scale * miniAODhelper.getJERfactor(1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    		if ( iSysType == sysType::JESdown )
+    		else if ( iSysType == sysType::JESdown )
     			scale = scale * miniAODhelper.getJERfactor(-1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+    	}
 	return scale;
 }
 
