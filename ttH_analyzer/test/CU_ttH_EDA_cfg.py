@@ -39,6 +39,8 @@ process.source = cms.Source("PoolSource",
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
+#ttHf categorization
+process.load("JetMCAlgos.GenHFHadronMatcher_cfi");
     
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
@@ -46,5 +48,6 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
+    * process.matchGenHFHadron
     * process.ttHbb
 )
