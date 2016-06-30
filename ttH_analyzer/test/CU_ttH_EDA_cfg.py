@@ -5,6 +5,7 @@ from RecoJets.Configuration.RecoPFJets_cff import *
 from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
+from SimGeneral.HepPDTESSource.pythiapdt_cfi import *
 
 process = cms.Process("MAOD")
 
@@ -36,7 +37,7 @@ process.source = cms.Source("PoolSource",
 )
 
 #ttHf categorization
-process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
+process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
