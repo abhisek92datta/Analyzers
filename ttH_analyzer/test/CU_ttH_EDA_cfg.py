@@ -36,7 +36,7 @@ process.source = cms.Source("PoolSource",
 )
 
 #ttHf categorization
-process.load("JetMCAlgos.GenHFHadronMatcher_cfi")
+process.load("JetMCAlgos.GenHFHadronMatcher_cff")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
