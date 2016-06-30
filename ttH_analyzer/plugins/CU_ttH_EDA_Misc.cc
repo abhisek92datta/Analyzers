@@ -1041,6 +1041,7 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
       		scale = scale*jes;
       		jet.scaleEnergy( jes );
     	}
+    	/*
     	if( jet.genJet()) {
     		if ( iSysType == sysType::NA )
     			scale = scale * getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
@@ -1048,7 +1049,7 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
     			scale = scale * getJERfactor(1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
     		else if ( iSysType == sysType::JESdown )
     			scale = scale * getJERfactor(-1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    	}
+    	} */
 	return scale;
 }
 
@@ -1109,13 +1110,13 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
       
       if( jet.genJet() ){
         if( iSysType == sysType::JERup ){
-	      jerSF = miniAODhelper.getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else if( iSysType == sysType::JERdown ){
-	      jerSF = miniAODhelper.getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
         else {
-  	      jerSF = miniAODhelper.getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
         }
       }
      
