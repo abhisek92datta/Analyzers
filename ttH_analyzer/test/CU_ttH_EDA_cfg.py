@@ -37,8 +37,8 @@ process.source = cms.Source("PoolSource",
 )
 
 #ttHf categorization
-process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff")
+#process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
@@ -50,6 +50,6 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-    * process.matchGenHFHadron
+    #* process.matchGenHFHadron
     * process.ttHbb
 )
