@@ -79,8 +79,8 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-    * selectedHadronsAndPartons
-    * genJetFlavourInfos
+    * process.selectedHadronsAndPartons
+    * process.genJetFlavourInfos
     * process.matchGenCHadron
     * process.matchGenBHadron
     * process.ttHbb
