@@ -14,6 +14,8 @@ cmsenv
 
 git cms-init
 
+git cms-addpkg PhysicsTools/JetMCAlgos
+
 git clone https://github.com/abhisek92datta/Analyzers.git
 
 cd Analyzers
