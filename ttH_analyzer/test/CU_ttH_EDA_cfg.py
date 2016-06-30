@@ -32,7 +32,8 @@ process.source = cms.Source("PoolSource",
         #'/store/mc/RunIISpring15MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/DA1B6FD6-C46D-E511-9C7B-00A0D1EE29B8.root'
         # tt+jet 
         #'/store/mc/RunIISpring15MiniAODv2/TT_TuneCUETP8M1_13TeV-powheg-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/40000/0EE7E064-BE6F-E511-BB41-E4115BB4C4BC.root'
-       	)
+       	),
+       	skipEvents = cms.untracked.uint32(0)
 )
 
 #ttHf categorization
