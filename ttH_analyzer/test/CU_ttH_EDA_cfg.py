@@ -17,7 +17,7 @@ process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff"
 #process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
 
-process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
+process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True), SkipEvent = cms.untracked.vstring('ProductNotFound') )
 
 process.maxEvents = cms.untracked.PSet(
 	input = cms.untracked.int32(-1)
@@ -32,8 +32,7 @@ process.source = cms.Source("PoolSource",
         #'/store/mc/RunIISpring15MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/DA1B6FD6-C46D-E511-9C7B-00A0D1EE29B8.root'
         # tt+jet 
         #'/store/mc/RunIISpring15MiniAODv2/TT_TuneCUETP8M1_13TeV-powheg-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/40000/0EE7E064-BE6F-E511-BB41-E4115BB4C4BC.root'
-       	),
-       	SkipEvent = cms.untracked.vstring('ProductNotFound')
+       	)
 )
 
 #ttHf categorization
