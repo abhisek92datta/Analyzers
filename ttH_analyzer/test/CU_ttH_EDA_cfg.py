@@ -36,42 +36,42 @@ process.source = cms.Source("PoolSource",
 )
 
 #ttHf categorization
-process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
+#process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
-process.matchGenHFHadron.genParticles = cms.InputTag('prunedGenParticles')
-genParticleCollection = 'prunedGenParticles'
-genJetCollection = 'slimmedGenJets'
+#process.matchGenHFHadron.genParticles = cms.InputTag('prunedGenParticles')
+#genParticleCollection = 'prunedGenParticles'
+#genJetCollection = 'slimmedGenJets'
 
-from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
-process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
-    particles = genParticleCollection
-)
+#from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
+#process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
+#    particles = genParticleCollection
+#)
 
-from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
-process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
-    jets = genJetCollection
-)
+#from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+#process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
+#    jets = genJetCollection
+#)
 
 # Plugin for analysing B hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
-process.matchGenBHadron = matchGenBHadron.clone(
-    genParticles = genParticleCollection,
-    jetFlavourInfos = "genJetFlavourInfos"
-)
+#from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
+#process.matchGenBHadron = matchGenBHadron.clone(
+#    genParticles = genParticleCollection,
+#    jetFlavourInfos = "genJetFlavourInfos"
+#)
 
 # Plugin for analysing C hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
-process.matchGenCHadron = matchGenCHadron.clone(
-    genParticles = genParticleCollection,
-    jetFlavourInfos = "genJetFlavourInfos"
-)
+#from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
+#process.matchGenCHadron = matchGenCHadron.clone(
+#    genParticles = genParticleCollection,
+#    jetFlavourInfos = "genJetFlavourInfos"
+#)
 
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
@@ -79,9 +79,9 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-    * process.selectedHadronsAndPartons
-    * process.genJetFlavourInfos
-    * process.matchGenCHadron
-    * process.matchGenBHadron
+    #* process.selectedHadronsAndPartons
+    #* process.genJetFlavourInfos
+    #* process.matchGenCHadron
+    #* process.matchGenBHadron
     * process.ttHbb
 )
