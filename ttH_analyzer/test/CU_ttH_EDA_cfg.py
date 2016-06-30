@@ -33,12 +33,12 @@ process.source = cms.Source("PoolSource",
         # tt+jet 
         #'/store/mc/RunIISpring15MiniAODv2/TT_TuneCUETP8M1_13TeV-powheg-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/40000/0EE7E064-BE6F-E511-BB41-E4115BB4C4BC.root'
        	),
-       	skipEvents = cms.untracked.uint32(0)
+       	SkipEvent = cms.untracked.vstring('ProductNotFound')
 )
 
 #ttHf categorization
-#process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff")
+process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
@@ -50,6 +50,6 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-    #* process.matchGenHFHadron
+    * process.matchGenHFHadron
     * process.ttHbb
 )
