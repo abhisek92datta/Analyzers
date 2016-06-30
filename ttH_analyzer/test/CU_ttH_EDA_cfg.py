@@ -35,13 +35,13 @@ process.source = cms.Source("PoolSource",
        	)
 )
 
+#ttHf categorization
+process.load("JetMCAlgos.GenHFHadronMatcher_cfi");
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
-#ttHf categorization
-process.load("JetMCAlgos.GenHFHadronMatcher_cfi");
-    
+
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
 )
