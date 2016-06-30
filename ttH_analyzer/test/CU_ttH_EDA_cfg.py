@@ -44,6 +44,7 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
 process.matchGenHFHadron.genParticles = cms.InputTag('prunedGenParticles')
+genParticleCollection = 'prunedGenParticles'
 genJetCollection = 'slimmedGenJets'
 
 from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
