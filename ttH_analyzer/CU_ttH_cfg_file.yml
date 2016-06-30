@@ -50,7 +50,7 @@ Cuts:
     min_njets : 4
     min_di_njets : 2
     min_nbtags : 2
-    min_di_nbtags : 1
+    min_di_nbtags : 2
     min_di_mll : 20.0
     min_di_met : 40.0
 
