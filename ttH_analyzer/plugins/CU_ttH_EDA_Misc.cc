@@ -1397,7 +1397,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm::
 		
 		// ttHf Category
 		local.ttHf_cat = -99;
-  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
+  		if( ttid.isValid() ) local.ttHf_cat = *ttid%100;
 
 	}
 }
