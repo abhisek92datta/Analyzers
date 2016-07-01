@@ -43,9 +43,9 @@ process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 #process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
 
 # Setting input particle collections to be used by the tools
-    genJetCollection = 'ak4GenJetsCustom'
-    genParticleCollection = 'prunedGenParticles'
-    genJetInputParticleCollection = 'packedGenParticles'
+genJetCollection = 'ak4GenJetsCustom'
+genParticleCollection = 'prunedGenParticles'
+genJetInputParticleCollection = 'packedGenParticles'
     
 ## producing a subset of particles to be used for jet clustering
     from RecoJets.Configuration.GenJetParticles_cff import genParticlesForJetsNoNu
