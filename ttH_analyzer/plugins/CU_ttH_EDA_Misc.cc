@@ -334,7 +334,8 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_sl_selected_sorted[0].pt(), local.jets_sl_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
-	fprintf(events_combined, "-1, -1, ");
+	fprintf(events_combined, "%.4f, ", local.ttHf_cat);
+	fprintf(events_combined, "-1, ");
 	fprintf(events_combined, "%.4f, -1, ", local.b_weight_sl);
 	fprintf(events_combined, "%.4f, %.4f, ", local.lep_sf_id_sl, local.lep_sf_iso_sl);
 	fprintf(events_combined, "-1, -1, -1, -1, \n");
@@ -366,7 +367,8 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_di_selected_sorted[0].pt(), local.jets_di_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_di, local.jet1SF_up_di, local.jet1SF_down_di);
 	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
-	fprintf(events_combined, "-1, -1, ");
+	fprintf(events_combined, "%.4f, ", local.ttHf_cat);
+	fprintf(events_combined, "-1, ");
 	fprintf(events_combined, "%.4f, -1, ", local.b_weight_di);
 	fprintf(events_combined, "%.4f, %.4f, ", local.lep_sf_id_di, local.lep_sf_iso_di);
 	fprintf(events_combined, "-1, -1, -1, -1, \n");
@@ -1360,6 +1362,9 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 			local.lep_sf_iso_sl = leptonSFhelper.GetMuonSF(  local.mu_selected[0].pt() , local.mu_selected[0].eta() , 0 , "Iso" );
 		}
 		
+		// ttHf Category
+		local.ttHf_cat = -99;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
 		
 	}
 
@@ -1390,6 +1395,9 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho) {
 			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" );
 		}
 		
+		// ttHf Category
+		local.ttHf_cat = -99;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
 
 	}
 }
