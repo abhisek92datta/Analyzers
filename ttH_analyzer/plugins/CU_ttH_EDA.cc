@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 1805 && local.event_nr != 1808)
-		return;
+	//if (local.event_nr != 1805 && local.event_nr != 1808)
+	//	return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -437,9 +437,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	//if (analysis_type == Analyze_dilepton) {
 		else if (local.event_selection_DL!=0) {
-			int additionalJetEventId = -99;
-  			if( handle.genTtbarId.isValid() ) additionalJetEventId = *handle.genTtbarId%100;
-  			std::cout<<additionalJetEventId<<"\n";
+			//int additionalJetEventId = -99;
+  			//if( handle.genTtbarId.isValid() ) additionalJetEventId = *handle.genTtbarId%100;
+  			//std::cout<<additionalJetEventId<<"\n";
 			Fill_addn_quant(local, *rho);
 			Check_Fill_Print_di_lepton(local);
 			//std::cout<<"\n";
