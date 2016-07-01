@@ -86,7 +86,7 @@ struct edm_Handles {
 	Handle<pat::JetCollection> jets;
 	Handle<pat::METCollection> METs;
 
-	Handle<reco::GenParticleCollection> MC_particles;
+	//Handle<reco::GenParticleCollection> MC_particles;
 	Handle<pat::PackedCandidateCollection> PF_candidates;
 
 	Handle<reco::BeamSpot> BS;
@@ -94,7 +94,7 @@ struct edm_Handles {
 	//Handle<boosted::HTTTopJetCollection> top_jets;
 	//Handle<boosted::SubFilterJetCollection> subfilter_jets;
 
-	Handle<pat::PackedGenParticleCollection> MC_packed;
+	//Handle<pat::PackedGenParticleCollection> MC_packed;
 	Handle<edm::ValueMap<float>> mvaValues;
 	Handle<edm::ValueMap<int>> mvaCategories;
 	Handle<edm::View<pat::Electron> > electrons_for_mva;
@@ -115,7 +115,7 @@ struct edm_Tokens {
 	EDGetTokenT<pat::JetCollection> jets;
 	EDGetTokenT<pat::METCollection> METs;
 
-	EDGetTokenT<reco::GenParticleCollection> MC_particles;
+	//EDGetTokenT<reco::GenParticleCollection> MC_particles;
 	EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 
 	EDGetTokenT<reco::BeamSpot> BS;
@@ -123,7 +123,7 @@ struct edm_Tokens {
 	//EDGetTokenT<boosted::HTTTopJetCollection> top_jets;
 	//EDGetTokenT<boosted::SubFilterJetCollection> subfilter_jets;
 	
-	EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
+	//EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
 	EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
