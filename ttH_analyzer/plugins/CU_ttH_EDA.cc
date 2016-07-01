@@ -153,7 +153,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	miniAODhelper.SetRho(*rho);
 
 	// weight_gen = event_gen_info.product()->weight();
-	local.weight = weight_sample * (handle.event_gen_info.product()->weight());
+	//local.weight = weight_sample * (handle.event_gen_info.product()->weight());
+	local.weight = 0;
 
 	if (trigger_stats) {
 		h_hlt->Fill(0., 1);
