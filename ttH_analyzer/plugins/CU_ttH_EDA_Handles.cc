@@ -20,7 +20,7 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 	iEvent.getByToken(token.jets, handle.jets);
 	iEvent.getByToken(token.METs, handle.METs);
 
-	iEvent.getByToken(token.MC_particles, handle.MC_particles);
+	//iEvent.getByToken(token.MC_particles, handle.MC_particles);
 	iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 
 	iEvent.getByToken(token.BS, handle.BS);
@@ -28,7 +28,7 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 	//iEvent.getByToken(token.top_jets, handle.top_jets);
 	//iEvent.getByToken(token.subfilter_jets, handle.subfilter_jets);
 
-	iEvent.getByToken(token.MC_packed, handle.MC_packed);
+	//iEvent.getByToken(token.MC_packed, handle.MC_packed);
 	iEvent.getByToken(token.mvaValuesMapToken_, handle.mvaValues);
 	iEvent.getByToken(token.mvaCategoriesMapToken_, handle.mvaCategories);
 	iEvent.getByToken(token.electrons_for_mva_token, handle.electrons_for_mva);
