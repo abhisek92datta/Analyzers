@@ -386,7 +386,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//}
 	// Event selection criteria for single lepton events
 	//else if (analysis_type == Analyze_dilepton) {
-	//	Check_DL_Event_Selection(local);
+		Check_DL_Event_Selection(local);
 	//}
 	/*
 	std::cout<<local.is_ee<<"  "<<local.is_mumu<<"  "<<local.is_emu<<"\n";
@@ -438,7 +438,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//if (analysis_type == Analyze_dilepton) {
 		else if (local.event_selection_DL!=0) {
 			int additionalJetEventId = -99;
-  			if( genTtbarId.isValid() ) additionalJetEventId = *genTtbarId%100;
+  			if( handle.genTtbarId.isValid() ) additionalJetEventId = *handle.genTtbarId%100;
   			std::cout<<additionalJetEventId<<"\n";
 			Fill_addn_quant(local, *rho);
 			Check_Fill_Print_di_lepton(local);
