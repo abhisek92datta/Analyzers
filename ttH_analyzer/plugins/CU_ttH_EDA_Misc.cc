@@ -994,8 +994,27 @@ CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets) {
 
 void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
+    std::vector<JetCorrectorParameters> corrParams;	
+    if (isdata) {
+    
+    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt");
+    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt");
+    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt");
+    JetCorrectorParameters *L2L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt");
+
+    corrParams.push_back(*L1JetPar);
+    corrParams.push_back(*L2JetPar);
+    corrParams.push_back(*L3JetPar);
+    corrParams.push_back(*L2L3JetPar);
+    _jetCorrector = new FactorizedJetCorrector(corrParams);
+
+    std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt";	
+    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    	
+    }
+    
+    else {	
     //setting up the JetCorrector
-    std::vector<JetCorrectorParameters> corrParams;
     JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L3Absolute_AK4PFchs.txt");
     JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L2Relative_AK4PFchs.txt");
     JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_L1FastJet_AK4PFchs.txt");
@@ -1012,6 +1031,8 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt";	
     //std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    }
+    
 }
 
 double
