@@ -98,6 +98,8 @@ struct edm_Handles {
 	Handle<edm::ValueMap<float>> mvaValues;
 	Handle<edm::ValueMap<int>> mvaCategories;
 	Handle<edm::View<pat::Electron> > electrons_for_mva;
+	
+	Handle<int> genTtbarId;
 };
 
 struct edm_Tokens {
@@ -127,6 +129,8 @@ struct edm_Tokens {
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
 	EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
+	
+	EDGetTokenT<int> genTtbarIdToken_;
 };
 
 /// Set up handles with getByToken from edm::Event
