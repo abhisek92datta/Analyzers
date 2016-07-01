@@ -120,6 +120,12 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
+    * process.genParticlesForJetsNoNu
+    * process.ak4GenJetsCustom
+    * process.selectedHadronsAndPartons
+    * process.genJetFlavourInfos
+    * process.matchGenBHadron
+    * process.matchGenCHadron
     * process.categorizeGenTtbar
     * process.ttHbb
 )
