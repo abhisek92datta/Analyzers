@@ -305,10 +305,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("pfcand"));
 	token.BS = consumes<reco::BeamSpot>(
 	    config.getParameter<edm::InputTag>("beamspot"));
-	token.MC_particles = consumes<reco::GenParticleCollection>(
-	    config.getParameter<edm::InputTag>("prunedgen"));
-	token.MC_packed = consumes<pat::PackedGenParticleCollection>(
-	    config.getParameter<edm::InputTag>("packedgen"));
+	//token.MC_particles = consumes<reco::GenParticleCollection>(
+	//    config.getParameter<edm::InputTag>("prunedgen"));
+	//token.MC_packed = consumes<pat::PackedGenParticleCollection>(
+	//    config.getParameter<edm::InputTag>("packedgen"));
 	token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
 	    config.getParameter<edm::InputTag>("mvaValues"));
    	token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
