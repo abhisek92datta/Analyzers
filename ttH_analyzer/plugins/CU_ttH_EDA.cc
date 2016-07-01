@@ -225,8 +225,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	SetFactorizedJetCorrector();
 	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_sl_raw, *rho);
 	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_di_raw, *rho);
-	local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
-	local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
+	
+	if(isdata) {
+		local.jets_sl_corrected = local.jets_sl_corrected_JEC;
+		local.jets_di_corrected = local.jets_di_corrected_JEC;
+	}
+	
+	else {
+		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
+		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
+	}
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 	
@@ -364,13 +372,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.event_selection_SL = false;
 	local.event_selection_DL = false;
 
-	// NOT DOING TRIGGER CHECK AT THE MOMENT
-	local.pass_single_e = 1;
-	local.pass_single_mu = 1;
-	local.pass_double_e = 1;
-	local.pass_double_mu = 1;
-	local.pass_elemu = 1;
-
+	if(!isdata) {
+		local.pass_single_e = 1;
+		local.pass_single_mu = 1;
+		local.pass_double_e = 1;
+		local.pass_double_mu = 1;
+		local.pass_elemu = 1;
+	}
 	// Event selection criteria for single lepton events
 	//if (analysis_type == Analyze_lepton_jet) {
 		Check_SL_Event_Selection(local);
@@ -409,7 +417,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
-		selection_count++;\
+		selection_count++;
 		//std::cout<<local.event_nr<<"\n";
 	}
 	
