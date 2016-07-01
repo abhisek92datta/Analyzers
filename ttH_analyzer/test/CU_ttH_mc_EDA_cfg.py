@@ -90,9 +90,9 @@ process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
         jetAlgorithm = cms.string("AntiKt")
 )
     
+from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import *
 # Plugin for analysing B hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
 process.matchGenBHadron = matchGenBHadron.clone(
         genParticles = genParticleCollection,
         jetFlavourInfos = "genJetFlavourInfos"
@@ -100,7 +100,6 @@ process.matchGenBHadron = matchGenBHadron.clone(
     
 # Plugin for analysing C hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
 process.matchGenCHadron = matchGenCHadron.clone(
         genParticles = genParticleCollection,
         jetFlavourInfos = "genJetFlavourInfos"
