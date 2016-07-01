@@ -18,7 +18,8 @@ process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff"
 #process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
 process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v8'
 
-process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True), SkipEvent = cms.untracked.vstring('ProductNotFound') )
+#process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True), SkipEvent = cms.untracked.vstring('ProductNotFound') )
+process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
 
 process.maxEvents = cms.untracked.PSet(
 	input = cms.untracked.int32(-1)
