@@ -32,6 +32,8 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 	iEvent.getByToken(token.mvaValuesMapToken_, handle.mvaValues);
 	iEvent.getByToken(token.mvaCategoriesMapToken_, handle.mvaCategories);
 	iEvent.getByToken(token.electrons_for_mva_token, handle.electrons_for_mva);
+	
+	iEvent.getByToken(token.genTtbarIdToken_, handle.genTtbarId);
 }
 
 #endif
