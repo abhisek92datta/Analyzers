@@ -94,7 +94,7 @@ process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
 # MUST use the same particle collection as in selectedHadronsAndPartons
 from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
 process.matchGenBHadron = matchGenBHadron.clone(
-        genParticles = genParticleCollection
+        genParticles = genParticleCollection,
         jetFlavourInfos = "genJetFlavourInfos"
 )
     
@@ -102,7 +102,7 @@ process.matchGenBHadron = matchGenBHadron.clone(
 # MUST use the same particle collection as in selectedHadronsAndPartons
 from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
 process.matchGenCHadron = matchGenCHadron.clone(
-        genParticles = genParticleCollection
+        genParticles = genParticleCollection,
         jetFlavourInfos = "genJetFlavourInfos"
 )
     
