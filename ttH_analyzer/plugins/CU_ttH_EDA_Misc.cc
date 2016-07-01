@@ -1231,7 +1231,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						}
 					}
 				}
-				/*
+				
 				else if (local.n_muons == 1) {
 					if (local.n_veto_muons == 1 && local.n_veto_electrons == 0 && local.pass_single_mu == 1) {
 						if (local.n_sl_jets >= min_njets && local.n_sl_btags >= min_nbtags) {
@@ -1240,7 +1240,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						}
 					}
 				}
-				*/
+				
 			}
 		}
 	}
