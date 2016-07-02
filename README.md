@@ -20,9 +20,9 @@ git checkout CMSSW_8_0_8
 
 cd ../
 
-mv GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
+mv Analyzers/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
 
-mv GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
+mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 
 git clone https://github.com/abhisek92datta/Analyzers.git
 
