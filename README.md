@@ -44,8 +44,14 @@ Run :
 
 cd Analyzers/
 
-cmsRun ttH_analyzer/test/CU_ttH_mc_EDA_cfg.py
+For MC :
 
-or 
+1. using_real_data : false
 
-cmsRun ttH_analyzer/test/CU_ttH_data_EDA_cfg.py
+2. cmsRun ttH_analyzer/test/CU_ttH_mc_EDA_cfg.py 
+
+For Data :
+
+1. using_real_data : true
+
+2. cmsRun ttH_analyzer/test/CU_ttH_data_EDA_cfg.py
