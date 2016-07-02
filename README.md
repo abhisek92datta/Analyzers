@@ -20,11 +20,11 @@ git checkout CMSSW_8_0_8
 
 cd ../
 
+git clone https://github.com/abhisek92datta/Analyzers.git
+
 mv Analyzers/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
 
 mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
-
-git clone https://github.com/abhisek92datta/Analyzers.git
 
 Get dependencies:
 
