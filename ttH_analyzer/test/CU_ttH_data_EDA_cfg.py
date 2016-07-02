@@ -172,12 +172,12 @@ process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 #        genJets = genJetCollection,
 #)
 
-#process.TFileService = cms.Service("TFileService",
-#	fileName = cms.string('ttHbbNtuple.root')
-#)
+process.TFileService = cms.Service("TFileService",
+	fileName = cms.string('ttHbbNtuple.root')
+)
 
-#process.p = cms.Path(
-#    process.electronMVAValueMapProducer
+process.p = cms.Path(
+    process.electronMVAValueMapProducer
 #    * process.genParticlesForJetsNoNu
 #    * process.ak4GenJetsCustom
 #   * process.selectedHadronsAndPartons
@@ -185,5 +185,5 @@ process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 #    * process.matchGenBHadron
 #    * process.matchGenCHadron
 #    * process.categorizeGenTtbar
-#    * process.ttHbb
-#)
+    * process.ttHbb
+)
