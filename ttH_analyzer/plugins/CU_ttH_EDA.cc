@@ -386,7 +386,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//}
 	// Event selection criteria for single lepton events
 	//else if (analysis_type == Analyze_dilepton) {
-		Check_DL_Event_Selection(local);
+	
+	//	Check_DL_Event_Selection(local);
+	
 	//}
 	/*
 	std::cout<<local.is_ee<<"  "<<local.is_mumu<<"  "<<local.is_emu<<"\n";
