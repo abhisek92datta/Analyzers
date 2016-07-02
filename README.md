@@ -16,7 +16,7 @@ git cms-addpkg PhysicsTools/JetMCAlgos
 
 cd PhysicsTools/
 
-git checkout CMSSW_8_0_8
+git checkout CMSSW_8_0_8_patchX
 
 cd ../
 
