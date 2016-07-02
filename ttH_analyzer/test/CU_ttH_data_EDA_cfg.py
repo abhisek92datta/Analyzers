@@ -30,21 +30,21 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 	fileNames = cms.untracked.vstring(
         ## Single Electron
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/150/00000/0A6284C7-D719-E611-93E6-02163E01421D.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/06277EC1-181A-E611-870F-02163E0145E5.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0A7BD549-131A-E611-8287-02163E0134FC.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0C65F947-0F1A-E611-A1E6-02163E0144EA.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/1CCC1100-0E1A-E611-98C7-02163E014332.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/2209DFC5-191A-E611-9809-02163E014272.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/26868D6F-4A1A-E611-8916-02163E011D33.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/361F045C-111A-E611-AEF0-02163E01457C.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/3A8562C4-2B1A-E611-96AC-02163E0141D2.root',
-        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/429D71B2-1D1A-E611-A5A9-02163E013926.root'
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/150/00000/0A6284C7-D719-E611-93E6-02163E01421D.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/06277EC1-181A-E611-870F-02163E0145E5.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0A7BD549-131A-E611-8287-02163E0134FC.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0C65F947-0F1A-E611-A1E6-02163E0144EA.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/1CCC1100-0E1A-E611-98C7-02163E014332.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/2209DFC5-191A-E611-9809-02163E014272.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/26868D6F-4A1A-E611-8916-02163E011D33.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/361F045C-111A-E611-AEF0-02163E01457C.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/3A8562C4-2B1A-E611-96AC-02163E0141D2.root',
+        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/429D71B2-1D1A-E611-A5A9-02163E013926.root'
         
         ## Single Muon
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/150/00000/34A57FB8-D819-E611-B0A4-02163E0144EE.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/02D9C19F-571A-E611-AD8E-02163E013732.root',
-        #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/18383F36-2E1A-E611-8C57-02163E014186.root',
+        '/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/18383F36-2E1A-E611-8C57-02163E014186.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/1AF0711C-241A-E611-AC07-02163E0141E1.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/2096A6AC-261A-E611-99BD-02163E01355E.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/2226C1A1-571A-E611-B1E2-02163E013441.root',
@@ -92,43 +92,85 @@ process.source = cms.Source("PoolSource",
         )
 )
 
-#ttHf categorization
-#process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
-#process.matchGenHFHadron.genParticles = cms.InputTag('prunedGenParticles')
-#genParticleCollection = 'prunedGenParticles'
-#genJetCollection = 'slimmedGenJets'
+#ttHf categorization
+#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
 
-#from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
-#process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
-#    particles = genParticleCollection
+# Setting input particle collections to be used by the tools
+genJetCollection = 'ak4GenJetsCustom'
+genParticleCollection = 'prunedGenParticles'
+genJetInputParticleCollection = 'packedGenParticles'
+    
+## producing a subset of particles to be used for jet clustering
+from RecoJets.Configuration.GenJetParticles_cff import genParticlesForJetsNoNu
+process.genParticlesForJetsNoNu = genParticlesForJetsNoNu.clone(
+	src = genJetInputParticleCollection
+)
+    
+# Supplies PDG ID to real name resolution of MC particles
+process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+    
+# Producing own jets for testing purposes
+from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
+process.ak4GenJetsCustom = ak4GenJets.clone(
+        src = 'genParticlesForJetsNoNu',
+        #    src = genJetInputParticleCollection,
+        rParam = cms.double(0.4),
+        jetAlgorithm = cms.string("AntiKt")
+)
+    
+# Ghost particle collection used for Hadron-Jet association 
+# MUST use proper input particle collection
+from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
+process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
+        particles = genParticleCollection
+)
+    
+# Input particle collection for matching to gen jets (partons + leptons) 
+# MUST use use proper input jet collection: the jets to which hadrons should be associated
+# rParam and jetAlgorithm MUST match those used for jets to be associated with hadrons
+# More details on the tool: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagMCTools#New_jet_flavour_definition
+#from PhysicsTools.JetMCAlgos.sequences.GenHFHadronMatching_cff import genJetFlavourPlusLeptonInfos
+#process.genJetFlavourPlusLeptonInfos = genJetFlavourPlusLeptonInfos.clone(
+#        jets = genJetCollection,
+#        rParam = cms.double(0.4),
+#        jetAlgorithm = cms.string("AntiKt")
 #)
 
-#from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
-#process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
-#    jets = genJetCollection
-#)
-
+from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
+        jets = genJetCollection,
+        rParam = cms.double(0.4),
+        jetAlgorithm = cms.string("AntiKt")
+)
+    
+from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import *
 # Plugin for analysing B hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-#from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
-#process.matchGenBHadron = matchGenBHadron.clone(
-#    genParticles = genParticleCollection,
-#    jetFlavourInfos = "genJetFlavourInfos"
-#)
-
+process.matchGenBHadron = matchGenBHadron.clone(
+        genParticles = genParticleCollection,
+        jetFlavourInfos = "genJetFlavourInfos"
+)
+    
 # Plugin for analysing C hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
-#from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
-#process.matchGenCHadron = matchGenCHadron.clone(
-#    genParticles = genParticleCollection,
-#    jetFlavourInfos = "genJetFlavourInfos"
-#)
+process.matchGenCHadron = matchGenCHadron.clone(
+        genParticles = genParticleCollection,
+        jetFlavourInfos = "genJetFlavourInfos"
+)
+    
+## Producer for ttbar categorisation ID
+# MUST use same genJetCollection as used for tools above
+from PhysicsTools.JetMCAlgos.GenTtbarCategorizer_cfi import categorizeGenTtbar
+process.categorizeGenTtbar = categorizeGenTtbar.clone(
+        genJetPtMin = 20.,
+        genJetAbsEtaMax = 2.4,
+        genJets = genJetCollection,
+)
 
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
@@ -136,9 +178,12 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-    #* process.selectedHadronsAndPartons
-    #* process.genJetFlavourInfos
-    #* process.matchGenCHadron
-    #* process.matchGenBHadron
+    * process.genParticlesForJetsNoNu
+    * process.ak4GenJetsCustom
+    * process.selectedHadronsAndPartons
+    * process.genJetFlavourInfos
+    * process.matchGenBHadron
+    * process.matchGenCHadron
+    * process.categorizeGenTtbar
     * process.ttHbb
 )
