@@ -1225,7 +1225,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	if ( local.pass_single_e == 1 || local.pass_single_mu == 1 ) {
 		if (local.n_prim_V > 0) {
 			if (local.n_leptons == 1) {
-				/*
+				
 				if (local.n_electrons == 1) {
 					if (local.n_veto_electrons == 1 && local.n_veto_muons == 0 && local.pass_single_e == 1) {
 						if (local.n_sl_jets >= min_njets && local.n_sl_btags >= min_nbtags) {
@@ -1234,8 +1234,8 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						}
 					}
 				}
-				*/
-				if (local.n_muons == 1) {
+				
+				else if (local.n_muons == 1) {
 					if (local.n_veto_muons == 1 && local.n_veto_electrons == 0 && local.pass_single_mu == 1) {
 						if (local.n_sl_jets >= min_njets && local.n_sl_btags >= min_nbtags) {
 							local.event_selection_SL = true;
@@ -1247,9 +1247,6 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 			}
 		}
 	}
-	//if (local.met_pt > 30)
-	//	local.met_passed = 1;
-	//local.mll = 0;
 }
 
 void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
