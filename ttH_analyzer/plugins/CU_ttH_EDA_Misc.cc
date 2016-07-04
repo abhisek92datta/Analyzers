@@ -321,57 +321,57 @@ int CU_ttH_EDA::Top_tagger(Handle<boosted::HTTTopJetCollection> top_jets,
 
 void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 {
-	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);	
-	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
-	fprintf(events_combined, "%d, %d, ", local.n_sl_jets, local.n_sl_btags );
+	fprintf(events_combined, "%d,%d,%d,", local.run_nr, local.lumisection_nr, local.event_nr);	
+	fprintf(events_combined, "%d,%d,%d,%d,%d,", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
+	fprintf(events_combined, "%d,%d,", local.n_sl_jets, local.n_sl_btags );
 	if (local.n_electrons == 1) {
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_selected[0].pt(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d,", local.e_selected[0].pt(), miniAODhelper.GetElectronRelIso(local.e_selected[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_selected[0].pdgId());
 	}
 	else if (local.n_muons == 1) {
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.mu_selected[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d, ", local.mu_selected[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
 	}
-	fprintf(events_combined, "0, 0, 0, ");
-	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_sl_selected_sorted[0].pt(), local.jets_sl_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
-	fprintf(events_combined, "%d, ", local.ttHf_cat);
-	fprintf(events_combined, "-1, ");
-	fprintf(events_combined, "%.4f, -1, ", local.b_weight_sl);
-	fprintf(events_combined, "%.4f, %.4f, ", local.lep_sf_id_sl, local.lep_sf_iso_sl);
-	fprintf(events_combined, "-1, -1, -1, -1, \n");
+	fprintf(events_combined, "0,0,0,");
+	fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.jets_sl_selected_sorted[0].pt(), local.jets_sl_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
+	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.met_pt, local.met_phi, local.mll);
+	fprintf(events_combined, "%d,", local.ttHf_cat);
+	fprintf(events_combined, "-1,");
+	fprintf(events_combined, "%.4f,-1,", local.b_weight_sl);
+	fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl, local.lep_sf_iso_sl);
+	fprintf(events_combined, "-1,-1,-1,-1 \n");
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 {
-	fprintf(events_combined, "%d, %d, %d, ", local.run_nr, local.lumisection_nr, local.event_nr);
-	fprintf(events_combined, "%d, %d, %d, %d, %d, ", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
-	fprintf(events_combined, "%d, %d, ", local.n_di_jets, local.n_di_btags );
+	fprintf(events_combined, "%d,%d,%d,", local.run_nr, local.lumisection_nr, local.event_nr);
+	fprintf(events_combined, "%d,%d,%d,%d,%d,", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
+	fprintf(events_combined, "%d,%d,", local.n_di_jets, local.n_di_btags );
 	if (local.n_di_electrons == 2) {
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_di_selected_sorted[1].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[1].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d,", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d,", local.e_di_selected_sorted[1].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[1].pdgId());
 	}
 	else if (local.n_di_muons == 2) {
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
-		fprintf(events_combined, "%.4f, %.4f, %d, ", local.mu_di_selected_sorted[1].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[1], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[1].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
+		fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_di_selected_sorted[1].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[1], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[1].pdgId());
 	}
 	else {
 		if (local.mu_di_selected_sorted[0].pt() > local.e_di_selected_sorted[0].pt()) {
-			fprintf(events_combined, "%.4f, %.4f, %d, ", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
-			fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
+			fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
+			fprintf(events_combined, "%.4f,%.4f,%d,", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
 		}
 		else {
-			fprintf(events_combined, "%.4f, %.4f, %d, ", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
-			fprintf(events_combined, "%.4f, %.4f, %d, ", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
+			fprintf(events_combined, "%.4f,%.4f,%d,", local.e_di_selected_sorted[0].pt(), miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15), local.e_di_selected_sorted[0].pdgId());
+			fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_di_selected_sorted[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_di_selected_sorted[0], coneSize::R04, corrType::deltaBeta), local.mu_di_selected_sorted[0].pdgId());
 		}	
 	}
-	fprintf(events_combined, "%.4f, %.4f, %.4f, %.4f, ", local.jets_di_selected_sorted[0].pt(), local.jets_di_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.jet1SF_di, local.jet1SF_up_di, local.jet1SF_down_di);
-	fprintf(events_combined, "%.4f, %.4f, %.4f, ", local.met_pt, local.met_phi, local.mll);
-	fprintf(events_combined, "%d, ", local.ttHf_cat);
-	fprintf(events_combined, "-1, ");
-	fprintf(events_combined, "%.4f, -1, ", local.b_weight_di);
-	fprintf(events_combined, "%.4f, %.4f, ", local.lep_sf_id_di, local.lep_sf_iso_di);
-	fprintf(events_combined, "-1, -1, -1, -1, \n");
+	fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.jets_di_selected_sorted[0].pt(), local.jets_di_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.jet1SF_di, local.jet1SF_up_di, local.jet1SF_down_di);
+	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.met_pt, local.met_phi, local.mll);
+	fprintf(events_combined, "%d,", local.ttHf_cat);
+	fprintf(events_combined, "-1,");
+	fprintf(events_combined, "%.4f,-1,", local.b_weight_di);
+	fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di, local.lep_sf_iso_di);
+	fprintf(events_combined, "-1,-1,-1,-1 \n");
 }
 
 /*
