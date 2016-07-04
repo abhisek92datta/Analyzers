@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (local.event_nr != 1805 && local.event_nr != 1808)
-	//	return;
+	if (local.event_nr != 3084368 && local.event_nr != 2692681 && local.event_nr != 522818 && local.event_nr != 464960 && local.event_nr != 1487871 && local.event_nr != 1619346 && local.event_nr != 767325 && local.event_nr != 1239806 && local.event_nr != 1387048)
+		return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -409,12 +409,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	std::cout<<jet.pt()<<"\n";
 	//}
 	
-	//std::cout<<"\n";
-	//if (local.event_selection_SL!=0){
-	//for ( auto& jet : local.jets_di_selected) {
-	//	std::cout<<jet.pt()<<"  "<<jet.eta()<<"\n";
-	//}
-	//}
+	std::cout<<"\n";
+	std::cout<<local.event_nr<<"\n";
+	for ( auto& jet : local.jets_sl_corrected) {
+		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+	}
+	
 	
 	//for ( auto& jet : local.jets_di_selected_JEC) {
 	//	std::cout<<jet.pt()<<"   ";
