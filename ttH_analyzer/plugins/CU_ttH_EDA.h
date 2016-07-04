@@ -262,6 +262,11 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	/// Common sample parameters
 	unsigned long event_count; // running event counter
 	unsigned long selection_count; // counting event selections
+	int sl_e;
+	int sl_mu;
+	int dl_ee;
+	int dl_emu;
+	int dl_mumu;
 
 	double total_xs;	  // total cross section
 	double int_lumi;	  // integrated luminosity
