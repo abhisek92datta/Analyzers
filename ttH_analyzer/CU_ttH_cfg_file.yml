@@ -48,7 +48,7 @@ Cuts:
     max_jet_eta : 2.4
     max_bjet_eta : 2.4
     min_njets : 4
-    min_di_njets : 2
+    min_di_njets : 3
     min_nbtags : 2
     min_di_nbtags : 1
     min_di_mll : 20.0
