@@ -330,7 +330,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	else if (local.n_muons == 1) {
 		fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_selected[0].pt(), miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04, corrType::deltaBeta), local.mu_selected[0].pdgId());
 	}
-	fprintf(events_combined, "0,0,0,");
+	fprintf(events_combined, "-1,-1,-1,");
 	fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.jets_sl_selected_sorted[0].pt(), local.jets_sl_selected_sorted[1].pt(), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"), miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
 	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.met_pt, local.met_phi, local.mll);
