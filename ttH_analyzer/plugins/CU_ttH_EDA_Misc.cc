@@ -1231,6 +1231,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						if (local.n_sl_jets >= min_njets && local.n_sl_btags >= min_nbtags) {
 							local.event_selection_SL = true;
 							local.is_e = true;
+							sl_e++;
 						}
 					}
 				}
@@ -1240,6 +1241,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						if (local.n_sl_jets >= min_njets && local.n_sl_btags >= min_nbtags) {
 							local.event_selection_SL = true;
 							local.is_mu = true;
+							sl_mu++;
 						}
 					}
 				}
@@ -1272,7 +1274,8 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									}	
 									if (local.met_passed == 1 && local.mll_passed == 1) {
 										local.event_selection_DL = true;
-										local.is_ee = true;	
+										local.is_ee = true;
+										dl_ee++;
 									}
 								}	
 							}	
@@ -1298,7 +1301,8 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									}
 									if (local.met_passed == 1 && local.mll_passed == 1) {
 										local.event_selection_DL = true;
-										local.is_mumu = true;	
+										local.is_mumu = true;
+										dl_mumu++;
 									}
 								}
 							}	
@@ -1322,7 +1326,8 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 									}
 									if (local.met_passed == 1 && local.mll_passed == 1) {
 										local.event_selection_DL = true;
-										local.is_emu = true;	
+										local.is_emu = true;
+										dl_emu++;
 									}
 								}
 							}	
