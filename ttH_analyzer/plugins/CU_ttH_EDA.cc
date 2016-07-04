@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 3084368 && local.event_nr != 2692681 && local.event_nr != 522818 && local.event_nr != 464960 && local.event_nr != 1487871 && local.event_nr != 1619346 && local.event_nr != 767325 && local.event_nr != 1239806 && local.event_nr != 1387048)
-		return;
+	//if (local.event_nr != 3084368 && local.event_nr != 2692681 && local.event_nr != 522818 && local.event_nr != 464960 && local.event_nr != 1487871 && local.event_nr != 1619346 && local.event_nr != 767325 && local.event_nr != 1239806 && local.event_nr != 1387048)
+	//	return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -409,12 +409,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//	std::cout<<jet.pt()<<"\n";
 	//}
 	
+	/*
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"\n";
 	for ( auto& jet : local.jets_sl_corrected) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
-	
+	*/
 	
 	//for ( auto& jet : local.jets_di_selected_JEC) {
 	//	std::cout<<jet.pt()<<"   ";
@@ -468,6 +469,7 @@ void CU_ttH_EDA::beginJob()
 
 	event_count = 0;
 	selection_count = 0;
+	sl_e = sl_mu = dl_ee = dl_emu = dl_mumu = 0;
 }
 
 // ------------ method called once each job just after ending the event loop
@@ -615,6 +617,18 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 			<< std::endl;
 	}
 
+
+	std::cout
+		<< "***************************************************************"
+		<< std::endl;
+	std::cout <<"SL e = "<<sl_e<< std::endl;
+	std::cout <<"SL mu = "<<sl_mu<< std::endl;
+	std::cout <<"DL ee = "<<dl_ee<< std::endl;
+	std::cout <<"DL emu = "<<dl_emu<< std::endl;
+	std::cout <<"DL mumu = "<<dl_mumu<< std::endl;
+	std::cout
+		<< "***************************************************************"
+		<< std::endl;
 	std::cout
 		<< "***************************************************************"
 		<< std::endl;
