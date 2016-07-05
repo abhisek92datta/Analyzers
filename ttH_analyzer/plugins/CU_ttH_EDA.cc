@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (local.event_nr != 50404 && local.event_nr != 2367102 )
-	//	return;
+	if (local.event_nr != 742899 )
+		return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -245,7 +245,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	*/
 	
 	// ID selection
-	local.jets_raw = CheckJetID(*(handle.jets));
+	//local.jets_raw = CheckJetID(*(handle.jets));
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
 	// Jet Energy Correction
@@ -380,21 +380,24 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Event selection criteria for dilepton events
 	Check_DL_Event_Selection(local);
 	
-	/*
+	
 	std::cout<<"\n\n\n";
 	std::cout<<local.event_nr<<"\n";
-	for ( auto& mu : *(handle.muons)) {
-		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.GetMuonRelIso(mu,coneSize::R04, corrType::deltaBeta)<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"\n";
+	for ( auto& jet : *(handle.jets)) {
+		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"  ";
+		std::cout<<jet.neutralHadronEnergyFraction()<<"  "<<jet.chargedEmEnergyFraction()<<"  "<<jet.neutralEmEnergyFraction()<<"  "<<(jet.neutralMultiplicity() + jet.chargedMultiplicity() )<<"  "<<jet.chargedHadronEnergyFraction()<<"  "<<jet.chargedMultiplicity()<<"\n";
 	}
+	//for ( auto& mu : *(handle.muons)) {
+	//	std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.GetMuonRelIso(mu,coneSize::R04, corrType::deltaBeta)<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"\n";
+	//}
 	std::cout<<"\n";
 	std::cout<<local.n_di_electrons<<"  "<<local.n_di_muons<<"  "<<local.n_di_jets<<"   "<<local.n_di_btags<<"\n";
 	std::cout<<"\n";
 	for ( auto& jet : local.jets_sl_corrected) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"  ";
+		std::cout<<jet.neutralHadronEnergyFraction()<<"  "<<jet.chargedEmEnergyFraction()<<"  "<<jet.neutralEmEnergyFraction()<<"  "<<(jet.neutralMultiplicity() + jet.chargedMultiplicity() )<<"  "<<jet.chargedHadronEnergyFraction()<<"  "<<jet.chargedMultiplicity()<<"\n";
 	}
-	//std::cout<<local.met_pt<<"  "<<local.mll<<"\n";
-	*/
-	
+
 	//if(local.is_emu == false)
 	//	local.event_selection_DL = false;
 	//local.event_selection_SL = false;
