@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 742899 )
-		return;
+	//if (local.event_nr != 742899 )
+	//	return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -219,7 +219,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 	
-	/*
+	
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 	// Jet Energy Correction
@@ -242,10 +242,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
-	*/
 	
+	
+	/*
 	// ID selection
-	//local.jets_raw = CheckJetID(*(handle.jets));
+	local.jets_raw = CheckJetID(*(handle.jets));
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 	//local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
@@ -266,7 +267,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
-	
+	*/
 	
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
@@ -381,7 +382,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Event selection criteria for dilepton events
 	Check_DL_Event_Selection(local);
 	
-	
+	/*
 	std::cout<<"\n\n\n";
 	std::cout<<local.event_nr<<"\n";
 	for ( auto& jet : *(handle.jets)) {
@@ -398,7 +399,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"  ";
 		std::cout<<jet.neutralHadronEnergyFraction()<<"  "<<jet.chargedEmEnergyFraction()<<"  "<<jet.neutralEmEnergyFraction()<<"  "<<(jet.neutralMultiplicity() + jet.chargedMultiplicity() )<<"  "<<jet.chargedHadronEnergyFraction()<<"  "<<jet.chargedMultiplicity()<<"\n";
 	}
-
+	*/
+	
 	//if(local.is_emu == false)
 	//	local.event_selection_DL = false;
 	//local.event_selection_SL = false;
