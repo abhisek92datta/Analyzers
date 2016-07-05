@@ -238,8 +238,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected);
 	local.jets_di_corrected = CheckJetID(local.jets_di_corrected);
 	// Remove Overlap
-	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_selected, 0.4);
-	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_selected, 0.4);
+	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_veto_selected, 0.4);
+	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
 
@@ -369,6 +369,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		selection_count++;
 	}
 	
+	if(local.is_emu == false)
+		local.event_selection_DL = false;
+	local.event_selection_SL = false;
 	
 	/// Check tags, fill hists, print events
 	if (local.event_selection_SL!=0) {
