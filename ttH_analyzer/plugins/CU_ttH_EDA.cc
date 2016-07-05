@@ -247,7 +247,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// ID selection
 	//local.jets_raw = CheckJetID(*(handle.jets));
 	// Uncorrected jets
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
+	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
+	//local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
 	// Jet Energy Correction
 	SetFactorizedJetCorrector();
 	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
