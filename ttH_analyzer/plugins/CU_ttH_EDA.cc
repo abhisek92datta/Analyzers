@@ -360,11 +360,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"\n";
-	std::cout<<local.n_di_electrons<<"  "<<local.n_di_muons<<"  "<<local.n_di_jets<<"   "<<local.n_di_btags<<"\n";
-	for ( auto& jet : local.jets_sl_corrected) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+	for ( auto& mu : *(handle.muons)) {
+		std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.GetMuonRelIso(mu,coneSize::R04, corrType::deltaBeta)<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"\n";
 	}
-	std::cout<<local.met_pt<<"  "<<local.mll<<"\n";
+	std::cout<<"\n";
+	std::cout<<local.n_di_electrons<<"  "<<local.n_di_muons<<"  "<<local.n_di_jets<<"   "<<local.n_di_btags<<"\n";
+	//for ( auto& jet : local.jets_sl_corrected) {
+	//	std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+	//}
+	//std::cout<<local.met_pt<<"  "<<local.mll<<"\n";
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		selection_count++;
