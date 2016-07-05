@@ -219,7 +219,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.jets_corrected =
 	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
 	
-	
+	/*
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 	// Jet Energy Correction
@@ -242,7 +242,30 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
 	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
-
+	*/
+	
+	// ID selection
+	local.jets_raw = CheckJetID(*(handle.jets));
+	// Uncorrected jets
+	local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
+	// Jet Energy Correction
+	SetFactorizedJetCorrector();
+	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
+	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
+	if(isdata) {
+		local.jets_sl_corrected = local.jets_sl_corrected_JEC;
+		local.jets_di_corrected = local.jets_di_corrected_JEC;
+	}
+	else {
+		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
+		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
+	}
+	// Remove Overlap
+	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_veto_selected, 0.4);
+	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
+	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
+	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
+	
 	
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
