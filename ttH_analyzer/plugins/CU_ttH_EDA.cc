@@ -364,7 +364,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	for ( auto& jet : local.jets_sl_corrected) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
-	std::cout<<local.met<<"  "<<local.mll<<"\n";
+	std::cout<<local.met_pt<<"  "<<local.mll<<"\n";
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		selection_count++;
