@@ -133,8 +133,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (local.event_nr != 3084368 && local.event_nr != 2692681 && local.event_nr != 522818 && local.event_nr != 464960 && local.event_nr != 1487871 && local.event_nr != 1619346 && local.event_nr != 767325 && local.event_nr != 1239806 && local.event_nr != 1387048)
-	//	return;
+	if (local.event_nr != 50404 )
+		return;
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -357,21 +357,22 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Event selection criteria for dilepton events
 	Check_DL_Event_Selection(local);
 	
-	/*
+	
 	std::cout<<"\n";
 	std::cout<<local.event_nr<<"\n";
+	std::cout<<local.n_di_electrons<<"  "<<local.n_di_muons<<"  "<<local.n_di_jets<<"   "<<local.n_di_btags<<"\n";
 	for ( auto& jet : local.jets_sl_corrected) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
-	*/
+	std::cout<<local.met<<"  "<<local.mll<<"\n";
 
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		selection_count++;
 	}
 	
-	if(local.is_emu == false)
-		local.event_selection_DL = false;
-	local.event_selection_SL = false;
+	//if(local.is_emu == false)
+	//	local.event_selection_DL = false;
+	//local.event_selection_SL = false;
 	
 	/// Check tags, fill hists, print events
 	if (local.event_selection_SL!=0) {
