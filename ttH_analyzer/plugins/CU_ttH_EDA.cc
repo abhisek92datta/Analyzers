@@ -352,10 +352,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//local.MHT = mht;
 	//local.met_pt = met;
 	//local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
-	TLorentzVector met_v;
-        met_v.SetVect(TVector3(local.pfMET.px(),local.pfMET.py(),local.pfMET.pz()));
-        local.met_pt = met_v.Rho();
-        local.met_phi = met_v.Phi();
+	//TLorentzVector met_v;
+        //met_v.SetVect(TVector3(local.pfMET.px(),local.pfMET.py(),local.pfMET.pz()));
+        //local.met_pt = met_v.Rho();
+        //local.met_phi = met_v.Phi();
+	local.met_pt = local.pfMET.pt();
+        local.met_phi = local.pfMET.phi();
 	local.met_passed = 0;
 	local.mll_passed = 0;
 
