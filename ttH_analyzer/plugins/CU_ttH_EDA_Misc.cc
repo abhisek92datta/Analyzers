@@ -1002,22 +1002,21 @@ CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets, const std::vecto
     double scale;
     for(int i=0; i<N; i++) {
     	scale = inputJets[i].pt()/inputJets_old[i].pt();
-    	loose = ( iJet.neutralHadronEnergyFraction()*scale < 0.99 &&
-		  iJet.chargedEmEnergyFraction()*scale < 0.99 &&
-		  iJet.neutralEmEnergyFraction()*scale < 0.99 &&
-		  (iJet.neutralMultiplicity() + iJet.chargedMultiplicity() )  > 1
+    	loose = ( inputJets[i].neutralHadronEnergyFraction()*scale < 0.99 &&
+		  inputJets[i].chargedEmEnergyFraction()*scale < 0.99 &&
+		  inputJets[i].neutralEmEnergyFraction()*scale < 0.99 &&
+		  (inputJets[i].neutralMultiplicity() + inputJets[i].chargedMultiplicity() )  > 1
 		  );
       
-    	if( fabs(iJet.eta())<2.4 ){
+    	if( fabs(inputJets[i].eta())<2.4 ){
 		 loose = ( loose &&
-		 iJet.chargedHadronEnergyFraction()*scale > 0.0 &&
-		 iJet.chargedMultiplicity() > 0
+		 inputJets[i].chargedHadronEnergyFraction()*scale > 0.0 &&
+		 inputJets[i].chargedMultiplicity() > 0
 	      	);
     	}
     	if (loose == true)
-    	outputJets.push_back(iJet);
+    	outputJets.push_back(inputJets[i]);
     }
-    
     return outputJets;
 }
 
