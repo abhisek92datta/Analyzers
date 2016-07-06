@@ -1016,6 +1016,9 @@ CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets, const std::vecto
     	}
     	if (loose == true)
     	outputJets.push_back(inputJets[i]);
+    	std::cout<<inputJets_old[i].neutralHadronEnergyFraction()<<"  "<<inputJets_old[i].chargedEmEnergyFraction()<<"  "<<inputJets_old[i].neutralEmEnergyFraction()<<"  "<<inputJets_old[i].chargedHadronEnergyFraction()<<"\n";
+    	std:cout<<"\n";
+	std::cout<<inputJets[i].neutralHadronEnergyFraction()*scale<<"  "<<inputJets[i].chargedEmEnergyFraction()*scale<<"  "<<inputJets[i].neutralEmEnergyFraction()*scale<<"  "<<inputJets[i].chargedHadronEnergyFraction()*scale<<"\n";
     }
     return outputJets;
 }
