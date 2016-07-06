@@ -235,8 +235,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
 	}
 	// ID selection
-	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected);
-	local.jets_di_corrected = CheckJetID(local.jets_di_corrected);
+	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected, *(handle.jets));
+	local.jets_di_corrected = CheckJetID(local.jets_di_corrected, *(handle.jets));
 	// Remove Overlap
 	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_veto_selected, 0.4);
 	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
