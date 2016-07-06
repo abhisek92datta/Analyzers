@@ -354,6 +354,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
 	local.met_passed = 0;
 	local.mll_passed = 0;
+	std::cout<<local.event_nr<<"\n";
+	std::cout<<local.pfMET.px()<<"  "<<local.pfMET.py()<<"  "<<local.pfMET.pz()<<"  "<<local.met_pt<<"  "<<local.met_phi<<"\n";
+	std::cout<<"\n";
 
 	// Produce sync ntuple
 	//tauNtuple.initialize();
