@@ -1234,7 +1234,7 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
 
   double diff_recojet_genjet = recojetPT - genjetPT;
 
-  if( genjetPT>10. ){
+  if( genjetPT>5 ){
     jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
     jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
     jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
@@ -1244,7 +1244,7 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
   else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
   else                      factor = jetPt_JER/recojetPT;
 
-  if( !(genjetPT>10.) ) factor = 1.;
+  if( !(genjetPT>5) ) factor = 1.;
 
   return factor;
 }
