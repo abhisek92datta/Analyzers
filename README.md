@@ -12,6 +12,8 @@ cd CMSSW_8_0_8_patch1/src/
 
 cmsenv
 
+git cms-init
+
 git cms-addpkg PhysicsTools/JetMCAlgos
 
 cd PhysicsTools/
