@@ -385,7 +385,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	std::cout<<"\n\n\n";
 	std::cout<<local.event_nr<<"\n";
-	for ( auto& jet : *(handle.jets)) {
+	for ( auto& jet : local.jets_raw) {
 		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
 	}
 	//for ( auto& mu : *(handle.muons)) {
