@@ -1089,12 +1089,10 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
       		}
       		scale = scale*jes;
       		jet.scaleEnergy( jes );
-      		//return (1/scale)*jes;
       		return scale;
     	}
     	else
     		return scale;
-    		//return 1/scale;
     	/*
     	if( jet.genJet()) {
     		if ( iSysType == sysType::NA )
