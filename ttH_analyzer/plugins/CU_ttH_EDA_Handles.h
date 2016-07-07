@@ -72,7 +72,7 @@
 using namespace edm;
 
 struct edm_Handles {
-	//Handle<GenEventInfoProduct> event_gen_info;
+	Handle<GenEventInfoProduct> event_gen_info;
 	Handle<edm::TriggerResults> triggerResults;
 	Handle<edm::TriggerResults> filterResults;
 
@@ -103,7 +103,7 @@ struct edm_Handles {
 };
 
 struct edm_Tokens {
-	//EDGetTokenT<GenEventInfoProduct> event_gen_info;
+	EDGetTokenT<GenEventInfoProduct> event_gen_info;
 	EDGetTokenT<edm::TriggerResults> triggerResults;
 	EDGetTokenT<edm::TriggerResults> filterResults;
 
