@@ -1395,7 +1395,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 		
 		// ttHf Category
 		local.ttHf_cat = -1;
-  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *ttid%100;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
   		//if(!isdata)
@@ -1432,7 +1432,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 		
 		// ttHf Category
 		local.ttHf_cat = -1;
-  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *ttid%100;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
   		//if(!isdata)
@@ -1634,13 +1634,13 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	}
 }
 
-
+/*
 void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
 
 auto pdfInfos = genInfos->pdf();
 double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
 
-/********  Get all products within the pdf set  ********/
+
 std::vector<double> pdfs;
 for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
     double xpdf1 = CT14nlo_PDFSet[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first, pdfInfos->scalePDF);
@@ -1648,10 +1648,10 @@ for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
     pdfs.push_back(xpdf1 * xpdf2);
 }
 
-/********  Combine the products and compute the 1 sigma shift  ********/
+
 const LHAPDF::PDFUncertainty pdfUnc = _systPDFSets[i].uncertainty(pdfs, 68.);
 
-/********  Calculate the up/down weights!  ********/
+
 double weight_up = 1.0;
 double weight_down = 1.0;
 if (std::isfinite(1./pdfNominal)) {
@@ -1661,7 +1661,7 @@ if (std::isfinite(1./pdfNominal)) {
 local.pdf_weight_up = weight_up;
 local.pdf_weight_down = weight_down;
 }
-
+*/
 
 
 
