@@ -143,6 +143,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
 	
+	// for PDF weight
+	if(!isdata)
+		iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
+	
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	//Check_filters(handle.filterResults);
