@@ -6,7 +6,8 @@
 /// Set up handles with getByToken from edm::Event
 void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 {
-	//iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
+	if(isdata)
+		iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
 	iEvent.getByToken(token.triggerResults, handle.triggerResults);
 	iEvent.getByToken(token.filterResults, handle.filterResults);
 
