@@ -101,6 +101,9 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_Tree();
 	
 	Set_up_b_weights();
+	
+	LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
+	_systPDFs = CT14nlo_PDFSet.mkPDFs();
 }
 
 /// Destructor
@@ -139,7 +142,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
-
+	
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	//Check_filters(handle.filterResults);
@@ -383,6 +386,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.pass_elemu = 1;
 	}
 	
+	local.pdf_weight_up = -1;
+	local.pdf_weight_down = -1;
+	
 	// Event selection criteria for single lepton events
 	Check_SL_Event_Selection(local);
 	
@@ -420,13 +426,15 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	/// Check tags, fill hists, print events
 	if (local.event_selection_SL!=0) {
-		Fill_addn_quant(local, *rho, handle.genTtbarId);
+		//Fill_addn_quant(local, *rho, handle.genTtbarId);
+		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
 	}
 	//Check_Fill_Print_ej(local);
 	//Check_Fill_Print_muj(local);
 	else if (local.event_selection_DL!=0) {
-		Fill_addn_quant(local, *rho, handle.genTtbarId);
+		//Fill_addn_quant(local, *rho, handle.genTtbarId);
+		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_di_lepton(local);
 	}
 	//Check_Fill_Print_dimuj(local);
