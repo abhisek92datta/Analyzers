@@ -338,7 +338,10 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "-1,");
 	fprintf(events_combined, "%.4f,-1,", local.b_weight_sl);
 	fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl, local.lep_sf_iso_sl);
-	fprintf(events_combined, "-1,-1,-1,-1\n");
+	if(!isdata)
+		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+	else
+		fprintf(events_combined, "-1,-1,-1,-1\n");
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
@@ -371,7 +374,10 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "-1,");
 	fprintf(events_combined, "%.4f,-1,", local.b_weight_di);
 	fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di, local.lep_sf_iso_di);
-	fprintf(events_combined, "-1,-1,-1,-1\n");
+	if(!isdata)
+		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+	else
+		fprintf(events_combined, "-1,-1,-1,-1\n");
 }
 
 /*
@@ -1370,7 +1376,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
-void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm::Handle<int> ttid) {
+void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_Handles handle) {
 	
 	//local.lep_sf_id_sl = local.lep_sf_iso_sl = local.lep_sf_id_di = local.lep_sf_iso_di = 0;
 	
@@ -1398,7 +1404,11 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm::
 		
 		// ttHf Category
 		local.ttHf_cat = -1;
-  		if( ttid.isValid() ) local.ttHf_cat = *ttid%100;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *ttid%100;
+  		
+  		//PDF Weight
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
 		
 	}
 
@@ -1431,7 +1441,11 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm::
 		
 		// ttHf Category
 		local.ttHf_cat = -1;
-  		if( ttid.isValid() ) local.ttHf_cat = *ttid%100;
+  		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *ttid%100;
+  		
+  		//PDF Weight
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
 
 	}
 }
@@ -1628,5 +1642,37 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 		local.b_weight_sl = 0;
 	}
 }
+
+
+void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
+
+auto pdfInfos = genInfos->pdf();
+double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
+
+/********  Get all products within the pdf set  ********/
+std::vector<double> pdfs;
+for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
+    double xpdf1 = CT14nlo_PDFSet[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first, pdfInfos->scalePDF);
+    double xpdf2 = CT14nlo_PDFSet[j]->xfxQ(pdfInfos->id.second, pdfInfos->x.second, pdfInfos->scalePDF);
+    pdfs.push_back(xpdf1 * xpdf2);
+}
+
+/********  Combine the products and compute the 1 sigma shift  ********/
+const LHAPDF::PDFUncertainty pdfUnc = _systPDFSets[i].uncertainty(pdfs, 68.);
+
+/********  Calculate the up/down weights!  ********/
+double weight_up = 1.0;
+double weight_down = 1.0;
+if (std::isfinite(1./pdfNominal)) {
+  weight_up = (pdfUnc.central + pdfUnc.errplus) / pdfNominal;
+  weight_down = (pdfUnc.central - pdfUnc.errminus) / pdfNominal;
+}
+local.pdf_weight_up = weight_up;
+local.pdf_weight_down = weight_down;
+}
+
+
+
+
 
 #endif
