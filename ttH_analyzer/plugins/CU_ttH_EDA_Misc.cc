@@ -1093,21 +1093,12 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
 			unc = _jetCorrectorUnc->getUncertainty(false);
 			jes = 1 - unc;
       		}
-      		scale = scale*jes;
+      		//scale = scale*jes;
       		jet.scaleEnergy( jes );
-      		return scale;
+      		return jes;
     	}
     	else
     		return scale;
-    	/*
-    	if( jet.genJet()) {
-    		if ( iSysType == sysType::NA )
-    			scale = scale * getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    		else if ( iSysType == sysType::JESup )
-    			scale = scale * getJERfactor(1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    		else if ( iSysType == sysType::JESdown )
-    			scale = scale * getJERfactor(-1, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-    	} */
 }
 
 
