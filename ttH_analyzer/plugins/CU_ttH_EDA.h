@@ -69,6 +69,8 @@
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 #include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
 
+#include "LHAPDF/LHAPDF.h"
+
 /// ROOT includes
 #include "TH1.h"
 #include "TTree.h"
@@ -177,6 +179,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
         void fillCSVHistos(TFile *fileHF, TFile *fileLF);
         
         void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm::Handle<int>);
+	void getPDFweight(CU_ttH_EDA_event_vars &);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
