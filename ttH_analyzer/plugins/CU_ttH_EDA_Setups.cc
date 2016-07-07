@@ -278,8 +278,9 @@ void CU_ttH_EDA::Set_up_output_files()
 
 void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 {
-	//token.event_gen_info =
-	//	consumes<GenEventInfoProduct>(edm::InputTag(std::string("generator")));
+	if(!isdata)
+		token.event_gen_info =
+			consumes<GenEventInfoProduct>(edm::InputTag(std::string("generator")));
 	token.triggerResults = consumes<edm::TriggerResults>(
 		edm::InputTag(std::string("TriggerResults"), std::string(""), hltTag));
 	token.filterResults = consumes<edm::TriggerResults>(edm::InputTag(
