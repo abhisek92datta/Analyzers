@@ -333,6 +333,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	/// Selection helper
 	MiniAODHelper miniAODhelper;
 	LeptonSFHelper leptonSFhelper;
+	
+	// for PDF weight
+	std::vector<LHAPDF::PDF*> _systPDFs;
 
 	bool isdata;
 	char MAODHelper_b_tag_strength;
