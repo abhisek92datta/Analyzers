@@ -69,7 +69,7 @@
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 #include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
 
-//#include "LHAPDF/LHAPDF.h"
+#include "LHAPDF/LHAPDF.h"
 
 /// ROOT includes
 #include "TH1.h"
