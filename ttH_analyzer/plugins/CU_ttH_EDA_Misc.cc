@@ -1664,8 +1664,8 @@ for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
 }
 
 
-const LHAPDF::PDFUncertainty pdfUnc = _systPDFSets[i].uncertainty(pdfs, 68.);
-
+//const LHAPDF::PDFUncertainty pdfUnc = _systPDFSets[i].uncertainty(pdfs, 68.);
+const LHAPDF::PDFUncertainty pdfUnc = _systPDFs[i].uncertainty(pdfs, 68.);
 
 double weight_up = 1.0;
 double weight_down = 1.0;
