@@ -4,6 +4,7 @@
 <use name="MiniAOD/MiniAODHelper"/>
 <use name="root"/>
 <use name="roottmva"/>
+<use name="lhapdf"/>
 <export>
   <use name="root"/>
   <lib name="1"/>
