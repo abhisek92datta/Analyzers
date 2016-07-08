@@ -1408,8 +1408,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
 		
 	}
 
@@ -1448,8 +1448,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
 
 	}
 }
@@ -1647,7 +1647,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	}
 }
 
-/*
+
 void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
 
 auto pdfInfos = genInfos->pdf();
@@ -1674,7 +1674,7 @@ if (std::isfinite(1./pdfNominal)) {
 local.pdf_weight_up = weight_up;
 local.pdf_weight_down = weight_down;
 }
-*/
+
 
 
 
