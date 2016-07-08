@@ -1650,9 +1650,11 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 
 void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
 
+LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
+_systPDFs = CT14nlo_PDFSet.mkPDFs();
+
 auto pdfInfos = genInfos->pdf();
 double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
-
 
 std::vector<double> pdfs;
 for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
