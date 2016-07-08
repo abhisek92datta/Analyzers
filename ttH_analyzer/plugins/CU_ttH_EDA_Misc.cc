@@ -341,7 +341,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 		fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl, local.lep_sf_iso_sl);
 	}
 	else
-		fprintf(events_combined, "-1,-1,-1,-1");
+		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
 		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
 	else
@@ -381,7 +381,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 		fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di, local.lep_sf_iso_di);
 	}
 	else
-		fprintf(events_combined, "-1,-1,-1,-1");
+		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
 		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
 	else
