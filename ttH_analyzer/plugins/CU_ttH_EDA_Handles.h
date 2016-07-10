@@ -100,6 +100,7 @@ struct edm_Handles {
 	Handle<edm::View<pat::Electron> > electrons_for_mva;
 	
 	Handle<int> genTtbarId;
+	Handle<std::vector< PileupSummaryInfo > > PupInfo;
 };
 
 struct edm_Tokens {
@@ -131,6 +132,7 @@ struct edm_Tokens {
 	EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
 	
 	EDGetTokenT<int> genTtbarIdToken_;
+	EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
 };
 
 /// Set up handles with getByToken from edm::Event
