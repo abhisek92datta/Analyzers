@@ -1475,7 +1475,6 @@ double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > Pu
 			}
     		}
   	}
-	cout<<numTruePV<<"\n";
 }
 
 }
