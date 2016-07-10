@@ -33,6 +33,7 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 	iEvent.getByToken(token.electrons_for_mva_token, handle.electrons_for_mva);
 	
 	iEvent.getByToken(token.genTtbarIdToken_, handle.genTtbarId);
+	iEvent.getByToken(token.puInfoToken,handle.PupInfo);
 }
 
 #endif
