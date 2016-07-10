@@ -318,6 +318,9 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
    	    config.getParameter<edm::InputTag>("electrons"));
    	token.genTtbarIdToken_ = consumes<int>(
    	    config.getParameter<edm::InputTag>("genTtbarId"));
+	token.puInfoToken = consumes<std::vector< PileupSummaryInfo > >(
+   	    config.getParameter<edm::InputTag>("pileupinfo"));
+	
 }
 
 void CU_ttH_EDA::Set_up_Tree()
