@@ -335,7 +335,10 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.jet1SF_sl, local.jet1SF_up_sl, local.jet1SF_down_sl);
 	fprintf(events_combined, "%.4f,%.4f,-1,", local.met_pt, local.met_phi);
 	fprintf(events_combined, "%d,", local.ttHf_cat);
-	fprintf(events_combined, "-1,");
+	if(!isdata)
+		fprintf(events_combined, "%.4f,",local.PU_weight);
+	else
+		fprintf(events_combined, "-1,");
 	if(!isdata){
 		fprintf(events_combined, "%.4f,%.4f,", local.b_weight_sl, local.lep_sf_trig_sl);
 		fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl, local.lep_sf_iso_sl);
@@ -375,7 +378,10 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.jet1SF_di, local.jet1SF_up_di, local.jet1SF_down_di);
 	fprintf(events_combined, "%.4f,%.4f,%.4f,", local.met_pt, local.met_phi, local.mll);
 	fprintf(events_combined, "%d,", local.ttHf_cat);
-	fprintf(events_combined, "-1,");
+	if(!isdata)
+		fprintf(events_combined, "%.4f,",local.PU_weight);
+	else
+		fprintf(events_combined, "-1,");
 	if(!isdata){
 		fprintf(events_combined, "%.4f,%.4f,", local.b_weight_di, local.lep_sf_trig_di);
 		fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di, local.lep_sf_iso_di);
@@ -1410,7 +1416,9 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		//PDF Weight
   		if(!isdata)
   			getPDFweight(local,handle.event_gen_info);
-		
+  		
+  		// PU Weight
+		local.PU_weight = PU_weight(handle.PupInfo);
 	}
 
 	if (local.event_selection_DL!=0) {
@@ -1450,10 +1458,27 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		//PDF Weight
   		if(!isdata)
   			getPDFweight(local,handle.event_gen_info);
-
+  			
+  		//PU Weight
+		local.PU_weight = PU_weight(handle.PupInfo);
 	}
 }
 
+double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > PupInfo  );
+{
+	double numTruePV = -1;
+  	if( (PupInfo.isValid()) ){
+    		for( std::vector<PileupSummaryInfo>::const_iterator PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI ) {
+      			int BX = PVI->getBunchCrossing();
+      			if( BX==0 ){
+				numTruePV = PVI->getTrueNumInteractions();
+			}
+    		}
+  	}
+	cout<<numTruePV<<"\n";
+}
+
+}
 
 void CU_ttH_EDA::fillCSVHistos(TFile *fileHF, TFile *fileLF)
 {
