@@ -490,23 +490,6 @@ void CU_ttH_EDA::endJob() { return; }
 // ------------ method called when starting to processes a run  ------------
 void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 {
-	
-	edm::Handle<LHERunInfoProduct> run; 
-	typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
- 
-	iRun.getByLabel( "externalLHEProducer", run );
-	LHERunInfoProduct myLHERunInfoProduct = *(run.product());
- 
-	for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
-  		std::cout << iter->tag() << std::endl;
-  		std::vector<std::string> lines = iter->lines();
-  		for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
-   		std::cout << lines.at(iLine);
-		}
-	}
-	
-	
-		
 	/// Update HLTConfigProvider(s) for the new run
 	bool hlt_config_changed = true; // init() updates this one
 	if (!hlt_config.init(iRun, iSetup, hltTag, hlt_config_changed)) {
