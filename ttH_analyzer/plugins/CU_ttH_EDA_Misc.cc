@@ -348,9 +348,13 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	else
 		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
-		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+		fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up, local.q2_weight_down);
 	else
-		fprintf(events_combined, "-1,-1,-1,-1\n");
+		fprintf(events_combined, "-1,-1\n");	
+	if(!isdata)
+		fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+	else
+		fprintf(events_combined, "-1,-1\n");
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
@@ -391,9 +395,13 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	else
 		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
-		fprintf(events_combined, "-1,-1,%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+		fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up, local.q2_weight_down);
 	else
-		fprintf(events_combined, "-1,-1,-1,-1\n");
+		fprintf(events_combined, "-1,-1\n");	
+	if(!isdata)
+		fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
+	else
+		fprintf(events_combined, "-1,-1\n");
 }
 
 /*
@@ -872,7 +880,14 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		//	getPDFweight(local,handle.event_gen_info);
   		
   		// PU Weight
-		local.PU_weight = PU_weight(handle.PupInfo);
+		if(!isdata)
+			local.PU_weight = PU_weight(handle.PupInfo);
+	
+		// Q2 Weight
+		if(!isdata) {
+			local.q2_weight_up = getQ2weight( handle.EvtHandle, "1005");
+			local.q2_weight_down = getQ2weight( handle.EvtHandle, "1009");
+		}
 	}
 
 	if (local.event_selection_DL!=0) {
@@ -913,8 +928,16 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		//if(!isdata)
   		//	getPDFweight(local,handle.event_gen_info);
   			
-  		//PU Weight
-		local.PU_weight = PU_weight(handle.PupInfo);
+  		// PU Weight
+		if(!isdata)
+			local.PU_weight = PU_weight(handle.PupInfo);
+	
+		// Q2 Weight
+		if(!isdata) {
+			local.q2_weight_up = getQ2weight( handle.EvtHandle, "1005");
+			local.q2_weight_down = getQ2weight( handle.EvtHandle, "1009");
+		}
+		
 	}
 }
 
@@ -939,6 +962,17 @@ double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > Pu
   	}
   	
 	return pu_weight;
+}
+
+double getQ2weight( edm::Handle<LHEEventProduct> EvtHandle, string ud) {
+	double theWeight;
+	theWeight = handle.event_gen_info->weight();
+	unsigned int i;
+	for (i=0; i<handle.EvtHandle->weights().size(); i++) {
+   		if ( !(ud.compare(handle.EvtHandle->weights()[i].id))) 
+   			theWeight *= handle.EvtHandle->weights()[i].wgt/handle.EvtHandle->originalXWGTUP(); 
+	}
+	return theWeight;
 }
 
 void CU_ttH_EDA::fillCSVHistos(TFile *fileHF, TFile *fileLF)
