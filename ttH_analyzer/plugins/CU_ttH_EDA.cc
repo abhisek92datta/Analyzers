@@ -150,6 +150,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if(!isdata)
 		iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
 	
+	// for Q2 weight
+	if(!isdata){
+		std::vector<double>& evtWeights = handle.event_gen_info->weights();
+		double theWeight = handle.event_gen_info->weight();
+		edm::Handle<LHEEventProduct> EvtHandle ;
+		iEvent.getByLabel( "externalLHEProducer" , EvtHandle ) ;
+	}
+	
+	std::string whichWeightId = "1005";
+	for (int i=0; i<EvtHandle->weights().size(); i++) {
+   		if (EvtHandle->weights()[i].id == "YYY") 
+   			theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
+	}
+	
+	
+	
+	
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
 	//Check_filters(handle.filterResults);
@@ -437,8 +454,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
-		//std::cout<<local.is_mu<<"  ";
-		//std::cout<<local.event_nr<<"  "<<local.PU_weight<<"\n";
+		std::cout<<local.event_nr<<"  "<<theWeight<<"\n";
 		//std::cout<<local.lep_sf_id_sl<<"   "<<local.lep_sf_iso_sl<<"  "<<local.lep_sf_trig_sl<<"\n";
 		//std::cout<<local.pdf_weight_up<<"  "<<local.pdf_weight_down<<"\n";
 	}
