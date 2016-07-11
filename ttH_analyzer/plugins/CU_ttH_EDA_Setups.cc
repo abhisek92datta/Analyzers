@@ -329,6 +329,9 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
    	    config.getParameter<edm::InputTag>("genTtbarId"));
 	token.puInfoToken = consumes<std::vector< PileupSummaryInfo > >(
    	    config.getParameter<edm::InputTag>("pileupinfo"));
+   	token.lheptoken = consumes<LHEEventProduct>(
+   	    config.getParameter<edm::InputTag>("lhepprod"));
+   	
 	
 }
 
