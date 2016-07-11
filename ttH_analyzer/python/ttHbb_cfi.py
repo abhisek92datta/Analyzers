@@ -75,7 +75,8 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             mvaValues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
             mvaCategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
             genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
-            pileupinfo = cms.InputTag("slimmedAddPileupInfo")
+            pileupinfo = cms.InputTag("slimmedAddPileupInfo"),
+            lhepprod = cms.InputTag("externalLHEProducer")
             #mvaValues = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Values",""),
             #mvaCategories = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories","")
         )
