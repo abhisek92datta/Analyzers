@@ -437,8 +437,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
-		std::cout<<local.is_mu<<"  ";
-		std::cout<<local.event_nr<<"  "<<local.PU_weight<<"\n";
+		//std::cout<<local.is_mu<<"  ";
+		//std::cout<<local.event_nr<<"  "<<local.PU_weight<<"\n";
 		//std::cout<<local.lep_sf_id_sl<<"   "<<local.lep_sf_iso_sl<<"  "<<local.lep_sf_trig_sl<<"\n";
 		//std::cout<<local.pdf_weight_up<<"  "<<local.pdf_weight_down<<"\n";
 	}
