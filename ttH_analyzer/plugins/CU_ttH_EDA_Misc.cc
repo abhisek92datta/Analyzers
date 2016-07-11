@@ -885,8 +885,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 	
 		// Q2 Weight
 		if(!isdata) {
-			local.q2_weight_up = getQ2weight( handle.EvtHandle, "1005");
-			local.q2_weight_down = getQ2weight( handle.EvtHandle, "1009");
+			local.q2_weight_up = getQ2weight( handle.event_gen_info, handle.EvtHandle, "1005");
+			local.q2_weight_down = getQ2weight( handle.event_gen_info, handle.EvtHandle, "1009");
 		}
 	}
 
@@ -934,8 +934,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 	
 		// Q2 Weight
 		if(!isdata) {
-			local.q2_weight_up = getQ2weight( handle.EvtHandle, "1005");
-			local.q2_weight_down = getQ2weight( handle.EvtHandle, "1009");
+			local.q2_weight_up = getQ2weight( handle.event_gen_info, handle.EvtHandle, "1005");
+			local.q2_weight_down = getQ2weight( handle.event_gen_info, handle.EvtHandle, "1009");
 		}
 		
 	}
@@ -964,9 +964,9 @@ double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > Pu
 	return pu_weight;
 }
 
-double getQ2weight( edm::Handle<LHEEventProduct> EvtHandle, string ud) {
+double getQ2weight( edm::Handle<GenEventInfoProduct> event_gen_info , edm::Handle<LHEEventProduct> EvtHandle, string ud) {
 	double theWeight;
-	theWeight = handle.event_gen_info->weight();
+	theWeight = event_gen_info->weight();
 	unsigned int i;
 	for (i=0; i<handle.EvtHandle->weights().size(); i++) {
    		if ( !(ud.compare(handle.EvtHandle->weights()[i].id))) 
