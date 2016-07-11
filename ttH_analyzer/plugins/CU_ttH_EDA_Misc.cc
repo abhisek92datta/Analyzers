@@ -1670,7 +1670,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	}
 }
 
-
+/*
 void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
 
 LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
@@ -1700,7 +1700,7 @@ local.pdf_weight_up = weight_up;
 local.pdf_weight_down = weight_down;
 }
 
-
+*/
 
 
 
