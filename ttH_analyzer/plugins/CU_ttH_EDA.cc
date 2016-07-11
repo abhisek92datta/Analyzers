@@ -397,6 +397,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.pass_elemu = 1;
 	}
 	
+	local.PU_weight = -1;
 	local.pdf_weight_up = -1;
 	local.pdf_weight_down = -1;
 	local.q2_weight_up = -1;
