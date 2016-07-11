@@ -158,7 +158,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		edm::Handle<LHEEventProduct> EvtHandle ;
 		iEvent.getByLabel( "externalLHEProducer" , EvtHandle ) ;
 		//std::string whichWeightId = "1005";
-		for (int i=0; i<EvtHandle->weights().size(); i++) {
+		unsigned int i;
+		for (i=0; i<EvtHandle->weights().size(); i++) {
    			if (EvtHandle->weights()[i].id == "1005") 
    				theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
 		}
