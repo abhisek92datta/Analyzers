@@ -134,8 +134,8 @@ struct CU_ttH_EDA_event_vars {
 	double PU_weight;
 	double pdf_weight_up;
 	double pdf_weight_down;
-	double local.q2_weight_up;
-	double local.q2_weight_down;
+	double q2_weight_up;
+	double q2_weight_down;
 
 	bool is_e;
 	bool is_mu;
