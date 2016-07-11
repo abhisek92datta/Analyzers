@@ -4,6 +4,15 @@
 /// Includes
 #include "CU_ttH_EDA.h"
 
+void CU_ttH_EDA::init_PU_weight()
+{
+	fin.open("ttH_analyzer/data/PU_weights.txt");
+	for(int i=0; i<50; i++) {
+		fin>>PU_x[i]>>PU_y[i];
+	}
+	fin.close();
+}
+
 void CU_ttH_EDA::Close_output_files()
 {
 	fclose(events_combined);
