@@ -394,6 +394,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 		fprintf(events_combined, "-1,-1,-1,-1\n");
 }
 
+/*
 void CU_ttH_EDA::printDecayChain(const reco::Candidate &p, int &index,
 								 int mother_index, bool details)
 {
