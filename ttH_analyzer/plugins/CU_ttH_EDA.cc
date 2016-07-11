@@ -151,21 +151,18 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
 	
 	// for Q2 weight
+	double theWeight;
 	if(!isdata){
-		std::vector<double>& evtWeights = handle.event_gen_info->weights();
-		double theWeight = handle.event_gen_info->weight();
+		//std::vector<double>& evtWeights = handle.event_gen_info->weights();
+		theWeight = handle.event_gen_info->weight();
 		edm::Handle<LHEEventProduct> EvtHandle ;
 		iEvent.getByLabel( "externalLHEProducer" , EvtHandle ) ;
+		//std::string whichWeightId = "1005";
+		for (int i=0; i<EvtHandle->weights().size(); i++) {
+   			if (EvtHandle->weights()[i].id == "1005") 
+   				theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
+		}
 	}
-	
-	//std::string whichWeightId = "1005";
-	for (int i=0; i<EvtHandle->weights().size(); i++) {
-   		if (EvtHandle->weights()[i].id == "1005") 
-   			theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
-	}
-	
-	
-	
 	
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
