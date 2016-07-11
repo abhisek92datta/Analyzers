@@ -964,7 +964,7 @@ double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > Pu
 	return pu_weight;
 }
 
-double getQ2weight( edm::Handle<GenEventInfoProduct> event_gen_info , edm::Handle<LHEEventProduct> EvtHandle, string ud) {
+double CU_ttH_EDA::getQ2weight( edm::Handle<GenEventInfoProduct> event_gen_info , edm::Handle<LHEEventProduct> EvtHandle, string ud) {
 	double theWeight;
 	theWeight = event_gen_info->weight();
 	unsigned int i;
