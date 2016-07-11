@@ -155,13 +155,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	if(!isdata){
 		//std::vector<double>& evtWeights = handle.event_gen_info->weights();
 		theWeight = handle.event_gen_info->weight();
-		edm::Handle<LHEEventProduct> EvtHandle ;
-		iEvent.getByLabel( "externalLHEProducer" , EvtHandle ) ;
+		iEvent.getByToken( token.lheptoken, handle.EvtHandle ) ;
 		//std::string whichWeightId = "1005";
 		unsigned int i;
-		for (i=0; i<EvtHandle->weights().size(); i++) {
-   			if (EvtHandle->weights()[i].id == "1005") 
-   				theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
+		for (i=0; i<handle.EvtHandle->weights().size(); i++) {
+   			if (handle.EvtHandle->weights()[i].id == "1005") 
+   				theWeight *= handle.EvtHandle->weights()[i].wgt/handle.EvtHandle->originalXWGTUP(); 
 		}
 	}
 	
