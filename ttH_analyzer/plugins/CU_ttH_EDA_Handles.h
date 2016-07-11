@@ -62,7 +62,7 @@
 
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
-
+#include "Analyzers/ttH_analyzer/interface/LHEEventProduct.h"
 /*
  *
  * edm::Handle and edm::EDGetTokenT container structs.
