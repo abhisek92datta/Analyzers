@@ -139,7 +139,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//if (local.event_nr != 1410845 )
 	//	return;
 	
-	std::cout<<local.event_nr<<"\n";
 	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
@@ -430,15 +429,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		selection_count++;
 	}
 	
-	std::cout<<local.is_mu<<"  ";
-	std::cout<<local.event_nr<<"  "<<local.PU_weight<<"\n";
 	
 	/// Check tags, fill hists, print events
 	if (local.event_selection_SL!=0) {
 		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
-		
+		std::cout<<local.is_mu<<"  ";
+		std::cout<<local.event_nr<<"  "<<local.PU_weight<<"\n";
 		//std::cout<<local.lep_sf_id_sl<<"   "<<local.lep_sf_iso_sl<<"  "<<local.lep_sf_trig_sl<<"\n";
 		//std::cout<<local.pdf_weight_up<<"  "<<local.pdf_weight_down<<"\n";
 	}
