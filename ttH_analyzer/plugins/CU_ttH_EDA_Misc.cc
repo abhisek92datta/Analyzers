@@ -1477,8 +1477,6 @@ double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > Pu
   	}
 }
 
-}
-
 void CU_ttH_EDA::fillCSVHistos(TFile *fileHF, TFile *fileLF)
 {
     for( int iSys=0; iSys<9; iSys++ ){
