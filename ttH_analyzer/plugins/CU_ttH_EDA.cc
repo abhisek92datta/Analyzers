@@ -151,18 +151,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
 	
 	// for Q2 weight
-	double theWeight;
-	if(!isdata){
-		//std::vector<double>& evtWeights = handle.event_gen_info->weights();
-		theWeight = handle.event_gen_info->weight();
-		iEvent.getByToken( token.lheptoken, handle.EvtHandle ) ;
-		//std::string whichWeightId = "1005";
-		unsigned int i;
-		for (i=0; i<handle.EvtHandle->weights().size(); i++) {
-   			if (handle.EvtHandle->weights()[i].id == "1005") 
-   				theWeight *= handle.EvtHandle->weights()[i].wgt/handle.EvtHandle->originalXWGTUP(); 
-		}
-	}
+	if(!isdata)
+		iEvent.getByToken( token.lheptoken, handle.EvtHandle );
 	
 	/// Run checks on event containers via their handles
 	Check_triggers(handle.triggerResults, local);
@@ -409,6 +399,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	local.pdf_weight_up = -1;
 	local.pdf_weight_down = -1;
+	local.q2_weight_up = -1;
+	local.q2_weight_down = -1;
 	
 	// Event selection criteria for single lepton events
 	Check_SL_Event_Selection(local);
@@ -451,7 +443,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
-		std::cout<<local.event_nr<<"  "<<theWeight<<"\n";
+		//std::cout<<local.event_nr<<"  "<<theWeight<<"\n";
 		//std::cout<<local.lep_sf_id_sl<<"   "<<local.lep_sf_iso_sl<<"  "<<local.lep_sf_trig_sl<<"\n";
 		//std::cout<<local.pdf_weight_up<<"  "<<local.pdf_weight_down<<"\n";
 	}
