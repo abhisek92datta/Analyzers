@@ -968,9 +968,9 @@ double getQ2weight( edm::Handle<GenEventInfoProduct> event_gen_info , edm::Handl
 	double theWeight;
 	theWeight = event_gen_info->weight();
 	unsigned int i;
-	for (i=0; i<handle.EvtHandle->weights().size(); i++) {
-   		if ( !(ud.compare(handle.EvtHandle->weights()[i].id))) 
-   			theWeight *= handle.EvtHandle->weights()[i].wgt/handle.EvtHandle->originalXWGTUP(); 
+	for (i=0; i<EvtHandle->weights().size(); i++) {
+   		if ( !(ud.compare(EvtHandle->weights()[i].id))) 
+   			theWeight *= EvtHandle->weights()[i].wgt/EvtHandle->originalXWGTUP(); 
 	}
 	return theWeight;
 }
