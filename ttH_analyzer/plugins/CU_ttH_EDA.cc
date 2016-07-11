@@ -139,6 +139,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	//if (local.event_nr != 1410845 )
 	//	return;
 	
+	std::cout<<local.event_nr<<"\n";
+	
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
