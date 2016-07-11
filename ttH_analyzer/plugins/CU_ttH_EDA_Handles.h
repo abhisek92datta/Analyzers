@@ -101,6 +101,7 @@ struct edm_Handles {
 	
 	Handle<int> genTtbarId;
 	Handle<std::vector< PileupSummaryInfo > > PupInfo;
+	Handle<LHEEventProduct> EvtHandle ;
 };
 
 struct edm_Tokens {
@@ -133,6 +134,7 @@ struct edm_Tokens {
 	
 	EDGetTokenT<int> genTtbarIdToken_;
 	EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
+	EDGetTokenT <LHEEventProduct> lheptoken;
 };
 
 /// Set up handles with getByToken from edm::Event
