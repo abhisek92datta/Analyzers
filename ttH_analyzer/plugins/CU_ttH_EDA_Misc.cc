@@ -206,6 +206,8 @@ int CU_ttH_EDA::Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection
 	if (n_PVs > 0)
 		miniAODhelper.SetVertex(
 			vertex); // FIXME?: overload miniAODhelper::SetVertex(reco::Vertex&)
+	else
+		miniAODhelper.SetVertex(*(vertices->begin()));
 
 	return 0;
 }
