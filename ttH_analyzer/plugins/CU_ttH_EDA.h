@@ -185,7 +185,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
         //void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm::Handle<int>, edm::Handle<GenEventInfoProduct> );
         void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm_Handles );
 	void getPDFweight(CU_ttH_EDA_event_vars &, edm::Handle<GenEventInfoProduct> );
-	double getQ2weight( edm::Handle<LHEEventProduct>);
+	double getQ2weight( edm::Handle<LHEEventProduct>, string);
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
