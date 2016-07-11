@@ -941,7 +941,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 	}
 }
 
-double CU_ttH_EDA::PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > > PupInfo  )
+double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > PupInfo  )
 {
 	double pu_weight = -1;
 	double numTruePV = -1;
