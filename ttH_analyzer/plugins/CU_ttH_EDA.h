@@ -87,6 +87,7 @@
 #include "CU_ttH_EDA_Handles.h"
 
 #include "Analyzers/ttH_analyzer/interface/CU_ttH_EDA_Ntuple.h"
+#include "Analyzers/ttH_analyzer/interface/LHEEventProduct.h"
 
 /// Configuration reader
 #include "yaml-cpp/yaml.h"
