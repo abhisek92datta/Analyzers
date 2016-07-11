@@ -187,6 +187,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
+	void init_PU_weight();
+	
+	ifstream fin;
 	
 	/// Taggers. Returns 1 in case of an error
 	//int Higgs_tagger(Handle<boosted::SubFilterJetCollection>,
@@ -345,6 +348,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int MAODHelper_sample_nr; // past insample_, in-development var. for
 							  // MAODHelper?
 	std::string MAODHelper_era;
+
+	int PU_x[100];
+	double PU_y[100];
 
 	/// Histograms
 	TH1D *h_tth_syncex1_ele;
