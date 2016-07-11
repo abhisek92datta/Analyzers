@@ -175,7 +175,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	double getJERfactor( const int, const double, const double, const double );
 	double GetJetSF( pat::Jet, const sysType::sysType, double);
 	void getbweight (CU_ttH_EDA_event_vars &);
-	double PU_weight ( edm::Handle<std::vector< PileupSummaryInfo > >  );
+	double getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > >  );
 	
 	
 	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
