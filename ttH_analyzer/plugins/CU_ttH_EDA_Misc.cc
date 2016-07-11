@@ -881,7 +881,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		
   		// PU Weight
 		if(!isdata)
-			local.PU_weight = PU_weight(handle.PupInfo);
+			local.PU_weight = getPUweight(handle.PupInfo);
 	
 		// Q2 Weight
 		if(!isdata) {
@@ -930,7 +930,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   			
   		// PU Weight
 		if(!isdata)
-			local.PU_weight = PU_weight(handle.PupInfo);
+			local.PU_weight = getPUweight(handle.PupInfo);
 	
 		// Q2 Weight
 		if(!isdata) {
