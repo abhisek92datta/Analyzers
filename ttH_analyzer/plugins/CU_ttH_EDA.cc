@@ -156,7 +156,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Check_triggers(handle.triggerResults, local);
 	//Check_filters(handle.filterResults);
 	Check_vertices_set_MAODhelper(handle.vertices);
-	// 	Check_beam_spot(BS);	// dumb implementation
 
 	local.n_prim_V = Check_PV(handle.vertices);
 
@@ -204,33 +203,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 
 	/// Jet selection
-	/*
-	// ID selection
-	local.jets_raw = CheckJetID(*(handle.jets));
-	// Remove Overlap
-	local.jets_sl_raw = removeOverlapdR(local.jets_raw, local.mu_veto_selected, 0.4);
-	local.jets_sl_raw = removeOverlapdR(local.jets_sl_raw, local.e_veto_selected, 0.4);
-	local.jets_di_raw = removeOverlapdR(local.jets_raw, local.mu_di_selected, 0.4);
-	local.jets_di_raw = removeOverlapdR(local.jets_di_raw, local.e_di_selected, 0.4);
-	// Uncorrected jets
-	local.jets_sl_raw = miniAODhelper.GetUncorrectedJets(local.jets_sl_raw);
-	local.jets_di_raw = miniAODhelper.GetUncorrectedJets(local.jets_di_raw);
-	// Jet Energy Correction
-	SetFactorizedJetCorrector();
-	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_sl_raw, *rho);
-	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_di_raw, *rho);
-	if(isdata) {
-		local.jets_sl_corrected = local.jets_sl_corrected_JEC;
-		local.jets_di_corrected = local.jets_di_corrected_JEC;
-	}
-	else {
-		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
-		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
-	}
-	*/
-	//local.jets_corrected =
-	// 	GetCorrectedJets(local.jets_raw, *rho, sysType::JESdown);
-	
 	
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
@@ -252,36 +224,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Remove Overlap
 	local.jets_sl_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_sl_corrected, local.mu_veto_selected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_di_corrected, local.mu_di_selected, local.e_di_selected, 0.4);
-	//local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_veto_selected, 0.4);
-	//local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
-	//local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
-	//local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
-	
-	/*
-	// ID selection
-	local.jets_raw = CheckJetID(*(handle.jets));
-	// Uncorrected jets
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
-	//local.jets_raw = miniAODhelper.GetUncorrectedJets(local.jets_raw);
-	// Jet Energy Correction
-	SetFactorizedJetCorrector();
-	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
-	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
-	if(isdata) {
-		local.jets_sl_corrected = local.jets_sl_corrected_JEC;
-		local.jets_di_corrected = local.jets_di_corrected_JEC;
-	}
-	else {
-		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
-		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
-	}
-	// Remove Overlap
-	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.mu_veto_selected, 0.4);
-	local.jets_sl_corrected = removeOverlapdR(local.jets_sl_corrected, local.e_veto_selected, 0.4);
-	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.mu_di_selected, 0.4);
-	local.jets_di_corrected = removeOverlapdR(local.jets_di_corrected, local.e_di_selected, 0.4);
-	*/
-	
+
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
 	
@@ -358,24 +301,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// MET
 	local.pfMET = handle.METs->front();
-	// MHT
-	//float mht = getMHT(local);
-	//float met = sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
-	//local.MHT = mht;
-	//local.met_pt = met;
-	//local.met_phi = atan(local.pfMET.py()/local.pfMET.px());
-	//TLorentzVector met_v;
-        //met_v.SetVect(TVector3(local.pfMET.px(),local.pfMET.py(),local.pfMET.pz()));
-        //local.met_pt = met_v.Rho();
-        //local.met_phi = met_v.Phi();
 	local.met_pt = local.pfMET.pt();
         local.met_phi = local.pfMET.phi();
 	local.met_passed = 0;
 	local.mll_passed = 0;
-
-	// Produce sync ntuple
-	//tauNtuple.initialize();
-	//tauNtuple.write_ntuple(local);
 
 	local.is_e = false;
 	local.is_mu = false;
@@ -407,31 +336,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// Event selection criteria for dilepton events
 	Check_DL_Event_Selection(local);
 	
-	/*
-	std::cout<<"\n\n\n";
-	std::cout<<local.event_nr<<"\n";
-	for ( auto& jet : *handle.jets) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-	}
-	std::cout<<"\n\n";
-	for ( auto& jet : local.jets_sl_corrected) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-	}
-	std::cout<<"\n\n";
-	for ( auto& jet : local.jets_sl_selected) {
-		std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-	}
-	*/
-		//for ( auto& mu : *(handle.muons)) {
-	//	std::cout<<mu.pt()<<"  "<<mu.eta()<<"  "<<miniAODhelper.GetMuonRelIso(mu,coneSize::R04, corrType::deltaBeta)<<"  "<<miniAODhelper.passesMuonPOGIdTight(mu)<<"\n";
-	//}
-	//std::cout<<"\n";
-	//std::cout<<local.n_di_electrons<<"  "<<local.n_di_muons<<"  "<<local.n_di_jets<<"   "<<local.n_di_btags<<"\n";
-	
-	//if(local.is_emu == false)
-	//	local.event_selection_DL = false;
-	//local.event_selection_SL = false;
-	
 	if (local.event_selection_SL!=0 || local.event_selection_DL!=0){
 		selection_count++;
 	}
@@ -439,24 +343,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	/// Check tags, fill hists, print events
 	if (local.event_selection_SL!=0) {
-		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
-		//std::cout<<local.event_nr<<"  "<<theWeight<<"\n";
-		//std::cout<<local.lep_sf_id_sl<<"   "<<local.lep_sf_iso_sl<<"  "<<local.lep_sf_trig_sl<<"\n";
-		//std::cout<<local.pdf_weight_up<<"  "<<local.pdf_weight_down<<"\n";
 	}
-	//Check_Fill_Print_ej(local);
-	//Check_Fill_Print_muj(local);
 	else if (local.event_selection_DL!=0) {
-		//Fill_addn_quant(local, *rho, handle.genTtbarId);
 		Fill_addn_quant(local, *rho, handle);
 		Check_Fill_Print_di_lepton(local);
 	}
-	//Check_Fill_Print_dimuj(local);
-	//Check_Fill_Print_dielej(local);
-	//Check_Fill_Print_elemuj(local);
-	
+
 	eventTree->Fill();
 }
 
@@ -518,67 +412,11 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 {
 	// report results of sync exercises
 	if (analysis_type == Analyze_lepton_jet) {
-		/*
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-		std::cout << "\t Synchronization for mu" << std::endl;
-		std::cout << "Selection \t Number of events\n";
-		for (int i = 0; i < h_tth_syncex1_mu->GetNbinsX(); ++i)
-			printf("%s\t %.0f\n",
-				   h_tth_syncex1_mu->GetXaxis()->GetBinLabel(i + 1),
-				   h_tth_syncex1_mu->GetBinContent(i + 1));
-
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-		std::cout << "\t Synchronization for e" << std::endl;
-		std::cout << "Selection \t Number of events\n";
-		for (int i = 0; i < h_tth_syncex1_ele->GetNbinsX(); ++i)
-			printf("%s\t %.0f\n",
-				   h_tth_syncex1_ele->GetXaxis()->GetBinLabel(i + 1),
-				   h_tth_syncex1_ele->GetBinContent(i + 1));
-		*/
+	
 	}
 
 	if (analysis_type == Analyze_dilepton) {
-		/*
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-		std::cout << "\t Synchronization for di-mu" << std::endl;
-		std::cout << "Selection \t Number of events\n";
-		for (int i = 0; i < h_tth_syncex1_dimu->GetNbinsX(); ++i)
-			printf("%s\t %.0f\n",
-				   h_tth_syncex1_dimu->GetXaxis()->GetBinLabel(i + 1),
-				   h_tth_syncex1_dimu->GetBinContent(i + 1));
-
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-
-		std::cout << "\t Synchronization for di-ele" << std::endl;
-		std::cout << "Selection \t Number of events\n";
-		for (int i = 0; i < h_tth_syncex1_diele->GetNbinsX(); ++i)
-			printf("%s\t %.0f\n",
-				   h_tth_syncex1_diele->GetXaxis()->GetBinLabel(i + 1),
-				   h_tth_syncex1_diele->GetBinContent(i + 1));
-
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-
-		std::cout << "\t Synchronization for ele-mu" << std::endl;
-		std::cout << "Selection \t Number of events\n";
-		for (int i = 0; i < h_tth_syncex1_elemu->GetNbinsX(); ++i)
-			printf("%s\t %.0f\n",
-				   h_tth_syncex1_elemu->GetXaxis()->GetBinLabel(i + 1),
-				   h_tth_syncex1_elemu->GetBinContent(i + 1));
-
-		std::cout
-			<< "***************************************************************"
-			<< std::endl;
-		*/	
+	
 	}
 
 	if (trigger_stats)
