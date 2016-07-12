@@ -190,6 +190,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
 	void init_PU_weight();
+	void init_PDF_weight();
 	
 	ifstream fin;
 	
