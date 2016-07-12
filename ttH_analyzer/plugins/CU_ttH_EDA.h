@@ -344,6 +344,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	LeptonSFHelper leptonSFhelper;
 	
 	// for PDF weight
+	LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
 	std::vector<LHAPDF::PDF*> _systPDFs;
 
 	bool isdata;
