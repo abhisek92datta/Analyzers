@@ -103,9 +103,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_b_weights();
 	
 	init_PU_weight();
-	
-	//LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
-	//_systPDFs = CT14nlo_PDFSet.mkPDFs();
+
 }
 
 /// Destructor
