@@ -348,9 +348,9 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 	else
 		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
-		fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up, local.q2_weight_down);
+		fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up, local.q2_weight_down);
 	else
-		fprintf(events_combined, "-1,-1\n");	
+		fprintf(events_combined, "-1,-1,");	
 	if(!isdata)
 		fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
 	else
@@ -395,9 +395,9 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 	else
 		fprintf(events_combined, "-1,-1,-1,-1,");
 	if(!isdata)
-		fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up, local.q2_weight_down);
+		fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up, local.q2_weight_down);
 	else
-		fprintf(events_combined, "-1,-1\n");	
+		fprintf(events_combined, "-1,-1,");	
 	if(!isdata)
 		fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up, local.pdf_weight_down);
 	else
@@ -876,8 +876,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
   		
   		// PU Weight
 		if(!isdata)
@@ -925,8 +925,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
   			
   		// PU Weight
 		if(!isdata)
@@ -1167,7 +1167,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	}
 }
 
-/*
+
 void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
 
 LHAPDF::PDFSet CT14nlo_PDFSet("CT14nlo");
@@ -1178,14 +1178,12 @@ double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
 
 std::vector<double> pdfs;
 for (size_t j = 0; j < CT14nlo_PDFSet.size(); ++j) {
-    double xpdf1 = CT14nlo_PDFSet[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first, pdfInfos->scalePDF);
-    double xpdf2 = CT14nlo_PDFSet[j]->xfxQ(pdfInfos->id.second, pdfInfos->x.second, pdfInfos->scalePDF);
+    double xpdf1 = _systPDFs[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first, pdfInfos->scalePDF);
+    double xpdf2 = _systPDFs[j]->xfxQ(pdfInfos->id.second, pdfInfos->x.second, pdfInfos->scalePDF);
     pdfs.push_back(xpdf1 * xpdf2);
 }
 
-
-//const LHAPDF::PDFUncertainty pdfUnc = _systPDFSets[i].uncertainty(pdfs, 68.);
-const LHAPDF::PDFUncertainty pdfUnc = _systPDFs[i].uncertainty(pdfs, 68.);
+const LHAPDF::PDFUncertainty pdfUnc = CT14nlo_PDFSet.uncertainty(pdfs, 68.);
 
 double weight_up = 1.0;
 double weight_down = 1.0;
@@ -1196,9 +1194,6 @@ if (std::isfinite(1./pdfNominal)) {
 local.pdf_weight_up = weight_up;
 local.pdf_weight_down = weight_down;
 }
-
-*/
-
 
 
 #endif
