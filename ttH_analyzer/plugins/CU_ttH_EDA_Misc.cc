@@ -687,13 +687,14 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
   else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
   else                      factor = jetPt_JER/recojetPT;
 
-  /*
+  
   if( !(genjetPT>5) ) {
-  	import ROOT;
-	r = ROOT.TRandom3(1);
-	factor = r.Gaus();
+  	//import ROOT;
+	//r = ROOT.TRandom3(1);
+	//factor = r.Gaus();
+	factor = 1;
   }
-  */
+  
   
   return factor;
 }
