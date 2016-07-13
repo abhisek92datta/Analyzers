@@ -316,6 +316,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.event_selection_SL = false;
 	local.event_selection_DL = false;
 
+	/*
 	if(!isdata) {
 		local.pass_single_e = 1;
 		local.pass_single_mu = 1;
@@ -323,6 +324,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.pass_double_mu = 1;
 		local.pass_elemu = 1;
 	}
+	*/
 	
 	local.PU_weight = -1;
 	local.pdf_weight_up = -1;
