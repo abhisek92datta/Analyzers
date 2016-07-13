@@ -632,43 +632,43 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
   double extrauncertainty=1.5;
   
   if( jetAbsETA<0.5 ){ 
-    scale_JER = 1.095; scale_JERup = 1.095 + 0.018*extrauncertainty; scale_JERdown = 1.095 - 0.018*extrauncertainty;
+    scale_JER = 1.122; scale_JERup = 1.122 + 0.026*extrauncertainty; scale_JERdown = 1.122 - 0.026*extrauncertainty;
   }
   else if( jetAbsETA<0.8 ){ 
-    scale_JER = 1.120; scale_JERup = 1.120 + 0.028*extrauncertainty; scale_JERdown = 1.120 - 0.028*extrauncertainty;
+    scale_JER = 1.167; scale_JERup = 1.167 + 0.048*extrauncertainty; scale_JERdown = 1.167 - 0.048*extrauncertainty;
   }
   else if( jetAbsETA<1.1 ){ 
-    scale_JER = 1.097; scale_JERup = 1.097 + 0.017*extrauncertainty; scale_JERdown = 1.097 - 0.017*extrauncertainty;
+    scale_JER = 1.168; scale_JERup = 1.168 + 0.046*extrauncertainty; scale_JERdown = 1.168 - 0.046*extrauncertainty;
   }
   else if( jetAbsETA<1.3 ){ 
-    scale_JER = 1.103; scale_JERup = 1.103 + 0.033*extrauncertainty; scale_JERdown = 1.103 - 0.033*extrauncertainty;
+    scale_JER = 1.029 ; scale_JERup = 1.029  + 0.066*extrauncertainty; scale_JERdown = 1.029  - 0.066*extrauncertainty;
   }
   else if( jetAbsETA<1.7 ){ 
-    scale_JER = 1.118; scale_JERup = 1.118 + 0.014*extrauncertainty; scale_JERdown = 1.118 - 0.014*extrauncertainty;
+    scale_JER = 1.115; scale_JERup = 1.115 + 0.03*extrauncertainty; scale_JERdown = 1.115 - 0.03*extrauncertainty;
   }
   else if( jetAbsETA<1.9 ){ 
-    scale_JER = 1.100; scale_JERup = 1.100 + 0.033*extrauncertainty; scale_JERdown = 1.100 - 0.033*extrauncertainty;
+    scale_JER = 1.041 ; scale_JERup = 1.041  + 0.062*extrauncertainty; scale_JERdown = 1.041  - 0.062*extrauncertainty;
   }
   else if( jetAbsETA<2.1 ){ 
-    scale_JER = 1.162; scale_JERup = 1.162 + 0.044*extrauncertainty; scale_JERdown = 1.162 - 0.044*extrauncertainty;
+    scale_JER = 1.167 ; scale_JERup = 1.167  + 0.086*extrauncertainty; scale_JERdown = 1.167  - 0.086*extrauncertainty;
   }
   else if( jetAbsETA<2.3 ){ 
-    scale_JER = 1.160; scale_JERup = 1.160 + 0.048*extrauncertainty; scale_JERdown = 1.160 - 0.048*extrauncertainty;
+    scale_JER = 1.094 ; scale_JERup = 1.094  + 0.093*extrauncertainty; scale_JERdown = 1.094  - 0.093*extrauncertainty;
   }
   else if( jetAbsETA<2.5 ){ 
-    scale_JER = 1.161; scale_JERup = 1.161 + 0.060*extrauncertainty; scale_JERdown = 1.161 - 0.060*extrauncertainty;
+    scale_JER = 1.168 ; scale_JERup = 1.168  + 0.120*extrauncertainty; scale_JERdown = 1.168  - 0.120*extrauncertainty;
   }
   else if( jetAbsETA<2.8 ){ 
-    scale_JER = 1.209; scale_JERup = 1.209 + 0.059*extrauncertainty; scale_JERdown = 1.209 - 0.059*extrauncertainty;
+    scale_JER = 1.266 ; scale_JERup = 1.266  + 0.132*extrauncertainty; scale_JERdown = 1.266  - 0.132*extrauncertainty;
   }
   else if( jetAbsETA<3.0 ){ 
-    scale_JER = 1.564; scale_JERup = 1.564 + 0.321*extrauncertainty; scale_JERdown = 1.564 - 0.321*extrauncertainty;
+    scale_JER = 1.595 ; scale_JERup = 1.595  + 0.175*extrauncertainty; scale_JERdown = 1.595  - 0.175*extrauncertainty;
   }
   else if( jetAbsETA<3.2 ){ 
-    scale_JER = 1.384; scale_JERup = 1.384 + 0.033*extrauncertainty; scale_JERdown = 1.384 - 0.033*extrauncertainty;
+    scale_JER = 0.998 ; scale_JERup = 0.998  + 0.066*extrauncertainty; scale_JERdown = 0.998  - 0.066*extrauncertainty;
   }
   else if( jetAbsETA<5.0 ){ 
-    scale_JER = 1.216; scale_JERup = 1.216 + 0.050*extrauncertainty; scale_JERdown = 1.216 - 0.050*extrauncertainty;
+    scale_JER = 1.226 ; scale_JERup = 1.226  + 0.145*extrauncertainty; scale_JERdown = 1.226  - 0.145*extrauncertainty;
   }
 
   double jetPt_JER = recojetPT;
@@ -677,18 +677,24 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
 
   double diff_recojet_genjet = recojetPT - genjetPT;
 
-  //if( genjetPT>5 ){
+  if( genjetPT>5 ){
     jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
     jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
     jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
-  //}
+  }
 
   if( returnType==1 )       factor = jetPt_JERup/recojetPT;
   else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
   else                      factor = jetPt_JER/recojetPT;
 
-  //if( !(genjetPT>5) ) factor = 1.;
-
+  /*
+  if( !(genjetPT>5) ) {
+  	import ROOT;
+	r = ROOT.TRandom3(1);
+	factor = r.Gaus();
+  }
+  */
+  
   return factor;
 }
 
