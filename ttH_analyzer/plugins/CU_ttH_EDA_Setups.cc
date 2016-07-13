@@ -361,8 +361,8 @@ void CU_ttH_EDA::Set_up_Tree()
 void CU_ttH_EDA::Set_up_b_weights(){
 	//inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_2015_11_20.root";
   	//inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_2015_11_20.root";
-  	inputFileHF = "Analyzers/data/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
-  	inputFileLF = "Analyzers/data/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
+  	inputFileHF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
+  	inputFileLF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
 	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
 	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
 	fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
