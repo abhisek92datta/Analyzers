@@ -15,8 +15,8 @@ void CU_ttH_EDA::init_PU_weight()
 
 void CU_ttH_EDA::init_PDF_weight()
 {
-	CT14nlo_PDFSet = new LHAPDF::PDFSet("CT14nlo");
-	_systPDFs = CT14nlo_PDFSet->mkPDFs();
+	NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
+	_systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
 	//return CT14nlo_PDFSet;
 }
 
