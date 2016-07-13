@@ -1150,13 +1150,13 @@ auto pdfInfos = genInfos->pdf();
 double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
 
 std::vector<double> pdfs;
-for (size_t j = 0; j < CT14nlo_PDFSet->size(); ++j) {
+for (size_t j = 0; j < NNPDF30_nlo_as_0118_PDFSet->size(); ++j) {
     double xpdf1 = _systPDFs[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first, pdfInfos->scalePDF);
     double xpdf2 = _systPDFs[j]->xfxQ(pdfInfos->id.second, pdfInfos->x.second, pdfInfos->scalePDF);
     pdfs.push_back(xpdf1 * xpdf2);
 }
 
-const LHAPDF::PDFUncertainty pdfUnc = CT14nlo_PDFSet->uncertainty(pdfs, 68.);
+const LHAPDF::PDFUncertainty pdfUnc = NNPDF30_nlo_as_0118_PDFSet->uncertainty(pdfs, 68.);
 
 double weight_up = 1.0;
 double weight_down = 1.0;
