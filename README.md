@@ -28,7 +28,7 @@ mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 
 Get dependencies:
 
-git clone https://github.com/cms-ttH/MiniAOD.git
+git clone https://github.com/abhisek92datta/MiniAOD.git
 
 cd MiniAOD
 
