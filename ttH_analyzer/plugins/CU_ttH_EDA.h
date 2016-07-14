@@ -67,6 +67,7 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
+#include "JetMETCorrections/Modules/interface/JetResolution.h"
 
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 #include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
