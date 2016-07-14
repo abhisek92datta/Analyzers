@@ -37,8 +37,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	// Generic
 	verbose_ (iConfig.getParameter<bool>("verbosity")),
 	dumpHLT_ (iConfig.getParameter<bool>("print_HLT_event_path")),
-	//hltTag (iConfig.getParameter<string>("HLT_config_tag")),
-	hltTag (iConfig.getUntrackedParameter("HLT_config_tag",std::string("HLT"))),
+	hltTag (iConfig.getParameter<string>("HLT_config_tag")),
+	//hltTag (iConfig.getUntrackedParameter("HLT_config_tag",std::string("HLT"))),
 	filterTag (iConfig.getParameter<string>("filter_config_tag")),
 	// Triggers
 	trigger_stats (iConfig.getParameter<bool>("collect_trigger_stats")),
