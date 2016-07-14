@@ -101,6 +101,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
 	Set_up_Tree();
 	
+	r = new TRandom3(1);
+	
 	Set_up_b_weights();
 	
 	init_PU_weight();
@@ -113,6 +115,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	// do anything here that needs to be done at desctruction time
 	// (e.g. close files, deallocate resources etc.)
 
+	r->SetSeed(0);
+	
 	Close_output_files();
 	
 	delete f_CSVwgt_HF;
