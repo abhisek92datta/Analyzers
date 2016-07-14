@@ -130,6 +130,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	using namespace edm;
 	++event_count;
 
+	// to get jet pt resolution
+	resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
+
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
 	
