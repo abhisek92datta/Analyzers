@@ -853,8 +853,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
   		
   		// PU Weight
 		if(!isdata)
@@ -902,8 +902,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if( handle.genTtbarId.isValid() ) local.ttHf_cat = *handle.genTtbarId%100;
   		
   		//PDF Weight
-  		//if(!isdata)
-  		//	getPDFweight(local,handle.event_gen_info);
+  		if(!isdata)
+  			getPDFweight(local,handle.event_gen_info);
   			
   		// PU Weight
 		if(!isdata)
