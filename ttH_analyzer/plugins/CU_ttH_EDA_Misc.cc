@@ -601,18 +601,31 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
     pat::Jet jet = (*it);
 
       double jerSF = 1.;
+      int genjet_match = 0;
+      
       
       if( jet.genJet() ){
-        if( iSysType == sysType::JERup ){
-	      jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else if( iSysType == sysType::JERdown ){
-	      jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
-        else {
-  	      jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
-        }
+      		JME::JetParameters parameters_1;
+		parameters_1.setJetPt(jet.pt());
+		parameters_1.setJetEta(jet.eta());
+		float res = resolution.getResolution(parameters_1);
+      		if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
+      			genjet_match = 1;
       }
+     
+      if(genjet_match == 1){
+     		if( iSysType == sysType::JERup ){
+			 jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+        	}
+        	else if( iSysType == sysType::JERdown ){
+	      		 jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+        	}
+        	else {
+  	      		 jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+		}
+      }
+      else if(genjet_match == 0)
+      		jerSF = r->Gaus();
      
       jet.scaleEnergy( jerSF*corrFactor );
     
@@ -622,7 +635,7 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
   return outputJets;
 }
 
-// JER factors for 76X
+// JER factors for 80X
 // Use miniAODHelper's function for 74X factors
 double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
 
@@ -677,22 +690,22 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
 
   double diff_recojet_genjet = recojetPT - genjetPT;
 
-  if( genjetPT>5 ){
+  //if( genjetPT>5 ){
     jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
     jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
     jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
-  }
+ // }
 
   if( returnType==1 )       factor = jetPt_JERup/recojetPT;
   else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
   else                      factor = jetPt_JER/recojetPT;
 
-  
+  /*
   if( !(genjetPT>5) ) {
 	factor = r->Gaus();
 	//factor = 1;
   }
-  
+  */
   
   return factor;
 }
