@@ -75,6 +75,7 @@
 /// ROOT includes
 #include "TH1.h"
 #include "TTree.h"
+#include "TRandom3.h"
 
 /// Higgs and top tagger
 //#include "MiniAOD/BoostedObjects/interface/HTTTopJet.h"
@@ -355,6 +356,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
 	int PU_x[100];
 	double PU_y[100];
+	
+	 TRandom3 *r;
 
 	/// Histograms
 	TH1D *h_tth_syncex1_ele;
