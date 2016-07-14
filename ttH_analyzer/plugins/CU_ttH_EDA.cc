@@ -133,9 +133,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// to get jet pt resolution
 	//JME::JetResolution resolution;
 	//resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
-	std::string tag = "AK4PFchs_pt";
+	//std::string tag = "AK4PFchs_pt";
 	JME::JetResolution resolution;
-	resolution  = JME::JetResolution::get(iSetup, tag );
+	resolution  = JME::JetResolution::get(iSetup, "AK4PFchs_pt" );
 	//JME::JetResolution resolution = JME::JetResolution((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV6_MC_PtResolution_AK4PFchs.txt").c_str());
 
 	/// Declaring local struct for data readout and manipulations
