@@ -131,6 +131,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	++event_count;
 
 	// to get jet pt resolution
+	JME::JetResolution resolution;
 	resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
 
 	/// Declaring local struct for data readout and manipulations
@@ -223,8 +224,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_di_corrected = local.jets_di_corrected_JEC;
 	}
 	else {
-		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho);
-		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho);
+		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho, resolution);
+		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho, resolution);
 	}
 	// ID selection
 	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected, *(handle.jets));
