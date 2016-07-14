@@ -602,15 +602,17 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
 
       double jerSF = 1.;
       int genjet_match = 0;
-      
+      int match_temp = 0;
       
       if( jet.genJet() ){
       		JME::JetParameters parameters_1;
 		parameters_1.setJetPt(jet.pt());
 		parameters_1.setJetEta(jet.eta());
+		parameters_1.setRho(rho);
 		float res = resolution.getResolution(parameters_1)*jet.pt();
       		if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
-      			genjet_match = 1;
+      			match_temp = 1;
+      		
       }
      
       if(genjet_match == 1){
