@@ -689,7 +689,8 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
 
   
   if( !(genjetPT>5) ) {
-	factor = r->Gaus();
+	//factor = r->Gaus();
+	factor = 1;
   }
   
   
