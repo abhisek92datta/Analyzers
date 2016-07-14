@@ -101,7 +101,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
 	Set_up_Tree();
 	
-	//r = new TRandom3(1);
+	r = new TRandom3(1);
 	
 	Set_up_b_weights();
 	
@@ -115,7 +115,7 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	// do anything here that needs to be done at desctruction time
 	// (e.g. close files, deallocate resources etc.)
 
-	//r->SetSeed(0);
+	r->SetSeed(0);
 	
 	Close_output_files();
 	
