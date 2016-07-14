@@ -592,7 +592,7 @@ CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double 
 
 // JER
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double rho,  JME::JetResolution resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
