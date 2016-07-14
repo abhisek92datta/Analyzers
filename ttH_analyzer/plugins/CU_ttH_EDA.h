@@ -322,6 +322,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	
+	// for JER
+	JME::JetResolution resolution;
+	
 	int i;
 	std::vector<int> index;
 	
