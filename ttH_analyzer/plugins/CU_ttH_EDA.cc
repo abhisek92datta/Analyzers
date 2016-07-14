@@ -101,7 +101,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 
 	Set_up_Tree();
 	
-	r = new TRandom3(1);
+	//r = new TRandom3(1);
 	
 	Set_up_b_weights();
 	
