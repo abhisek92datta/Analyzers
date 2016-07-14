@@ -115,7 +115,7 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	// do anything here that needs to be done at desctruction time
 	// (e.g. close files, deallocate resources etc.)
 
-	r->SetSeed(0);
+	//r->SetSeed(0);
 	
 	Close_output_files();
 	
