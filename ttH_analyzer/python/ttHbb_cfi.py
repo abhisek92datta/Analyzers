@@ -13,7 +13,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         # Generic
         verbosity = cms.bool(verbosity),
         print_HLT_event_path = cms.bool(print_HLT_event_path),
-        HLT_config_tag = cms.string(HLT_config_tag),
+        HLT_config_tag = cms.untracked.string(HLT_config_tag),
         filter_config_tag = cms.string(filter_config_tag),
         # Triggers
         collect_trigger_stats = cms.bool(collect_trigger_stats),
