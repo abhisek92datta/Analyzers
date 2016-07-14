@@ -603,6 +603,7 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
       double jerSF = 1.;
       int genjet_match = 0;
       int match_temp1 = 0;
+      int match_temp2 = 0;
       double dR;
       
       if( jet.genJet() ){
@@ -613,10 +614,10 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
 		float res = resolution.getResolution(parameters_1)*jet.pt();
       		if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
       			match_temp1 = 1;
-      		dR = miniAODhelper.DeltaR();
+      		dR = miniAODhelper.DeltaR(jet,*(jet.genjet()));
       		if (dR<(0.4/2))
       			match_temp2 = 1;
-      		
+      		genjet_match = match_temp1* match_temp2;
       }
      
       if(genjet_match == 1){
