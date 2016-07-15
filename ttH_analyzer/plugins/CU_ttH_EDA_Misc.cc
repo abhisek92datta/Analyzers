@@ -907,7 +907,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Iso" );
 			//local.lep_sf_trig_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetElectronElectronSF(local.e_di_selected[0].eta(), local.e_di_selected[1].eta(), 0, "Trigger" );
-			local.lep_sf_trig_di = leptonSFhelper.GetMuonMuonSF(local.mu_di_selected[0].eta(), local.mu_di_selected[1].eta(), 0, "Trigger" );
+			
 			std::cout<<local.event_nr<<"  ee: "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
 			std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
 			std::cout<<"ID:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "ID" )<<"  ";
@@ -919,6 +919,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 			local.lep_sf_iso_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Iso" );
 			//local.lep_sf_trig_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetMuonMuonSF(local.mu_di_selected[0].eta(), local.mu_di_selected[1].eta(), 0, "Trigger" );
+			
 			std::cout<<local.event_nr<<"  ee:  "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
 			std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
 			std::cout<<"ID:  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "ID" )<<"  ";
@@ -930,6 +931,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" );
 			//local.lep_sf_trig_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetElectronMuonSF(local.e_di_selected[0].eta(), local.mu_di_selected[0].eta(), 0, "Trigger" );
+			
 			std::cout<<local.event_nr<<"  ee:  "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
 			std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
 			std::cout<<"ID:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )<<"  ";
