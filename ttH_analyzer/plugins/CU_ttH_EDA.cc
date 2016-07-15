@@ -149,9 +149,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	if (local.event_nr != 1965799 && local.event_nr != 2668906 && local.event_nr != 2247579 && local.event_nr != 3002717  )
-	//if (local.event_nr != 1946720 && local.event_nr != 1957189 && local.event_nr != 1948180 && local.event_nr != 194831  )
-		return;
+	//if (local.event_nr != 1965799 && local.event_nr != 2668906 && local.event_nr != 2247579 && local.event_nr != 3002717  )
+	//if (local.event_nr != 1946720 && local.event_nr != 1957189 && local.event_nr != 1948180 && local.event_nr != 1948315  )
+	//	return;
 	
 	
 	
