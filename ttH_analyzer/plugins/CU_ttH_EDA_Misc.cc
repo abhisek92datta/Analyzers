@@ -961,7 +961,7 @@ double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > 
   			break;
   		}	
   	}
-  	
+  	std::cout<<local.event_nr<<"  "<<numTruePV<<"  "<<pu_weight<<"\n";
 	return pu_weight;
 }
 
