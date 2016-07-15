@@ -632,9 +632,10 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
   	      		 jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
 		}
       }
-      else if(genjet_match == 0)
+      else if(genjet_match == 0){
       		jerSF = r->Gaus();
-     
+      		r->SetSeed(1);
+      }
       jet.scaleEnergy( jerSF*corrFactor );
     
     outputJets.push_back(jet);
