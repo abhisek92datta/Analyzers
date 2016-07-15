@@ -929,6 +929,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
   		if(!isdata)
   			getPDFweight(local,handle.event_gen_info);
   			
+  		std::cout<<local.event_nr<<"  ";
   		// PU Weight
 		if(!isdata)
 			local.PU_weight = getPUweight(handle.PupInfo);
@@ -961,7 +962,7 @@ double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > 
   			break;
   		}	
   	}
-  	std::cout<<local.event_nr<<"  "<<numTruePV<<"  "<<pu_weight<<"\n";
+  	std::cout<<numTruePV<<"  "<<pu_weight<<"\n";
 	return pu_weight;
 }
 
