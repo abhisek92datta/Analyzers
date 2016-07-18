@@ -810,7 +810,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 						}
 					}
 				}  
-				else {     // 1 e 1 mu
+				else if (local.n_di_muons == 1 && local.n_di_electrons == 1) {     // 1 e 1 mu
 					if ((local.mu_di_selected_sorted[0].pdgId()*local.e_di_selected_sorted[0].pdgId() < 0)  &&  local.pass_elemu == 1) {
 						if ( (local.mu_di_selected_sorted[0].pt() > min_di_mu1_pT) || (local.e_di_selected_sorted[0].pt() > min_di_ele1_pT) ) {
 							if (local.n_di_jets >= min_di_njets && local.n_di_btags >= min_di_nbtags) {
