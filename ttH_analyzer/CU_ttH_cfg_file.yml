@@ -30,9 +30,9 @@ Cuts:
     min_mu_pT : 25.0
     min_veto_ele_pT : 15.0
     min_veto_mu_pT : 15.0
-    min_di_ele1_pT : 20.0
+    min_di_ele1_pT : 25.0
     min_di_ele2_pT : 15.0
-    min_di_mu1_pT : 20.0
+    min_di_mu1_pT : 25.0
     min_di_mu2_pT : 15.0
     min_jet_pT : 30.0
     min_jet2_pT : 20.0
