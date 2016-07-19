@@ -38,7 +38,6 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
 #ttHf categorization
-#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
 
 # Setting input particle collections to be used by the tools
 genJetCollection = 'ak4GenJetsCustom'
@@ -74,12 +73,6 @@ process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
 # MUST use use proper input jet collection: the jets to which hadrons should be associated
 # rParam and jetAlgorithm MUST match those used for jets to be associated with hadrons
 # More details on the tool: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagMCTools#New_jet_flavour_definition
-#from PhysicsTools.JetMCAlgos.sequences.GenHFHadronMatching_cff import genJetFlavourPlusLeptonInfos
-#process.genJetFlavourPlusLeptonInfos = genJetFlavourPlusLeptonInfos.clone(
-#        jets = genJetCollection,
-#        rParam = cms.double(0.4),
-#        jetAlgorithm = cms.string("AntiKt")
-#)
 
 from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
 process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
