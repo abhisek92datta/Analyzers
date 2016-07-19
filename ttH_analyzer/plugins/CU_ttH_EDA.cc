@@ -127,12 +127,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	
 	delete f_CSVwgt_HF;
 	delete f_CSVwgt_LF;
-	//delete h_csv_wgt_hf;
-	//delete c_csv_wgt_hf;
-	//delete h_csv_wgt_lf;
 	
 	delete NNPDF30_nlo_as_0118_PDFSet;
-	//delete _systPDFs;
 	
 	delete h_hlt;
 	delete h_flt;
