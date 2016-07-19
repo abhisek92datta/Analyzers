@@ -38,7 +38,6 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	verbose_ (iConfig.getParameter<bool>("verbosity")),
 	dumpHLT_ (iConfig.getParameter<bool>("print_HLT_event_path")),
 	hltTag (iConfig.getParameter<string>("HLT_config_tag")),
-	//hltTag (iConfig.getUntrackedParameter("HLT_config_tag",std::string("HLT"))),
 	filterTag (iConfig.getParameter<string>("filter_config_tag")),
 	// Triggers
 	trigger_stats (iConfig.getParameter<bool>("collect_trigger_stats")),
@@ -98,10 +97,13 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
 	Set_up_histograms();
 	Set_up_output_files();
+	
+	// For Jet Correction
+	SetFactorizedJetCorrector();
 
 	Set_up_Tree();
 	
-	r = new TRandom3(1);
+	//r = new TRandom3(1);
 	
 	Set_up_b_weights();
 	
@@ -115,12 +117,24 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	// do anything here that needs to be done at desctruction time
 	// (e.g. close files, deallocate resources etc.)
 
-	r->SetSeed(0);
+	delete _jetCorrector;
+	delete _jetCorrectorUnc;
+
+	//r->SetSeed(0);
 	
 	Close_output_files();
+	delete events_combined;
 	
 	delete f_CSVwgt_HF;
 	delete f_CSVwgt_LF;
+	delete h_csv_wgt_hf;
+	delete c_csv_wgt_hf;
+	delete h_csv_wgt_lf;
+	
+	delete NNPDF30_nlo_as_0118_PDFSet;
+	delete _systPDFs;
+	
+	delete eventTree;
 }
 
 // ------------ method called for each event  ------------
@@ -130,13 +144,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	using namespace edm;
 	++event_count;
 
-	// to get jet pt resolution
-	//JME::JetResolution resolution;
-	//resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
-	//std::string tag = "AK4PFchs_pt";
 	JME::JetResolution resolution;
 	resolution  = JME::JetResolution::get(iSetup, "AK4PFchs_pt" );
-	//JME::JetResolution resolution = JME::JetResolution((std::string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV6_MC_PtResolution_AK4PFchs.txt").c_str());
 
 	/// Declaring local struct for data readout and manipulations
 	CU_ttH_EDA_event_vars local;
@@ -150,11 +159,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Update_common_vars(iEvent, local);
 	
 	//if (local.event_nr != 1965799 && local.event_nr != 2668906 && local.event_nr != 2247579 && local.event_nr != 3002717  )
-	//if (local.event_nr != 1946720 && local.event_nr != 1957189 && local.event_nr != 1948180 && local.event_nr != 1948315  )
 	//	return;
-	
-	
-	
+
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token);
@@ -216,13 +222,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.e_di_selected_sorted = miniAODhelper.GetSortedByPt(local.e_di_selected);
 	local.n_di_leptons = local.n_di_electrons + local.n_di_muons;
 	
-
 	/// Jet selection
-	
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 	// Jet Energy Correction
-	SetFactorizedJetCorrector();
+	//SetFactorizedJetCorrector();
 	local.jets_sl_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
 	local.jets_di_corrected_JEC = GetCorrectedJets_JEC(local.jets_raw, *rho);
 	if(isdata) {
@@ -280,15 +284,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.jets_di_selected_tag = miniAODhelper.GetSelectedJets(
 		local.jets_di_selected, min_bjet_pT, max_bjet_eta, jetID::none,
 		MAODHelper_b_tag_strength);
-	
-	/*
-	for (const auto& jet : local.jets_sl_selected_tag_old) {
-		if (miniAODhelper.GetJetCSV(jet,"pfCombinedInclusiveSecondaryVertexV2BJetTags") > 0.89) {
-			local.jets_sl_selected_tag.push_back(jet);
-		}
-	}
-	*/
-	
+
 	local.n_sl_jets = static_cast<int>(local.jets_sl_selected.size());
 	local.n_sl_btags = static_cast<int>(local.jets_sl_selected_tag.size());
 	local.n_di_jets = static_cast<int>(local.jets_di_selected.size());
@@ -308,11 +304,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		miniAODhelper.GetSortedByPt(local.jets_di_selected_tag);
 	local.jets_di_selected_JEC =
 		miniAODhelper.GetSortedByPt(local.jets_di_selected_JEC);
-
-	/// Top and Higgs tagging using collections through handles. adjusts
-	/// local.<tag>
-	//Top_tagger(handle.top_jets, local);
-	//Higgs_tagger(handle.subfilter_jets, local);
 
 	/// MET
 	local.pfMET = handle.METs->front();
@@ -420,7 +411,6 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 			return;
 		}
 	}
-	
 }
 
 // ------------ method called when ending the processing of a run  ------------
@@ -428,11 +418,8 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 {
 	// report results of sync exercises
 	if (analysis_type == Analyze_lepton_jet) {
-	
 	}
-
 	if (analysis_type == Analyze_dilepton) {
-	
 	}
 
 	if (trigger_stats)
