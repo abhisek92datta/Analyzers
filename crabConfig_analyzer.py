@@ -1,23 +1,24 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-config.General.requestName = 'ttH_Analyzer_ntuple_tau_tau'
+config.General.requestName = 'ttH_Analyzer_hbb'
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'ttH_analyzer/test/CU_ttH_EDA_cfg.py'
+config.JobType.psetName = 'ttH_analyzer/test/CU_ttH_mc_EDA_cfg.py'
+config.JobType.allowUndistributedCMSSW = True
 
-config.Data.userInputFiles = ['/store/mc/RunIIFall15MiniAODv2/ttHJetToTT_M125_13TeV_amcatnloFXFX_madspin_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v3/60000/0C6DA13E-38C8-E511-8F6E-00259055220A.root']
-config.Data.outputPrimaryDataset = 'ttH_Analyzer'
-#config.Data.inputDataset = '/store/mc/RunIIFall15MiniAODv2/ttHJetToTT_M125_13TeV_amcatnloFXFX_madspin_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v3/60000/0C6DA13E-38C8-E511-8F6E-00259055220A.root'
-#config.Data.inputDBS = 'global'
+config.Data.userInputFiles = ['/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root']
+config.Data.outputPrimaryDataset = 'ttH_Analyzer_hbb'
+config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/abdatta/' 
 config.Data.publication = True
-config.Data.outputDatasetTag = 'ttH_Analyzer_ntuple_tau_tau'
+config.Data.outputDatasetTag = 'ttH_Analyzer_hbb'
 
-config.Site.storageSite = 'T3_US_Cornell'
-config.Site.whitelist = ['T3_US_Cornell']
+config.Site.storageSite = 'T3_US_FNALLPC'
+#config.Site.storageSite = 'T3_US_Cornell'
+#config.Site.whitelist = ['T3_US_Cornell']
