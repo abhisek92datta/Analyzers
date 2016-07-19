@@ -146,13 +146,7 @@ struct CU_ttH_EDA_event_vars {
 	int n_prim_V;
 	bool event_selection_SL;
 	bool event_selection_DL;
-	
-	// Gen Particles
-	std::vector<reco::GenParticle> genHiggs;
-	std::vector<reco::GenParticle> genTops;
-	reco::CandidateCollection genHiggs_daughters; // or edm::OwnVector<reco::Candidate>
-	reco::CandidateCollection genTop_daughters;
-	reco::CandidateCollection genW_daughters;
+
 };
 
 #endif
