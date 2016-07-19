@@ -14,7 +14,6 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         verbosity = cms.bool(verbosity),
         print_HLT_event_path = cms.bool(print_HLT_event_path),
         HLT_config_tag = cms.string(HLT_config_tag),
-        #HLT_config_tag = cms.untracked.string(HLT_config_tag),
         filter_config_tag = cms.string(filter_config_tag),
         # Triggers
         collect_trigger_stats = cms.bool(collect_trigger_stats),
@@ -64,21 +63,16 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             sv = cms.InputTag("slimmedSecondaryVertices"),
             pileup = cms.InputTag("addPileupInfo"),
             rho = cms.InputTag("fixedGridRhoFastjetAll"),
-            #"fixedGridRhoFastjetCentralNeutral"
             electrons = cms.InputTag("slimmedElectrons"),
             muons = cms.InputTag("slimmedMuons"),
             jets = cms.InputTag("slimmedJets"),
             mets = cms.InputTag("slimmedMETs"),
             pfcand = cms.InputTag("packedPFCandidates"),
             beamspot = cms.InputTag("offlineBeamSpot"),
-            #packedgen = cms.InputTag("packedGenParticles"),
-            #prunedgen = cms.InputTag("prunedGenParticles"),
             mvaValues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
             mvaCategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
             genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
             pileupinfo = cms.InputTag("slimmedAddPileupInfo"),
             lhepprod = cms.InputTag("externalLHEProducer")
-            #mvaValues = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Values",""),
-            #mvaCategories = cms.InputTag("electronMVAValueMapProducer","ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories","")
         )
 )
