@@ -5,10 +5,12 @@
 ## Generic parameters
 Generic:
     # Analysis type choice: 'lepton+jet', 'dilepton'
+    # doesn't matter at this stage since both are done together
     analysis_type: 'dilepton'
     verbosity: false
     # Prints events' triggers. Depends on verbosity and collect_trigger_stats
     print_HLT_event_path: false
+    # HLT or HLT2 (for reHLT)
     HLT_config_tag: 'HLT2'
     filter_config_tag: 'PAT'
     
