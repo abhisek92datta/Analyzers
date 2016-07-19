@@ -15,7 +15,6 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
 
-#process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True), SkipEvent = cms.untracked.vstring('ProductNotFound') )
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
 
 process.maxEvents = cms.untracked.PSet(
@@ -97,93 +96,11 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 # load the analysis:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
-#ttHf categorization
-#process.load("PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cfi")
-
-# Setting input particle collections to be used by the tools
-#genJetCollection = 'ak4GenJetsCustom'
-#genParticleCollection = 'prunedGenParticles'
-#genJetInputParticleCollection = 'packedGenParticles'
-    
-## producing a subset of particles to be used for jet clustering
-#from RecoJets.Configuration.GenJetParticles_cff import genParticlesForJetsNoNu
-#process.genParticlesForJetsNoNu = genParticlesForJetsNoNu.clone(
-#	src = genJetInputParticleCollection
-#)
-    
-# Supplies PDG ID to real name resolution of MC particles
-#process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-    
-# Producing own jets for testing purposes
-#from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
-#process.ak4GenJetsCustom = ak4GenJets.clone(
-#        src = 'genParticlesForJetsNoNu',
-        #    src = genJetInputParticleCollection,
-#        rParam = cms.double(0.4),
-#        jetAlgorithm = cms.string("AntiKt")
-#)
-    
-# Ghost particle collection used for Hadron-Jet association 
-# MUST use proper input particle collection
-#from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
-#process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
-#        particles = genParticleCollection
-#)
-    
-# Input particle collection for matching to gen jets (partons + leptons) 
-# MUST use use proper input jet collection: the jets to which hadrons should be associated
-# rParam and jetAlgorithm MUST match those used for jets to be associated with hadrons
-# More details on the tool: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagMCTools#New_jet_flavour_definition
-#from PhysicsTools.JetMCAlgos.sequences.GenHFHadronMatching_cff import genJetFlavourPlusLeptonInfos
-#process.genJetFlavourPlusLeptonInfos = genJetFlavourPlusLeptonInfos.clone(
-#        jets = genJetCollection,
-#        rParam = cms.double(0.4),
-#        jetAlgorithm = cms.string("AntiKt")
-#)
-
-#from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
-#process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
-#        jets = genJetCollection,
-#        rParam = cms.double(0.4),
-#        jetAlgorithm = cms.string("AntiKt")
-#)
-    
-#from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import *
-# Plugin for analysing B hadrons
-# MUST use the same particle collection as in selectedHadronsAndPartons
-#process.matchGenBHadron = matchGenBHadron.clone(
-#        genParticles = genParticleCollection,
-#        jetFlavourInfos = "genJetFlavourInfos"
-#)
-    
-# Plugin for analysing C hadrons
-# MUST use the same particle collection as in selectedHadronsAndPartons
-#process.matchGenCHadron = matchGenCHadron.clone(
-#        genParticles = genParticleCollection,
-#        jetFlavourInfos = "genJetFlavourInfos"
-#)
-    
-## Producer for ttbar categorisation ID
-# MUST use same genJetCollection as used for tools above
-#from PhysicsTools.JetMCAlgos.GenTtbarCategorizer_cfi import categorizeGenTtbar
-#process.categorizeGenTtbar = categorizeGenTtbar.clone(
-#        genJetPtMin = 20.,
-#        genJetAbsEtaMax = 2.4,
-#        genJets = genJetCollection,
-#)
-
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
 )
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
-#    * process.genParticlesForJetsNoNu
-#    * process.ak4GenJetsCustom
-#   * process.selectedHadronsAndPartons
-#    * process.genJetFlavourInfos
-#    * process.matchGenBHadron
-#    * process.matchGenCHadron
-#    * process.categorizeGenTtbar
     * process.ttHbb
 )
