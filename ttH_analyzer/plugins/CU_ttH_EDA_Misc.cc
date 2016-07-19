@@ -46,18 +46,6 @@ int CU_ttH_EDA::Check_beam_spot(edm::Handle<reco::BeamSpot> BS)
 	if (!BS.isValid())
 		return 1;
 
-	// 	math::XYZPoint beamSpotPosition;
-	// 	beamSpotPosition.SetCoordinates(0, 0, 0);
-	// //		double BSx = 0, BSy = 0, BSz = 0;
-	//
-	// 	double BSx = BS->x0();
-	// 	double BSy = BS->y0();
-	// 	double BSz = BS->z0();
-	// 	beamSpotPosition = BS->position();
-	//
-	//		if (verbose_)
-	//			printf("\t BeamSpot: x = %.2f,\t y = %.2f,\t z = %.2f \n",
-	//				BSx, BSy, BSz );
 	if (verbose_)
 		printf("\t BeamSpot: x = %.2f,\t y = %.2f,\t z = %.2f \n", BS->x0(),
 			   BS->y0(), BS->z0());
@@ -221,104 +209,6 @@ int CU_ttH_EDA::Check_PV(edm::Handle<reco::VertexCollection> vertices){
 }
 
 
-
-/*
-/// Taggers
-int CU_ttH_EDA::Higgs_tagger(
-	Handle<boosted::SubFilterJetCollection> subfilter_jets,
-	CU_ttH_EDA_event_vars &local)
-{
-	local.n_Htags = 0;
-
-	if (!subfilter_jets.isValid())
-		return 1;
-
-	boosted::SubFilterJetCollection subfilterjets =
-		BoostedUtils::GetSortedByPt(*subfilter_jets);
-
-	for (boosted::SubFilterJetCollection::iterator higgsJet =
-			 subfilterjets.begin();
-		 higgsJet != subfilterjets.end(); ++higgsJet) {
-		// pt and eta requirements for top jet
-		if (higgsJet->fatjet.pt() <= 250. || abs(higgsJet->fatjet.eta()) >= 1.8)
-			continue;
-
-		int numBtagFiltJets = 0;
-		std::vector<pat::Jet> filterjets = higgsJet->filterjets;
-		int numFiltJets = filterjets.size();
-		for (int ijet = 0; ijet < numFiltJets; ++ijet) {
-			if (verbose_) {
-				printf("\t\t filt jet %2d:\t pT = %.1f,\t eta = %.2f,\t phi = "
-					   "%.2f,\t CSVv2 = %+5.3f,\t CSVv1 = %+5.3f \n",
-					   ijet, filterjets[ijet].pt(), filterjets[ijet].eta(),
-					   filterjets[ijet].phi(),
-					   filterjets[ijet].bDiscriminator(
-						   "combinedInclusiveSecondaryVertexV2BJetTags"),
-					   filterjets[ijet].bDiscriminator(
-						   "combinedSecondaryVertexBJetTags"));
-			}
-
-			if (filterjets[ijet].pt() <= 20. ||
-				abs(filterjets[ijet].eta()) >= 2.5)
-				continue;
-
-			// b-tag medium WP
-			if (filterjets[ijet].bDiscriminator(
-					"combinedInclusiveSecondaryVertexV2BJetTags") < 0.814)
-				continue;
-
-			++numBtagFiltJets;
-		}
-
-		if (verbose_) {
-			printf("\t Higgs jet %2d:\t pT = %.1f,\t eta = %.2f,\t phi = "
-				   "%.2f,\t numFiltJets = %2d,\t numBtagFiltJets = %2d\n",
-				   int(higgsJet - subfilterjets.begin()), higgsJet->fatjet.pt(),
-				   higgsJet->fatjet.eta(), higgsJet->fatjet.phi(), numFiltJets,
-				   numBtagFiltJets);
-		}
-
-		if (numBtagFiltJets >= 2)
-			++local.n_Htags;
-	}
-
-	return 0;
-}
-
-int CU_ttH_EDA::Top_tagger(Handle<boosted::HTTTopJetCollection> top_jets,
-						   CU_ttH_EDA_event_vars &local)
-{
-	local.n_ttags = 0;
-
-	if (!top_jets.isValid())
-		return 1;
-
-	boosted::HTTTopJetCollection heptopjets =
-		BoostedUtils::GetSortedByPt(*top_jets);
-
-	for (boosted::HTTTopJetCollection::iterator topJet = heptopjets.begin();
-		 topJet != heptopjets.end(); ++topJet) {
-		// pt and eta requirements on top jet
-		if (topJet->fatjet.pt() <= 250. || abs(topJet->fatjet.eta()) >= 1.8)
-			continue;
-
-		// pt and eta requirements on subjets
-		if (topJet->nonW.pt() <= 20 || abs(topJet->nonW.eta()) >= 2.5 ||
-			topJet->W1.pt() <= 20 || abs(topJet->W1.eta()) >= 2.5 ||
-			topJet->W2.pt() <= 20 || abs(topJet->W2.eta()) >= 2.5)
-			continue;
-
-		// must be top-tagged
-		if (toptagger.GetTopTaggerOutput(*topJet)<=-1) 
-			continue;
-
-		++local.n_ttags;
-	}
-
-	return 0;
-}
-*/
-
 /// Other functions
 
 void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
@@ -404,53 +294,6 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 		fprintf(events_combined, "-1,-1\n");
 }
 
-/*
-void CU_ttH_EDA::printDecayChain(const reco::Candidate &p, int &index,
-								 int mother_index, bool details)
-{
-	int ndaug = p.numberOfDaughters();
-
-	for (int j = 0; j < ndaug; ++j) {
-		const reco::Candidate *daug = p.daughter(j);
-		index++;
-		cout << index << "\t" << daug->pdgId() << "\t" << daug->status() << "\t"
-			 << mother_index << "\t" << daug->numberOfDaughters();
-		if (details) {
-			cout << "\t" << daug->pt() << "\t" << daug->eta() << "\t"
-				 << daug->phi() << endl;
-		} else
-			cout << endl;
-
-		if (daug->status() != 1)
-			printDecayChain(*daug, index, index, details);
-	}
-}
-*/
-/*
-float CU_ttH_EDA::getMHT(CU_ttH_EDA_event_vars &local)
-{
-	float MHT_x = 0;
-	float MHT_y = 0;
-
-	for (auto & mu : local.mu_selected_sorted) {
-		MHT_x -= mu.px();
-		MHT_y -= mu.py();
-	}
-
-	for (auto & ele : local.e_selected_sorted) {
-		MHT_x -= ele.px();
-		MHT_y -= ele.py();
-	}
-	for (auto & jet : local.jets_selected_sorted) {
-		MHT_x -= jet.px();
-		MHT_y -= jet.py();
-	}
-
-	//local.met_pt = sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
-	//local.met_phi = atan(MHT_y/MHT_x);
-	return sqrt(MHT_x * MHT_x + MHT_y * MHT_y);
-}
-*/
 
 std::vector<pat::Jet> 
 CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets, const std::vector<pat::Jet>& inputJets_old) {
@@ -496,7 +339,11 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    	
+    
+    delete L3JetPar;
+    delete L2JetPar;
+    delete L1JetPar;
+    delete L2L3JetPar;
     }
     
     else {	
@@ -511,8 +358,11 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     std::string _JESUncFile = string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
     _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    }
     
+    delete L3JetPar;
+    delete L2JetPar;
+    delete L1JetPar;
+    }
 }
 
 double
@@ -539,7 +389,6 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
 			unc = _jetCorrectorUnc->getUncertainty(false);
 			jes = 1 - unc;
       		}
-      		//scale = scale*jes;
       		jet.scaleEnergy( jes );
       		return jes;
     	}
@@ -612,7 +461,6 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
 		parameters_1.setJetEta(jet.eta());
 		parameters_1.setRho(rho);
 		float res = resolution.getResolution(parameters_1)*jet.pt();
-		//float res = resolution.getResolution(parameters_1);
       		if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
       			match_temp1 = 1;
       		dR = miniAODhelper.DeltaR( &jet , jet.genJet() );
@@ -699,24 +547,15 @@ double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, c
   double jetPt_JERdown = recojetPT;
 
   double diff_recojet_genjet = recojetPT - genjetPT;
-
-  //if( genjetPT>5 ){
+  
     jetPt_JER = std::max( 0., genjetPT + scale_JER * ( diff_recojet_genjet ) );
     jetPt_JERup = std::max( 0., genjetPT + scale_JERup * ( diff_recojet_genjet ) );
     jetPt_JERdown = std::max( 0., genjetPT + scale_JERdown * ( diff_recojet_genjet ) );
- // }
 
   if( returnType==1 )       factor = jetPt_JERup/recojetPT;
   else if( returnType==-1 ) factor = jetPt_JERdown/recojetPT;
   else                      factor = jetPt_JER/recojetPT;
 
-  /*
-  if( !(genjetPT>5) ) {
-	factor = r->Gaus();
-	//factor = 1;
-  }
-  */
-  
   return factor;
 }
 
@@ -758,7 +597,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 					if ( (local.e_di_selected_sorted[0].pdgId()*local.e_di_selected_sorted[1].pdgId() < 0)  &&  local.pass_double_e == 1) {
 						if ( local.e_di_selected_sorted[0].pt() > min_di_ele1_pT ) {
 							if (local.n_di_jets >= min_di_njets && local.n_di_btags >= min_di_nbtags) {
-								//if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT && local.jets_di_selected_tag_sorted[0].pt() > min_jet_pT) {
 								if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT) {
 									E = local.e_di_selected_sorted[0].energy() + local.e_di_selected_sorted[1].energy();
 									px = local.e_di_selected_sorted[0].px() + local.e_di_selected_sorted[1].px();
@@ -786,7 +624,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 					if ((local.mu_di_selected_sorted[0].pdgId()*local.mu_di_selected_sorted[1].pdgId() < 0)  &&  local.pass_double_mu == 1) {
 						if ( local.mu_di_selected_sorted[0].pt() > min_di_mu1_pT ) {
 							if (local.n_di_jets >= min_di_njets && local.n_di_btags >= min_di_nbtags) {
-								//if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT && local.jets_di_selected_tag_sorted[0].pt() > min_jet_pT) {
 								if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT) {
 									E = local.mu_di_selected_sorted[0].energy() + local.mu_di_selected_sorted[1].energy();
 									px = local.mu_di_selected_sorted[0].px() + local.mu_di_selected_sorted[1].px();
@@ -814,7 +651,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 					if ((local.mu_di_selected_sorted[0].pdgId()*local.e_di_selected_sorted[0].pdgId() < 0)  &&  local.pass_elemu == 1) {
 						if ( (local.mu_di_selected_sorted[0].pt() > min_di_mu1_pT) || (local.e_di_selected_sorted[0].pt() > min_di_ele1_pT) ) {
 							if (local.n_di_jets >= min_di_njets && local.n_di_btags >= min_di_nbtags) {
-								//if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT && local.jets_di_selected_tag_sorted[0].pt() > min_jet_pT) {
 								if (local.jets_di_selected_sorted[0].pt() > min_jet_pT && local.jets_di_selected_sorted[1].pt() > min_jet_pT) {
 									E = local.e_di_selected_sorted[0].energy() + local.mu_di_selected_sorted[0].energy();
 									px = local.e_di_selected_sorted[0].px() + local.mu_di_selected_sorted[0].px();
@@ -843,8 +679,6 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 
 void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_Handles handle) {
 	
-	//local.lep_sf_id_sl = local.lep_sf_iso_sl = local.lep_sf_id_di = local.lep_sf_iso_di = 0;
-	
 	if (local.event_selection_SL!=0) {
 		
 		// Jet SF
@@ -859,11 +693,8 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 		
 		// Lepton SF
 		if (local.is_e) {
-			//local.lep_sf_id_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "ID" );
-			//local.lep_sf_iso_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Iso" );
 			local.lep_sf_id_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].superCluster()->position().eta() , 0 , "ID" );
 			local.lep_sf_iso_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].superCluster()->position().eta() , 0 , "Iso" );
-		
 			local.lep_sf_trig_sl = leptonSFhelper.GetElectronSF(  local.e_selected[0].pt() , local.e_selected[0].eta() , 0 , "Trigger" );
 			}
 		else if (local.is_mu) {
@@ -902,50 +733,22 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 
 		// to get b-weight
 		getbweight(local);
-		
-		
+	
 		// Lepton SF
 		if (local.is_ee) {
-			//local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "ID" );
-			//local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Iso" );
 			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].superCluster()->position().eta() , 0 , "ID" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].superCluster()->position().eta() , 0 , "ID" );
 			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].superCluster()->position().eta() , 0 , "Iso" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].superCluster()->position().eta() , 0 , "Iso" );
-			
-			//local.lep_sf_trig_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetElectronElectronSF(local.e_di_selected[0].eta(), local.e_di_selected[1].eta(), 0, "Trigger" );
-			
-			//std::cout<<local.event_nr<<"  ee: "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
-			//std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
-			//std::cout<<"ID:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "ID" )<<"  ";
-			//std::cout<<"ISO:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )<<"  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[1].pt() , local.e_di_selected[1].eta() , 0 , "Iso" )<<"\n";
-			//std::cout<<"\n";
 		}
 		else if (local.is_mumu) {
 			local.lep_sf_id_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "ID" );
 			local.lep_sf_iso_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Iso" );
-			//local.lep_sf_trig_di = leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetMuonMuonSF(local.mu_di_selected[0].eta(), local.mu_di_selected[1].eta(), 0, "Trigger" );
-			
-			//std::cout<<local.event_nr<<"  ee:  "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
-			//std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
-			//std::cout<<"ID:  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "ID" )<<"  ";
-			//std::cout<<"ISO:  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[1].pt() , local.mu_di_selected[1].eta() , 0 , "Iso" )<<"\n";
-			//std::cout<<"\n";
 		}
 		else if (local.is_emu) {
-			//local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" );
-			//local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" );
 			local.lep_sf_id_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].superCluster()->position().eta() , 0 , "ID" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" );
 			local.lep_sf_iso_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].superCluster()->position().eta() , 0 , "Iso" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" );
-			
-			//local.lep_sf_trig_di = leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Trigger" )*leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Trigger" );
 			local.lep_sf_trig_di = leptonSFhelper.GetElectronMuonSF(local.e_di_selected[0].eta(), local.mu_di_selected[0].eta(), 0, "Trigger" );
-			
-			//std::cout<<local.event_nr<<"  ee:  "<<local.is_ee<<"  mumu: "<<local.is_mumu<<"  emu: "<<local.is_emu<<"\n";
-			//std::cout<<local.lep_sf_id_di<<"  "<<local.lep_sf_iso_di<<"  "<<local.lep_sf_trig_di<<"\n";
-			//std::cout<<"ID:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "ID" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "ID" )<<"  ";
-			//std::cout<<"ISO:  "<<leptonSFhelper.GetElectronSF(  local.e_di_selected[0].pt() , local.e_di_selected[0].eta() , 0 , "Iso" )<<"  "<<leptonSFhelper.GetMuonSF(  local.mu_di_selected[0].pt() , local.mu_di_selected[0].eta() , 0 , "Iso" )<<"\n";
-			//std::cout<<"\n";
 		}
 		
 		// ttHf Category
@@ -1079,7 +882,7 @@ void CU_ttH_EDA::fillCSVHistos(TFile *fileHF, TFile *fileLF)
 double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
                        std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF)
 {
-    int iSysHF = 0;
+  int iSysHF = 0;
   switch(iSys){
   case 7:  iSysHF=1; break; //JESUp
   case 8:  iSysHF=2; break; //JESDown
