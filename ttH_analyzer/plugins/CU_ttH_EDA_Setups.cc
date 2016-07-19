@@ -7,7 +7,8 @@
 void CU_ttH_EDA::init_PU_weight()
 {
 	ifstream fin;
-	fin.open("ttH_analyzer/data/PU_weights.txt");
+	//fin.open("ttH_analyzer/data/PU_weights.txt");
+	fin.open(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/PU_weights.txt");
 	for(int i=0; i<50; i++) {
 		fin>>PU_x[i]>>PU_y[i];
 	}
