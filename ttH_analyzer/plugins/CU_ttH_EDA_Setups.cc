@@ -6,6 +6,7 @@
 
 void CU_ttH_EDA::init_PU_weight()
 {
+	ifstream fin;
 	fin.open("ttH_analyzer/data/PU_weights.txt");
 	for(int i=0; i<50; i++) {
 		fin>>PU_x[i]>>PU_y[i];
@@ -17,7 +18,6 @@ void CU_ttH_EDA::init_PDF_weight()
 {
 	NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
 	_systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
-	//return CT14nlo_PDFSet;
 }
 
 void CU_ttH_EDA::Close_output_files()
@@ -29,10 +29,8 @@ void CU_ttH_EDA::Set_up_histograms()
 {
 	if (analysis_type == Analyze_lepton_jet) {
 	}
-
 	if (analysis_type == Analyze_dilepton) {
 	}
-
 }
 
 /// Prepare histograms for trigger/filter counts
@@ -113,7 +111,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 		edm::InputTag(std::string("TriggerResults"), std::string(""), hltTag));
 	token.filterResults = consumes<edm::TriggerResults>(edm::InputTag(
 		std::string("TriggerResults"), std::string(""), filterTag));
-
 	token.vertices = consumes<reco::VertexCollection>(
 	    config.getParameter<edm::InputTag>("pv"));
 	token.sec_vertices = consumes<reco::VertexCompositePtrCandidateCollection>(
@@ -134,10 +131,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("pfcand"));
 	token.BS = consumes<reco::BeamSpot>(
 	    config.getParameter<edm::InputTag>("beamspot"));
-	//token.MC_particles = consumes<reco::GenParticleCollection>(
-	//    config.getParameter<edm::InputTag>("prunedgen"));
-	//token.MC_packed = consumes<pat::PackedGenParticleCollection>(
-	//    config.getParameter<edm::InputTag>("packedgen"));
 	token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
 	    config.getParameter<edm::InputTag>("mvaValues"));
    	token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
@@ -150,30 +143,15 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
    	    config.getParameter<edm::InputTag>("pileupinfo"));
    	token.lheptoken = consumes<LHEEventProduct>(
    	    config.getParameter<edm::InputTag>("lhepprod"));
-   	
-	
 }
 
 void CU_ttH_EDA::Set_up_Tree()
 {
 	eventTree = fs_->make<TTree>("eventTree", "Event tree");
-	
-	/*
-	// If ntuple class is inherited from Root TClass (ToDo)
-	//
-	//eventTree -> Branch("ntuple_", "CU_ttH_EDA_Ntuple", &ntuple);
-	//std::cout << "IsTObject :" << ntuple->IsTObject() <<  std::endl;
-	//std::cout << "GetNdata() :" << ntuple->GetNdata() << std::endl;
-	//std::cout << "CanSplit() :" << ntuple->CanSplit() << std::endl;
-	//ntuple->Dump();
-	*/
-	//tauNtuple.set_up_branches(eventTree);
 }
 
 void CU_ttH_EDA::Set_up_b_weights(){
-	//inputFileHF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_hf_2015_11_20.root";
-  	//inputFileLF = "MiniAOD/MiniAODHelper/data/csv_rwt_fit_lf_2015_11_20.root";
-  	inputFileHF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
+	inputFileHF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
   	inputFileLF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
 	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
 	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
