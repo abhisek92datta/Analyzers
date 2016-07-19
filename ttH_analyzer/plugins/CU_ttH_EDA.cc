@@ -134,6 +134,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	delete NNPDF30_nlo_as_0118_PDFSet;
 	delete _systPDFs;
 	
+	delete h_hlt;
+	delete h_flt;
 	delete eventTree;
 }
 
