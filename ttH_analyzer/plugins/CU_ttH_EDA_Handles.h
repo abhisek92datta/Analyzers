@@ -55,11 +55,6 @@
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 
-/// Higgs and top tagger
-//#include "MiniAOD/BoostedObjects/interface/HTTTopJet.h"
-//#include "MiniAOD/BoostedObjects/interface/SubFilterJet.h"
-//#include "BoostedTTH/BoostedAnalyzer/interface/BoostedUtils.hpp"
-
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "Analyzers/ttH_analyzer/interface/LHEEventProduct.h"
@@ -86,15 +81,10 @@ struct edm_Handles {
 	Handle<pat::JetCollection> jets;
 	Handle<pat::METCollection> METs;
 
-	//Handle<reco::GenParticleCollection> MC_particles;
 	Handle<pat::PackedCandidateCollection> PF_candidates;
 
 	Handle<reco::BeamSpot> BS;
 
-	//Handle<boosted::HTTTopJetCollection> top_jets;
-	//Handle<boosted::SubFilterJetCollection> subfilter_jets;
-
-	//Handle<pat::PackedGenParticleCollection> MC_packed;
 	Handle<edm::ValueMap<float>> mvaValues;
 	Handle<edm::ValueMap<int>> mvaCategories;
 	Handle<edm::View<pat::Electron> > electrons_for_mva;
@@ -119,15 +109,10 @@ struct edm_Tokens {
 	EDGetTokenT<pat::JetCollection> jets;
 	EDGetTokenT<pat::METCollection> METs;
 
-	//EDGetTokenT<reco::GenParticleCollection> MC_particles;
 	EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 
 	EDGetTokenT<reco::BeamSpot> BS;
 
-	//EDGetTokenT<boosted::HTTTopJetCollection> top_jets;
-	//EDGetTokenT<boosted::SubFilterJetCollection> subfilter_jets;
-	
-	//EDGetTokenT<pat::PackedGenParticleCollection> MC_packed;
 	EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
 	EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
 	EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
