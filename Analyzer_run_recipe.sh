@@ -1,9 +1,9 @@
 cd CMSSW_8_0_8_patch1/src/
 git cms-addpkg PhysicsTools/JetMCAlgos
 cd PhysicsTools/
-git checkout CMSSW_8_0_8_patchX
+git checkout CMSSW_8_0_X
 cd ../
-mv ../../Analyzers ..
+mv ../../Analyzers .
 mv Analyzers/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
 mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 git clone https://github.com/abhisek92datta/MiniAOD.git
