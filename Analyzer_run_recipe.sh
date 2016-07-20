@@ -1,6 +1,4 @@
-cmsrel CMSSW_8_0_8_patch1
 cd CMSSW_8_0_8_patch1/src/
-cmsenv
 git cms-addpkg PhysicsTools/JetMCAlgos
 cd PhysicsTools/
 git checkout CMSSW_8_0_8_patchX
