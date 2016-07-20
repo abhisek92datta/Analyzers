@@ -7,8 +7,8 @@
 void CU_ttH_EDA::init_PU_weight()
 {
 	ifstream fin;
-	//fin.open("ttH_analyzer/data/PU_weights.txt");
-	fin.open(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/PU_weights.txt");
+	fin.open("data/PU_weights.txt");
+	//fin.open("/afs/cern.ch/user/a/abdatta/public/PU_weight/PU_weights.txt");
 	for(int i=0; i<50; i++) {
 		fin>>PU_x[i]>>PU_y[i];
 	}
@@ -99,7 +99,7 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
 /// Make and open write-out files
 void CU_ttH_EDA::Set_up_output_files()
 {
-	events_combined = fopen("CU_tth_80X.csv", "w");
+	events_combined = fopen("Cornell_tth_80X.csv", "w");
 	fprintf(events_combined, "run,lumi,event,is_e,is_mu,is_ee,is_emu,is_mumu,n_jets,n_btags,lep1_pt,lep1_iso,lep1_pdgId,lep2_pt,lep2_iso,lep2_pdgId,jet1_pt,jet2_pt,jet1_CSVv2,jet2_CSVv2,jet1_JecSF,jet1_JecSF_up,jet1_JecSF_down,MET_pt,MET_phi,mll,ttHFCategory,PUWeight,bWeight,triggerSF,lepIDSF,lepISOSF,Q2_upup,Q2_downdown,pdf_up,pdf_down\n");
 }
 
@@ -149,13 +149,14 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 void CU_ttH_EDA::Set_up_Tree()
 {
 	eventTree = fs_->make<TTree>("eventTree", "Event tree");
+	hbbNtuple.set_up_branches(eventTree);
 }
 
 void CU_ttH_EDA::Set_up_b_weights(){
-	inputFileHF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
-  	inputFileLF = "Analyzers/ttH_analyzer/data/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
-	f_CSVwgt_HF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileHF).c_str());
-	f_CSVwgt_LF = new TFile ((std::string(getenv("CMSSW_BASE")) + "/src/" + inputFileLF).c_str());
+	inputFileHF = "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
+  	inputFileLF = "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
+	f_CSVwgt_HF = new TFile ((inputFileHF).c_str());
+	f_CSVwgt_LF = new TFile ((inputFileLF).c_str());
 	fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 }
 

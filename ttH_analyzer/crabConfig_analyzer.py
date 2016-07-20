@@ -7,8 +7,9 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'ttH_analyzer/test/CU_ttH_mc_EDA_cfg.py'
+config.JobType.psetName = 'test/CU_ttH_mc_EDA_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
+config.JobType.inputFiles = 'data'
 
 config.Data.userInputFiles = ['/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root']
 config.Data.outputPrimaryDataset = 'ttH_Analyzer_hbb'

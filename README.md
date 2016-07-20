@@ -42,16 +42,16 @@ scram b -j 32
 
 Run :
 
-cd Analyzers/
+cd Analyzers/ttH_analyzer/
 
 For MC :
 
 1. using_real_data : false
 
-2. cmsRun ttH_analyzer/test/CU_ttH_mc_EDA_cfg.py 
+2. cmsRun test/CU_ttH_mc_EDA_cfg.py 
 
 For Data :
 
 1. using_real_data : true
 
-2. cmsRun ttH_analyzer/test/CU_ttH_data_EDA_cfg.py
+2. cmsRun test/CU_ttH_data_EDA_cfg.py
