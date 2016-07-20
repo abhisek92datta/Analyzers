@@ -568,7 +568,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("PFMETphi", &PFMETphi);
 	
 }
-
+/*
 double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
 	if (n < k or k < 0 or n < 0) {
 		std::cerr << "ERROR in Comb()! Illegal inputs!" << std::endl;
@@ -581,7 +581,7 @@ double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
 	else
 		return (n-k+1)*1./k * Comb(n, k-1);
 }
-
+*/
 //ClassImp(CU_ttH_EDA_Ntuple);
 
 #endif
