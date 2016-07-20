@@ -56,7 +56,7 @@ To Run on CRAB :
 3. crab submit -c test/CU_ttH_data_EDA_cfg.py
 
 To check CRAB status :
-crab status -d <crab_output_directory_name>
+crab status -d \<crab_output_directory_name\>
 
 
 
