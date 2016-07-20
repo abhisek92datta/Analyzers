@@ -20,22 +20,43 @@ chmod 755 Analyzer_run_recipe.sh
 
 ./Analyzer_run_recipe.sh
 
-
-Run :
-
 cd CMSSW_8_0_12/src/Analyzers/ttH_analyzer/
+
+RUN :
 
 For MC :
 
-1. in yaml config file -- using_real_data : false
-                          HLT_config_tag: 'HLT2'
-2. put desired filename in : test/CU_ttH_mc_EDA_cfg.py
-3. cmsRun test/CU_ttH_mc_EDA_cfg.py 
+in yaml config file -- using_real_data : false and HLT_config_tag: 'HLT2'
 
-For Data :
+To Run Locally:
 
-1. in yaml config file -- using_real_data : true
-                          HLT_config_tag: 'HLT'
-2. put desired filename in : test/CU_ttH_data_EDA_cfg.py
-3. cmsRun test/CU_ttH_data_EDA_cfg.py 
+1. put desired MC filename in : test/CU_ttH_mc_EDA_cfg.py
+2. cmsRun test/CU_ttH_mc_EDA_cfg.py 
+
+To Run on CRAB :
+
+1. remove filename from test/CU_ttH_mc_EDA_cfg.py
+2. put desired MC filename in : crabConfig_analyzer.py
+3. crab submit -c test/CU_ttH_mc_EDA_cfg.py
+
+For DATA :
+
+in yaml config file -- using_real_data : true and HLT_config_tag: 'HLT'
+
+To Run Locally:
+
+1. put desired DATA filename in : test/CU_ttH_data_EDA_cfg.py
+2. cmsRun test/CU_ttH_data_EDA_cfg.py 
+
+To Run on CRAB :
+
+1. remove filename from test/CU_ttH_data_EDA_cfg.py
+2. put desired DATA filename in : crabConfig_analyzer.py
+3. put LUMI file name in : crabConfig_analyzer.py
+3. crab submit -c test/CU_ttH_data_EDA_cfg.py
+
+To check CRAB status :
+crab status -d <crab_output_directory_name>
+
+
 
