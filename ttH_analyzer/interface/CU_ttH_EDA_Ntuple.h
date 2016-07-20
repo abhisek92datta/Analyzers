@@ -27,56 +27,55 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	// private member functions
 	void fill_ntuple_electrons(const std::vector<pat::Electron> &);
 	void fill_ntuple_muons(const std::vector<pat::Muon> &);
-	//void fill_ntuple_taus(const std::vector<pat::Tau> &);
 	void fill_ntuple_jets(const std::vector<pat::Jet> &);
 	//void fill_ntuple_met(const pat::MET &);
-	double Comb(int, int);
-	template<typename T> void update_ldgLeps_vars(T&);
+	//double Comb(int, int);
+	//template<typename T> void update_ldgLeps_vars(T&);
 
 	// internal variables
-	TLorentzVector lep0_p4;
-	TLorentzVector lep1_p4;
-	bool lep0_isfakeable;
-	bool lep1_isfakeable;
-	double lep0_ptRatio;
-	double lep1_ptRatio;
+	//TLorentzVector lep0_p4;
+	//TLorentzVector lep1_p4;
+	//bool lep0_isfakeable;
+	//bool lep1_isfakeable;
+	//double lep0_ptRatio;
+	//double lep1_ptRatio;
 		
  public:
 	/// function member
-    CU_ttH_EDA_Ntuple();
+        CU_ttH_EDA_Ntuple();
 	~CU_ttH_EDA_Ntuple();
 	
 	void initialize();
 	void set_up_branches(TTree *);
-	void write_ntuple(const CU_ttH_EDA_event_vars &);
-	void write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &);
+	void write_ntuple_SL(const CU_ttH_EDA_event_vars &);
+	void write_ntuple_DL(const CU_ttH_EDA_event_vars &);
+	//void write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &);
 
 	/// variables
 	// event variables
 	int nEvent;
 	int ls;   // luminosity section number
 	int run;  // run number
-	int n_presel_mu;
-	int n_cutsel_mu;
-	int n_mvasel_mu;
-	int n_fakeablesel_mu;
-	int n_presel_ele;
-	int n_cutsel_ele;
-	int n_mvasel_ele;
-	int n_fakeablesel_ele;
-	int n_presel_tau;
-	int n_presel_jet;
+	//int n_presel_mu;
+	//int n_cutsel_mu;
+	//int n_mvasel_mu;
+	//int n_fakeablesel_mu;
+	//int n_presel_ele;
+	//int n_cutsel_ele;
+	//int n_mvasel_ele;
+	//int n_fakeablesel_ele;
+	//int n_presel_jet;
 	// event level MVA
-	double MVA_2lss_ttV;
-	double MVA_2lss_ttbar;
-	double MT_met_lep0;
-	int    n_jet25_recl;
-	double mindr_lep0_jet;
-	double mindr_lep1_jet;
-	double lep0_conept;
-	double lep1_conept;
-	double avg_dr_jet;
-	double max_lep_eta;
+	//double MVA_2lss_ttV;
+	//double MVA_2lss_ttbar;
+	//double MT_met_lep0;
+	//int    n_jet25_recl;
+	//double mindr_lep0_jet;
+	//double mindr_lep1_jet;
+	//double lep0_conept;
+	//double lep1_conept;
+	//double avg_dr_jet;
+	//double max_lep_eta;
 	// muons
 	double mu0_pt;
 	double mu0_eta;
@@ -171,61 +170,6 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    ele1_ismvasel;
 	int    ele1_isfakeablesel;
 	
-	/*
-	// taus
-	double tau0_pt;
-	double tau0_eta;
-	double tau0_phi;
-	double tau0_E;
-	int    tau0_charge;
-	double tau0_dxy;
-	double tau0_dz;
-	int    tau0_decayModeFindingOldDMs;
-	int    tau0_decayModeFindingNewDMs;
-	double tau0_byCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau0_byLooseCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau0_byMediumCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau0_byTightCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau0_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau0_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau0_byTightCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau0_byLooseIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau0_byMediumIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau0_byTightIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau0_byVTightIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau0_againstMuonLoose3;
-	int    tau0_againstMuonTight3;
-	int    tau0_againstElectronVLooseMVA6;
-	int    tau0_againstElectronLooseMVA6;
-	int    tau0_againstElectronMediumMVA6;
-	int    tau0_againstElectronTightMVA6;
-	double tau1_pt;
-	double tau1_eta;
-	double tau1_phi;
-	double tau1_E;
-	int    tau1_charge;
-	double tau1_dxy;
-	double tau1_dz;
-	int    tau1_decayModeFindingOldDMs;
-	int    tau1_decayModeFindingNewDMs;
-	double tau1_byCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau1_byLooseCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau1_byMediumCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau1_byTightCombinedIsolationDeltaBetaCorr3Hits;
-	int    tau1_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau1_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau1_byTightCombinedIsolationDeltaBetaCorr3HitsdR03;
-	int    tau1_byLooseIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau1_byMediumIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau1_byTightIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau1_byVTightIsolationMVArun2v1DBdR03oldDMwLT;
-	int    tau1_againstMuonLoose3;
-	int    tau1_againstMuonTight3;
-	int    tau1_againstElectronVLooseMVA6;
-	int    tau1_againstElectronLooseMVA6;
-	int    tau1_againstElectronMediumMVA6;
-	int    tau1_againstElectronTightMVA6;
-	*/
 	// jets
 	double jet0_pt;
 	double jet0_eta;
@@ -250,13 +194,9 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	// MET
 	double PFMET;
 	double PFMETphi;
-	double MHT;
-	double metLD;
-	
-	//ClassDef(CU_ttH_EDA_Ntuple,1);
-	
-};
 
+};
+/*
 template<typename T>
 void CU_ttH_EDA_Ntuple::update_ldgLeps_vars(T& leptons)
 {
@@ -276,6 +216,6 @@ void CU_ttH_EDA_Ntuple::update_ldgLeps_vars(T& leptons)
 		}
 	}
 }
-
+*/
 #endif
 	
