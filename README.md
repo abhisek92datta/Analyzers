@@ -12,6 +12,15 @@ cd CMSSW_8_0_8_patch1/src/
 
 cmsenv
 
+cd ../../
+
+\# git clone https://github.com/abhisek92datta/Analyzers.git
+\# mv Analyzers/Analyzer_run_recipe.sh .
+\# chmod 755 Analyzer_run_recipe.sh
+\# ./Analyzer_run_recipe.sh
+
+
+
 git cms-addpkg PhysicsTools/JetMCAlgos
 
 cd PhysicsTools/
