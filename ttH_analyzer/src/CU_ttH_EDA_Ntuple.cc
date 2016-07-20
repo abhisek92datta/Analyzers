@@ -13,7 +13,7 @@ CU_ttH_EDA_Ntuple::~CU_ttH_EDA_Ntuple() {}
 
 // Member functions
 
-void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
+void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local)
 {
 	// Event variales
 	nEvent = local.event_nr;
@@ -21,6 +21,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
 	run = local.run_nr;
 	
 	// Muons
+	/*
 	n_presel_mu = local.n_muons;
 	n_fakeablesel_mu = 0;
 	n_cutsel_mu = 0;
@@ -33,9 +34,11 @@ void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
 		if (mu.userFloat("idMVABased") > 0.5)
 			++n_mvasel_mu;
 	}
-	fill_ntuple_muons(local.mu_selected_sorted);
+	*/
+	fill_ntuple_muons(local.mu_selected);
 	
 	// Electrons
+	/*
 	n_presel_ele = local.n_electrons;
 	n_fakeablesel_ele = 0;
 	n_cutsel_ele = 0;
@@ -48,23 +51,39 @@ void CU_ttH_EDA_Ntuple::write_ntuple(const CU_ttH_EDA_event_vars &local)
 		if (ele.userFloat("idMVABased") > 0.5)
 			++n_mvasel_ele;
 	}
-	fill_ntuple_electrons(local.e_selected_sorted);
-		
-	// Taus
-	//n_presel_tau = local.n_taus;
-	//fill_ntuple_taus(local.tau_selected_sorted);
-
-	// Jets
-	//n_presel_jet = local.n_jets;
-	//fill_ntuple_jets(local.jets_selected_sorted);
+	*/
+	fill_ntuple_electrons(local.e_selected);
 	
+	fill_ntuple_jets(local.jets_sl_selected_sorted);
+		
 	// MET/MHT
 	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
 	PFMETphi = local.pfMET.phi();
-	//MHT = local.MHT;
-	//metLD = local.metLD;
 }
 
+void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local)
+{
+	// Event variales
+	nEvent = local.event_nr;
+	ls = local.lumisection_nr;
+	run = local.run_nr;
+	
+	// Muons
+
+	fill_ntuple_muons(local.mu_di_selected_sorted);
+	
+	// Electrons
+	fill_ntuple_electrons(local.e_di_selected_sorted);
+	
+	fill_ntuple_jets(local.jets_di_selected_sorted);
+		
+	// MET/MHT
+	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
+	PFMETphi = local.pfMET.phi();
+}
+
+
+/*
 void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & local)
 {
 	
@@ -96,19 +115,7 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 	else
 		lep1_conept = lep1_p4.Pt();
 
-	// mindr_lep_jet
-	/*
-	mindr_lep0_jet = 23333.;  // initialize
-	mindr_lep1_jet = 23333.;  // initialize
-	for (auto & jet : local.jets_selected_sorted) {
-	  TLorentzVector jLV;
-	  jLV.SetPtEtaPhiE(jet.pt(), jet.eta(), jet.phi(), jet.energy());
-		if (lep0_p4.DeltaR(jLV) < mindr_lep0_jet)
-			mindr_lep0_jet = lep0_p4.DeltaR(jLV);
-		if (lep1_p4.DeltaR(jLV) < mindr_lep1_jet)
-			mindr_lep1_jet = lep1_p4.DeltaR(jLV);		
-	}
-	*/
+
 	// MT_met_lep0
 	double mass_lep0 = lep0_p4.M();
 	double Et_lep0 = sqrt(mass_lep0 * mass_lep0 + lep0_conept * lep0_conept);
@@ -116,25 +123,9 @@ void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & loca
 	MT_met_lep0 =
 		sqrt(mass_lep0*mass_lep0 + 2*local.pfMET.pt()*(Et_lep0 - lep0_conept*cosDphi));
 	
-	// avg_dr_jet
-	/*
-	double sum_dr_jet = 0;
-	int ncomb = 1;
-	if (local.n_jets>=2) {		
-		for (auto i = local.jets_selected_sorted.begin(); i != local.jets_selected_sorted.end()-1; ++i) {
-			for (auto j = i+1; j != local.jets_selected_sorted.end(); ++j) {
-			  double deta = i->eta() - j->eta();
-			  double dphi = i->phi() - j->phi();
-			  sum_dr_jet += sqrt(deta*deta + dphi*dphi);
-			}
-		}
-		
-		ncomb = (int) Comb(local.n_jets, 2);  // n*(n-1)/2
-		
-	}
-	avg_dr_jet = sum_dr_jet/ncomb;
-	*/
+
 }
+*/
 
 void CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon>& muons)
 {
@@ -243,79 +234,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(const std::vector<pat::Electron>& 
 		ele1_isfakeablesel = electrons[1].userFloat("idFakeable") > 0.5;
 	}
 }
-/*
-void CU_ttH_EDA_Ntuple::fill_ntuple_taus(const std::vector<pat::Tau>& taus)
-{
-	if (taus.size() > 0) {
-		tau0_pt = taus[0].pt();
-		tau0_eta = taus[0].eta();
-		tau0_phi = taus[0].phi();
-		tau0_E = taus[0].energy();
-		tau0_charge = taus[0].charge();
-		tau0_dxy = taus[0].userFloat("dxy");
-		tau0_dz = taus[0].userFloat("dz");
-		tau0_decayModeFindingOldDMs =  taus[0].tauID("decayModeFinding");  // decayModeFindingOldDMs
-		tau0_decayModeFindingNewDMs =  taus[0].tauID("decayModeFindingNewDMs");
-		
-		tau0_byCombinedIsolationDeltaBetaCorr3Hits = taus[0].tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits");
-		tau0_byLooseCombinedIsolationDeltaBetaCorr3Hits = taus[0].tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits");
-		tau0_byMediumCombinedIsolationDeltaBetaCorr3Hits = taus[0].tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits");
-		tau0_byTightCombinedIsolationDeltaBetaCorr3Hits = taus[0].tauID("byTightCombinedIsolationDeltaBetaCorr3Hits");
-		
-		tau0_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[0].tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03");
-		tau0_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[0].tauID("byMediumCombinedIsolationDeltaBetaCorr3HitsdR03");
-		tau0_byTightCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[0].tauID("byTightCombinedIsolationDeltaBetaCorr3HitsdR03");
-		
-		tau0_byLooseIsolationMVArun2v1DBdR03oldDMwLT = taus[0].tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT");
-		tau0_byMediumIsolationMVArun2v1DBdR03oldDMwLT = taus[0].tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT");
-		tau0_byTightIsolationMVArun2v1DBdR03oldDMwLT = taus[0].tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT");
-		tau0_byVTightIsolationMVArun2v1DBdR03oldDMwLT = taus[0].tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT");
 
-		tau0_againstMuonLoose3 = taus[0].tauID("againstMuonLoose3");
-		tau0_againstMuonTight3 = taus[0].tauID("againstMuonTight3");
-
-		tau0_againstElectronVLooseMVA6 = taus[0].tauID("againstElectronVLooseMVA6");
-		tau0_againstElectronLooseMVA6 = taus[0].tauID("againstElectronLooseMVA6");
-		tau0_againstElectronMediumMVA6 = taus[0].tauID("againstElectronMediumMVA6");
-		tau0_againstElectronTightMVA6 = taus[0].tauID("againstElectronTightMVA6");
-	}
-	
-	if (taus.size() > 1 ) {
-		tau1_pt = taus[1].pt();
-		tau1_eta = taus[1].eta();
-		tau1_phi = taus[1].phi();
-		tau1_E = taus[1].energy();
-		tau1_charge = taus[1].charge();
-		tau1_dxy = taus[1].userFloat("dxy");
-		tau1_dz = taus[1].userFloat("dz");
-		tau1_decayModeFindingOldDMs =  taus[1].tauID("decayModeFinding");  // decayModeFindingOldDMs
-		tau1_decayModeFindingNewDMs =  taus[1].tauID("decayModeFindingNewDMs");
-		
-		tau1_byCombinedIsolationDeltaBetaCorr3Hits = taus[1].tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits");
-		tau1_byLooseCombinedIsolationDeltaBetaCorr3Hits = taus[1].tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits");
-		tau1_byMediumCombinedIsolationDeltaBetaCorr3Hits = taus[1].tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits");
-		tau1_byTightCombinedIsolationDeltaBetaCorr3Hits = taus[1].tauID("byTightCombinedIsolationDeltaBetaCorr3Hits");
-		
-		tau1_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[1].tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03");
-		tau1_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[1].tauID("byMediumCombinedIsolationDeltaBetaCorr3HitsdR03");
-		tau1_byTightCombinedIsolationDeltaBetaCorr3HitsdR03 = taus[1].tauID("byTightCombinedIsolationDeltaBetaCorr3HitsdR03");
-		
-		tau1_byLooseIsolationMVArun2v1DBdR03oldDMwLT = taus[1].tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT");
-		tau1_byMediumIsolationMVArun2v1DBdR03oldDMwLT = taus[1].tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT");
-		tau1_byTightIsolationMVArun2v1DBdR03oldDMwLT = taus[1].tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT");
-		tau1_byVTightIsolationMVArun2v1DBdR03oldDMwLT = taus[1].tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT");
-
-		tau1_againstMuonLoose3 = taus[1].tauID("againstMuonLoose3");
-		tau1_againstMuonTight3 = taus[1].tauID("againstMuonTight3");
-
-		tau1_againstElectronVLooseMVA6 = taus[1].tauID("againstElectronVLooseMVA6");
-		tau1_againstElectronLooseMVA6 = taus[1].tauID("againstElectronLooseMVA6");
-		tau1_againstElectronMediumMVA6 = taus[1].tauID("againstElectronMediumMVA6");
-		tau1_againstElectronTightMVA6 = taus[1].tauID("againstElectronTightMVA6");
-	}
-}
-*/
-/*
 void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets)
 {
 	if (jets.size() > 0) {
@@ -350,24 +269,25 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets)
 		jet3_CSV = jets[3].bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 	}
 }
-*/
+
 void CU_ttH_EDA_Ntuple::initialize()
 {
 	// event variables
 	nEvent = -9999;
 	ls = -9999;
 	run = -9999;
-	n_presel_mu = -9999;
-	n_cutsel_mu = -9999;
-	n_mvasel_mu = -9999;
-	n_fakeablesel_mu = -9999;
-	n_presel_ele = -9999;
-	n_cutsel_ele = -9999;
-	n_mvasel_ele = -9999;
-	n_fakeablesel_ele = -9999;
-	n_presel_tau = -9999;
-	n_presel_jet = -9999;
-
+	//n_presel_mu = -9999;
+	//n_cutsel_mu = -9999;
+	//n_mvasel_mu = -9999;
+	//n_fakeablesel_mu = -9999;
+	//n_presel_ele = -9999;
+	//n_cutsel_ele = -9999;
+	//n_mvasel_ele = -9999;
+	//n_fakeablesel_ele = -9999;
+	//n_presel_tau = -9999;
+	//n_presel_jet = -9999;
+	
+	/*
 	MVA_2lss_ttV = -9999.;
 	MVA_2lss_ttbar = -9999.;
 	MT_met_lep0 = -9999.;
@@ -378,7 +298,8 @@ void CU_ttH_EDA_Ntuple::initialize()
 	lep1_conept = -9999.;
 	avg_dr_jet = -9999.;
 	max_lep_eta = -9999.;
-
+	*/
+	
 	// muons
 	mu0_pt = -9999.;
 	mu0_eta = -9999.;
@@ -472,65 +393,8 @@ void CU_ttH_EDA_Ntuple::initialize()
 	ele1_iscutsel = -9999;
 	ele1_ismvasel = -9999;
 	ele1_isfakeablesel = -9999;
-	
-	/*
-	// taus
-	tau0_pt = -9999.;
-	tau0_eta = -9999.;
-	tau0_phi = -9999.;
-	tau0_E = -9999.;
-	tau0_charge = -9999;
-	tau0_dxy = -9999.;
-	tau0_dz = -9999.;
-	tau0_decayModeFindingOldDMs = -9999;
-	tau0_decayModeFindingNewDMs = -9999;
-	tau0_byCombinedIsolationDeltaBetaCorr3Hits = -9999.;
-	tau0_byLooseCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau0_byMediumCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau0_byTightCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau0_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau0_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau0_byTightCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau0_byLooseIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau0_byMediumIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau0_byTightIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau0_byVTightIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau0_againstMuonLoose3 = -9999;
-	tau0_againstMuonTight3 = -9999;
-	tau0_againstElectronVLooseMVA6 = -9999;
-	tau0_againstElectronLooseMVA6 = -9999;
-	tau0_againstElectronMediumMVA6 = -9999;
-	tau0_againstElectronTightMVA6 = -9999;
-	tau1_pt = -9999.;
-	tau1_eta = -9999.;
-	tau1_phi = -9999.;
-	tau1_E = -9999.;
-	tau1_charge = -9999;
-	tau1_dxy = -9999.;
-	tau1_dz = -9999.;
-	tau1_decayModeFindingOldDMs = -9999;
-	tau1_decayModeFindingNewDMs = -9999;
-	tau1_byCombinedIsolationDeltaBetaCorr3Hits = -9999.;
-	tau1_byLooseCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau1_byMediumCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau1_byTightCombinedIsolationDeltaBetaCorr3Hits = -9999;
-	tau1_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau1_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau1_byTightCombinedIsolationDeltaBetaCorr3HitsdR03 = -9999;
-	tau1_byLooseIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau1_byMediumIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau1_byTightIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau1_byVTightIsolationMVArun2v1DBdR03oldDMwLT = -9999;
-	tau1_againstMuonLoose3 = -9999;
-	tau1_againstMuonTight3 = -9999;
-	tau1_againstElectronVLooseMVA6 = -9999;
-	tau1_againstElectronLooseMVA6 = -9999;
-	tau1_againstElectronMediumMVA6 = -9999;
-	tau1_againstElectronTightMVA6 = -9999;
-	*/
-	
+
 	// jets
-	/*
 	jet0_pt = -9999.;
 	jet0_eta = -9999.;
 	jet0_phi = -9999.;
@@ -554,9 +418,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	// MET
 	PFMET = -9999.;
 	PFMETphi = -9999.;
-	MHT = -9999.;
-	metLD = -9999.;
-	*/
+	
 }
 
 void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
@@ -568,24 +430,23 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("nEvent", &nEvent);
 	tree->Branch("ls", &ls);
 	tree->Branch("run", &run);
-	tree->Branch("n_presel_mu", &n_presel_mu);
-	tree->Branch("n_cutsel_mu", &n_cutsel_mu);
-	tree->Branch("n_mvasel_mu", &n_mvasel_mu);
-	tree->Branch("n_fakeablesel_mu", &n_fakeablesel_mu);
-	tree->Branch("n_presel_ele", &n_presel_ele);
-	tree->Branch("n_cutsel_ele", &n_cutsel_ele);
-	tree->Branch("n_mvasel_ele", &n_mvasel_ele);
-	tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
-	//tree->Branch("n_presel_tau", &n_presel_tau);
+	//tree->Branch("n_presel_mu", &n_presel_mu);
+	//tree->Branch("n_cutsel_mu", &n_cutsel_mu);
+	//tree->Branch("n_mvasel_mu", &n_mvasel_mu);
+	//tree->Branch("n_fakeablesel_mu", &n_fakeablesel_mu);
+	//tree->Branch("n_presel_ele", &n_presel_ele);
+	//tree->Branch("n_cutsel_ele", &n_cutsel_ele);
+	//tree->Branch("n_mvasel_ele", &n_mvasel_ele);
+	//tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
 	//tree->Branch("n_presel_jet", &n_presel_jet);
-	tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
-	tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
+	//tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
+	//tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
 	//tree->Branch("MT_met_lep0", &MT_met_lep0);
 	//tree->Branch("n_jet25_recl", &n_jet25_recl);
-	tree->Branch("mindr_lep0_jet", &mindr_lep0_jet);
-	tree->Branch("mindr_lep1_jet", &mindr_lep1_jet);
-	tree->Branch("lep0_conept", &lep0_conept);
-	tree->Branch("lep1_conept", &lep1_conept);
+	//tree->Branch("mindr_lep0_jet", &mindr_lep0_jet);
+	//tree->Branch("mindr_lep1_jet", &mindr_lep1_jet);
+	//tree->Branch("lep0_conept", &lep0_conept);
+	//tree->Branch("lep1_conept", &lep1_conept);
 	//tree->Branch("avg_dr_jet", &avg_dr_jet);
 	// muons
 	tree->Branch("mu0_pt",                   &mu0_pt);
@@ -679,63 +540,9 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("ele1_iscutsel", &ele1_iscutsel);
 	tree->Branch("ele1_ismvasel", &ele1_ismvasel);
 	tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
-	/*
-	// taus
-	tree->Branch("tau0_pt", &tau0_pt);
-	tree->Branch("tau0_eta", &tau0_eta);
-	tree->Branch("tau0_phi", &tau0_phi);
-	tree->Branch("tau0_E", &tau0_E);
-	tree->Branch("tau0_charge", &tau0_charge);
-	tree->Branch("tau0_dxy", &tau0_dxy);
-	tree->Branch("tau0_dz", &tau0_dz);
-	tree->Branch("tau0_decayModeFindingOldDMs", &tau0_decayModeFindingOldDMs);
-	tree->Branch("tau0_decayModeFindingNewDMs", &tau0_decayModeFindingNewDMs);
-	tree->Branch("tau0_byCombinedIsolationDeltaBetaCorr3Hits", &tau0_byCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau0_byLooseCombinedIsolationDeltaBetaCorr3Hits", &tau0_byLooseCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau0_byMediumCombinedIsolationDeltaBetaCorr3Hits", &tau0_byMediumCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau0_byTightCombinedIsolationDeltaBetaCorr3Hits", &tau0_byTightCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau0_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03", &tau0_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau0_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03", &tau0_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau0_byTightCombinedIsolationDeltaBetaCorr3HitsdR03", &tau0_byTightCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau0_byLooseIsolationMVArun2v1DBdR03oldDMwLT", &tau0_byLooseIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau0_byMediumIsolationMVArun2v1DBdR03oldDMwLT", &tau0_byMediumIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau0_byTightIsolationMVArun2v1DBdR03oldDMwLT", &tau0_byTightIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau0_byVTightIsolationMVArun2v1DBdR03oldDMwLT", &tau0_byVTightIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau0_againstMuonLoose3", &tau0_againstMuonLoose3);
-	tree->Branch("tau0_againstMuonTight3", &tau0_againstMuonTight3);
-	tree->Branch("tau0_againstElectronVLooseMVA6", &tau0_againstElectronVLooseMVA6);
-	tree->Branch("tau0_againstElectronLooseMVA6", &tau0_againstElectronLooseMVA6);
-	tree->Branch("tau0_againstElectronMediumMVA6", &tau0_againstElectronMediumMVA6);
-	tree->Branch("tau0_againstElectronTightMVA6", &tau0_againstElectronTightMVA6);
-	tree->Branch("tau1_pt", &tau1_pt);
-	tree->Branch("tau1_eta", &tau1_eta);
-	tree->Branch("tau1_phi", &tau1_phi);
-	tree->Branch("tau1_E", &tau1_E);
-	tree->Branch("tau1_charge", &tau1_charge);
-	tree->Branch("tau1_dxy", &tau1_dxy);
-	tree->Branch("tau1_dz", &tau1_dz);
-	tree->Branch("tau1_decayModeFindingOldDMs", &tau1_decayModeFindingOldDMs);
-	tree->Branch("tau1_decayModeFindingNewDMs", &tau1_decayModeFindingNewDMs);
-	tree->Branch("tau1_byCombinedIsolationDeltaBetaCorr3Hits", &tau1_byCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau1_byLooseCombinedIsolationDeltaBetaCorr3Hits", &tau1_byLooseCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau1_byMediumCombinedIsolationDeltaBetaCorr3Hits", &tau1_byMediumCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau1_byTightCombinedIsolationDeltaBetaCorr3Hits", &tau1_byTightCombinedIsolationDeltaBetaCorr3Hits);
-	tree->Branch("tau1_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03", &tau1_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau1_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03", &tau1_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau1_byTightCombinedIsolationDeltaBetaCorr3HitsdR03", &tau1_byTightCombinedIsolationDeltaBetaCorr3HitsdR03);
-	tree->Branch("tau1_byLooseIsolationMVArun2v1DBdR03oldDMwLT", &tau1_byLooseIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau1_byMediumIsolationMVArun2v1DBdR03oldDMwLT", &tau1_byMediumIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau1_byTightIsolationMVArun2v1DBdR03oldDMwLT", &tau1_byTightIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau1_byVTightIsolationMVArun2v1DBdR03oldDMwLT", &tau1_byVTightIsolationMVArun2v1DBdR03oldDMwLT);
-	tree->Branch("tau1_againstMuonLoose3", &tau1_againstMuonLoose3);
-	tree->Branch("tau1_againstMuonTight3", &tau1_againstMuonTight3);
-	tree->Branch("tau1_againstElectronVLooseMVA6", &tau1_againstElectronVLooseMVA6);
-	tree->Branch("tau1_againstElectronLooseMVA6", &tau1_againstElectronLooseMVA6);
-	tree->Branch("tau1_againstElectronMediumMVA6", &tau1_againstElectronMediumMVA6);
-	tree->Branch("tau1_againstElectronTightMVA6", &tau1_againstElectronTightMVA6);
-	*/
+
 	// jets
-	/*
+	
 	tree->Branch("jet0_pt", &jet0_pt);
 	tree->Branch("jet0_eta", &jet0_eta);
 	tree->Branch("jet0_phi", &jet0_phi);
@@ -759,9 +566,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	// MET
 	tree->Branch("PFMET", &PFMET);
 	tree->Branch("PFMETphi", &PFMETphi);
-	tree->Branch("MHT", &MHT);
-	tree->Branch("metLD", &metLD);
-	*/
+	
 }
 
 double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
