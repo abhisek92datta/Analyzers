@@ -35,7 +35,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, Mini
 			++n_mvasel_mu;
 	}
 	*/
-	fill_ntuple_muons(local.mu_selected);
+	fill_ntuple_muons(local.mu_selected, miniAODhelper);
 	
 	// Electrons
 	/*
@@ -52,9 +52,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, Mini
 			++n_mvasel_ele;
 	}
 	*/
-	fill_ntuple_electrons(local.e_selected);
+	fill_ntuple_electrons(local.e_selected, miniAODhelper);
 	
-	fill_ntuple_jets(local.jets_sl_selected_sorted);
+	fill_ntuple_jets(local.jets_sl_selected_sorted, miniAODhelper);
 		
 	// MET/MHT
 	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
@@ -322,7 +322,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	mu0_phi = -9999.;
 	mu0_E = -9999.;
 	mu0_charge = -9999;
-	mu0_sio = -9999;
+	mu0_iso = -9999;
 	/*
 	mu0_jetNDauChargedMVASel = -9999;
 	mu0_miniRelIso = -9999.;
@@ -347,7 +347,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	mu1_phi = -9999.;
 	mu1_E = -9999.;
 	mu1_charge = -9999;
-	mu1_sio = -9999;
+	mu1_iso = -9999;
 	/*
 	mu1_jetNDauChargedMVASel = -9999;
 	mu1_miniRelIso = -9999.;
@@ -374,7 +374,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	ele0_phi = -9999.;
 	ele0_E = -9999.;
 	ele0_charge = -9999;
-	ele0_sio = -9999;
+	ele0_iso = -9999;
 	/*
 	ele0_jetNDauChargedMVASel = -9999;
 	ele0_miniRelIso = -9999.;
@@ -400,7 +400,7 @@ void CU_ttH_EDA_Ntuple::initialize()
 	ele1_phi = -9999.;
 	ele1_E = -9999.;
 	ele1_charge = -9999;
-	ele1_sio = -9999;
+	ele1_iso = -9999;
 	/*
 	ele1_jetNDauChargedMVASel = -9999;
 	ele1_miniRelIso = -9999.;
