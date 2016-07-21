@@ -116,23 +116,25 @@ CU_ttH_EDA::~CU_ttH_EDA()
 {
 	// do anything here that needs to be done at desctruction time
 	// (e.g. close files, deallocate resources etc.)
-
+	std::cout<<"1\n";
 	delete _jetCorrector;
+	std::cout<<"2\n";
 	delete _jetCorrectorUnc;
-
+	
 	//r->SetSeed(0);
-	
+	std::cout<<"3\n";
 	Close_output_files();
-	delete events_combined;
+	std::cout<<"4\n";
+	//delete events_combined;
 	
+	std::cout<<"5\n";
 	delete f_CSVwgt_HF;
 	delete f_CSVwgt_LF;
-	
+	std::cout<<"6\n";
 	delete NNPDF30_nlo_as_0118_PDFSet;
-	
-	delete h_hlt;
-	delete h_flt;
-	//delete eventTree;
+	//std::cout<<"7\n";
+	//delete h_hlt;
+	//delete h_flt;
 }
 
 // ------------ method called for each event  ------------
