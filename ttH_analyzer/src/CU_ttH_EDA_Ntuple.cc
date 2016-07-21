@@ -135,7 +135,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon>& muons)
 		mu0_phi = muons[0].phi();
 		mu0_E = muons[0].energy();
 		mu0_charge = muons[0].charge();
-		mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
+		//mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
 		mu0_miniRelIso = muons[0].userFloat("miniIso");
 		mu0_miniIsoCharged = muons[0].userFloat("miniAbsIsoCharged");
 		mu0_miniIsoNeutral = muons[0].userFloat("miniAbsIsoNeutralcorr");
@@ -160,7 +160,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon>& muons)
 		mu1_phi = muons[1].phi();
 		mu1_E = muons[1].energy();
 		mu1_charge = muons[1].charge();
-		mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
+		//mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
 		mu1_miniRelIso = muons[1].userFloat("miniIso");
 		mu1_miniIsoCharged = muons[1].userFloat("miniAbsIsoCharged");
 		mu1_miniIsoNeutral = muons[1].userFloat("miniAbsIsoNeutralcorr");
@@ -188,7 +188,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(const std::vector<pat::Electron>& 
 		ele0_phi = electrons[0].phi();
 		ele0_E = electrons[0].energy();
 		ele0_charge = electrons[0].charge();
-		ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
+		//ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
 		ele0_miniRelIso = electrons[0].userFloat("miniIso");
 		ele0_miniIsoCharged = electrons[0].userFloat("miniAbsIsoCharged");
 		ele0_miniIsoNeutral = electrons[0].userFloat("miniAbsIsoNeutralcorr");
@@ -214,7 +214,7 @@ void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(const std::vector<pat::Electron>& 
 		ele1_phi = electrons[1].phi();
 		ele1_E = electrons[1].energy();
 		ele1_charge = electrons[1].charge();
-		ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
+		//ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
 		ele1_miniRelIso = electrons[1].userFloat("miniIso");
 		ele1_miniIsoCharged = electrons[1].userFloat("miniAbsIsoCharged");
 		ele1_miniIsoNeutral = electrons[1].userFloat("miniAbsIsoNeutralcorr");
