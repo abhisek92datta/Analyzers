@@ -132,7 +132,7 @@ CU_ttH_EDA::~CU_ttH_EDA()
 	
 	delete h_hlt;
 	delete h_flt;
-	delete eventTree;
+	//delete eventTree;
 }
 
 // ------------ method called for each event  ------------
