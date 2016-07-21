@@ -82,7 +82,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double mu0_phi;
 	double mu0_E;
 	int    mu0_charge;
-	int    mu0_jetNDauChargedMVASel;
+	//int    mu0_jetNDauChargedMVASel;
 	double mu0_miniRelIso;
 	double mu0_miniIsoCharged;
 	double mu0_miniIsoNeutral;
@@ -104,7 +104,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double mu1_phi;
 	double mu1_E;
 	int    mu1_charge;
-	int    mu1_jetNDauChargedMVASel;
+	//int    mu1_jetNDauChargedMVASel;
 	double mu1_miniRelIso;
 	double mu1_miniIsoCharged;
 	double mu1_miniIsoNeutral;
@@ -128,7 +128,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double ele0_phi;
 	double ele0_E;
 	int    ele0_charge;
-	int    ele0_jetNDauChargedMVASel;
+	//int    ele0_jetNDauChargedMVASel;
 	double ele0_miniRelIso;
 	double ele0_miniIsoCharged;
 	double ele0_miniIsoNeutral;
@@ -151,7 +151,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double ele1_phi;
 	double ele1_E;
 	int    ele1_charge;
-	int    ele1_jetNDauChargedMVASel;
+	//int    ele1_jetNDauChargedMVASel;
 	double ele1_miniRelIso;
 	double ele1_miniIsoCharged;
 	double ele1_miniIsoNeutral;
