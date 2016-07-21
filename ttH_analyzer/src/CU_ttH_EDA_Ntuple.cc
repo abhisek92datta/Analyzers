@@ -20,6 +20,10 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, Mini
 	ls = local.lumisection_nr;
 	run = local.run_nr;
 	
+	n_ele = local.n_electrons;
+	n_mu = local.n_mu;
+	n_lep = local.n_leptons;
+	
 	// Muons
 	/*
 	n_presel_mu = local.n_muons;
@@ -55,7 +59,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, Mini
 	fill_ntuple_electrons(local.e_selected, miniAODhelper);
 	
 	fill_ntuple_jets(local.jets_sl_selected_sorted, miniAODhelper);
-		
+	n_jets = local.n_sl_jets;
+	n_btags = local.n_sl_btags;
+	
 	// MET/MHT
 	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
 	PFMETphi = local.pfMET.phi();
@@ -68,6 +74,10 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local, Mini
 	ls = local.lumisection_nr;
 	run = local.run_nr;
 	
+	n_ele = local.n_di_electrons;
+	n_mu = local.n_di_mu;
+	n_lep = local.n_di_leptons;
+	
 	// Muons
 	fill_ntuple_muons(local.mu_di_selected_sorted, miniAODhelper);
 	
@@ -75,6 +85,8 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local, Mini
 	fill_ntuple_electrons(local.e_di_selected_sorted, miniAODhelper);
 	
 	fill_ntuple_jets(local.jets_di_selected_sorted, miniAODhelper);
+	n_jets = local.n_di_jets;
+	n_btags = local.n_di_btags;
 		
 	// MET/MHT
 	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
@@ -314,6 +326,10 @@ void CU_ttH_EDA_Ntuple::initialize()
 	max_lep_eta = -9999.;
 	*/
 	
+	n_ele = -9999;
+	n_mu = -9999;
+	n_lep = -9999;
+	
 	mll = -9999;
 	
 	// muons
@@ -422,6 +438,8 @@ void CU_ttH_EDA_Ntuple::initialize()
 	ele1_isfakeablesel = -9999;
 	*/
 
+	n_jets = -9999;
+	n_btags = -9999;
 	// jets
 	jet0_pt = -9999.;
 	jet0_eta = -9999.;
@@ -476,6 +494,10 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	//tree->Branch("lep0_conept", &lep0_conept);
 	//tree->Branch("lep1_conept", &lep1_conept);
 	//tree->Branch("avg_dr_jet", &avg_dr_jet);
+	
+	tree->Branch("n_ele", &n_ele);
+	tree->Branch("n_mu", &n_mu);
+	tree->Branch("n_lep", &n_lep);
 	
 	tree->Branch("mll", &mll);
 	
@@ -584,8 +606,9 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
 	tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
 	*/
 
+	tree->Branch("n_jets", &n_jets);
+	tree->Branch("n_btags", &n_btags);
 	// jets
-	
 	tree->Branch("jet0_pt", &jet0_pt);
 	tree->Branch("jet0_eta", &jet0_eta);
 	tree->Branch("jet0_phi", &jet0_phi);
