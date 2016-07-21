@@ -9,6 +9,7 @@
 #include "TLorentzVector.h"
 
 #include "Analyzers/ttH_analyzer/interface/CU_ttH_EDA_event_vars.h"
+#include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 
 /*
  *
@@ -25,9 +26,9 @@ class CU_ttH_EDA_Ntuple //: public TClass
  private:
 	
 	// private member functions
-	void fill_ntuple_electrons(const std::vector<pat::Electron> &);
-	void fill_ntuple_muons(const std::vector<pat::Muon> &);
-	void fill_ntuple_jets(const std::vector<pat::Jet> &);
+	void fill_ntuple_electrons(const std::vector<pat::Electron> &, MiniAODHelper &);
+	void fill_ntuple_muons(const std::vector<pat::Muon> &, MiniAODHelper &);
+	void fill_ntuple_jets(const std::vector<pat::Jet> &, MiniAODHelper &);
 	//void fill_ntuple_met(const pat::MET &);
 	//double Comb(int, int);
 	//template<typename T> void update_ldgLeps_vars(T&);
@@ -47,8 +48,8 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	
 	void initialize();
 	void set_up_branches(TTree *);
-	void write_ntuple_SL(const CU_ttH_EDA_event_vars &);
-	void write_ntuple_DL(const CU_ttH_EDA_event_vars &);
+	void write_ntuple_SL(const CU_ttH_EDA_event_vars &, MiniAODHelper &);
+	void write_ntuple_DL(const CU_ttH_EDA_event_vars &, MiniAODHelper &);
 	//void write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &);
 
 	/// variables
@@ -76,12 +77,16 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	//double lep1_conept;
 	//double avg_dr_jet;
 	//double max_lep_eta;
+	
+	double mll;
+	
 	// muons
 	double mu0_pt;
 	double mu0_eta;
 	double mu0_phi;
 	double mu0_E;
 	int    mu0_charge;
+	double mu0_iso;
 	/*
 	int    mu0_jetNDauChargedMVASel;
 	double mu0_miniRelIso;
@@ -106,6 +111,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double mu1_phi;
 	double mu1_E;
 	int    mu1_charge;
+	double mu1_iso;
 	/*
 	int    mu1_jetNDauChargedMVASel;
 	double mu1_miniRelIso;
@@ -132,6 +138,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double ele0_phi;
 	double ele0_E;
 	int    ele0_charge;
+	double ele0_iso;
 	/*
 	int    ele0_jetNDauChargedMVASel;
 	double ele0_miniRelIso;
@@ -157,6 +164,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double ele1_phi;
 	double ele1_E;
 	int    ele1_charge;
+	double ele1_iso;
 	/*
 	int    ele1_jetNDauChargedMVASel;
 	double ele1_miniRelIso;
