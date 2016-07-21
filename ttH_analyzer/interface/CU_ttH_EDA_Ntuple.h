@@ -82,7 +82,8 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double mu0_phi;
 	double mu0_E;
 	int    mu0_charge;
-	//int    mu0_jetNDauChargedMVASel;
+	/*
+	int    mu0_jetNDauChargedMVASel;
 	double mu0_miniRelIso;
 	double mu0_miniIsoCharged;
 	double mu0_miniIsoNeutral;
@@ -99,12 +100,14 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    mu0_iscutsel;
 	int    mu0_ismvasel;
 	int    mu0_isfakeablesel;
+	*/
 	double mu1_pt;
 	double mu1_eta;
 	double mu1_phi;
 	double mu1_E;
 	int    mu1_charge;
-	//int    mu1_jetNDauChargedMVASel;
+	/*
+	int    mu1_jetNDauChargedMVASel;
 	double mu1_miniRelIso;
 	double mu1_miniIsoCharged;
 	double mu1_miniIsoNeutral;
@@ -121,6 +124,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    mu1_iscutsel;
 	int    mu1_ismvasel;
 	int    mu1_isfakeablesel;
+	*/
 	
 	// electrons
 	double ele0_pt;
@@ -128,7 +132,8 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	double ele0_phi;
 	double ele0_E;
 	int    ele0_charge;
-	//int    ele0_jetNDauChargedMVASel;
+	/*
+	int    ele0_jetNDauChargedMVASel;
 	double ele0_miniRelIso;
 	double ele0_miniIsoCharged;
 	double ele0_miniIsoNeutral;
@@ -146,12 +151,14 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    ele0_iscutsel;
 	int    ele0_ismvasel;
 	int    ele0_isfakeablesel;
+	*/
 	double ele1_pt;
 	double ele1_eta;
 	double ele1_phi;
 	double ele1_E;
 	int    ele1_charge;
-	//int    ele1_jetNDauChargedMVASel;
+	/*
+	int    ele1_jetNDauChargedMVASel;
 	double ele1_miniRelIso;
 	double ele1_miniIsoCharged;
 	double ele1_miniIsoNeutral;
@@ -169,6 +176,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	int    ele1_iscutsel;
 	int    ele1_ismvasel;
 	int    ele1_isfakeablesel;
+	*/
 	
 	// jets
 	double jet0_pt;
