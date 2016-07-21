@@ -77,9 +77,13 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	//double lep1_conept;
 	//double avg_dr_jet;
 	//double max_lep_eta;
-	
+
+	int n_ele;
+	int n_mu;
+	int n_lep;
+
 	double mll;
-	
+
 	// muons
 	double mu0_pt;
 	double mu0_eta;
@@ -187,6 +191,8 @@ class CU_ttH_EDA_Ntuple //: public TClass
 	*/
 	
 	// jets
+	int n_jets;
+	int n_btags;
 	double jet0_pt;
 	double jet0_eta;
 	double jet0_phi;
