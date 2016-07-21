@@ -21,7 +21,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, Mini
 	run = local.run_nr;
 	
 	n_ele = local.n_electrons;
-	n_mu = local.n_mu;
+	n_mu = local.n_muons;
 	n_lep = local.n_leptons;
 	
 	// Muons
@@ -75,7 +75,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local, Mini
 	run = local.run_nr;
 	
 	n_ele = local.n_di_electrons;
-	n_mu = local.n_di_mu;
+	n_mu = local.n_di_muons;
 	n_lep = local.n_di_leptons;
 	
 	// Muons
