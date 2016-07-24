@@ -12,4 +12,6 @@ g++ PU_hist_calc.cc -o PU_hist_calc
 
 cp PU_weights.txt ../../data/PU_weight/
 
+rm -rf PU_Data_temp.txt
+
 
