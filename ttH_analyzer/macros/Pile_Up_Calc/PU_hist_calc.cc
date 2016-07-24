@@ -32,7 +32,7 @@ int main()
 	{
 		x[i]=i;
 		fin>>PU_MC[i];
-		sum+=PU_MC[i];
+		//sum+=PU_MC[i];
 	}
 	fin.close();
 
@@ -56,7 +56,7 @@ int main()
 			PU_weight[i]=0;
 		else	
 			PU_weight[i] = PU_Data[i]/PU_MC[i];
-		fout<<i+1<<"   "<<PU_weight[i]<<"\n";
+		fout<<x[i]<<"   "<<PU_weight[i]<<"\n";
 	}
 	
 	fout.close();
