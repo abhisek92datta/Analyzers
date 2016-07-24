@@ -30,7 +30,7 @@ int main()
 	fin.open("PU_MC.txt");
 	for(int i=0; i<n; i++)
 	{
-		x[i]=i+1;
+		x[i]=i;
 		fin>>PU_MC[i];
 		sum+=PU_MC[i];
 	}
