@@ -27,11 +27,11 @@
 void PU_data_hist_prod()
 {
 	TFile *f = new TFile("output.root");
-	TH1D *h = (TH1D*)f->Get("pileup");
+	TH1F *h = (TH1F*)f->Get("pileup");
 
-	for(int i=0; i<50; i++)
+	for(int i=1; i<=50; i++)
 	{
-		std::cout<<h->GetBinContent(i+1)<<"\n";
+		std::cout<<h->GetBinContent(i)<<"\n";
 	}
 	return;
 }
