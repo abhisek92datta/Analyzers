@@ -33,5 +33,6 @@ void PU_data_hist_prod()
 	{
 		std::cout<<h->GetBinContent(i)<<"\n";
 	}
+	delete f;
 	return;
 }
