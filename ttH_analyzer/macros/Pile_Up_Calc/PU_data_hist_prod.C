@@ -28,11 +28,14 @@ void PU_data_hist_prod()
 {
 	TFile *f = new TFile("output.root");
 	TH1F *h = (TH1F*)f->Get("pileup");
+	ofstream fout;
+	fout.open("PU_Data.txt");
 
 	for(int i=1; i<=50; i++)
 	{
-		std::cout<<h->GetBinContent(i)<<"\n";
+		fout<<h->GetBinContent(i)<<"\n";
 	}
+	fout.close();
 	delete f;
 	return;
 }
