@@ -4,7 +4,7 @@
 #include "CU_ttH_EDA_Handles.h"
 
 /// Set up handles with getByToken from edm::Event
-void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
+void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token, int isdata)
 {
 	iEvent.getByToken(token.triggerResults, handle.triggerResults);
 	iEvent.getByToken(token.filterResults, handle.filterResults);
@@ -18,6 +18,8 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token)
 	iEvent.getByToken(token.muons, handle.muons);
 	iEvent.getByToken(token.jets, handle.jets);
 	iEvent.getByToken(token.METs, handle.METs);
+	if(!isdata)
+		iEvent.getByToken(token.genjets, handle.genjets);
 	
 	iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 

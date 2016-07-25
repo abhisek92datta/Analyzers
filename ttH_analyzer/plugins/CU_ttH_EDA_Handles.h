@@ -24,8 +24,10 @@
 #include "DataFormats/PatCandidates/interface/Isolation.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/JetReco/interface/GenJetCollection.h"
 #include "PhysicsTools/SelectorUtils/interface/JetIDSelectionFunctor.h"
 #include "PhysicsTools/SelectorUtils/interface/strbitset.h"
+
 
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
 
@@ -80,6 +82,7 @@ struct edm_Handles {
 	Handle<pat::MuonCollection> muons;
 	Handle<pat::JetCollection> jets;
 	Handle<pat::METCollection> METs;
+	Handle<reco::GenJetCollection> genjets;
 
 	Handle<pat::PackedCandidateCollection> PF_candidates;
 
@@ -108,6 +111,7 @@ struct edm_Tokens {
 	EDGetTokenT<pat::MuonCollection> muons;
 	EDGetTokenT<pat::JetCollection> jets;
 	EDGetTokenT<pat::METCollection> METs;
+	EDGetTokenT<reco::GenJetCollection> genjets;
 
 	EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 
@@ -123,6 +127,6 @@ struct edm_Tokens {
 };
 
 /// Set up handles with getByToken from edm::Event
-void Set_up_handles(const Event &, edm_Handles &, edm_Tokens &);
+void Set_up_handles(const Event &, edm_Handles &, edm_Tokens &, int );
 
 #endif

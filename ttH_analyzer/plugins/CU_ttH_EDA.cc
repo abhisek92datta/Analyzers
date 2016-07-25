@@ -155,7 +155,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
-	Set_up_handles(iEvent, handle, token);
+	Set_up_handles(iEvent, handle, token, isdata);
 	
 	// for PDF weight
 	if(!isdata)
@@ -226,8 +226,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 		local.jets_di_corrected = local.jets_di_corrected_JEC;
 	}
 	else {
-		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, *rho, resolution);
-		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, *rho, resolution);
+		local.jets_sl_corrected = GetCorrectedJets_JER(local.jets_sl_corrected_JEC, handle.genjets, *rho, resolution );
+		local.jets_di_corrected = GetCorrectedJets_JER(local.jets_di_corrected_JEC, handle.genjets, *rho, resolution);
 	}
 	// ID selection
 	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected, *(handle.jets));

@@ -128,6 +128,9 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 	    config.getParameter<edm::InputTag>("jets"));
 	token.METs = consumes<pat::METCollection>(
 	    config.getParameter<edm::InputTag>("mets"));
+	if(!isdata)
+		token.genjets = consumes<reco::GenJetCollection>(
+	    	config.getParameter<edm::InputTag>("genjets"));
 	token.PF_candidates = consumes<pat::PackedCandidateCollection>(
 	    config.getParameter<edm::InputTag>("pfcand"));
 	token.BS = consumes<reco::BeamSpot>(

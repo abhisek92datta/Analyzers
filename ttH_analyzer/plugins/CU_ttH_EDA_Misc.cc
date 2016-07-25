@@ -442,7 +442,7 @@ CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double 
 
 // JER
 std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double rho,  JME::JetResolution resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, edm::Handle<reco::GenJetCollection> genjets, double rho,  JME::JetResolution resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -456,29 +456,57 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, double 
       int match_temp2 = 0;
       double dR;
       
-      if( jet.genJet() ){
-      		JME::JetParameters parameters_1;
-		parameters_1.setJetPt(jet.pt());
-		parameters_1.setJetEta(jet.eta());
-		parameters_1.setRho(rho);
-		float res = resolution.getResolution(parameters_1)*jet.pt();
-      		if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
-      			match_temp1 = 1;
-      		dR = miniAODhelper.DeltaR( &jet , jet.genJet() );
+      JME::JetParameters parameters_1;
+	  parameters_1.setJetPt(jet.pt());
+	  parameters_1.setJetEta(jet.eta());
+	  parameters_1.setRho(rho);
+	  float res = resolution.getResolution(parameters_1)*jet.pt();
+	  reco::GenJet matched_genjet;
+	  double dR_min=9999;
+	  
+      for (reco::GenJetCollection::const_iterator iter=genjets->begin();iter!=genjets->end();++iter){
+     		match_temp1 = 0;
+     		match_temp2 = 0; 
+      		dR = miniAODhelper.DeltaR( &jet , iter );
       		if (dR<(0.4/2))
       			match_temp2 = 1;
-      		genjet_match = match_temp1* match_temp2;
+      		if (  fabs(jet.pt()-iter->pt()) < (3*fabs(res))  )
+      			match_temp1 = 1;
+      		
+      		if(match_temp1*match_temp2 == 1) {
+      			if (dR_min == 9999)
+      				matched_genjet = *(iter);
+      			else if (iter->pt() < matched_genjet.pt())
+      				matched_genjet = *(iter);
+      			genjet_match = match_temp1*match_temp2;
+      		}    
       }
-     
+      
+      /*
+      if( jet.genJet() ){
+      	//JME::JetParameters parameters_1;
+		//parameters_1.setJetPt(jet.pt());
+		//parameters_1.setJetEta(jet.eta());
+		//parameters_1.setRho(rho);
+		//float res = resolution.getResolution(parameters_1)*jet.pt();
+      	if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
+      		match_temp1 = 1;
+      	dR = miniAODhelper.DeltaR( &jet , jet.genJet() );
+      	if (dR<(0.4/2))
+      		match_temp2 = 1;
+      	genjet_match = match_temp1* match_temp2;
+      }
+      */
+      
       if(genjet_match == 1){
      		if( iSysType == sysType::JERup ){
-			 jerSF = getJERfactor(uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+			 jerSF = getJERfactor(uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
         	}
         	else if( iSysType == sysType::JERdown ){
-	      		 jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+	      		 jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
         	}
         	else {
-  	      		 jerSF = getJERfactor(0, fabs(jet.eta()), jet.genJet()->pt(), jet.pt());
+  	      		 jerSF = getJERfactor(0, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
 		}
       }
       else if(genjet_match == 0){

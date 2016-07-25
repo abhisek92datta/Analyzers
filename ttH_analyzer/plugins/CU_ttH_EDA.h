@@ -52,6 +52,8 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "DataFormats/Candidate/interface/Candidate.h"
+#include "DataFormats/JetReco/interface/GenJetCollection.h"
+#include "DataFormats/JetReco/interface/GenJet.h"
 
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
@@ -170,7 +172,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&, const std::vector<pat::Jet>&);
 	std::vector<pat::Jet> GetCorrectedJets_JEC(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
-	std::vector<pat::Jet> GetCorrectedJets_JER(const std::vector<pat::Jet>&, double, JME::JetResolution, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	std::vector<pat::Jet> GetCorrectedJets_JER(const std::vector<pat::Jet>&, edm::Handle<reco::GenJetCollection>, double, JME::JetResolution, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
 	double getJERfactor( const int, const double, const double, const double );
 	double GetJetSF( pat::Jet, const sysType::sysType, double);
@@ -179,9 +181,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	
 	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
                        std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
-        void fillCSVHistos(TFile *fileHF, TFile *fileLF);
-        
-        void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm_Handles );
+    void fillCSVHistos(TFile *fileHF, TFile *fileLF);
+       
+    void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm_Handles );
 	void getPDFweight(CU_ttH_EDA_event_vars &, edm::Handle<GenEventInfoProduct> );
 	double getQ2weight( edm::Handle<GenEventInfoProduct>, edm::Handle<LHEEventProduct>, string);
 	
