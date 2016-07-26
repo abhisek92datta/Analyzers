@@ -5,6 +5,8 @@ cd ../
 mv ../../Analyzers .
 mv Analyzers/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
 mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
+echo /PhysicsTools/PatUtils/ >> .git/info/sparse-checkout
+git cms-merge-topic cms-met:metTool80X
 git clone https://github.com/abhisek92datta/MiniAOD.git
 cd MiniAOD
 git checkout CMSSW_8_0_8
