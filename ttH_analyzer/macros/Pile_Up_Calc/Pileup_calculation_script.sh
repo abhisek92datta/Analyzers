@@ -8,6 +8,6 @@ g++ PU_hist_calc.cc -o PU_hist_calc
 
 ./PU_hist_calc
 
-#cp PU_weights.txt ../../data/PU_weight/
+cp PU_weights.txt ../../data/PU_weight/
 
 
