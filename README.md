@@ -22,6 +22,8 @@ chmod 755 Analyzer_run_recipe.sh
 
 cd CMSSW_8_0_12/src/Analyzers/ttH_analyzer/
 
+scram b -j 32
+
 RUN :
 
 For MC :
@@ -36,8 +38,12 @@ To Run Locally:
 To Run on CRAB :
 
 1. remove filename from test/CU_ttH_mc_EDA_cfg.py
-2. put desired MC filename in : crabConfig_analyzer.py
-3. crab submit -c test/CU_ttH_mc_EDA_cfg.py
+2. put desired MC Dataset in : crabConfig_analyzer.py
+3. in crabConfig_analyzer.py : config.Data.splitting = 'FileBased'
+                             : config.Data.unitsPerJob = 10  (put desired number)
+                             : config.Data.outLFNDirBase = '/store/user/abdatta/' (your own storage area)
+                             : config.Site.storageSite = 'T3_US_FNALLPC' (your own storage site)
+4. crab submit -c test/CU_ttH_mc_EDA_cfg.py
 
 For DATA :
 
@@ -53,10 +59,17 @@ To Run on CRAB :
 1. remove filename from test/CU_ttH_data_EDA_cfg.py
 2. put desired DATA filename in : crabConfig_analyzer.py
 3. put LUMI file name in : crabConfig_analyzer.py
-3. crab submit -c test/CU_ttH_data_EDA_cfg.py
+4. in crabConfig_analyzer.py : config.Data.splitting = 'LumiBased'
+                             : config.Data.unitsPerJob = 10  (put desired number)
+                             : config.Data.outLFNDirBase = '/store/user/abdatta/' (your own storage area)
+                             : config.Site.storageSite = 'T3_US_FNALLPC' (your own storage site)
+5. crab submit -c test/CU_ttH_data_EDA_cfg.py
 
 To check CRAB status :
 crab status -d \<crab_output_directory_name\>
+
+To resubmit :
+crab resubmit -d \<crab_output_directory_name\>
 
 
 
