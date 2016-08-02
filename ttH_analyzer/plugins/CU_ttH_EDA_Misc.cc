@@ -815,7 +815,7 @@ double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > 
   	}
   	
   	for(int i=0; i<50; i++){
-  		if(numTruePV < PU_x[i]) {
+  		if(numTruePV < (PU_x[i]+1)) {
   			pu_weight = PU_y[i];
   			break;
   		}	
