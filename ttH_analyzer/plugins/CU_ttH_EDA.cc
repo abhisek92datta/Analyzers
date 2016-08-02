@@ -232,9 +232,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// ID selection
 	local.jets_sl_corrected = CheckJetID(local.jets_sl_corrected, *(handle.jets));
 	local.jets_di_corrected = CheckJetID(local.jets_di_corrected, *(handle.jets));
+	local.jets_sl_corrected_JEC = CheckJetID(local.jets_sl_corrected_JEC, *(handle.jets));
+        local.jets_di_corrected_JEC = CheckJetID(local.jets_di_corrected_JEC, *(handle.jets));
 	// Remove Overlap
 	local.jets_sl_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_sl_corrected, local.mu_veto_selected, local.e_veto_selected, 0.4);
 	local.jets_di_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_di_corrected, local.mu_di_selected, local.e_di_selected, 0.4);
+	local.jets_sl_corrected_JEC = miniAODhelper.GetDeltaRCleanedJets(local.jets_sl_corrected_JEC, local.mu_veto_selected, local.e_veto_selected, 0.4);
+        local.jets_di_corrected_JEC = miniAODhelper.GetDeltaRCleanedJets(local.jets_di_corrected_JEC, local.mu_di_selected, local.e_di_selected, 0.4);
 
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
