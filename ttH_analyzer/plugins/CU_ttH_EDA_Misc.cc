@@ -103,7 +103,7 @@ int CU_ttH_EDA::Check_triggers(edm::Handle<edm::TriggerResults> triggerResults,
 	return 0;
 }
 
-bool CU_ttH_EDA::Check_triggers_iterator(
+inline bool CU_ttH_EDA::Check_triggers_iterator(
 	const vector<string> &triggers,
 	edm::Handle<edm::TriggerResults> triggerResults)
 {
@@ -211,7 +211,7 @@ int CU_ttH_EDA::Check_PV(edm::Handle<reco::VertexCollection> vertices){
 
 /// Other functions
 
-void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
+void CU_ttH_EDA::Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &local)
 {
 	fprintf(events_combined, "%d,%d,%d,", local.run_nr, local.lumisection_nr, local.event_nr);	
 	fprintf(events_combined, "%d,%d,%d,%d,%d,", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
@@ -247,7 +247,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &local)
 		fprintf(events_combined, "-1,-1\n");
 }
 
-void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
+void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
 {
 	fprintf(events_combined, "%d,%d,%d,", local.run_nr, local.lumisection_nr, local.event_nr);
 	fprintf(events_combined, "%d,%d,%d,%d,%d,", local.is_e, local.is_mu, local.is_ee, local.is_emu, local.is_mumu);
@@ -295,7 +295,133 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &local)
 }
 
 
-std::vector<pat::Jet> 
+void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local, const edm_Handles &handle){
+	
+	local.e_with_id = miniAODhelper.GetElectronsWithMVAid(handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
+	// Single Lepton
+	local.mu_selected = miniAODhelper.GetSelectedMuons(
+		*(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04, corrType::deltaBeta, max_mu_eta);
+	local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
+		*(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_veto_mu_eta);
+	local.e_selected = miniAODhelper.GetSelectedElectrons(
+		local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_ele_eta);
+	local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+		local.e_with_id, min_veto_ele_pT, electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+	local.n_electrons = static_cast<int>(local.e_selected.size());
+	local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
+	local.n_muons = static_cast<int>(local.mu_selected.size());
+	local.n_veto_muons = static_cast<int>(local.mu_veto_selected.size());
+	local.n_leptons = local.n_electrons + local.n_muons;
+	
+	// Dilepton
+	local.mu_di_selected = miniAODhelper.GetSelectedMuons(
+		*(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta, max_di_mu2_eta);
+	local.e_di_selected = miniAODhelper.GetSelectedElectrons(
+		local.e_with_id, min_di_ele2_pT, electronID::electronEndOf15MVA80iso0p15, max_di_ele2_eta);
+	local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
+	local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
+	/// Sort leptons by pT
+	local.mu_di_selected_sorted = miniAODhelper.GetSortedByPt(local.mu_di_selected);
+	local.e_di_selected_sorted = miniAODhelper.GetSortedByPt(local.e_di_selected);
+	local.n_di_leptons = local.n_di_electrons + local.n_di_muons;
+
+}
+
+
+void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm_Handles &handle, const double &rho, const JME::JetResolution & resolution) {
+	
+	// Uncorrected jets
+	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
+	
+	// Jet Energy Correction
+	
+	if(isdata)
+		doJER = 0;
+	else 
+		doJER = 1;
+		
+	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution );	
+	
+	// ID selection
+	local.jets_corrected = CheckJetID(local.jets_corrected, *(handle.jets));
+	local.jets_raw = CheckJetID(local.jets_raw, *(handle.jets));
+	
+	// Remove Overlap
+	local.jets_sl_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_corrected, local.mu_veto_selected, local.e_veto_selected, 0.4);
+	local.jets_di_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_corrected, local.mu_di_selected, local.e_di_selected, 0.4);
+    local.jets_sl_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_veto_selected, local.e_veto_selected, 0.4);
+    local.jets_di_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_di_selected, local.e_di_selected, 0.4);
+
+	// for b-weight
+	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
+	
+	// Jet selection
+	index.clear();
+	i=0;
+	for ( auto& jet : local.jets_sl_corrected) {
+		if ( (jet.pt() > min_jet_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
+			local.jets_sl_selected.push_back(jet);	
+			index.push_back(i);
+		}
+		i++;
+	}
+	if(index.size()!=0) {
+		for (int j : index) {
+			local.jets_sl_selected_raw.push_back(local.jets_sl_raw[j]);
+		}
+	}
+	index.clear();
+	i=0;
+	for ( auto& jet : local.jets_di_corrected) {
+		if ( (jet.pt() > min_jet2_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
+			local.jets_di_selected.push_back(jet);	
+			index.push_back(i);
+		}
+		i++;
+	}
+	if(index.size()!=0) {
+		for (int j : index) {
+			local.jets_di_selected_raw.push_back(local.jets_di_raw[j]);
+		}
+	}
+
+	// b-tagged jet selection
+	local.jets_sl_selected_tag = miniAODhelper.GetSelectedJets(
+		local.jets_sl_selected, min_bjet_pT, max_bjet_eta, jetID::none,
+		MAODHelper_b_tag_strength);
+	local.jets_di_selected_tag = miniAODhelper.GetSelectedJets(
+		local.jets_di_selected, min_bjet_pT, max_bjet_eta, jetID::none,
+		MAODHelper_b_tag_strength);
+
+	local.n_sl_jets = static_cast<int>(local.jets_sl_selected.size());
+	local.n_sl_btags = static_cast<int>(local.jets_sl_selected_tag.size());
+	local.n_di_jets = static_cast<int>(local.jets_di_selected.size());
+	local.n_di_btags = static_cast<int>(local.jets_di_selected_tag.size());
+	
+	/// Sort jets by pT
+	local.jets_sl_selected_sorted =
+		miniAODhelper.GetSortedByPt(local.jets_sl_selected);
+	local.jets_sl_selected_tag_sorted =
+		miniAODhelper.GetSortedByPt(local.jets_sl_selected_tag);
+		
+	local.jets_di_selected_sorted =
+		miniAODhelper.GetSortedByPt(local.jets_di_selected);
+	local.jets_di_selected_tag_sorted =
+		miniAODhelper.GetSortedByPt(local.jets_di_selected_tag);
+
+}
+
+void CU_ttH_EDA::Init_Mets(CU_ttH_EDA_event_vars &local, const edm_Handles &handle) {
+
+	local.pfMET = handle.METs->front();
+	local.met_pt = local.pfMET.pt();
+        local.met_phi = local.pfMET.phi();
+	local.met_passed = 0;
+	local.mll_passed = 0;
+
+}
+
+inline std::vector<pat::Jet> 
 CU_ttH_EDA::CheckJetID (const std::vector<pat::Jet>& inputJets, const std::vector<pat::Jet>& inputJets_old) {
     std::vector<pat::Jet> outputJets;
     bool loose = false;
@@ -366,8 +492,8 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType){
     }
 }
 
-double
-CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho) {
+inline double
+CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, const double &rho) {
 	double scale = 1;
 	_jetCorrector->setJetPt(jet.pt());
     	_jetCorrector->setJetEta(jet.eta());
@@ -398,9 +524,9 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, double rho)
 }
 
 
-//JEC
-std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+
+inline std::vector<pat::Jet> 
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Handle<reco::GenJetCollection>& genjets, const double &rho,  const JME::JetResolution &resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -408,6 +534,8 @@ CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double 
     
     pat::Jet jet = (*it);
     double scale = 1.;
+
+	// JEC
 
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
@@ -433,23 +561,9 @@ CU_ttH_EDA::GetCorrectedJets_JEC(const std::vector<pat::Jet>& inputJets, double 
 
       jet.scaleEnergy( jes );
     }
-    
-    outputJets.push_back(jet);
-  }
-
-  return outputJets;
-}
-
-// JER
-std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, edm::Handle<reco::GenJetCollection> genjets, double rho,  JME::JetResolution resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
-	
-  std::vector<pat::Jet> outputJets;
-
-  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
-    
-    pat::Jet jet = (*it);
-
+ 
+  //JER
+    if(doJER==1) {
       double jerSF = 1.;
       int genjet_match = 0;
       int match_temp1 = 0;
@@ -482,25 +596,9 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, edm::Ha
       		}    
       }
       
-      /*
-      if( jet.genJet() ){
-      	//JME::JetParameters parameters_1;
-		//parameters_1.setJetPt(jet.pt());
-		//parameters_1.setJetEta(jet.eta());
-		//parameters_1.setRho(rho);
-		//float res = resolution.getResolution(parameters_1)*jet.pt();
-      	if (  fabs(jet.pt()-jet.genJet()->pt()) < (3*fabs(res))  )
-      		match_temp1 = 1;
-      	dR = miniAODhelper.DeltaR( &jet , jet.genJet() );
-      	if (dR<(0.4/2))
-      		match_temp2 = 1;
-      	genjet_match = match_temp1* match_temp2;
-      }
-      */
-      
       if(genjet_match == 1){
      		if( iSysType == sysType::JERup ){
-			 jerSF = getJERfactor(uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
+			     jerSF = getJERfactor(uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
         	}
         	else if( iSysType == sysType::JERdown ){
 	      		 jerSF = getJERfactor(-uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
@@ -515,7 +613,7 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, edm::Ha
       		jerSF = 1;
       }
       jet.scaleEnergy( jerSF*corrFactor );
-    
+    }
     outputJets.push_back(jet);
   }
 
@@ -523,8 +621,7 @@ CU_ttH_EDA::GetCorrectedJets_JER(const std::vector<pat::Jet>& inputJets, edm::Ha
 }
 
 // JER factors for 80X
-// Use miniAODHelper's function for 74X factors
-double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
+inline double CU_ttH_EDA::getJERfactor( const int returnType, const double jetAbsETA, const double genjetPT, const double recojetPT){
 
   double factor = 1.;
     
@@ -706,7 +803,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
-void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_Handles handle) {
+void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle) {
 	
 	if (local.event_selection_SL!=0) {
 		int jet_index = 0;
@@ -814,7 +911,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, double rho, edm_H
 	}
 }
 
-double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > PupInfo  )
+inline double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > PupInfo  )
 {
 	double pu_weight = -1;
 	double numTruePV = -1;
@@ -836,7 +933,7 @@ double CU_ttH_EDA::getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > > 
 	return pu_weight;
 }
 
-double CU_ttH_EDA::getQ2weight( edm::Handle<GenEventInfoProduct> event_gen_info , edm::Handle<LHEEventProduct> EvtHandle, string ud) {
+inline double CU_ttH_EDA::getQ2weight( const edm::Handle<GenEventInfoProduct> &event_gen_info , const edm::Handle<LHEEventProduct> &EvtHandle, const string &ud) {
 	double theWeight;
 	theWeight = event_gen_info->weight();
 	unsigned int i;
@@ -1010,7 +1107,7 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts, std::vector<double> 
   return csvWgtTotal;
 }
 
-void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
+inline void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 	double csvWgtHF, csvWgtLF, csvWgtCF;
 	csvWgtHF = csvWgtLF = csvWgtCF = 0;
 	
@@ -1040,7 +1137,7 @@ void CU_ttH_EDA::getbweight (CU_ttH_EDA_event_vars &local) {
 }
 
 
-void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, edm::Handle<GenEventInfoProduct> genInfos) {
+inline void CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local, const edm::Handle<GenEventInfoProduct> &genInfos) {
 
 auto pdfInfos = genInfos->pdf();
 double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;

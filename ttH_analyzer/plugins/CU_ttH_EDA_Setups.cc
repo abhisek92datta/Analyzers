@@ -4,6 +4,37 @@
 /// Includes
 #include "CU_ttH_EDA.h"
 
+
+void CU_ttH_EDA::Set_up_weights()
+{
+	Set_up_b_weights();	
+	init_PU_weight();
+	init_PDF_weight();
+}
+
+void CU_ttH_EDA::init_weights(CU_ttH_EDA_event_vars &local)
+{
+	local.PU_weight = -1;
+	local.pdf_weight_up = -1;
+	local.pdf_weight_down = -1;
+	local.q2_weight_up = -1;
+	local.q2_weight_down = -1;
+}
+
+void CU_ttH_EDA::init_flags(CU_ttH_EDA_event_vars &local)
+{
+	local.is_e = false;
+	local.is_mu = false;
+	local.is_ee = false;
+	local.is_emu = false;
+	local.is_mumu = false;
+
+	// flag for determining whether to select an event for writing
+	local.event_selection_SL = false;
+	local.event_selection_DL = false;
+}
+
+
 void CU_ttH_EDA::init_PU_weight()
 {
 	ifstream fin;

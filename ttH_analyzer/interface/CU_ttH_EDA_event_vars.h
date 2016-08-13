@@ -72,8 +72,7 @@ struct CU_ttH_EDA_event_vars {
 	std::vector<pat::Muon> mu_di_selected_sorted;
 	
 	std::vector<pat::Jet> jets_raw;
-	std::vector<pat::Jet> jets_no_mu;
-	std::vector<pat::Jet> jets_no_mu_e;
+	std::vector<pat::Jet> jets_corrected;
 	
 	std::vector<pat::Jet> jets_sl_raw;
 	std::vector<pat::Jet> jets_sl_corrected;

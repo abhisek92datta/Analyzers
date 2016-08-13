@@ -168,33 +168,46 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int Check_PV(edm::Handle<reco::VertexCollection>);   // check primary vertex
 
 	// trigger iterator, part of Check_triggers()
-	bool Check_triggers_iterator(const vector<string> &, edm::Handle<edm::TriggerResults>);
+	inline bool Check_triggers_iterator(const vector<string> &, edm::Handle<edm::TriggerResults>);
 	
-	std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&, const std::vector<pat::Jet>&);
-	std::vector<pat::Jet> GetCorrectedJets_JEC(const std::vector<pat::Jet>&, double, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
-	std::vector<pat::Jet> GetCorrectedJets_JER(const std::vector<pat::Jet>&, edm::Handle<reco::GenJetCollection>, double, JME::JetResolution, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	// Jet operations
+	inline std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&, const std::vector<pat::Jet>&);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
-	double getJERfactor( const int, const double, const double, const double );
-	double GetJetSF( pat::Jet, const sysType::sysType, double);
-	void getbweight (CU_ttH_EDA_event_vars &);
-	double getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > >  );
+	inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const edm::Handle<reco::GenJetCollection>&, const double &, const JME::JetResolution &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	inline double getJERfactor( const int, const double, const double, const double );
+	inline double GetJetSF( pat::Jet, const sysType::sysType, const double &);
 	
-	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
-                       std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
-    void fillCSVHistos(TFile *fileHF, TFile *fileLF);
-       
-    void Fill_addn_quant(CU_ttH_EDA_event_vars &, double, edm_Handles );
-	void getPDFweight(CU_ttH_EDA_event_vars &, edm::Handle<GenEventInfoProduct> );
-	double getQ2weight( edm::Handle<GenEventInfoProduct>, edm::Handle<LHEEventProduct>, string);
+	// Object Selection functions
+	void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
+	void Select_Jets(CU_ttH_EDA_event_vars &, const edm_Handles &, const double &, const JME::JetResolution &);
+	void Init_Mets(CU_ttH_EDA_event_vars &, const edm_Handles &);
 	
-	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
-	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
+	// Initialization functions
+	void init_flags(CU_ttH_EDA_event_vars &);
 	void init_PU_weight();
 	void init_PDF_weight();
-
+	void init_weights(CU_ttH_EDA_event_vars &);
+	
+	// Event Selection functions
+	void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
+	void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
+	
+	// Weights
+	void Set_up_weights();
+	
+	void fillCSVHistos(TFile *fileHF, TFile *fileLF);
+	double getCSVWeight(std::vector<double> jetPts, std::vector<double> jetEtas, std::vector<double> jetCSVs,
+                       std::vector<int> jetFlavors, int iSys, double &csvWgtHF, double &csvWgtLF, double &csvWgtCF);
+	inline void getbweight (CU_ttH_EDA_event_vars &);
+	
+	inline double getPUweight ( edm::Handle<std::vector< PileupSummaryInfo > >  );
+	inline void getPDFweight(CU_ttH_EDA_event_vars &, const edm::Handle<GenEventInfoProduct> & );
+	inline double getQ2weight( const edm::Handle<GenEventInfoProduct> &, const edm::Handle<LHEEventProduct> &, const string &);
+	
 	/// Other functions
-	void Check_Fill_Print_single_lepton(CU_ttH_EDA_event_vars &);
-	void Check_Fill_Print_di_lepton(CU_ttH_EDA_event_vars &);
+	void Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &);
+	void Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &);
+	void Fill_addn_quant(CU_ttH_EDA_event_vars &, const double &, const edm_Handles & );
 
 	template <typename T1, typename T2>
 		std::vector<T1>
@@ -288,12 +301,15 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	float min_di_mll;
 	float min_di_met;
 	
-	// for JEC
+	// for JEC, JER and JEC_SF calc
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
+	int doJER;
 
 	int i;
 	std::vector<int> index;
+	
+	// 4 momentum
 	
 	double E;
 	double p;
@@ -323,6 +339,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	int MAODHelper_sample_nr; // past insample_, in-development var. for
 							  // MAODHelper?
 	std::string MAODHelper_era;
+
+	// for PU weight
 
 	int PU_x[100];
 	double PU_y[100];
