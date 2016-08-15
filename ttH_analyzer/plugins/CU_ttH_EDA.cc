@@ -99,7 +99,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	Set_up_output_files();
 	
 	// For Jet Correction
-	SetFactorizedJetCorrector();
+	SetFactorizedJetCorrector();	
+	miniAODhelper.SetJetCorrectorUncertainty();
 
 	Set_up_Tree();
 	Set_up_weights();
@@ -146,12 +147,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	local.pass_elemu = false;
 	Update_common_vars(iEvent, local);
 	
-	//if (local.event_nr != 1785772 )
+	//if (local.event_nr != 2735673 )
 	//	return;
 
 	/// Create and set up edm:Handles in stack mem.
 	edm_Handles handle;
 	Set_up_handles(iEvent, handle, token, isdata);
+	
+	// for JEC
+	const JetCorrector* corrector = JetCorrector::getJetCorrector( "ak4PFchsL1L2L3", iSetup );   
+	miniAODhelper.SetJetCorrector(corrector);
 	
 	// for PDF weight
 	if(!isdata)
@@ -184,7 +189,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	Select_Leptons(local, handle);
 	
 	/// Jet selection
-	Select_Jets(local, handle, *rho, resolution);
+	Select_Jets(local, iEvent, iSetup, handle, *rho, resolution);
 	
 	/// MET
 	Init_Mets(local, handle);
@@ -204,14 +209,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	
 	/// Check tags, fill ntuple, print events
 	if (local.event_selection_SL!=0) {
-		Fill_addn_quant(local, *rho, handle);
+		Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
 		Check_Fill_Print_single_lepton(local);
 		hbbNtuple.initialize();
 		hbbNtuple.write_ntuple_SL(local, miniAODhelper);
 		eventTree->Fill();	
 	}
 	else if (local.event_selection_DL!=0) {
-		Fill_addn_quant(local, *rho, handle);
+		Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
 		Check_Fill_Print_di_lepton(local);
 		hbbNtuple.initialize();
 		hbbNtuple.write_ntuple_DL(local, miniAODhelper);

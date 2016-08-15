@@ -21,6 +21,23 @@ process.maxEvents = cms.untracked.PSet(
 	input = cms.untracked.int32(-1)
 )
 
+process.ak4PFCHSL1Fastjet = cms.ESProducer(
+    'L1FastjetCorrectionESProducer',
+    level       = cms.string('L1FastJet'),
+    algorithm   = cms.string('AK4PFchs'),
+    srcRho      = cms.InputTag( 'fixedGridRhoFastjetAll' )
+    )
+
+process.ak4PFchsL2Relative = ak4CaloL2Relative.clone( algorithm = 'AK4PFchs' )
+process.ak4PFchsL3Absolute = ak4CaloL3Absolute.clone( algorithm = 'AK4PFchs' )
+
+process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
+    correctors = cms.vstring(
+	'ak4PFCHSL1Fastjet', 
+    'ak4PFchsL2Relative', 
+    'ak4PFchsL3Absolute')
+)
+
 #process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring())
 
 process.source = cms.Source("PoolSource",

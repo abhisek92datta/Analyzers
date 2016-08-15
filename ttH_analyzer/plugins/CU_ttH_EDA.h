@@ -173,13 +173,13 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// Jet operations
 	inline std::vector<pat::Jet> CheckJetID (const std::vector<pat::Jet>&, const std::vector<pat::Jet>&);
 	void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
-	inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const edm::Handle<reco::GenJetCollection>&, const double &, const JME::JetResolution &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+	inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const edm::Handle<reco::GenJetCollection>&, const double &, const JME::JetResolution &, const sysType::sysType iSysType=sysType::NA, const int & doJES = 1, const int & doJER = 1, const float& corrFactor = 1, const float& uncFactor = 1);
 	inline double getJERfactor( const int, const double, const double, const double );
 	inline double GetJetSF( pat::Jet, const sysType::sysType, const double &);
 	
 	// Object Selection functions
 	void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
-	void Select_Jets(CU_ttH_EDA_event_vars &, const edm_Handles &, const double &, const JME::JetResolution &);
+	void Select_Jets(CU_ttH_EDA_event_vars &, const edm::Event&, const edm::EventSetup&, const edm_Handles &, const double &, const JME::JetResolution &);
 	void Init_Mets(CU_ttH_EDA_event_vars &, const edm_Handles &);
 	
 	// Initialization functions
@@ -207,7 +207,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	/// Other functions
 	void Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &);
 	void Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &);
-	void Fill_addn_quant(CU_ttH_EDA_event_vars &, const double &, const edm_Handles & );
+	void Fill_addn_quant(CU_ttH_EDA_event_vars &, const edm::Event & , const edm::EventSetup & , const double &, const edm_Handles & );
 
 	template <typename T1, typename T2>
 		std::vector<T1>
@@ -304,7 +304,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	// for JEC, JER and JEC_SF calc
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
-	int doJER;
+	//const JetCorrector* corrector;
 
 	int i;
 	std::vector<int> index;

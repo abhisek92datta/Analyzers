@@ -328,19 +328,56 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local, const edm_Handles 
 }
 
 
-void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm_Handles &handle, const double &rho, const JME::JetResolution & resolution) {
+void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm_Handles &handle, const double &rho, const JME::JetResolution & resolution) {
 	
 	// Uncorrected jets
 	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
 	
 	// Jet Energy Correction
 	
+	int doJER;
 	if(isdata)
 		doJER = 0;
 	else 
 		doJER = 1;
-		
-	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution );	
+	/*	
+	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, 0 );	
+	std::cout<<"My JEC\n";
+	for ( auto& jet : local.jets_corrected) {
+		std::cout<<jet.pt()<<"\n";
+	}
+	std::cout<<"\n";
+	
+	local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, 0);
+	std::cout<<"MiniAOD JEC\n";
+	for ( auto& jet : local.jets_corrected) {
+		std::cout<<jet.pt()<<"\n";
+	}
+	std::cout<<"\n";
+	*/
+	//std::cout<<"My\n";
+	//local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );	
+	/*
+	std::cout<<"My JEC & JER\n";
+	for ( auto& jet : local.jets_corrected) {
+		std::cout<<jet.pt()<<"\n";
+	}
+	std::cout<<"\n";
+	*/
+	//std::cout<<"\nMiniAOD\n";
+	//local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, doJER);
+	//std::cout<<"MiniAOD JEC & JER\n";
+	//for ( auto& jet : local.jets_corrected) {
+		//if(jet.genJet())
+		//	std::cout<<jet.pt()<<"  "<<jet.eta()<<"   "<<jet.genJet()<<"  "<<miniAODhelper.DeltaR(&jet,jet.genJet())<<"  "<<miniAODhelper.jetdPtMatched(jet)<<"\n";
+		//else 
+		//	std::cout<<"none\n";
+	//}
+	//std::cout<<"\n";
+	
+	
+	local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, doJER);
+	
 	
 	// ID selection
 	local.jets_corrected = CheckJetID(local.jets_corrected, *(handle.jets));
@@ -526,7 +563,7 @@ CU_ttH_EDA::GetJetSF( pat::Jet jet, const sysType::sysType iSysType, const doubl
 
 
 inline std::vector<pat::Jet> 
-CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Handle<reco::GenJetCollection>& genjets, const double &rho,  const JME::JetResolution &resolution, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::Handle<reco::GenJetCollection>& genjets, const double &rho,  const JME::JetResolution &resolution, const sysType::sysType iSysType, const int & doJES, const int &doJER, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -595,7 +632,8 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::
       			genjet_match = match_temp1*match_temp2;
       		}    
       }
-      
+      //if(genjet_match==1)
+      //	std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<rho<<"  "<<matched_genjet.pt()<<"  "<<(3*fabs(res))<<"\n";
       if(genjet_match == 1){
      		if( iSysType == sysType::JERup ){
 			     jerSF = getJERfactor(uncFactor, fabs(jet.eta()), matched_genjet.pt(), jet.pt());
@@ -613,6 +651,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::
       		jerSF = 1;
       }
       jet.scaleEnergy( jerSF*corrFactor );
+
     }
     outputJets.push_back(jet);
   }
@@ -803,7 +842,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local){
 	}
 }
 
-void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle) {
+void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, const edm::Event& iEvent, const edm::EventSetup& iSetup, const double &rho, const edm_Handles &handle) {
 	
 	if (local.event_selection_SL!=0) {
 		int jet_index = 0;
@@ -816,9 +855,15 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, const double &rho
 		}
 		// Jet SF
 		pat::Jet jet = local.jets_sl_selected_raw[jet_index];
+		local.jet1SF_sl = miniAODhelper.GetJetCorrectionFactor(jet, iEvent, iSetup, sysType::NA, 1, 0);
+		local.jet1SF_up_sl = miniAODhelper.GetJetCorrectionFactor(jet,iEvent, iSetup, sysType::JESup, 1, 0)/local.jet1SF_sl;
+		local.jet1SF_down_sl = miniAODhelper.GetJetCorrectionFactor(jet,iEvent, iSetup, sysType::JESdown, 1, 0)/local.jet1SF_sl;
+		
+		/*
 		local.jet1SF_sl = GetJetSF(jet,sysType::NA, rho);
 		local.jet1SF_up_sl = GetJetSF(jet,sysType::JESup, rho);
 		local.jet1SF_down_sl = GetJetSF(jet,sysType::JESdown, rho);
+		*/
 		
 		// to get b-weight
 		getbweight(local);
@@ -866,9 +911,16 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local, const double &rho
 		}
 		// Jet SF
 		pat::Jet jet = local.jets_di_selected_raw[jet_index];
+		
+		local.jet1SF_di = miniAODhelper.GetJetCorrectionFactor(jet, iEvent, iSetup, sysType::NA, 1, 0);
+		local.jet1SF_up_di = miniAODhelper.GetJetCorrectionFactor(jet,iEvent, iSetup, sysType::JESup, 1, 0)/local.jet1SF_di;
+		local.jet1SF_down_di = miniAODhelper.GetJetCorrectionFactor(jet,iEvent, iSetup, sysType::JESdown, 1, 0)/local.jet1SF_di;
+
+		/*
 		local.jet1SF_di = GetJetSF(jet,sysType::NA, rho);
 		local.jet1SF_up_di = GetJetSF(jet,sysType::JESup, rho);
 		local.jet1SF_down_di = GetJetSF(jet,sysType::JESdown, rho);
+		*/
 
 		// to get b-weight
 		getbweight(local);
