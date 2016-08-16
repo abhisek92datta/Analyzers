@@ -542,7 +542,8 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::
     double scale = 1.;
 
 	// JEC
-
+     if (doJES==1){
+     	
     _jetCorrector->setJetPt(jet.pt());
     _jetCorrector->setJetEta(jet.eta());
     _jetCorrector->setJetA(jet.jetArea());
@@ -567,7 +568,7 @@ CU_ttH_EDA::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const edm::
 
       jet.scaleEnergy( jes );
     }
- 
+  }
   //JER
     if(doJER==1) {
       double jerSF = 1.;
