@@ -340,43 +340,12 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm::Event& iEv
 		doJER = 0;
 	else 
 		doJER = 1;
-	/*	
-	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, 0 );	
-	std::cout<<"My JEC\n";
-	for ( auto& jet : local.jets_corrected) {
-		std::cout<<jet.pt()<<"\n";
-	}
-	std::cout<<"\n";
+
+	// using my jet correction function
+	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );
 	
-	local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, 0);
-	std::cout<<"MiniAOD JEC\n";
-	for ( auto& jet : local.jets_corrected) {
-		std::cout<<jet.pt()<<"\n";
-	}
-	std::cout<<"\n";
-	*/
-	//std::cout<<"My\n";
-	//local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );	
-	/*
-	std::cout<<"My JEC & JER\n";
-	for ( auto& jet : local.jets_corrected) {
-		std::cout<<jet.pt()<<"\n";
-	}
-	std::cout<<"\n";
-	*/
-	//std::cout<<"\nMiniAOD\n";
+	// using MiniAODHelper's jet correction function
 	//local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, doJER);
-	//std::cout<<"MiniAOD JEC & JER\n";
-	//for ( auto& jet : local.jets_corrected) {
-		//if(jet.genJet())
-		//	std::cout<<jet.pt()<<"  "<<jet.eta()<<"   "<<jet.genJet()<<"  "<<miniAODhelper.DeltaR(&jet,jet.genJet())<<"  "<<miniAODhelper.jetdPtMatched(jet)<<"\n";
-		//else 
-		//	std::cout<<"none\n";
-	//}
-	//std::cout<<"\n";
-	
-	
-	local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, doJER);
 	
 	
 	// ID selection
