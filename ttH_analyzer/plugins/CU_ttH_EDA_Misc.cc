@@ -330,8 +330,16 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local, const edm_Handles 
 
 void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm_Handles &handle, const double &rho, const JME::JetResolution & resolution) {
 	
+	// ID Check
+	local.jets_raw = miniAODhelper.GetSelectedJets(*(handle.jets),0.,999,jetID::jetTight,'-');
+	
+	// Overlap removal 
+	local.jets_sl_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_veto_selected, local.e_veto_selected, 0.4);
+    	local.jets_di_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_di_selected, local.e_di_selected, 0.4);
+	
 	// Uncorrected jets
-	local.jets_raw = miniAODhelper.GetUncorrectedJets(*(handle.jets));
+	local.jets_sl_raw = miniAODhelper.GetUncorrectedJets(local.jets_sl_raw);
+	local.jets_di_raw = miniAODhelper.GetUncorrectedJets(local.jets_di_raw);
 	
 	// Jet Energy Correction
 	
@@ -342,52 +350,31 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local, const edm::Event& iEv
 		doJER = 1;
 
 	// using my jet correction function
-	local.jets_corrected = GetCorrectedJets(local.jets_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );
+	local.jets_sl_corrected = GetCorrectedJets(local.jets_sl_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );	
+	local.jets_di_corrected = GetCorrectedJets(local.jets_di_raw, handle.genjets, rho, resolution, sysType::NA, 1, doJER );
 	
 	// using MiniAODHelper's jet correction function
-	//local.jets_corrected = miniAODhelper.GetCorrectedJets(local.jets_raw, iEvent, iSetup, sysType::NA, 1, doJER);
+	//local.jets_sl_corrected = miniAODhelper.GetCorrectedJets(local.jets_sl_raw, iEvent, iSetup, sysType::NA, 1, doJER);
+	//local.jets_di_corrected = miniAODhelper.GetCorrectedJets(local.jets_di_raw, iEvent, iSetup, sysType::NA, 1, doJER);
 	
-	
-	// ID selection
-	local.jets_corrected = CheckJetID(local.jets_corrected, *(handle.jets));
-	local.jets_raw = CheckJetID(local.jets_raw, *(handle.jets));
-	
-	// Remove Overlap
-	local.jets_sl_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_corrected, local.mu_veto_selected, local.e_veto_selected, 0.4);
-	local.jets_di_corrected = miniAODhelper.GetDeltaRCleanedJets(local.jets_corrected, local.mu_di_selected, local.e_di_selected, 0.4);
-    local.jets_sl_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_veto_selected, local.e_veto_selected, 0.4);
-    local.jets_di_raw = miniAODhelper.GetDeltaRCleanedJets(local.jets_raw, local.mu_di_selected, local.e_di_selected, 0.4);
-
 	// for b-weight
 	local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8		
 	
-	// Jet selection
-	index.clear();
-	i=0;
-	for ( auto& jet : local.jets_sl_corrected) {
-		if ( (jet.pt() > min_jet_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
-			local.jets_sl_selected.push_back(jet);	
-			index.push_back(i);
-		}
-		i++;
-	}
-	if(index.size()!=0) {
-		for (int j : index) {
-			local.jets_sl_selected_raw.push_back(local.jets_sl_raw[j]);
+	// Jet Selection
+	local.jets_sl_selected = miniAODhelper.GetSelectedJets(local.jets_sl_corrected,min_jet_pT,max_jet_eta,jetID::none,'-');
+	local.jets_di_selected = miniAODhelper.GetSelectedJets(local.jets_di_corrected,min_jet2_pT,max_jet_eta,jetID::none,'-');
+
+	// Storing selected raw jets for JEC SF calculation
+	
+	for(unsigned int j=0; j<local.jets_sl_corrected.size(); j++) {
+		if ( (local.jets_sl_corrected[j].pt() > min_jet_pT ) && (fabs(local.jets_sl_corrected[j].eta()) < max_jet_eta ) ) {
+			local.jets_sl_selected_raw.push_back(local.jets_sl_raw[j]);	
 		}
 	}
-	index.clear();
-	i=0;
-	for ( auto& jet : local.jets_di_corrected) {
-		if ( (jet.pt() > min_jet2_pT ) && (fabs(jet.eta()) < max_jet_eta ) ) {
-			local.jets_di_selected.push_back(jet);	
-			index.push_back(i);
-		}
-		i++;
-	}
-	if(index.size()!=0) {
-		for (int j : index) {
-			local.jets_di_selected_raw.push_back(local.jets_di_raw[j]);
+	
+	for(unsigned int j=0; j<local.jets_di_corrected.size(); j++) {
+		if ( (local.jets_di_corrected[j].pt() > min_jet2_pT ) && (fabs(local.jets_di_corrected[j].eta()) < max_jet_eta ) ) {
+			local.jets_di_selected_raw.push_back(local.jets_di_raw[j]);	
 		}
 	}
 
