@@ -305,9 +305,6 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 	FactorizedJetCorrector* _jetCorrector;
 	JetCorrectionUncertainty* _jetCorrectorUnc;
 	//const JetCorrector* corrector;
-
-	int i;
-	std::vector<int> index;
 	
 	// 4 momentum
 	
