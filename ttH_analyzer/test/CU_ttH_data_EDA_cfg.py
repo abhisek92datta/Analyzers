@@ -45,7 +45,7 @@ process.source = cms.Source("PoolSource",
 	fileNames = cms.untracked.vstring(
         ## Single Electron
         #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/150/00000/0A6284C7-D719-E611-93E6-02163E01421D.root',
-        #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/06277EC1-181A-E611-870F-02163E0145E5.root',
+        '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/06277EC1-181A-E611-870F-02163E0145E5.root',
         #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0A7BD549-131A-E611-8287-02163E0134FC.root',
         #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0C65F947-0F1A-E611-A1E6-02163E0144EA.root',
         #'/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/1CCC1100-0E1A-E611-98C7-02163E014332.root',
@@ -58,7 +58,7 @@ process.source = cms.Source("PoolSource",
         ## Single Muon
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/150/00000/34A57FB8-D819-E611-B0A4-02163E0144EE.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/02D9C19F-571A-E611-AD8E-02163E013732.root',
-        '/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/18383F36-2E1A-E611-8C57-02163E014186.root',
+        #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/18383F36-2E1A-E611-8C57-02163E014186.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/1AF0711C-241A-E611-AC07-02163E0141E1.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/2096A6AC-261A-E611-99BD-02163E01355E.root',
         #'/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/2226C1A1-571A-E611-B1E2-02163E013441.root',
@@ -109,13 +109,13 @@ process.source = cms.Source("PoolSource",
 import FWCore.PythonUtilities.LumiList as LumiList
 process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 
-from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-runMetCorAndUncFromMiniAOD(process,
-    isData     = True,
-    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt",
-    postfix    = "Recorrected",
-    jetFlavor  = "AK4PFchs"
-)
+#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+#runMetCorAndUncFromMiniAOD(process,
+#    isData     = True,
+#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt",
+#    postfix    = "Recorrected",
+#    jetFlavor  = "AK4PFchs"
+#)
 
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
