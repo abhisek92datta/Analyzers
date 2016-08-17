@@ -49,13 +49,13 @@ process.source = cms.Source("PoolSource",
         )
 )
 
-from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-runMetCorAndUncFromMiniAOD(process,
-    isData     = False,
-    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt",
-    postfix    = "Recorrected",
-    jetFlavor  = "AK4PFchs"
-)
+#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+#runMetCorAndUncFromMiniAOD(process,
+#    isData     = False,
+#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt",
+#    postfix    = "Recorrected",
+#    jetFlavor  = "AK4PFchs"
+#)
 
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
