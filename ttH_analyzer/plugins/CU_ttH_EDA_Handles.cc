@@ -18,8 +18,7 @@ void Set_up_handles(const Event &iEvent, edm_Handles &handle, edm_Tokens &token,
 	iEvent.getByToken(token.muons, handle.muons);
 	iEvent.getByToken(token.jets, handle.jets);
 	iEvent.getByToken(token.METs, handle.METs);
-	if(!isdata)
-		iEvent.getByToken(token.genjets, handle.genjets);
+	iEvent.getByToken(token.genjets, handle.genjets);
 	
 	iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 
