@@ -9,7 +9,7 @@ mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 #git cms-merge-topic cms-met:metTool80X
 git clone https://github.com/abhisek92datta/MiniAOD.git
 cd MiniAOD
-git checkout CMSSW_8_0_8
+git checkout CMSSW_8_0_8_LeptonSF_updated
 cd ..
 scram b -j 32
 scram b -j 32
