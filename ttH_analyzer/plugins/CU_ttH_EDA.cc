@@ -100,7 +100,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig):
 	
 	// For Jet Correction
 	SetFactorizedJetCorrector();	
-	miniAODhelper.SetJetCorrectorUncertainty();
+	//miniAODhelper.SetJetCorrectorUncertainty();
 
 	Set_up_Tree();
 	Set_up_weights();
@@ -157,6 +157,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 	// for JEC
 	const JetCorrector* corrector = JetCorrector::getJetCorrector( "ak4PFchsL1L2L3", iSetup );   
 	miniAODhelper.SetJetCorrector(corrector);
+	miniAODhelper.SetJetCorrectorUncertainty(iSetup);
 	
 	// for PDF weight
 	if(!isdata)
