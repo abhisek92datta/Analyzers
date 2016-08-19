@@ -63,7 +63,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
   n_btags = local.n_sl_btags;
 
   // MET/MHT
-  PFMET =
+  PFMETpt =
       local.pfMET
           .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
   PFMETphi = local.pfMET.phi();
@@ -91,7 +91,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
   n_btags = local.n_di_btags;
 
   // MET/MHT
-  PFMET =
+  PFMETpt =
       local.pfMET
           .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
   PFMETphi = local.pfMET.phi();
@@ -483,7 +483,7 @@ void CU_ttH_EDA_Ntuple::initialize() {
   jet3_E = -9999.;
   jet3_CSV = -9999.;
   // MET
-  PFMET = -9999.;
+  PFMETpt = -9999.;
   PFMETphi = -9999.;
 }
 
@@ -649,7 +649,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("jet3_E", &jet3_E);
   tree->Branch("jet3_CSV", &jet3_CSV);
   // MET
-  tree->Branch("PFMET", &PFMET);
+  tree->Branch("PFMETpt", &PFMETpt);
   tree->Branch("PFMETphi", &PFMETphi);
 }
 /*
