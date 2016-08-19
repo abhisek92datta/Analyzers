@@ -13,641 +13,659 @@ CU_ttH_EDA_Ntuple::~CU_ttH_EDA_Ntuple() {}
 
 // Member functions
 
-void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local, MiniAODHelper &miniAODhelper)
-{
-	// Event variales
-	nEvent = local.event_nr;
-	ls = local.lumisection_nr;
-	run = local.run_nr;
-	
-	n_ele = local.n_electrons;
-	n_mu = local.n_muons;
-	n_lep = local.n_leptons;
-	
-	// Muons
-	/*
-	n_presel_mu = local.n_muons;
-	n_fakeablesel_mu = 0;
-	n_cutsel_mu = 0;
-	n_mvasel_mu = 0;
-	for (auto & mu : local.mu_selected_sorted) {
-		if (mu.userFloat("idFakeable") > 0.5)
-			++n_fakeablesel_mu;
-		if (mu.userFloat("idCutBased") > 0.5)
-			++n_cutsel_mu;
-		if (mu.userFloat("idMVABased") > 0.5)
-			++n_mvasel_mu;
-	}
-	*/
-	fill_ntuple_muons(local.mu_selected, miniAODhelper);
-	
-	// Electrons
-	/*
-	n_presel_ele = local.n_electrons;
-	n_fakeablesel_ele = 0;
-	n_cutsel_ele = 0;
-	n_mvasel_ele = 0;
-	for (auto & ele : local.e_selected_sorted) {
-		if (ele.userFloat("idFakeable") > 0.5)
-			++n_fakeablesel_ele;
-		if (ele.userFloat("idCutBased") > 0.5)
-			++n_cutsel_ele;
-		if (ele.userFloat("idMVABased") > 0.5)
-			++n_mvasel_ele;
-	}
-	*/
-	fill_ntuple_electrons(local.e_selected, miniAODhelper);
-	
-	fill_ntuple_jets(local.jets_sl_selected_sorted, miniAODhelper);
-	n_jets = local.n_sl_jets;
-	n_btags = local.n_sl_btags;
-	
-	// MET/MHT
-	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
-	PFMETphi = local.pfMET.phi();
+void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
+                                        const MiniAODHelper &miniAODhelper) {
+  // Event variales
+  nEvent = local.event_nr;
+  ls = local.lumisection_nr;
+  run = local.run_nr;
+
+  n_ele = local.n_electrons;
+  n_mu = local.n_muons;
+  n_lep = local.n_leptons;
+
+  // Muons
+  /*
+  n_presel_mu = local.n_muons;
+  n_fakeablesel_mu = 0;
+  n_cutsel_mu = 0;
+  n_mvasel_mu = 0;
+  for (auto & mu : local.mu_selected_sorted) {
+          if (mu.userFloat("idFakeable") > 0.5)
+                  ++n_fakeablesel_mu;
+          if (mu.userFloat("idCutBased") > 0.5)
+                  ++n_cutsel_mu;
+          if (mu.userFloat("idMVABased") > 0.5)
+                  ++n_mvasel_mu;
+  }
+  */
+  fill_ntuple_muons(local.mu_selected, miniAODhelper);
+
+  // Electrons
+  /*
+  n_presel_ele = local.n_electrons;
+  n_fakeablesel_ele = 0;
+  n_cutsel_ele = 0;
+  n_mvasel_ele = 0;
+  for (auto & ele : local.e_selected_sorted) {
+          if (ele.userFloat("idFakeable") > 0.5)
+                  ++n_fakeablesel_ele;
+          if (ele.userFloat("idCutBased") > 0.5)
+                  ++n_cutsel_ele;
+          if (ele.userFloat("idMVABased") > 0.5)
+                  ++n_mvasel_ele;
+  }
+  */
+  fill_ntuple_electrons(local.e_selected, miniAODhelper);
+
+  fill_ntuple_jets(local.jets_sl_selected_sorted, miniAODhelper);
+  n_jets = local.n_sl_jets;
+  n_btags = local.n_sl_btags;
+
+  // MET/MHT
+  PFMET =
+      local.pfMET
+          .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
+  PFMETphi = local.pfMET.phi();
 }
 
-void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local, MiniAODHelper &miniAODhelper)
-{
-	// Event variales
-	nEvent = local.event_nr;
-	ls = local.lumisection_nr;
-	run = local.run_nr;
-	
-	n_ele = local.n_di_electrons;
-	n_mu = local.n_di_muons;
-	n_lep = local.n_di_leptons;
-	
-	// Muons
-	fill_ntuple_muons(local.mu_di_selected_sorted, miniAODhelper);
-	
-	// Electrons
-	fill_ntuple_electrons(local.e_di_selected_sorted, miniAODhelper);
-	
-	fill_ntuple_jets(local.jets_di_selected_sorted, miniAODhelper);
-	n_jets = local.n_di_jets;
-	n_btags = local.n_di_btags;
-		
-	// MET/MHT
-	PFMET = local.pfMET.pt(); //sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
-	PFMETphi = local.pfMET.phi();
-	
-	mll = local.mll;
-}
+void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
+                                        const MiniAODHelper &miniAODhelper) {
+  // Event variales
+  nEvent = local.event_nr;
+  ls = local.lumisection_nr;
+  run = local.run_nr;
 
+  n_ele = local.n_di_electrons;
+  n_mu = local.n_di_muons;
+  n_lep = local.n_di_leptons;
+
+  // Muons
+  fill_ntuple_muons(local.mu_di_selected_sorted, miniAODhelper);
+
+  // Electrons
+  fill_ntuple_electrons(local.e_di_selected_sorted, miniAODhelper);
+
+  fill_ntuple_jets(local.jets_di_selected_sorted, miniAODhelper);
+  n_jets = local.n_di_jets;
+  n_btags = local.n_di_btags;
+
+  // MET/MHT
+  PFMET =
+      local.pfMET
+          .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
+  PFMETphi = local.pfMET.phi();
+
+  mll = local.mll;
+}
 
 /*
-void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars & local)
+void CU_ttH_EDA_Ntuple::write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &
+local)
 {
-	
-	// Get leading and sub-leading leptons
-	lep0_isfakeable = false;
-	lep1_isfakeable = false;
-    	lep0_ptRatio = 1.;
-	lep1_ptRatio = 1.;
 
-	update_ldgLeps_vars(local.mu_selected_sorted);
-	update_ldgLeps_vars(local.e_selected_sorted);
+        // Get leading and sub-leading leptons
+        lep0_isfakeable = false;
+        lep1_isfakeable = false;
+        lep0_ptRatio = 1.;
+        lep1_ptRatio = 1.;
 
-	// max eta of the leptons
-	if (local.n_muons + local.n_electrons >= 2)
-	  max_lep_eta = std::max(abs(lep0_p4.Eta()),abs(lep1_p4.Eta()));
-	else
-		max_lep_eta = -9999.;
-		
-	// cone pT of lepton
-	if (lep0_isfakeable) {		
-		lep0_conept = 0.85 * lep0_p4.Pt() / lep0_ptRatio;
-	}
-	else
-		lep0_conept = lep0_p4.Pt();
+        update_ldgLeps_vars(local.mu_selected_sorted);
+        update_ldgLeps_vars(local.e_selected_sorted);
 
-	if (lep1_isfakeable) {
-		lep1_conept = 0.85 * lep1_p4.Pt() / lep1_ptRatio;
-	}
-	else
-		lep1_conept = lep1_p4.Pt();
+        // max eta of the leptons
+        if (local.n_muons + local.n_electrons >= 2)
+          max_lep_eta = std::max(abs(lep0_p4.Eta()),abs(lep1_p4.Eta()));
+        else
+                max_lep_eta = -9999.;
+
+        // cone pT of lepton
+        if (lep0_isfakeable) {
+                lep0_conept = 0.85 * lep0_p4.Pt() / lep0_ptRatio;
+        }
+        else
+                lep0_conept = lep0_p4.Pt();
+
+        if (lep1_isfakeable) {
+                lep1_conept = 0.85 * lep1_p4.Pt() / lep1_ptRatio;
+        }
+        else
+                lep1_conept = lep1_p4.Pt();
 
 
-	// MT_met_lep0
-	double mass_lep0 = lep0_p4.M();
-	double Et_lep0 = sqrt(mass_lep0 * mass_lep0 + lep0_conept * lep0_conept);
-	double cosDphi = cos(local.pfMET.phi() - lep0_p4.Phi());
-	MT_met_lep0 =
-		sqrt(mass_lep0*mass_lep0 + 2*local.pfMET.pt()*(Et_lep0 - lep0_conept*cosDphi));
-	
+        // MT_met_lep0
+        double mass_lep0 = lep0_p4.M();
+        double Et_lep0 = sqrt(mass_lep0 * mass_lep0 + lep0_conept *
+lep0_conept);
+        double cosDphi = cos(local.pfMET.phi() - lep0_p4.Phi());
+        MT_met_lep0 =
+                sqrt(mass_lep0*mass_lep0 + 2*local.pfMET.pt()*(Et_lep0 -
+lep0_conept*cosDphi));
+
 
 }
 */
 
-void CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon>& muons, MiniAODHelper &miniAODhelper)
-{
-	if (muons.size() > 0) {
-		mu0_pt = muons[0].pt();
-		mu0_eta = muons[0].eta();
-		mu0_phi = muons[0].phi();
-		mu0_E = muons[0].energy();
-		mu0_charge = muons[0].charge();
-		mu0_iso = miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04, corrType::deltaBeta);
-		/*
-		mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
-		mu0_miniRelIso = muons[0].userFloat("miniIso");
-		mu0_miniIsoCharged = muons[0].userFloat("miniAbsIsoCharged");
-		mu0_miniIsoNeutral = muons[0].userFloat("miniAbsIsoNeutralcorr");
-		mu0_jetPtRel = muons[0].userFloat("nearestJetPtRel");
-		mu0_jetPtRatio = muons[0].userFloat("nearestJetPtRatio");
-		mu0_jetCSV = muons[0].userFloat("nearestJetCsv");
-		mu0_sip3D = muons[0].userFloat("sip3D");
-		mu0_dxy = muons[0].userFloat("dxy");
-		mu0_dz = muons[0].userFloat("dz");
-		mu0_segmentCompatibility = muons[0].segmentCompatibility();
-		mu0_leptonMVA = muons[0].userFloat("leptonMVA");
-		mu0_mediumID = muons[0].isMediumMuon();
-		mu0_dpt_div_pt = muons[0].muonBestTrack()->ptError()/muons[0].muonBestTrack()->pt();
-		mu0_isfakeablesel = muons[0].userFloat("idFakeable") > 0.5;
-		mu0_iscutsel = muons[0].userFloat("idCutBased") > 0.5;
-		mu0_ismvasel = muons[0].userFloat("idMVABased") > 0.5;
-		*/
-	}
-	
-	if (muons.size() > 1 ) {
-		mu1_pt = muons[1].pt();
-		mu1_eta = muons[1].eta();
-		mu1_phi = muons[1].phi();
-		mu1_E = muons[1].energy();
-		mu1_charge = muons[1].charge();
-		mu1_iso = miniAODhelper.GetMuonRelIso(muons[1], coneSize::R04, corrType::deltaBeta);
-		/*
-		mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
-		mu1_miniRelIso = muons[1].userFloat("miniIso");
-		mu1_miniIsoCharged = muons[1].userFloat("miniAbsIsoCharged");
-		mu1_miniIsoNeutral = muons[1].userFloat("miniAbsIsoNeutralcorr");
-		mu1_jetPtRel = muons[1].userFloat("nearestJetPtRel");
-		mu1_jetPtRatio = muons[1].userFloat("nearestJetPtRatio");
-		mu1_jetCSV = muons[1].userFloat("nearestJetCsv");
-		mu1_sip3D = muons[1].userFloat("sip3D");
-		mu1_dxy = muons[1].userFloat("dxy");
-		mu1_dz = muons[1].userFloat("dz");
-		mu1_segmentCompatibility = muons[1].segmentCompatibility();
-		mu1_leptonMVA = muons[1].userFloat("leptonMVA");
-		mu1_mediumID = muons[1].isMediumMuon();
-		mu1_dpt_div_pt = muons[1].muonBestTrack()->ptError()/muons[1].muonBestTrack()->pt();
-		mu1_isfakeablesel = muons[1].userFloat("idFakeable") > 0.5;
-		mu1_iscutsel = muons[1].userFloat("idCutBased") > 0.5;
-		mu1_ismvasel = muons[1].userFloat("idMVABased") > 0.5;
-		*/
-	}
+inline void
+CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon> &muons,
+                                     const MiniAODHelper &miniAODhelper) {
+  if (muons.size() > 0) {
+    mu0_pt = muons[0].pt();
+    mu0_eta = muons[0].eta();
+    mu0_phi = muons[0].phi();
+    mu0_E = muons[0].energy();
+    mu0_charge = muons[0].charge();
+    mu0_iso = miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04,
+                                          corrType::deltaBeta);
+    /*
+    mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
+    mu0_miniRelIso = muons[0].userFloat("miniIso");
+    mu0_miniIsoCharged = muons[0].userFloat("miniAbsIsoCharged");
+    mu0_miniIsoNeutral = muons[0].userFloat("miniAbsIsoNeutralcorr");
+    mu0_jetPtRel = muons[0].userFloat("nearestJetPtRel");
+    mu0_jetPtRatio = muons[0].userFloat("nearestJetPtRatio");
+    mu0_jetCSV = muons[0].userFloat("nearestJetCsv");
+    mu0_sip3D = muons[0].userFloat("sip3D");
+    mu0_dxy = muons[0].userFloat("dxy");
+    mu0_dz = muons[0].userFloat("dz");
+    mu0_segmentCompatibility = muons[0].segmentCompatibility();
+    mu0_leptonMVA = muons[0].userFloat("leptonMVA");
+    mu0_mediumID = muons[0].isMediumMuon();
+    mu0_dpt_div_pt =
+    muons[0].muonBestTrack()->ptError()/muons[0].muonBestTrack()->pt();
+    mu0_isfakeablesel = muons[0].userFloat("idFakeable") > 0.5;
+    mu0_iscutsel = muons[0].userFloat("idCutBased") > 0.5;
+    mu0_ismvasel = muons[0].userFloat("idMVABased") > 0.5;
+    */
+  }
+
+  if (muons.size() > 1) {
+    mu1_pt = muons[1].pt();
+    mu1_eta = muons[1].eta();
+    mu1_phi = muons[1].phi();
+    mu1_E = muons[1].energy();
+    mu1_charge = muons[1].charge();
+    mu1_iso = miniAODhelper.GetMuonRelIso(muons[1], coneSize::R04,
+                                          corrType::deltaBeta);
+    /*
+    mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
+    mu1_miniRelIso = muons[1].userFloat("miniIso");
+    mu1_miniIsoCharged = muons[1].userFloat("miniAbsIsoCharged");
+    mu1_miniIsoNeutral = muons[1].userFloat("miniAbsIsoNeutralcorr");
+    mu1_jetPtRel = muons[1].userFloat("nearestJetPtRel");
+    mu1_jetPtRatio = muons[1].userFloat("nearestJetPtRatio");
+    mu1_jetCSV = muons[1].userFloat("nearestJetCsv");
+    mu1_sip3D = muons[1].userFloat("sip3D");
+    mu1_dxy = muons[1].userFloat("dxy");
+    mu1_dz = muons[1].userFloat("dz");
+    mu1_segmentCompatibility = muons[1].segmentCompatibility();
+    mu1_leptonMVA = muons[1].userFloat("leptonMVA");
+    mu1_mediumID = muons[1].isMediumMuon();
+    mu1_dpt_div_pt =
+    muons[1].muonBestTrack()->ptError()/muons[1].muonBestTrack()->pt();
+    mu1_isfakeablesel = muons[1].userFloat("idFakeable") > 0.5;
+    mu1_iscutsel = muons[1].userFloat("idCutBased") > 0.5;
+    mu1_ismvasel = muons[1].userFloat("idMVABased") > 0.5;
+    */
+  }
 }
 
-void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(const std::vector<pat::Electron>& electrons, MiniAODHelper &miniAODhelper)
-{
-	if (electrons.size() > 0) {
-		ele0_pt = electrons[0].pt();
-		ele0_eta = electrons[0].eta();
-		ele0_phi = electrons[0].phi();
-		ele0_E = electrons[0].energy();
-		ele0_charge = electrons[0].charge();
-		ele0_iso = miniAODhelper.GetElectronRelIso(electrons[0], coneSize::R03, corrType::rhoEA,effAreaType::spring15);
-		/*
-		ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
-		ele0_miniRelIso = electrons[0].userFloat("miniIso");
-		ele0_miniIsoCharged = electrons[0].userFloat("miniAbsIsoCharged");
-		ele0_miniIsoNeutral = electrons[0].userFloat("miniAbsIsoNeutralcorr");
-		ele0_jetPtRel = electrons[0].userFloat("nearestJetPtRel");
-		ele0_jetPtRatio = electrons[0].userFloat("nearestJetPtRatio");
-		ele0_jetCSV = electrons[0].userFloat("nearestJetCsv");
-		ele0_sip3D = electrons[0].userFloat("sip3D");
-		ele0_dxy = electrons[0].userFloat("dxy");
-		ele0_dz = electrons[0].userFloat("dz");
-		ele0_ntMVAeleID = electrons[0].userFloat("eleMvaId"); // non-triggering mva ID
-		ele0_leptonMVA = electrons[0].userFloat("leptonMVA");
-		ele0_isChargeConsistent = electrons[0].isGsfCtfScPixChargeConsistent();
-		ele0_passesConversionVeto = electrons[0].passConversionVeto();
-		ele0_nMissingHits = electrons[0].userFloat("numMissingHits");
-		ele0_iscutsel = electrons[0].userFloat("idCutBased") > 0.5;
-		ele0_ismvasel = electrons[0].userFloat("idMVABased") > 0.5;
-		ele0_isfakeablesel = electrons[0].userFloat("idFakeable") > 0.5;
-		*/
-	}
-	
-	if (electrons.size() > 1 ) {
-		ele1_pt = electrons[1].pt();
-		ele1_eta = electrons[1].eta();
-		ele1_phi = electrons[1].phi();
-		ele1_E = electrons[1].energy();
-		ele1_charge = electrons[1].charge();
-		ele1_iso = miniAODhelper.GetElectronRelIso(electrons[1], coneSize::R03, corrType::rhoEA,effAreaType::spring15);
-		/*
-		ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
-		ele1_miniRelIso = electrons[1].userFloat("miniIso");
-		ele1_miniIsoCharged = electrons[1].userFloat("miniAbsIsoCharged");
-		ele1_miniIsoNeutral = electrons[1].userFloat("miniAbsIsoNeutralcorr");
-		ele1_jetPtRel = electrons[1].userFloat("nearestJetPtRel");
-		ele1_jetPtRatio = electrons[1].userFloat("nearestJetPtRatio");
-		ele1_jetCSV = electrons[1].userFloat("nearestJetCsv");
-		ele1_sip3D = electrons[1].userFloat("sip3D");
-		ele1_dxy = electrons[1].userFloat("dxy");
-		ele1_dz = electrons[1].userFloat("dz");
-		ele1_ntMVAeleID = electrons[1].userFloat("eleMvaId"); // non-triggering mva ID
-		ele1_leptonMVA = electrons[1].userFloat("leptonMVA");
-		ele1_isChargeConsistent = electrons[1].isGsfCtfScPixChargeConsistent();
-		ele1_passesConversionVeto = electrons[1].passConversionVeto();
-		ele1_nMissingHits = electrons[1].userFloat("numMissingHits");
-		ele1_iscutsel = electrons[1].userFloat("idCutBased") > 0.5;
-		ele1_ismvasel = electrons[1].userFloat("idMVABased") > 0.5;
-		ele1_isfakeablesel = electrons[1].userFloat("idFakeable") > 0.5;
-		*/
-	}
+inline void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(
+    const std::vector<pat::Electron> &electrons,
+    const MiniAODHelper &miniAODhelper) {
+  if (electrons.size() > 0) {
+    ele0_pt = electrons[0].pt();
+    ele0_eta = electrons[0].eta();
+    ele0_phi = electrons[0].phi();
+    ele0_E = electrons[0].energy();
+    ele0_charge = electrons[0].charge();
+    ele0_iso = miniAODhelper.GetElectronRelIso(
+        electrons[0], coneSize::R03, corrType::rhoEA, effAreaType::spring15);
+    /*
+    ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
+    ele0_miniRelIso = electrons[0].userFloat("miniIso");
+    ele0_miniIsoCharged = electrons[0].userFloat("miniAbsIsoCharged");
+    ele0_miniIsoNeutral = electrons[0].userFloat("miniAbsIsoNeutralcorr");
+    ele0_jetPtRel = electrons[0].userFloat("nearestJetPtRel");
+    ele0_jetPtRatio = electrons[0].userFloat("nearestJetPtRatio");
+    ele0_jetCSV = electrons[0].userFloat("nearestJetCsv");
+    ele0_sip3D = electrons[0].userFloat("sip3D");
+    ele0_dxy = electrons[0].userFloat("dxy");
+    ele0_dz = electrons[0].userFloat("dz");
+    ele0_ntMVAeleID = electrons[0].userFloat("eleMvaId"); // non-triggering mva
+    ID
+    ele0_leptonMVA = electrons[0].userFloat("leptonMVA");
+    ele0_isChargeConsistent = electrons[0].isGsfCtfScPixChargeConsistent();
+    ele0_passesConversionVeto = electrons[0].passConversionVeto();
+    ele0_nMissingHits = electrons[0].userFloat("numMissingHits");
+    ele0_iscutsel = electrons[0].userFloat("idCutBased") > 0.5;
+    ele0_ismvasel = electrons[0].userFloat("idMVABased") > 0.5;
+    ele0_isfakeablesel = electrons[0].userFloat("idFakeable") > 0.5;
+    */
+  }
+
+  if (electrons.size() > 1) {
+    ele1_pt = electrons[1].pt();
+    ele1_eta = electrons[1].eta();
+    ele1_phi = electrons[1].phi();
+    ele1_E = electrons[1].energy();
+    ele1_charge = electrons[1].charge();
+    ele1_iso = miniAODhelper.GetElectronRelIso(
+        electrons[1], coneSize::R03, corrType::rhoEA, effAreaType::spring15);
+    /*
+    ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
+    ele1_miniRelIso = electrons[1].userFloat("miniIso");
+    ele1_miniIsoCharged = electrons[1].userFloat("miniAbsIsoCharged");
+    ele1_miniIsoNeutral = electrons[1].userFloat("miniAbsIsoNeutralcorr");
+    ele1_jetPtRel = electrons[1].userFloat("nearestJetPtRel");
+    ele1_jetPtRatio = electrons[1].userFloat("nearestJetPtRatio");
+    ele1_jetCSV = electrons[1].userFloat("nearestJetCsv");
+    ele1_sip3D = electrons[1].userFloat("sip3D");
+    ele1_dxy = electrons[1].userFloat("dxy");
+    ele1_dz = electrons[1].userFloat("dz");
+    ele1_ntMVAeleID = electrons[1].userFloat("eleMvaId"); // non-triggering mva
+    ID
+    ele1_leptonMVA = electrons[1].userFloat("leptonMVA");
+    ele1_isChargeConsistent = electrons[1].isGsfCtfScPixChargeConsistent();
+    ele1_passesConversionVeto = electrons[1].passConversionVeto();
+    ele1_nMissingHits = electrons[1].userFloat("numMissingHits");
+    ele1_iscutsel = electrons[1].userFloat("idCutBased") > 0.5;
+    ele1_ismvasel = electrons[1].userFloat("idMVABased") > 0.5;
+    ele1_isfakeablesel = electrons[1].userFloat("idFakeable") > 0.5;
+    */
+  }
 }
 
-void CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet>& jets, MiniAODHelper &miniAODhelper)
-{
-	if (jets.size() > 0) {
-		jet0_pt = jets[0].pt();
-		jet0_eta = jets[0].eta();
-		jet0_phi = jets[0].phi();
-		jet0_E = jets[0].energy();
-		//jet0_CSV = jets[0].bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-		jet0_CSV = miniAODhelper.GetJetCSV(jets[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"); 
-	}
-	
-	if (jets.size() > 1 ) {
-		jet1_pt = jets[1].pt();
-		jet1_eta = jets[1].eta();
-		jet1_phi = jets[1].phi();
-		jet1_E = jets[1].energy();
-		jet1_CSV = miniAODhelper.GetJetCSV(jets[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"); 
-	}
-	
-	if (jets.size() > 2) {
-		jet2_pt = jets[2].pt();
-		jet2_eta = jets[2].eta();
-		jet2_phi = jets[2].phi();
-		jet2_E = jets[2].energy();
-		jet2_CSV = miniAODhelper.GetJetCSV(jets[2],"pfCombinedInclusiveSecondaryVertexV2BJetTags"); 
-	}
-	
-	if (jets.size() > 3 ) {
-		jet3_pt = jets[3].pt();
-		jet3_eta = jets[3].eta();
-		jet3_phi = jets[3].phi();
-		jet3_E = jets[3].energy();
-		jet3_CSV = miniAODhelper.GetJetCSV(jets[3],"pfCombinedInclusiveSecondaryVertexV2BJetTags"); 
-	}
+inline void
+CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet> &jets,
+                                    const MiniAODHelper &miniAODhelper) {
+  if (jets.size() > 0) {
+    jet0_pt = jets[0].pt();
+    jet0_eta = jets[0].eta();
+    jet0_phi = jets[0].phi();
+    jet0_E = jets[0].energy();
+    // jet0_CSV =
+    // jets[0].bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+    jet0_CSV = miniAODhelper.GetJetCSV(
+        jets[0], "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+  }
+
+  if (jets.size() > 1) {
+    jet1_pt = jets[1].pt();
+    jet1_eta = jets[1].eta();
+    jet1_phi = jets[1].phi();
+    jet1_E = jets[1].energy();
+    jet1_CSV = miniAODhelper.GetJetCSV(
+        jets[1], "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+  }
+
+  if (jets.size() > 2) {
+    jet2_pt = jets[2].pt();
+    jet2_eta = jets[2].eta();
+    jet2_phi = jets[2].phi();
+    jet2_E = jets[2].energy();
+    jet2_CSV = miniAODhelper.GetJetCSV(
+        jets[2], "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+  }
+
+  if (jets.size() > 3) {
+    jet3_pt = jets[3].pt();
+    jet3_eta = jets[3].eta();
+    jet3_phi = jets[3].phi();
+    jet3_E = jets[3].energy();
+    jet3_CSV = miniAODhelper.GetJetCSV(
+        jets[3], "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+  }
 }
 
-void CU_ttH_EDA_Ntuple::initialize()
-{
-	// event variables
-	nEvent = -9999;
-	ls = -9999;
-	run = -9999;
-	//n_presel_mu = -9999;
-	//n_cutsel_mu = -9999;
-	//n_mvasel_mu = -9999;
-	//n_fakeablesel_mu = -9999;
-	//n_presel_ele = -9999;
-	//n_cutsel_ele = -9999;
-	//n_mvasel_ele = -9999;
-	//n_fakeablesel_ele = -9999;
-	//n_presel_tau = -9999;
-	//n_presel_jet = -9999;
-	
-	/*
-	MVA_2lss_ttV = -9999.;
-	MVA_2lss_ttbar = -9999.;
-	MT_met_lep0 = -9999.;
-	n_jet25_recl = -9999;
-	mindr_lep0_jet = -9999.;
-	mindr_lep1_jet = -9999.;
-	lep0_conept = -9999.;
-	lep1_conept = -9999.;
-	avg_dr_jet = -9999.;
-	max_lep_eta = -9999.;
-	*/
-	
-	n_ele = -9999;
-	n_mu = -9999;
-	n_lep = -9999;
-	
-	mll = -9999;
-	
-	// muons
-	mu0_pt = -9999.;
-	mu0_eta = -9999.;
-	mu0_phi = -9999.;
-	mu0_E = -9999.;
-	mu0_charge = -9999;
-	mu0_iso = -9999;
-	/*
-	mu0_jetNDauChargedMVASel = -9999;
-	mu0_miniRelIso = -9999.;
-	mu0_miniIsoCharged = -9999.;
-	mu0_miniIsoNeutral = -9999.;
-	mu0_jetPtRel = -9999.;
-	mu0_jetPtRatio = -9999.;
-	mu0_jetCSV = -9999.;
-	mu0_sip3D = -9999.;
-	mu0_dxy = -9999.;
-	mu0_dz = -9999.;
-	mu0_segmentCompatibility = -9999.;
-	mu0_leptonMVA = -9999.;
-	mu0_mediumID = -9999.;
-	mu0_dpt_div_pt = -9999.;
-	mu0_iscutsel = -9999;
-	mu0_ismvasel = -9999;
-	mu0_isfakeablesel = -9999;
-	*/
-	mu1_pt = -9999.;
-	mu1_eta = -9999.;
-	mu1_phi = -9999.;
-	mu1_E = -9999.;
-	mu1_charge = -9999;
-	mu1_iso = -9999;
-	/*
-	mu1_jetNDauChargedMVASel = -9999;
-	mu1_miniRelIso = -9999.;
-	mu1_miniIsoCharged = -9999.;
-	mu1_miniIsoNeutral = -9999.;
-	mu1_jetPtRel = -9999.;
-	mu1_jetPtRatio = -9999.;
-	mu1_jetCSV = -9999.;
-	mu1_sip3D = -9999.;
-	mu1_dxy = -9999.;
-	mu1_dz = -9999.;
-	mu1_segmentCompatibility = -9999.;
-	mu1_leptonMVA = -9999.;
-	mu1_mediumID = -9999.;
-	mu1_dpt_div_pt = -9999.;
-	mu1_iscutsel = -9999;
-	mu1_ismvasel = -9999;
-	mu1_isfakeablesel = -9999;
-	*/
-	
-	// electrons
-	ele0_pt = -9999.;
-	ele0_eta = -9999.;
-	ele0_phi = -9999.;
-	ele0_E = -9999.;
-	ele0_charge = -9999;
-	ele0_iso = -9999;
-	/*
-	ele0_jetNDauChargedMVASel = -9999;
-	ele0_miniRelIso = -9999.;
-	ele0_miniIsoCharged = -9999.;
-	ele0_miniIsoNeutral = -9999.;
-	ele0_jetPtRel = -9999.;
-	ele0_jetPtRatio = -9999.;
-	ele0_jetCSV = -9999.;
-	ele0_sip3D = -9999.;
-	ele0_dxy = -9999.;
-	ele0_dz = -9999.;
-	ele0_ntMVAeleID = -9999.;
-	ele0_leptonMVA = -9999.;
-	ele0_isChargeConsistent = -9999;
-	ele0_passesConversionVeto = -9999;
-	ele0_nMissingHits = -9999;
-	ele0_iscutsel = -9999;
-	ele0_ismvasel = -9999;
-	ele0_isfakeablesel = -9999;
-	*/
-	ele1_pt = -9999.;
-	ele1_eta = -9999.;
-	ele1_phi = -9999.;
-	ele1_E = -9999.;
-	ele1_charge = -9999;
-	ele1_iso = -9999;
-	/*
-	ele1_jetNDauChargedMVASel = -9999;
-	ele1_miniRelIso = -9999.;
-	ele1_miniIsoCharged = -9999.;
-	ele1_miniIsoNeutral = -9999.;
-	ele1_jetPtRel = -9999.;
-	ele1_jetPtRatio = -9999.;
-	ele1_jetCSV = -9999.;
-	ele1_sip3D = -9999.;
-	ele1_dxy = -9999.;
-	ele1_dz = -9999.;
-	ele1_ntMVAeleID = -9999.;
-	ele1_leptonMVA = -9999.;
-	ele1_isChargeConsistent = -9999;
-	ele1_passesConversionVeto = -9999;
-	ele1_nMissingHits = -9999;
-	ele1_iscutsel = -9999;
-	ele1_ismvasel = -9999;
-	ele1_isfakeablesel = -9999;
-	*/
+void CU_ttH_EDA_Ntuple::initialize() {
+  // event variables
+  nEvent = -9999;
+  ls = -9999;
+  run = -9999;
+  // n_presel_mu = -9999;
+  // n_cutsel_mu = -9999;
+  // n_mvasel_mu = -9999;
+  // n_fakeablesel_mu = -9999;
+  // n_presel_ele = -9999;
+  // n_cutsel_ele = -9999;
+  // n_mvasel_ele = -9999;
+  // n_fakeablesel_ele = -9999;
+  // n_presel_tau = -9999;
+  // n_presel_jet = -9999;
 
-	n_jets = -9999;
-	n_btags = -9999;
-	// jets
-	jet0_pt = -9999.;
-	jet0_eta = -9999.;
-	jet0_phi = -9999.;
-	jet0_E = -9999.;
-	jet0_CSV = -9999.;
-	jet1_pt = -9999.;
-	jet1_eta = -9999.;
-	jet1_phi = -9999.;
-	jet1_E = -9999.;
-	jet1_CSV = -9999.;
-	jet2_pt = -9999.;
-	jet2_eta = -9999.;
-	jet2_phi = -9999.;
-	jet2_E = -9999.;
-	jet2_CSV = -9999.;
-	jet3_pt = -9999.;
-	jet3_eta = -9999.;
-	jet3_phi = -9999.;
-	jet3_E = -9999.;
-	jet3_CSV = -9999.;
-	// MET
-	PFMET = -9999.;
-	PFMETphi = -9999.;
-	
+  /*
+  MVA_2lss_ttV = -9999.;
+  MVA_2lss_ttbar = -9999.;
+  MT_met_lep0 = -9999.;
+  n_jet25_recl = -9999;
+  mindr_lep0_jet = -9999.;
+  mindr_lep1_jet = -9999.;
+  lep0_conept = -9999.;
+  lep1_conept = -9999.;
+  avg_dr_jet = -9999.;
+  max_lep_eta = -9999.;
+  */
+
+  n_ele = -9999;
+  n_mu = -9999;
+  n_lep = -9999;
+
+  mll = -9999;
+
+  // muons
+  mu0_pt = -9999.;
+  mu0_eta = -9999.;
+  mu0_phi = -9999.;
+  mu0_E = -9999.;
+  mu0_charge = -9999;
+  mu0_iso = -9999;
+  /*
+  mu0_jetNDauChargedMVASel = -9999;
+  mu0_miniRelIso = -9999.;
+  mu0_miniIsoCharged = -9999.;
+  mu0_miniIsoNeutral = -9999.;
+  mu0_jetPtRel = -9999.;
+  mu0_jetPtRatio = -9999.;
+  mu0_jetCSV = -9999.;
+  mu0_sip3D = -9999.;
+  mu0_dxy = -9999.;
+  mu0_dz = -9999.;
+  mu0_segmentCompatibility = -9999.;
+  mu0_leptonMVA = -9999.;
+  mu0_mediumID = -9999.;
+  mu0_dpt_div_pt = -9999.;
+  mu0_iscutsel = -9999;
+  mu0_ismvasel = -9999;
+  mu0_isfakeablesel = -9999;
+  */
+  mu1_pt = -9999.;
+  mu1_eta = -9999.;
+  mu1_phi = -9999.;
+  mu1_E = -9999.;
+  mu1_charge = -9999;
+  mu1_iso = -9999;
+  /*
+  mu1_jetNDauChargedMVASel = -9999;
+  mu1_miniRelIso = -9999.;
+  mu1_miniIsoCharged = -9999.;
+  mu1_miniIsoNeutral = -9999.;
+  mu1_jetPtRel = -9999.;
+  mu1_jetPtRatio = -9999.;
+  mu1_jetCSV = -9999.;
+  mu1_sip3D = -9999.;
+  mu1_dxy = -9999.;
+  mu1_dz = -9999.;
+  mu1_segmentCompatibility = -9999.;
+  mu1_leptonMVA = -9999.;
+  mu1_mediumID = -9999.;
+  mu1_dpt_div_pt = -9999.;
+  mu1_iscutsel = -9999;
+  mu1_ismvasel = -9999;
+  mu1_isfakeablesel = -9999;
+  */
+
+  // electrons
+  ele0_pt = -9999.;
+  ele0_eta = -9999.;
+  ele0_phi = -9999.;
+  ele0_E = -9999.;
+  ele0_charge = -9999;
+  ele0_iso = -9999;
+  /*
+  ele0_jetNDauChargedMVASel = -9999;
+  ele0_miniRelIso = -9999.;
+  ele0_miniIsoCharged = -9999.;
+  ele0_miniIsoNeutral = -9999.;
+  ele0_jetPtRel = -9999.;
+  ele0_jetPtRatio = -9999.;
+  ele0_jetCSV = -9999.;
+  ele0_sip3D = -9999.;
+  ele0_dxy = -9999.;
+  ele0_dz = -9999.;
+  ele0_ntMVAeleID = -9999.;
+  ele0_leptonMVA = -9999.;
+  ele0_isChargeConsistent = -9999;
+  ele0_passesConversionVeto = -9999;
+  ele0_nMissingHits = -9999;
+  ele0_iscutsel = -9999;
+  ele0_ismvasel = -9999;
+  ele0_isfakeablesel = -9999;
+  */
+  ele1_pt = -9999.;
+  ele1_eta = -9999.;
+  ele1_phi = -9999.;
+  ele1_E = -9999.;
+  ele1_charge = -9999;
+  ele1_iso = -9999;
+  /*
+  ele1_jetNDauChargedMVASel = -9999;
+  ele1_miniRelIso = -9999.;
+  ele1_miniIsoCharged = -9999.;
+  ele1_miniIsoNeutral = -9999.;
+  ele1_jetPtRel = -9999.;
+  ele1_jetPtRatio = -9999.;
+  ele1_jetCSV = -9999.;
+  ele1_sip3D = -9999.;
+  ele1_dxy = -9999.;
+  ele1_dz = -9999.;
+  ele1_ntMVAeleID = -9999.;
+  ele1_leptonMVA = -9999.;
+  ele1_isChargeConsistent = -9999;
+  ele1_passesConversionVeto = -9999;
+  ele1_nMissingHits = -9999;
+  ele1_iscutsel = -9999;
+  ele1_ismvasel = -9999;
+  ele1_isfakeablesel = -9999;
+  */
+
+  n_jets = -9999;
+  n_btags = -9999;
+  // jets
+  jet0_pt = -9999.;
+  jet0_eta = -9999.;
+  jet0_phi = -9999.;
+  jet0_E = -9999.;
+  jet0_CSV = -9999.;
+  jet1_pt = -9999.;
+  jet1_eta = -9999.;
+  jet1_phi = -9999.;
+  jet1_E = -9999.;
+  jet1_CSV = -9999.;
+  jet2_pt = -9999.;
+  jet2_eta = -9999.;
+  jet2_phi = -9999.;
+  jet2_E = -9999.;
+  jet2_CSV = -9999.;
+  jet3_pt = -9999.;
+  jet3_eta = -9999.;
+  jet3_phi = -9999.;
+  jet3_E = -9999.;
+  jet3_CSV = -9999.;
+  // MET
+  PFMET = -9999.;
+  PFMETphi = -9999.;
 }
 
-void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree)
-{
-	// initialize ntuple
-	this->initialize();
+void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
+  // initialize ntuple
+  this->initialize();
 
-	// set up tree branches
-	tree->Branch("nEvent", &nEvent);
-	tree->Branch("ls", &ls);
-	tree->Branch("run", &run);
-	//tree->Branch("n_presel_mu", &n_presel_mu);
-	//tree->Branch("n_cutsel_mu", &n_cutsel_mu);
-	//tree->Branch("n_mvasel_mu", &n_mvasel_mu);
-	//tree->Branch("n_fakeablesel_mu", &n_fakeablesel_mu);
-	//tree->Branch("n_presel_ele", &n_presel_ele);
-	//tree->Branch("n_cutsel_ele", &n_cutsel_ele);
-	//tree->Branch("n_mvasel_ele", &n_mvasel_ele);
-	//tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
-	//tree->Branch("n_presel_jet", &n_presel_jet);
-	//tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
-	//tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
-	//tree->Branch("MT_met_lep0", &MT_met_lep0);
-	//tree->Branch("n_jet25_recl", &n_jet25_recl);
-	//tree->Branch("mindr_lep0_jet", &mindr_lep0_jet);
-	//tree->Branch("mindr_lep1_jet", &mindr_lep1_jet);
-	//tree->Branch("lep0_conept", &lep0_conept);
-	//tree->Branch("lep1_conept", &lep1_conept);
-	//tree->Branch("avg_dr_jet", &avg_dr_jet);
-	
-	tree->Branch("n_ele", &n_ele);
-	tree->Branch("n_mu", &n_mu);
-	tree->Branch("n_lep", &n_lep);
-	
-	tree->Branch("mll", &mll);
-	
-	// muons
-	tree->Branch("mu0_pt",                   &mu0_pt);
-	tree->Branch("mu0_eta",                  &mu0_eta);
-	tree->Branch("mu0_phi",                  &mu0_phi);
-	tree->Branch("mu0_E",                    &mu0_E);
-	tree->Branch("mu0_charge",               &mu0_charge);
-	tree->Branch("mu0_iso",                  &mu0_iso);
-	/*
-	tree->Branch("mu0_jetNDauChargedMVASel", &mu0_jetNDauChargedMVASel);
-	tree->Branch("mu0_miniRelIso",           &mu0_miniRelIso);
-	tree->Branch("mu0_miniIsoCharged",       &mu0_miniIsoCharged);
-	tree->Branch("mu0_miniIsoNeutral",       &mu0_miniIsoNeutral);
-	tree->Branch("mu0_jetPtRel",             &mu0_jetPtRel);
-	tree->Branch("mu0_jetPtRatio",           &mu0_jetPtRatio);
-	tree->Branch("mu0_jetCSV",               &mu0_jetCSV);
-	tree->Branch("mu0_sip3D",                &mu0_sip3D);
-	tree->Branch("mu0_dxy",                  &mu0_dxy);
-	tree->Branch("mu0_dz",                   &mu0_dz);
-	tree->Branch("mu0_segmentCompatibility", &mu0_segmentCompatibility);
-	tree->Branch("mu0_leptonMVA",            &mu0_leptonMVA);
-	tree->Branch("mu0_mediumID", &mu0_mediumID);
-	tree->Branch("mu0_dpt_div_pt", &mu0_dpt_div_pt);
-	tree->Branch("mu0_iscutsel", &mu0_iscutsel);
-	tree->Branch("mu0_ismvasel", &mu0_ismvasel);
-	tree->Branch("mu0_isfakeablesel", &mu0_isfakeablesel);
-	*/
-	tree->Branch("mu1_pt",                   &mu1_pt);
-	tree->Branch("mu1_eta",                  &mu1_eta);
-	tree->Branch("mu1_phi",                  &mu1_phi);
-	tree->Branch("mu1_E",                    &mu1_E);
-	tree->Branch("mu1_charge",               &mu1_charge);
-	tree->Branch("mu1_iso",                  &mu1_iso);
-	/*
-	tree->Branch("mu1_jetNDauChargedMVASel", &mu1_jetNDauChargedMVASel);
-	tree->Branch("mu1_miniRelIso",           &mu1_miniRelIso);
-	tree->Branch("mu1_miniIsoCharged",       &mu1_miniIsoCharged);
-	tree->Branch("mu1_miniIsoNeutral",       &mu1_miniIsoNeutral);
-	tree->Branch("mu1_jetPtRel",             &mu1_jetPtRel);
-	tree->Branch("mu1_jetPtRatio",           &mu1_jetPtRatio);
-	tree->Branch("mu1_jetCSV",               &mu1_jetCSV);
-	tree->Branch("mu1_sip3D",                &mu1_sip3D);
-	tree->Branch("mu1_dxy",                  &mu1_dxy);
-	tree->Branch("mu1_dz",                   &mu1_dz);
-	tree->Branch("mu1_segmentCompatibility", &mu1_segmentCompatibility);
-	tree->Branch("mu1_leptonMVA",            &mu1_leptonMVA);
-	tree->Branch("mu1_mediumID", &mu1_mediumID);
-	tree->Branch("mu1_dpt_div_pt", &mu1_dpt_div_pt);
-	tree->Branch("mu1_iscutsel", &mu1_iscutsel);
-	tree->Branch("mu1_ismvasel", &mu1_ismvasel);
-	tree->Branch("mu1_isfakeablesel", &mu1_isfakeablesel);
-	*/
-	// electrons
-	tree->Branch("ele0_pt",                   &ele0_pt);
-	tree->Branch("ele0_eta",                  &ele0_eta);
-	tree->Branch("ele0_phi",                  &ele0_phi);
-	tree->Branch("ele0_E",                    &ele0_E);
-	tree->Branch("ele0_charge",               &ele0_charge);
-	tree->Branch("ele0_iso",                  &ele0_iso);
-	/*
-	tree->Branch("ele0_jetNDauChargedMVASel", &ele0_jetNDauChargedMVASel);
-	tree->Branch("ele0_miniRelIso",           &ele0_miniRelIso);
-	tree->Branch("ele0_miniIsoCharged",       &ele0_miniIsoCharged);
-	tree->Branch("ele0_miniIsoNeutral",       &ele0_miniIsoNeutral);
-	tree->Branch("ele0_jetPtRel",             &ele0_jetPtRel);
-	tree->Branch("ele0_jetPtRatio",           &ele0_jetPtRatio);
-	tree->Branch("ele0_jetCSV",               &ele0_jetCSV);
-	tree->Branch("ele0_sip3D",                &ele0_sip3D);
-	tree->Branch("ele0_dxy",                  &ele0_dxy);
-	tree->Branch("ele0_dz",                   &ele0_dz);
-	tree->Branch("ele0_ntMVAeleID",           &ele0_ntMVAeleID);
-	tree->Branch("ele0_leptonMVA",            &ele0_leptonMVA);
-	tree->Branch("ele0_isChargeConsistent", &ele0_isChargeConsistent);
-	tree->Branch("ele0_passesConversionVeto", &ele0_passesConversionVeto);
-	tree->Branch("ele0_nMissingHits", &ele0_nMissingHits);
-	tree->Branch("ele0_iscutsel", &ele0_iscutsel);
-	tree->Branch("ele0_ismvasel", &ele0_ismvasel);
-	tree->Branch("ele0_isfakeablesel", &ele0_isfakeablesel);
-	*/
-	tree->Branch("ele1_pt",                   &ele1_pt);
-	tree->Branch("ele1_eta",                  &ele1_eta);
-	tree->Branch("ele1_phi",                  &ele1_phi);
-	tree->Branch("ele1_E",                    &ele1_E);
-	tree->Branch("ele1_charge",               &ele1_charge);
-	tree->Branch("ele1_iso",                  &ele1_iso);
-	/*
-	tree->Branch("ele1_jetNDauChargedMVASel", &ele1_jetNDauChargedMVASel);
-	tree->Branch("ele1_miniRelIso",           &ele1_miniRelIso);
-	tree->Branch("ele1_miniIsoCharged",       &ele1_miniIsoCharged);
-	tree->Branch("ele1_miniIsoNeutral",       &ele1_miniIsoNeutral);
-	tree->Branch("ele1_jetPtRel",             &ele1_jetPtRel);
-	tree->Branch("ele1_jetPtRatio",           &ele1_jetPtRatio);
-	tree->Branch("ele1_jetCSV",               &ele1_jetCSV);
-	tree->Branch("ele1_sip3D",                &ele1_sip3D);
-	tree->Branch("ele1_dxy",                  &ele1_dxy);
-	tree->Branch("ele1_dz",                   &ele1_dz);
-	tree->Branch("ele1_ntMVAeleID",           &ele1_ntMVAeleID);
-	tree->Branch("ele1_leptonMVA",            &ele1_leptonMVA);
-	tree->Branch("ele1_isChargeConsistent", &ele1_isChargeConsistent);
-	tree->Branch("ele1_passesConversionVeto", &ele1_passesConversionVeto);
-	tree->Branch("ele1_nMissingHits", &ele1_nMissingHits);
-	tree->Branch("ele1_iscutsel", &ele1_iscutsel);
-	tree->Branch("ele1_ismvasel", &ele1_ismvasel);
-	tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
-	*/
+  // set up tree branches
+  tree->Branch("nEvent", &nEvent);
+  tree->Branch("ls", &ls);
+  tree->Branch("run", &run);
+  // tree->Branch("n_presel_mu", &n_presel_mu);
+  // tree->Branch("n_cutsel_mu", &n_cutsel_mu);
+  // tree->Branch("n_mvasel_mu", &n_mvasel_mu);
+  // tree->Branch("n_fakeablesel_mu", &n_fakeablesel_mu);
+  // tree->Branch("n_presel_ele", &n_presel_ele);
+  // tree->Branch("n_cutsel_ele", &n_cutsel_ele);
+  // tree->Branch("n_mvasel_ele", &n_mvasel_ele);
+  // tree->Branch("n_fakeablesel_ele", &n_fakeablesel_ele);
+  // tree->Branch("n_presel_jet", &n_presel_jet);
+  // tree->Branch("MVA_2lss_ttV", &MVA_2lss_ttV);
+  // tree->Branch("MVA_2lss_ttbar", &MVA_2lss_ttbar);
+  // tree->Branch("MT_met_lep0", &MT_met_lep0);
+  // tree->Branch("n_jet25_recl", &n_jet25_recl);
+  // tree->Branch("mindr_lep0_jet", &mindr_lep0_jet);
+  // tree->Branch("mindr_lep1_jet", &mindr_lep1_jet);
+  // tree->Branch("lep0_conept", &lep0_conept);
+  // tree->Branch("lep1_conept", &lep1_conept);
+  // tree->Branch("avg_dr_jet", &avg_dr_jet);
 
-	tree->Branch("n_jets", &n_jets);
-	tree->Branch("n_btags", &n_btags);
-	// jets
-	tree->Branch("jet0_pt", &jet0_pt);
-	tree->Branch("jet0_eta", &jet0_eta);
-	tree->Branch("jet0_phi", &jet0_phi);
-	tree->Branch("jet0_E", &jet0_E);
-	tree->Branch("jet0_CSV", &jet0_CSV);
-	tree->Branch("jet1_pt", &jet1_pt);
-	tree->Branch("jet1_eta", &jet1_eta);
-	tree->Branch("jet1_phi", &jet1_phi);
-	tree->Branch("jet1_E", &jet1_E);
-	tree->Branch("jet1_CSV", &jet1_CSV);
-	tree->Branch("jet2_pt", &jet2_pt);
-	tree->Branch("jet2_eta", &jet2_eta);
-	tree->Branch("jet2_phi", &jet2_phi);
-	tree->Branch("jet2_E", &jet2_E);
-	tree->Branch("jet2_CSV", &jet2_CSV);
-	tree->Branch("jet3_pt", &jet3_pt);
-	tree->Branch("jet3_eta", &jet3_eta);
-	tree->Branch("jet3_phi", &jet3_phi);
-	tree->Branch("jet3_E", &jet3_E);
-	tree->Branch("jet3_CSV", &jet3_CSV);
-	// MET
-	tree->Branch("PFMET", &PFMET);
-	tree->Branch("PFMETphi", &PFMETphi);
-	
+  tree->Branch("n_ele", &n_ele);
+  tree->Branch("n_mu", &n_mu);
+  tree->Branch("n_lep", &n_lep);
+
+  tree->Branch("mll", &mll);
+
+  // muons
+  tree->Branch("mu0_pt", &mu0_pt);
+  tree->Branch("mu0_eta", &mu0_eta);
+  tree->Branch("mu0_phi", &mu0_phi);
+  tree->Branch("mu0_E", &mu0_E);
+  tree->Branch("mu0_charge", &mu0_charge);
+  tree->Branch("mu0_iso", &mu0_iso);
+  /*
+  tree->Branch("mu0_jetNDauChargedMVASel", &mu0_jetNDauChargedMVASel);
+  tree->Branch("mu0_miniRelIso",           &mu0_miniRelIso);
+  tree->Branch("mu0_miniIsoCharged",       &mu0_miniIsoCharged);
+  tree->Branch("mu0_miniIsoNeutral",       &mu0_miniIsoNeutral);
+  tree->Branch("mu0_jetPtRel",             &mu0_jetPtRel);
+  tree->Branch("mu0_jetPtRatio",           &mu0_jetPtRatio);
+  tree->Branch("mu0_jetCSV",               &mu0_jetCSV);
+  tree->Branch("mu0_sip3D",                &mu0_sip3D);
+  tree->Branch("mu0_dxy",                  &mu0_dxy);
+  tree->Branch("mu0_dz",                   &mu0_dz);
+  tree->Branch("mu0_segmentCompatibility", &mu0_segmentCompatibility);
+  tree->Branch("mu0_leptonMVA",            &mu0_leptonMVA);
+  tree->Branch("mu0_mediumID", &mu0_mediumID);
+  tree->Branch("mu0_dpt_div_pt", &mu0_dpt_div_pt);
+  tree->Branch("mu0_iscutsel", &mu0_iscutsel);
+  tree->Branch("mu0_ismvasel", &mu0_ismvasel);
+  tree->Branch("mu0_isfakeablesel", &mu0_isfakeablesel);
+  */
+  tree->Branch("mu1_pt", &mu1_pt);
+  tree->Branch("mu1_eta", &mu1_eta);
+  tree->Branch("mu1_phi", &mu1_phi);
+  tree->Branch("mu1_E", &mu1_E);
+  tree->Branch("mu1_charge", &mu1_charge);
+  tree->Branch("mu1_iso", &mu1_iso);
+  /*
+  tree->Branch("mu1_jetNDauChargedMVASel", &mu1_jetNDauChargedMVASel);
+  tree->Branch("mu1_miniRelIso",           &mu1_miniRelIso);
+  tree->Branch("mu1_miniIsoCharged",       &mu1_miniIsoCharged);
+  tree->Branch("mu1_miniIsoNeutral",       &mu1_miniIsoNeutral);
+  tree->Branch("mu1_jetPtRel",             &mu1_jetPtRel);
+  tree->Branch("mu1_jetPtRatio",           &mu1_jetPtRatio);
+  tree->Branch("mu1_jetCSV",               &mu1_jetCSV);
+  tree->Branch("mu1_sip3D",                &mu1_sip3D);
+  tree->Branch("mu1_dxy",                  &mu1_dxy);
+  tree->Branch("mu1_dz",                   &mu1_dz);
+  tree->Branch("mu1_segmentCompatibility", &mu1_segmentCompatibility);
+  tree->Branch("mu1_leptonMVA",            &mu1_leptonMVA);
+  tree->Branch("mu1_mediumID", &mu1_mediumID);
+  tree->Branch("mu1_dpt_div_pt", &mu1_dpt_div_pt);
+  tree->Branch("mu1_iscutsel", &mu1_iscutsel);
+  tree->Branch("mu1_ismvasel", &mu1_ismvasel);
+  tree->Branch("mu1_isfakeablesel", &mu1_isfakeablesel);
+  */
+  // electrons
+  tree->Branch("ele0_pt", &ele0_pt);
+  tree->Branch("ele0_eta", &ele0_eta);
+  tree->Branch("ele0_phi", &ele0_phi);
+  tree->Branch("ele0_E", &ele0_E);
+  tree->Branch("ele0_charge", &ele0_charge);
+  tree->Branch("ele0_iso", &ele0_iso);
+  /*
+  tree->Branch("ele0_jetNDauChargedMVASel", &ele0_jetNDauChargedMVASel);
+  tree->Branch("ele0_miniRelIso",           &ele0_miniRelIso);
+  tree->Branch("ele0_miniIsoCharged",       &ele0_miniIsoCharged);
+  tree->Branch("ele0_miniIsoNeutral",       &ele0_miniIsoNeutral);
+  tree->Branch("ele0_jetPtRel",             &ele0_jetPtRel);
+  tree->Branch("ele0_jetPtRatio",           &ele0_jetPtRatio);
+  tree->Branch("ele0_jetCSV",               &ele0_jetCSV);
+  tree->Branch("ele0_sip3D",                &ele0_sip3D);
+  tree->Branch("ele0_dxy",                  &ele0_dxy);
+  tree->Branch("ele0_dz",                   &ele0_dz);
+  tree->Branch("ele0_ntMVAeleID",           &ele0_ntMVAeleID);
+  tree->Branch("ele0_leptonMVA",            &ele0_leptonMVA);
+  tree->Branch("ele0_isChargeConsistent", &ele0_isChargeConsistent);
+  tree->Branch("ele0_passesConversionVeto", &ele0_passesConversionVeto);
+  tree->Branch("ele0_nMissingHits", &ele0_nMissingHits);
+  tree->Branch("ele0_iscutsel", &ele0_iscutsel);
+  tree->Branch("ele0_ismvasel", &ele0_ismvasel);
+  tree->Branch("ele0_isfakeablesel", &ele0_isfakeablesel);
+  */
+  tree->Branch("ele1_pt", &ele1_pt);
+  tree->Branch("ele1_eta", &ele1_eta);
+  tree->Branch("ele1_phi", &ele1_phi);
+  tree->Branch("ele1_E", &ele1_E);
+  tree->Branch("ele1_charge", &ele1_charge);
+  tree->Branch("ele1_iso", &ele1_iso);
+  /*
+  tree->Branch("ele1_jetNDauChargedMVASel", &ele1_jetNDauChargedMVASel);
+  tree->Branch("ele1_miniRelIso",           &ele1_miniRelIso);
+  tree->Branch("ele1_miniIsoCharged",       &ele1_miniIsoCharged);
+  tree->Branch("ele1_miniIsoNeutral",       &ele1_miniIsoNeutral);
+  tree->Branch("ele1_jetPtRel",             &ele1_jetPtRel);
+  tree->Branch("ele1_jetPtRatio",           &ele1_jetPtRatio);
+  tree->Branch("ele1_jetCSV",               &ele1_jetCSV);
+  tree->Branch("ele1_sip3D",                &ele1_sip3D);
+  tree->Branch("ele1_dxy",                  &ele1_dxy);
+  tree->Branch("ele1_dz",                   &ele1_dz);
+  tree->Branch("ele1_ntMVAeleID",           &ele1_ntMVAeleID);
+  tree->Branch("ele1_leptonMVA",            &ele1_leptonMVA);
+  tree->Branch("ele1_isChargeConsistent", &ele1_isChargeConsistent);
+  tree->Branch("ele1_passesConversionVeto", &ele1_passesConversionVeto);
+  tree->Branch("ele1_nMissingHits", &ele1_nMissingHits);
+  tree->Branch("ele1_iscutsel", &ele1_iscutsel);
+  tree->Branch("ele1_ismvasel", &ele1_ismvasel);
+  tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
+  */
+
+  tree->Branch("n_jets", &n_jets);
+  tree->Branch("n_btags", &n_btags);
+  // jets
+  tree->Branch("jet0_pt", &jet0_pt);
+  tree->Branch("jet0_eta", &jet0_eta);
+  tree->Branch("jet0_phi", &jet0_phi);
+  tree->Branch("jet0_E", &jet0_E);
+  tree->Branch("jet0_CSV", &jet0_CSV);
+  tree->Branch("jet1_pt", &jet1_pt);
+  tree->Branch("jet1_eta", &jet1_eta);
+  tree->Branch("jet1_phi", &jet1_phi);
+  tree->Branch("jet1_E", &jet1_E);
+  tree->Branch("jet1_CSV", &jet1_CSV);
+  tree->Branch("jet2_pt", &jet2_pt);
+  tree->Branch("jet2_eta", &jet2_eta);
+  tree->Branch("jet2_phi", &jet2_phi);
+  tree->Branch("jet2_E", &jet2_E);
+  tree->Branch("jet2_CSV", &jet2_CSV);
+  tree->Branch("jet3_pt", &jet3_pt);
+  tree->Branch("jet3_eta", &jet3_eta);
+  tree->Branch("jet3_phi", &jet3_phi);
+  tree->Branch("jet3_E", &jet3_E);
+  tree->Branch("jet3_CSV", &jet3_CSV);
+  // MET
+  tree->Branch("PFMET", &PFMET);
+  tree->Branch("PFMETphi", &PFMETphi);
 }
 /*
 double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
-	if (n < k or k < 0 or n < 0) {
-		std::cerr << "ERROR in Comb()! Illegal inputs!" << std::endl;
-		std::cerr << "n = " << n << std::endl;
-		return 0;
-	}
-	else if (k == 0) {
-		return 1;
-	}
-	else
-		return (n-k+1)*1./k * Comb(n, k-1);
+        if (n < k or k < 0 or n < 0) {
+                std::cerr << "ERROR in Comb()! Illegal inputs!" << std::endl;
+                std::cerr << "n = " << n << std::endl;
+                return 0;
+        }
+        else if (k == 0) {
+                return 1;
+        }
+        else
+                return (n-k+1)*1./k * Comb(n, k-1);
 }
 */
-//ClassImp(CU_ttH_EDA_Ntuple);
+// ClassImp(CU_ttH_EDA_Ntuple);
 
 #endif

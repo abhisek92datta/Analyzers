@@ -3,8 +3,8 @@ git cms-addpkg PhysicsTools/JetMCAlgos
 cd PhysicsTools/
 cd ../
 mv ../../Analyzers .
-mv Analyzers/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
-mv Analyzers/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
+cp Analyzers/Extras/PhysicsTools_JetMCAlgos_python/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
+cp Analyzers/Extras/PhysicsTools_JetMCAlgos_plugins/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 #echo /PhysicsTools/PatUtils/ >> .git/info/sparse-checkout
 #git cms-merge-topic cms-met:metTool80X
 git clone https://github.com/abhisek92datta/MiniAOD.git

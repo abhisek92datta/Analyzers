@@ -79,4 +79,10 @@ To resubmit :
 crab resubmit -d \<crab_output_directory_name\>
 
 
+Formatting :
+
+clang-format -style=file -i *.h
+clang-format -style=file -i *.cc
+
+
 
