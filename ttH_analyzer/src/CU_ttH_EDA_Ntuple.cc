@@ -487,6 +487,7 @@ void CU_ttH_EDA_Ntuple::initialize() {
   PFMETphi = -9999.;
 }
 
+/*
 void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   // initialize ntuple
   this->initialize();
@@ -527,8 +528,9 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("mu0_E", &mu0_E);
   tree->Branch("mu0_charge", &mu0_charge);
   tree->Branch("mu0_iso", &mu0_iso);
-  /*
-  tree->Branch("mu0_jetNDauChargedMVASel", &mu0_jetNDauChargedMVASel);
+  
+  */
+  /*tree->Branch("mu0_jetNDauChargedMVASel", &mu0_jetNDauChargedMVASel);
   tree->Branch("mu0_miniRelIso",           &mu0_miniRelIso);
   tree->Branch("mu0_miniIsoCharged",       &mu0_miniIsoCharged);
   tree->Branch("mu0_miniIsoNeutral",       &mu0_miniIsoNeutral);
@@ -546,12 +548,14 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("mu0_ismvasel", &mu0_ismvasel);
   tree->Branch("mu0_isfakeablesel", &mu0_isfakeablesel);
   */
+  /*
   tree->Branch("mu1_pt", &mu1_pt);
   tree->Branch("mu1_eta", &mu1_eta);
   tree->Branch("mu1_phi", &mu1_phi);
   tree->Branch("mu1_E", &mu1_E);
   tree->Branch("mu1_charge", &mu1_charge);
   tree->Branch("mu1_iso", &mu1_iso);
+  */
   /*
   tree->Branch("mu1_jetNDauChargedMVASel", &mu1_jetNDauChargedMVASel);
   tree->Branch("mu1_miniRelIso",           &mu1_miniRelIso);
@@ -572,12 +576,14 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("mu1_isfakeablesel", &mu1_isfakeablesel);
   */
   // electrons
+  /*
   tree->Branch("ele0_pt", &ele0_pt);
   tree->Branch("ele0_eta", &ele0_eta);
   tree->Branch("ele0_phi", &ele0_phi);
   tree->Branch("ele0_E", &ele0_E);
   tree->Branch("ele0_charge", &ele0_charge);
   tree->Branch("ele0_iso", &ele0_iso);
+  */
   /*
   tree->Branch("ele0_jetNDauChargedMVASel", &ele0_jetNDauChargedMVASel);
   tree->Branch("ele0_miniRelIso",           &ele0_miniRelIso);
@@ -598,12 +604,14 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("ele0_ismvasel", &ele0_ismvasel);
   tree->Branch("ele0_isfakeablesel", &ele0_isfakeablesel);
   */
+  /*
   tree->Branch("ele1_pt", &ele1_pt);
   tree->Branch("ele1_eta", &ele1_eta);
   tree->Branch("ele1_phi", &ele1_phi);
   tree->Branch("ele1_E", &ele1_E);
   tree->Branch("ele1_charge", &ele1_charge);
   tree->Branch("ele1_iso", &ele1_iso);
+  */
   /*
   tree->Branch("ele1_jetNDauChargedMVASel", &ele1_jetNDauChargedMVASel);
   tree->Branch("ele1_miniRelIso",           &ele1_miniRelIso);
@@ -624,7 +632,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("ele1_ismvasel", &ele1_ismvasel);
   tree->Branch("ele1_isfakeablesel", &ele1_isfakeablesel);
   */
-
+  /*
   tree->Branch("n_jets", &n_jets);
   tree->Branch("n_btags", &n_btags);
   // jets
@@ -652,6 +660,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("PFMETpt", &PFMETpt);
   tree->Branch("PFMETphi", &PFMETphi);
 }
+*/
 /*
 double CU_ttH_EDA_Ntuple::Comb(int n, int k) {  // return nCk
         if (n < k or k < 0 or n < 0) {
