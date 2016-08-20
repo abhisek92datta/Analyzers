@@ -49,7 +49,7 @@ public:
   ~CU_ttH_EDA_Ntuple();
 
   void initialize();
-  void set_up_branches(TTree *);
+  //void set_up_branches(TTree *);
   void write_ntuple_SL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
   void write_ntuple_DL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
   // void write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &);
