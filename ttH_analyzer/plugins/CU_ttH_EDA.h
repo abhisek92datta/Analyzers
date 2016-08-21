@@ -373,7 +373,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
     // tree and ntuple
     TTree *eventTree;
-    CU_ttH_EDA_Ntuple *hbbNtuple;
+    CU_ttH_EDA_Ntuple rhbbNtuple;
 };
 
 template <typename T1, typename T2>
