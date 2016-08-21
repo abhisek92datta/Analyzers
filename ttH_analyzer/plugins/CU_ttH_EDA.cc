@@ -220,14 +220,14 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     if (local.event_selection_SL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
         Check_Fill_Print_single_lepton(local);
-        hbbNtuple->initialize();
-        hbbNtuple->write_ntuple_SL(local, miniAODhelper);
+        hbbNtuple.initialize();
+        hbbNtuple.write_ntuple_SL(local, miniAODhelper);
         eventTree->Fill();
     } else if (local.event_selection_DL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
         Check_Fill_Print_di_lepton(local);
-        hbbNtuple->initialize();
-        hbbNtuple->write_ntuple_DL(local, miniAODhelper);
+        hbbNtuple.initialize();
+        hbbNtuple.write_ntuple_DL(local, miniAODhelper);
         eventTree->Fill();
     }
 }
