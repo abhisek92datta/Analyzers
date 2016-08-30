@@ -449,10 +449,10 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
 
     // using MiniAODHelper's jet correction function
     // local.jets_sl_corrected =
-    // miniAODhelper.GetCorrectedJets(local.jets_sl_raw, iEvent, iSetup,
+    // miniAODhelper.GetCorrectedJets(local.jets_sl_raw, iEvent, iSetup, handle.genjets,
     // sysType::NA, 1, doJER);
     // local.jets_di_corrected =
-    // miniAODhelper.GetCorrectedJets(local.jets_di_raw, iEvent, iSetup,
+    // miniAODhelper.GetCorrectedJets(local.jets_di_raw, iEvent, iSetup, handle.genjets,
     // sysType::NA, 1, doJER);
 
     // for b-weight
@@ -975,7 +975,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
                                  const double &rho, const edm_Handles &handle)
 {
 
-    getJECSF(local, rho); // to get JEC scale factors
+    getJECSF(local, rho, handle); // to get JEC scale factors
 
     getbweight(local); // to get b-weight
 
@@ -1003,7 +1003,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
 }
 
-inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho)
+inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle)
 {
 
     int jet_index = 0;
@@ -1020,11 +1020,11 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         pat::Jet jet = local.jets_sl_selected_raw[jet_index];
         /*
         local.jet1SF_sl = miniAODhelper.GetJetCorrectionFactor(jet, iEvent,
-        iSetup, sysType::NA, 1, 0);
+        iSetup, handle.genjets, sysType::NA, 1, 0);
         local.jet1SF_up_sl = miniAODhelper.GetJetCorrectionFactor(jet,iEvent,
-        iSetup, sysType::JESup, 1, 0)/local.jet1SF_sl;
+        iSetup, handle.genjets, sysType::JESup, 1, 0)/local.jet1SF_sl;
         local.jet1SF_down_sl = miniAODhelper.GetJetCorrectionFactor(jet,iEvent,
-        iSetup, sysType::JESdown, 1, 0)/local.jet1SF_sl;
+        iSetup, handle.genjets, sysType::JESdown, 1, 0)/local.jet1SF_sl;
         */
 
         local.jet1SF_sl = GetJetSF(jet, sysType::NA, rho);
@@ -1046,11 +1046,11 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
 
         /*
         local.jet1SF_di = miniAODhelper.GetJetCorrectionFactor(jet, iEvent,
-        iSetup, sysType::NA, 1, 0);
+        iSetup, handle.genjets, sysType::NA, 1, 0);
         local.jet1SF_up_di = miniAODhelper.GetJetCorrectionFactor(jet,iEvent,
-        iSetup, sysType::JESup, 1, 0)/local.jet1SF_di;
+        iSetup, handle.genjets, sysType::JESup, 1, 0)/local.jet1SF_di;
         local.jet1SF_down_di = miniAODhelper.GetJetCorrectionFactor(jet,iEvent,
-        iSetup, sysType::JESdown, 1, 0)/local.jet1SF_di;
+        iSetup, handle.genjets, sysType::JESdown, 1, 0)/local.jet1SF_di;
         */
 
         local.jet1SF_di = GetJetSF(jet, sysType::NA, rho);
