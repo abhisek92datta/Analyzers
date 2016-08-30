@@ -218,7 +218,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline double getQ2weight(const edm::Handle<GenEventInfoProduct> &,
                               const edm::Handle<LHEEventProduct> &,
                               const string &);
-    inline void getJECSF(CU_ttH_EDA_event_vars &, const double &);
+    inline void getJECSF(CU_ttH_EDA_event_vars &, const double &, const edm_Handles &);
     inline void getLeptonSF(CU_ttH_EDA_event_vars &);
 
     /// Other functions
