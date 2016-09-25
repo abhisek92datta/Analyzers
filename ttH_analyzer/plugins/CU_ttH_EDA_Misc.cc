@@ -264,10 +264,12 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up,
+        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
-        fprintf(events_combined, "-1,-1\n");
+        fprintf(events_combined, "-1,-1,");
+        
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
@@ -362,10 +364,11 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f\n", local.pdf_weight_up,
+        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
-        fprintf(events_combined, "-1,-1\n");
+        fprintf(events_combined, "-1,-1,");
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
@@ -1001,6 +1004,11 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
         local.q2_weight_down =
             getQ2weight(handle.event_gen_info, handle.EvtHandle, "1009");
     }
+    
+    if (local.n_prim_V == 1) {
+    	set_bjetness_input(local, handle.vertices);
+    	get_bjetness_vars(local.jets_inp_bjetness, local.PV, *handle.ttrkbuilder, handle.electrons_for_mva, handle.muon_h, local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
+     }
 }
 
 inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle)
@@ -1516,5 +1524,208 @@ CU_ttH_EDA::getPDFweight(CU_ttH_EDA_event_vars &local,
     local.pdf_weight_up = weight_up;
     local.pdf_weight_down = weight_down;
 }
+
+inline void 
+CU_ttH_EDA::set_bjetness_input(CU_ttH_EDA_event_vars &local, const edm::Handle<reco::VertexCollection> &vertices)
+{
+	local.PV = *vertices->begin();	
+	std::vector<pat::Jet> jets;
+	pat::Jet temp_jet;
+	double n_jets=0;
+	double n_max;
+	if(local.event_selection_SL == true) {
+		 jets = local.jets_sl_selected;
+		 n_jets = local.n_sl_jets;
+	}
+	else if (local.event_selection_DL == true) {	
+		jets = local.jets_di_selected;
+		n_jets = local.n_di_jets;
+	}
+	
+	
+	for(int i=0; i<n_jets; i++) {
+		for (int j=(n_jets-1); j>i; j--) {
+			if ( miniAODhelper.GetJetCSV(jets[j],"pfCombinedInclusiveSecondaryVertexV2BJetTags") > miniAODhelper.GetJetCSV(jets[j-1],"pfCombinedInclusiveSecondaryVertexV2BJetTags") ) {
+			
+			temp_jet = jets[j-1];
+			jets[j-1] = jets[j];
+			jets[j] = temp_jet;
+                               
+			}
+		}
+	}
+	
+	if(n_jets > 6) n_max = 6;
+	else n_max = n_jets;
+	
+	for (int k=1; k<n_max; k++)
+		local.jets_inp_bjetness.push_back(jets[k]);
+
+}
+
+inline vector<reco::TransientTrack> 
+CU_ttH_EDA::get_ttrks(vector<reco::Track> trks, const TransientTrackBuilder& ttrkbuilder)
+{
+  vector<reco::TransientTrack> ttrks;
+  for(uint tr=0; tr<trks.size(); tr++){
+   reco::TransientTrack ttrk = ttrkbuilder.build(&trks[tr]);
+   ttrks.push_back(ttrk);
+  }
+ return ttrks;
+}
+
+inline bool 
+CU_ttH_EDA::is_goodtrk(reco::Track trk,const reco::Vertex& vtx)
+{
+	bool isgoodtrk = false;
+ 	if(trk.pt()>1 &&
+   		trk.hitPattern().numberOfValidHits()>=8 &&
+   		trk.hitPattern().numberOfValidPixelHits()>=2 &&
+   		trk.normalizedChi2()<5 &&
+   		std::abs(trk.dxy(vtx.position()))<0.2 &&
+   		std::abs(trk.dz(vtx.position()))<17) 
+   			isgoodtrk = true;
+	
+	return isgoodtrk;
+}
+
+inline bool 
+CU_ttH_EDA::is_loosePOG_jetmuon(const pat::PackedCandidate &jcand, edm::Handle<edm::View<pat::Muon> > muon_h)
+{
+  bool ismu = false;
+  for(const pat::Muon &mu : *muon_h){
+    if(deltaR(jcand.p4(),mu.p4())<0.1 && fabs(jcand.pt()-mu.pt())/mu.pt()<0.05){
+     if(mu.isLooseMuon()) ismu = true;
+     if(ismu) break;
+    }
+  }  
+  return ismu;    
+}   
+    
+inline bool 
+CU_ttH_EDA::is_softLep_jetelectron(const pat::PackedCandidate &jcand, edm::Handle<edm::View<pat::Electron> > electron_pat, const reco::Vertex& vtx)
+{
+  bool isele = false;
+  for(edm::View<pat::Electron>::const_iterator ele = electron_pat->begin(); ele != electron_pat->end(); ele++){
+    const pat::Electron &lele = *ele;
+    if(deltaR(jcand.p4(),lele.p4())<0.1 && fabs(jcand.pt()-lele.pt())/lele.pt()<0.05 ){
+      const reco::HitPattern &hitPattern = lele.gsfTrack().get()->hitPattern();
+      uint32_t hit = hitPattern.getHitPattern(reco::HitPattern::TRACK_HITS, 0);
+      bool hitCondition = !(reco::HitPattern::validHitFilter(hit) && ((reco::HitPattern::pixelBarrelHitFilter(hit) && reco::HitPattern::getLayer(hit) < 3) || reco::HitPattern::pixelEndcapHitFilter(hit)));
+      if(!hitCondition && lele.passConversionVeto()) isele = true;
+      if(isele) break;
+    }
+  }
+  return isele;
+}
+
+inline void 
+CU_ttH_EDA::get_bjetness_trkinfos(vector<pat::Jet> evtjets, const reco::Vertex& vtx, vector<reco::Track>& jetchtrks, double& bjetness_num_pvtrks, double& bjetness_num_npvtrks, edm::Handle<edm::View<pat::Electron> > electron_pat, edm::Handle<edm::View<pat::Muon> > muon_h, double& bjetness_num_eles, double& bjetness_num_mus, vector<tuple<double, double, double> >& jetsdir)
+{
+  //Loop over evt jet
+  for(uint j=0; j<evtjets.size(); j++){
+    pat::Jet jet = evtjets[j];
+    //Access jet daughters
+    vector<reco::CandidatePtr> jdaus(jet.daughterPtrVector());
+    sort(jdaus.begin(), jdaus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) {return p1->pt() > p2->pt();});
+    for(uint jd=0; jd<jdaus.size(); jd++){
+      const pat::PackedCandidate &jcand = dynamic_cast<const pat::PackedCandidate &>(*jdaus[jd]);
+      //dR requirement
+      if(deltaR(jcand.p4(),jet.p4())>0.4) continue;
+      reco::Track trk = reco::Track(jcand.pseudoTrack());
+      bool isgoodtrk = is_goodtrk(trk,vtx);
+      //Minimal conditions for a BJetness jet constituent 
+      if(isgoodtrk && jcand.charge()!=0 && jcand.fromPV()>1){
+        jetchtrks.push_back(trk);
+        if(jcand.fromPV()==3) bjetness_num_pvtrks++;
+        if(jcand.fromPV()==2) bjetness_num_npvtrks++;
+        jetsdir.push_back(make_tuple(jet.px(),jet.py(),jet.pz()));
+        if(fabs(jcand.pdgId())==13 && is_loosePOG_jetmuon(jcand,muon_h)) bjetness_num_mus++;
+        if(fabs(jcand.pdgId())==11 && is_softLep_jetelectron(jcand,electron_pat,vtx)) bjetness_num_eles++;       
+        //if(fabs(jcand.pdgId())==11 && is_loosePOGNoIPNoIso_jetelectron(jcand,electron_pat,vtx)) bjetness_num_eles++;
+      }//Ch trks 
+    }//Loop on jet daus 
+  }//Loop on evt jet
+}
+
+inline void 
+CU_ttH_EDA::get_avip3d(vector<reco::Track> trks, const TransientTrackBuilder& ttrkbuilder, reco::Vertex vtx, vector<tuple<double, double, double> >& jetsdir, double& jetchtrks_avip3d_val, double& jetchtrks_avip3d_sig, double& jetchtrks_avsip3d_sig)
+{
+  double valtemp = 0;
+  vector<reco::TransientTrack> ttrks = get_ttrks(trks,ttrkbuilder);
+  for(uint t=0; t<ttrks.size(); t++){
+    valtemp = IPTools::absoluteImpactParameter3D(ttrks[t],vtx).second.value();
+    if(valtemp==valtemp) jetchtrks_avip3d_val  += valtemp;
+    valtemp = IPTools::absoluteImpactParameter3D(ttrks[t],vtx).second.significance();
+    if(valtemp==valtemp) jetchtrks_avip3d_sig  += valtemp;
+    GlobalVector jetsdirgv(get<0>(jetsdir[t]),get<1>(jetsdir[t]),get<2>(jetsdir[t]));
+    valtemp = IPTools::signedImpactParameter3D(ttrks[t],jetsdirgv,vtx).second.significance();
+    if(valtemp==valtemp) jetchtrks_avsip3d_sig += valtemp;
+  }
+}
+
+inline void 
+CU_ttH_EDA::get_avip1d(vector<reco::Track> trks, const TransientTrackBuilder& ttrkbuilder, reco::Vertex vtx, vector<tuple<double, double, double> >& jetsdir, double& jetchtrks_avip1d_sig)
+{
+  double valtemp = 0;
+  vector<reco::TransientTrack> ttrks = get_ttrks(trks,ttrkbuilder);
+  SignedTransverseImpactParameter stip;
+  for(uint t=0; t<ttrks.size(); t++){
+    GlobalVector jetsdirgv(get<0>(jetsdir[t]),get<1>(jetsdir[t]),get<2>(jetsdir[t]));
+    valtemp = fabs(stip.zImpactParameter(ttrks[t],jetsdirgv,vtx).second.significance());
+    if(valtemp==valtemp) jetchtrks_avip1d_sig  += valtemp;
+  }
+}
+
+inline void 
+CU_ttH_EDA::get_bjetness_vars( vector<pat::Jet> evtjets, const reco::Vertex& vtx, const TransientTrackBuilder& ttrkbuilder, edm::Handle<edm::View<pat::Electron> > electron_pat, edm::Handle<edm::View<pat::Muon> > muon_h, double& bjetnessFV_num_leps, double& bjetnessFV_npvTrkOVcollTrk, double& bjetnessFV_avip3d_val, double& bjetnessFV_avip3d_sig, double& bjetnessFV_avsip3d_sig, double& bjetnessFV_avip1d_sig )
+{
+	//Get BJetness trk info
+  vector<reco::Track> jetschtrks; 
+  jetschtrks.clear(); 
+  double num_pvtrks  = 0;
+  double num_npvtrks = 0;
+  double num_eles    = 0;  
+  double num_mus     = 0;           
+  vector<tuple<double, double, double> > jetsdir; 
+  jetsdir.clear(); 
+  
+  get_bjetness_trkinfos(evtjets, vtx, jetschtrks, num_pvtrks, num_npvtrks, electron_pat, muon_h, num_eles, num_mus, jetsdir);
+  
+  bjetnessFV_num_leps = num_eles+num_mus;
+  if(jetschtrks.size()!=0){
+    bjetnessFV_npvTrkOVcollTrk       = num_npvtrks/double(jetschtrks.size()); 
+    //Get BJetness Impact Parameters
+    double ip_valtemp = 0;
+    //3D
+    double jetchtrks_avip3d_val  = 0;
+    double jetchtrks_avip3d_sig  = 0;
+    double jetchtrks_avsip3d_sig = 0;
+    
+    get_avip3d(jetschtrks, ttrkbuilder, vtx, jetsdir, jetchtrks_avip3d_val,jetchtrks_avip3d_sig,jetchtrks_avsip3d_sig);
+    ip_valtemp = jetchtrks_avip3d_val/jetschtrks.size();
+    if(ip_valtemp==ip_valtemp) bjetnessFV_avip3d_val = ip_valtemp;
+    else                       bjetnessFV_avip3d_val = -996;
+    ip_valtemp = jetchtrks_avip3d_sig/jetschtrks.size();
+    if(ip_valtemp==ip_valtemp) bjetnessFV_avip3d_sig = ip_valtemp;
+    else                       bjetnessFV_avip3d_sig = -996; 
+    ip_valtemp = jetchtrks_avsip3d_sig/jetschtrks.size();
+    if(ip_valtemp==ip_valtemp) bjetnessFV_avsip3d_sig = ip_valtemp;
+    else                       bjetnessFV_avsip3d_sig = -996;
+    //1D
+    double jetchtrks_avip1d_sig  = 0;
+    get_avip1d(jetschtrks, ttrkbuilder, vtx, jetsdir, jetchtrks_avip1d_sig);
+    ip_valtemp = jetchtrks_avip1d_sig/jetschtrks.size();
+    if(ip_valtemp==ip_valtemp) bjetnessFV_avip1d_sig = ip_valtemp;
+    else                       bjetnessFV_avip1d_sig = -996;    
+  }else{
+    bjetnessFV_npvTrkOVcollTrk       = -998;
+    bjetnessFV_avip3d_val            = -998;
+    bjetnessFV_avip3d_sig            = -998;
+    bjetnessFV_avsip3d_sig           = -998;
+    bjetnessFV_avip1d_sig            = -998;
+  }
+}
+
 
 #endif

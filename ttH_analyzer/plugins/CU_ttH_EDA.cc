@@ -158,7 +158,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     /// Create and set up edm:Handles in stack mem.
     edm_Handles handle;
-    Set_up_handles(iEvent, handle, token, isdata);
+    Set_up_handles(iEvent, iSetup, handle, token, isdata);
 
     // for JEC
     const JetCorrector *corrector =
@@ -205,6 +205,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     init_flags(local);
     init_weights(local);
+    init_bjetness_var(local);
 
     // Event selection criteria for single lepton events
     Check_SL_Event_Selection(local);

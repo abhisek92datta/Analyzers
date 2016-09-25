@@ -7,6 +7,8 @@
 #include <fstream>
 #include <memory>
 #include <stdexcept> // standard exceptions
+#include <vector>
+#include <map>
 
 /// CMSSW user include files
 #include "FWCore/Framework/interface/EDAnalyzer.h"
@@ -54,6 +56,15 @@
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/TrackReco/interface/TrackFwd.h"
+#include "DataFormats/TrackReco/interface/TrackExtra.h"
+#include "DataFormats/Math/interface/deltaR.h"
+
+#include "DataFormats/TrackReco/interface/HitPattern.h"
+#include "TrackingTools/TransientTrack/interface/TransientTrack.h"
+#include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
+#include "TrackingTools/Records/interface/TransientTrackRecord.h"
 
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
@@ -72,6 +83,9 @@
 #include "JetMETCorrections/Modules/interface/JetResolution.h"
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
+#include "TrackingTools/IPTools/interface/IPTools.h"
+#include "RecoBTag/BTagTools/interface/SignedTransverseImpactParameter.h"
+
 #include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
 
@@ -81,6 +95,7 @@
 #include "TH1.h"
 #include "TRandom3.h"
 #include "TTree.h"
+#include "TMath.h"
 
 /// Higgs and top tagger
 #include "MiniAOD/MiniAODHelper/interface/HiggsTagger.h"
@@ -197,6 +212,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     void init_PU_weight();
     void init_PDF_weight();
     void init_weights(CU_ttH_EDA_event_vars &);
+    void init_bjetness_var(CU_ttH_EDA_event_vars &);
 
     // Event Selection functions
     void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
@@ -220,6 +236,16 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                               const string &);
     inline void getJECSF(CU_ttH_EDA_event_vars &, const double &, const edm_Handles &);
     inline void getLeptonSF(CU_ttH_EDA_event_vars &);
+    
+    inline void set_bjetness_input(CU_ttH_EDA_event_vars &, const edm::Handle<reco::VertexCollection> &);
+    inline vector<reco::TransientTrack> get_ttrks(vector<reco::Track> , const TransientTrackBuilder& );
+    inline bool is_goodtrk(reco::Track ,const reco::Vertex& );
+    inline bool is_loosePOG_jetmuon(const pat::PackedCandidate &, edm::Handle<edm::View<pat::Muon> > );
+    inline bool is_softLep_jetelectron(const pat::PackedCandidate &, edm::Handle<edm::View<pat::Electron> > , const reco::Vertex& );
+    inline void get_bjetness_trkinfos(vector<pat::Jet> , const reco::Vertex& , vector<reco::Track>& , double& , double& , edm::Handle<edm::View<pat::Electron> > ,edm::Handle<edm::View<pat::Muon> > ,double& ,double& ,vector<tuple<double, double, double> >& );    
+    inline void get_avip3d(vector<reco::Track> , const TransientTrackBuilder& , reco::Vertex , vector<tuple<double, double, double> >& , double& , double& , double& );
+    inline void get_avip1d(vector<reco::Track> , const TransientTrackBuilder& , reco::Vertex , vector<tuple<double, double, double> >& , double& );
+    inline void get_bjetness_vars( vector<pat::Jet> , const reco::Vertex& , const TransientTrackBuilder& , edm::Handle<edm::View<pat::Electron> > , edm::Handle<edm::View<pat::Muon> > , double& , double& , double& , double& , double& , double& );  
 
     /// Other functions
     void Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &);

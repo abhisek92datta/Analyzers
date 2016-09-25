@@ -51,6 +51,10 @@
 #include "DataFormats/Candidate/interface/VertexCompositePtrCandidate.h"
 #include "DataFormats/Candidate/interface/VertexCompositePtrCandidateFwd.h"
 
+#include "TrackingTools/TransientTrack/interface/TransientTrack.h"
+#include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
+#include "TrackingTools/Records/interface/TransientTrackRecord.h"
+
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 
@@ -90,10 +94,14 @@ struct edm_Handles {
     Handle<edm::ValueMap<float>> mvaValues;
     Handle<edm::ValueMap<int>> mvaCategories;
     Handle<edm::View<pat::Electron>> electrons_for_mva;
+	Handle<edm::View<pat::Muon>> muon_h;
 
     Handle<int> genTtbarId;
     Handle<std::vector<PileupSummaryInfo>> PupInfo;
     Handle<LHEEventProduct> EvtHandle;
+    
+    ESHandle<TransientTrackBuilder> ttrkbuilder;
+    
 };
 
 struct edm_Tokens {
@@ -119,6 +127,7 @@ struct edm_Tokens {
     EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
     EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
     EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
+    EDGetTokenT<edm::View<pat::Muon>> muon_h_token;
 
     EDGetTokenT<int> genTtbarIdToken_;
     EDGetTokenT<std::vector<PileupSummaryInfo>> puInfoToken;
@@ -126,6 +135,6 @@ struct edm_Tokens {
 };
 
 /// Set up handles with getByToken from edm::Event
-void Set_up_handles(const Event &, edm_Handles &, edm_Tokens &, int);
+void Set_up_handles(const Event &, const edm::EventSetup &, edm_Handles &, edm_Tokens &, int);
 
 #endif

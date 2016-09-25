@@ -91,6 +91,8 @@ struct CU_ttH_EDA_event_vars {
   std::vector<pat::Jet> jets_di_selected_tag_old;
   std::vector<pat::Jet> jets_di_selected_tag;
   std::vector<pat::Jet> jets_di_selected_tag_sorted;
+  
+  std::vector<pat::Jet> jets_inp_bjetness;
 
   std::vector<double> vec_jet_pt;
   std::vector<double> vec_jet_eta;
@@ -133,6 +135,15 @@ struct CU_ttH_EDA_event_vars {
   double pdf_weight_down;
   double q2_weight_up;
   double q2_weight_down;
+  
+  reco::Vertex PV;
+  
+  double bjetnessFV_num_leps; 
+  double bjetnessFV_npvTrkOVcollTrk;
+  double bjetnessFV_avip3d_val;
+  double bjetnessFV_avip3d_sig; 
+  double bjetnessFV_avsip3d_sig; 
+  double bjetnessFV_avip1d_sig;
 
   bool is_e;
   bool is_mu;

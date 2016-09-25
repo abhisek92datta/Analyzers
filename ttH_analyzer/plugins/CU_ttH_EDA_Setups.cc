@@ -20,6 +20,16 @@ void CU_ttH_EDA::init_weights(CU_ttH_EDA_event_vars &local)
     local.q2_weight_down = -1;
 }
 
+void CU_ttH_EDA::init_bjetness_var(CU_ttH_EDA_event_vars &local)
+{
+  local.bjetnessFV_num_leps = -1; 
+  local.bjetnessFV_npvTrkOVcollTrk =-1;
+  local.bjetnessFV_avip3d_val =-1;
+  local.bjetnessFV_avip3d_sig =-1; 
+  local.bjetnessFV_avsip3d_sig =-1; 
+  local.bjetnessFV_avip1d_sig =-1;
+} 
+
 void CU_ttH_EDA::init_flags(CU_ttH_EDA_event_vars &local)
 {
     local.is_e = false;
@@ -131,7 +141,8 @@ void CU_ttH_EDA::Set_up_output_files()
             "lep1_pt,lep1_iso,lep1_pdgId,lep2_pt,lep2_iso,lep2_pdgId,jet1_pt,"
             "jet2_pt,jet1_CSVv2,jet2_CSVv2,jet1_JecSF,jet1_JecSF_up,jet1_JecSF_"
             "down,MET_pt,MET_phi,mll,ttHFCategory,PUWeight,bWeight,triggerSF,"
-            "lepIDSF,lepISOSF,Q2_upup,Q2_downdown,pdf_up,pdf_down\n");
+            "lepIDSF,lepISOSF,Q2_upup,Q2_downdown,pdf_up,pdf_down,bjetnessFV_num_leps,bjetnessFV_npvTrkOVcollTrk,bjetnessFV_avip3d_val,"
+            "bjetnessFV_avip3d_sig,bjetnessFV_avsip3d_sig,bjetnessFV_avip1d_sig\n");
 }
 
 void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
@@ -170,6 +181,8 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mvaCategories"));
     token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
         config.getParameter<edm::InputTag>("electrons"));
+    token.muon_h_token = consumes<edm::View<pat::Muon>>(
+        config.getParameter<edm::InputTag>("muons"));
     token.genTtbarIdToken_ =
         consumes<int>(config.getParameter<edm::InputTag>("genTtbarId"));
     token.puInfoToken = consumes<std::vector<PileupSummaryInfo>>(
