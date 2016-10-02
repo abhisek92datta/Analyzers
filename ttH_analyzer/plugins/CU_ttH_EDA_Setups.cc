@@ -202,9 +202,11 @@ void CU_ttH_EDA::Set_up_Tree()
 void CU_ttH_EDA::Set_up_b_weights()
 {
     inputFileHF =
-        "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
+    //    "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
+    	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
     inputFileLF =
-        "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
+    //    "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
+    	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
     f_CSVwgt_HF = new TFile((inputFileHF).c_str());
     f_CSVwgt_LF = new TFile((inputFileLF).c_str());
     fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);

@@ -14,12 +14,14 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.load("TrackingTools/TransientTrack/TransientTrackBuilder_cfi")
 process.load('Configuration.Geometry.GeometryRecoDB_cff')
+#process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
+process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
 	input = cms.untracked.int32(-1)
@@ -42,6 +44,16 @@ process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
     'ak4PFchsL2Relative', 
     'ak4PFchsL3Absolute',
     'ak4PFchsResidual')
+)
+
+from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+updateJetCollection(
+  process,
+  jetSource = cms.InputTag('slimmedJets'),
+  jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None' ),  
+  btagDiscriminators = ['LIST OF DISCRIMINATORS TO RUN'],
+  runIVF=True,
+  #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
 
 

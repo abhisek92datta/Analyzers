@@ -385,11 +385,11 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_veto_mu_eta);
     local.e_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_ele_pT, electronID::electronEndOf15MVA80iso0p15,
+        local.e_with_id, min_ele_pT, electronID::electronNonTrigMVAid80,
         max_ele_eta);
     local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
         local.e_with_id, min_veto_ele_pT,
-        electronID::electronEndOf15MVA80iso0p15, max_veto_ele_eta);
+        electronID::electronNonTrigMVAid80, max_veto_ele_eta);
     local.n_electrons = static_cast<int>(local.e_selected.size());
     local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
     local.n_muons = static_cast<int>(local.mu_selected.size());
@@ -402,7 +402,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         corrType::deltaBeta, max_di_mu2_eta);
     local.e_di_selected = miniAODhelper.GetSelectedElectrons(
         local.e_with_id, min_di_ele2_pT,
-        electronID::electronEndOf15MVA80iso0p15, max_di_ele2_eta);
+        electronID::electronNonTrigMVAid80, max_di_ele2_eta);
     local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
     local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
     /// Sort leptons by pT
@@ -1080,8 +1080,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                 local.e_selected[0].pt(),
                 local.e_selected[0].superCluster()->position().eta(), 0, "Iso");
             local.lep_sf_trig_sl = leptonSFhelper.GetElectronSF(
-                local.e_selected[0].pt(), local.e_selected[0].eta(), 0,
-                "Trigger");
+                local.e_selected[0].pt()
+                local.e_selected[0].superCluster()->position().eta(), 0, "Trigger");
         } else if (local.is_mu) {
             local.lep_sf_id_sl = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "ID");
