@@ -51,7 +51,7 @@ updateJetCollection(
   process,
   jetSource = cms.InputTag('slimmedJets'),
   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None' ),  
-  btagDiscriminators = ['LIST OF DISCRIMINATORS TO RUN'],
+  btagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags'],
   runIVF=True,
   #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
