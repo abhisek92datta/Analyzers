@@ -254,10 +254,11 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
     if (!isdata) {
         fprintf(events_combined, "%.4f,%.4f,", local.b_weight_sl,
                 local.lep_sf_trig_sl);
-        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl,
-                local.lep_sf_iso_sl);
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.lep_sf_id_sl,
+                local.lep_sf_iso_sl,local.lep_sf_gsf_sl,
+                local.lep_sf_hip_sl);
     } else
-        fprintf(events_combined, "-1,-1,-1,-1,");
+        fprintf(events_combined, "-1,-1,-1,-1,-1,-1,");
     if (!isdata)
         fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
                 local.q2_weight_down);
@@ -354,10 +355,11 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     if (!isdata) {
         fprintf(events_combined, "%.4f,%.4f,", local.b_weight_di,
                 local.lep_sf_trig_di);
-        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di,
-                local.lep_sf_iso_di);
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.lep_sf_id_di,
+                local.lep_sf_iso_di,local.lep_sf_gsf_di,
+                local.lep_sf_hip_di);
     } else
-        fprintf(events_combined, "-1,-1,-1,-1,");
+        fprintf(events_combined, "-1,-1,-1,-1,-1,-1,");
     if (!isdata)
         fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
                 local.q2_weight_down);
@@ -1079,6 +1081,10 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             local.lep_sf_iso_sl = leptonSFhelper.GetElectronSF(
                 local.e_selected[0].pt(),
                 local.e_selected[0].superCluster()->position().eta(), 0, "Iso");
+            local.lep_sf_gsf_sl = leptonSFhelper.GetElectronSF(
+                local.e_selected[0].pt(),
+                local.e_selected[0].superCluster()->position().eta(), 0, "Gsf");
+            local.lep_sf_hip_sl = -1;
             local.lep_sf_trig_sl = leptonSFhelper.GetElectronSF(
                 local.e_selected[0].pt()
                 local.e_selected[0].superCluster()->position().eta(), 0, "Trigger");
@@ -1088,6 +1094,9 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             local.lep_sf_iso_sl =
                 leptonSFhelper.GetMuonSF(local.mu_selected[0].pt(),
                                          local.mu_selected[0].eta(), 0, "Iso");
+            local.lep_sf_gsf_sl = -1;
+            local.lep_sf_hip_sl = leptonSFhelper.GetMuonSF(local.mu_selected[0].pt(),
+                                         local.mu_selected[0].eta(), 0, "HIP");                                                            
             local.lep_sf_trig_sl = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0,
                 "Trigger");
@@ -1115,6 +1124,16 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                     local.e_di_selected[1].pt(),
                     local.e_di_selected[1].superCluster()->position().eta(), 0,
                     "Iso");
+            local.lep_sf_gsf_di =
+                leptonSFhelper.GetElectronSF(
+                    local.e_di_selected[0].pt(),
+                    local.e_di_selected[0].superCluster()->position().eta(), 0,
+                    "Gsf") *
+                leptonSFhelper.GetElectronSF(
+                    local.e_di_selected[1].pt(),
+                    local.e_di_selected[1].superCluster()->position().eta(), 0,
+                    "Gsf");
+            local.lep_sf_hip_di = -1;
             local.lep_sf_trig_di = leptonSFhelper.GetElectronElectronSF(
                 local.e_di_selected[0].eta(), local.e_di_selected[1].eta(), 0,
                 "Trigger");
@@ -1133,6 +1152,14 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                 leptonSFhelper.GetMuonSF(local.mu_di_selected[1].pt(),
                                          local.mu_di_selected[1].eta(), 0,
                                          "Iso");
+            local.lep_sf_gsf_di = -1;
+            local.lep_sf_hip_di =
+                leptonSFhelper.GetMuonSF(local.mu_di_selected[0].pt(),
+                                         local.mu_di_selected[0].eta(), 0,
+                                         "HIP") *
+                leptonSFhelper.GetMuonSF(local.mu_di_selected[1].pt(),
+                                         local.mu_di_selected[1].eta(), 0,
+                                         "HIP");
             local.lep_sf_trig_di = leptonSFhelper.GetMuonMuonSF(
                 local.mu_di_selected[0].eta(), local.mu_di_selected[1].eta(), 0,
                 "Trigger");
@@ -1153,6 +1180,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                 leptonSFhelper.GetMuonSF(local.mu_di_selected[0].pt(),
                                          local.mu_di_selected[0].eta(), 0,
                                          "Iso");
+            local.lep_sf_gsf_di = -1;
+            local.lep_sf_hip_di = -1;
             local.lep_sf_trig_di = leptonSFhelper.GetElectronMuonSF(
                 local.e_di_selected[0].eta(), local.mu_di_selected[0].eta(), 0,
                 "Trigger");

@@ -125,9 +125,13 @@ struct CU_ttH_EDA_event_vars {
 
   double lep_sf_id_sl;
   double lep_sf_iso_sl;
+  double lep_sf_gsf_sl;
+  double lep_sf_hip_sl;
   double lep_sf_trig_sl;
   double lep_sf_id_di;
   double lep_sf_iso_di;
+  double lep_sf_gsf_di;
+  double lep_sf_hip_di;
   double lep_sf_trig_di;
 
   double PU_weight;
