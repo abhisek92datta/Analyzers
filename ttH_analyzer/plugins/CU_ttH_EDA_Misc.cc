@@ -1086,7 +1086,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                 local.e_selected[0].superCluster()->position().eta(), 0, "Gsf");
             local.lep_sf_hip_sl = -1;
             local.lep_sf_trig_sl = leptonSFhelper.GetElectronSF(
-                local.e_selected[0].pt()
+                local.e_selected[0].pt(),
                 local.e_selected[0].superCluster()->position().eta(), 0, "Trigger");
         } else if (local.is_mu) {
             local.lep_sf_id_sl = leptonSFhelper.GetMuonSF(
