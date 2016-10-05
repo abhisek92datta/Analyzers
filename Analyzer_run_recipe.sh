@@ -1,5 +1,4 @@
-cd CMSSW_8_0_17/src/
-git cms-merge-topic -u cms-btv-pog:bTagHIPMitigation-PR_from-CMSSW_8_0_17
+cd CMSSW_8_0_20/src/
 git cms-addpkg PhysicsTools/JetMCAlgos
 mv ../../Analyzers .
 cp Analyzers/Extras/PhysicsTools_JetMCAlgos_python/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
