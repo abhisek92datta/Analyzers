@@ -4,6 +4,7 @@
 /// Includes
 #include "CU_ttH_EDA.h"
 
+/*
 int CU_ttH_EDA::End_Run_hist_fill_triggers()
 {
     TAxis *axis = h_hlt->GetXaxis();
@@ -32,6 +33,7 @@ int CU_ttH_EDA::End_Run_hist_fill_triggers()
 
     return 0;
 }
+*/
 
 void CU_ttH_EDA::Update_common_vars(const edm::Event &iEvent,
                                     CU_ttH_EDA_event_vars &local)
@@ -41,6 +43,7 @@ void CU_ttH_EDA::Update_common_vars(const edm::Event &iEvent,
     local.lumisection_nr = iEvent.id().luminosityBlock();
 }
 
+/*
 int CU_ttH_EDA::Check_beam_spot(edm::Handle<reco::BeamSpot> BS)
 {
     if (!BS.isValid())
@@ -52,6 +55,7 @@ int CU_ttH_EDA::Check_beam_spot(edm::Handle<reco::BeamSpot> BS)
 
     return 0;
 }
+*/
 
 int CU_ttH_EDA::Check_triggers(edm::Handle<edm::TriggerResults> triggerResults,
                                CU_ttH_EDA_event_vars &local)
@@ -73,7 +77,7 @@ int CU_ttH_EDA::Check_triggers(edm::Handle<edm::TriggerResults> triggerResults,
         Check_triggers_iterator(trigger_on_HLT_emu, triggerResults);
     local.pass_double_mu =
         Check_triggers_iterator(trigger_on_HLT_mumu, triggerResults);
-
+	/*
     if (trigger_stats) {
         for (std::vector<std::string>::const_iterator trigger =
                  trigger_names.begin();
@@ -99,6 +103,7 @@ int CU_ttH_EDA::Check_triggers(edm::Handle<edm::TriggerResults> triggerResults,
                 ++n_trigger_fired[pathNameNoVer];
         }
     }
+    */
 
     return 0;
 }
@@ -128,6 +133,7 @@ inline bool CU_ttH_EDA::Check_triggers_iterator(
     return false;
 }
 
+/*
 int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 {
     if (!filterResults.isValid()) {
@@ -164,6 +170,7 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 
     return 0;
 }
+*/
 
 int CU_ttH_EDA::Check_vertices_set_MAODhelper(
     edm::Handle<reco::VertexCollection> vertices)

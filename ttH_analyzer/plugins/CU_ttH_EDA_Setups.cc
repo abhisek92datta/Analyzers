@@ -62,6 +62,7 @@ void CU_ttH_EDA::init_PDF_weight()
 
 void CU_ttH_EDA::Close_output_files() { fclose(events_combined); }
 
+/*
 void CU_ttH_EDA::Set_up_histograms()
 {
     if (analysis_type == Analyze_lepton_jet) {
@@ -69,7 +70,9 @@ void CU_ttH_EDA::Set_up_histograms()
     if (analysis_type == Analyze_dilepton) {
     }
 }
+*/
 
+/*
 /// Prepare histograms for trigger/filter counts
 int CU_ttH_EDA::Set_up_Run_histograms_triggers()
 {
@@ -99,7 +102,9 @@ int CU_ttH_EDA::Set_up_Run_histograms_triggers()
 
     return 0;
 }
+*/
 
+/*
 void CU_ttH_EDA::Set_up_trigger_name_vectors()
 {
     /// Fill trigger name vectors and counters
@@ -131,6 +136,7 @@ void CU_ttH_EDA::Set_up_trigger_name_vectors()
         filter_names_no_ver.push_back(pathNameNoVer);
     }
 }
+*/
 
 /// Make and open write-out files
 void CU_ttH_EDA::Set_up_output_files()

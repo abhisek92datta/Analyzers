@@ -101,7 +101,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
     Load_configuration_MAODH(isdata);
 
     Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
-    Set_up_histograms();
+    //Set_up_histograms();
     Set_up_output_files();
 
     // For Jet Correction
@@ -189,11 +189,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     // (handle.event_gen_info.product()->weight());
     local.weight = 0;
 
+	/*
     if (trigger_stats) {
         h_hlt->Fill(0., 1);
         h_flt->Fill(0., 1);
     }
-
+	*/
+	
     /// Lepton selection
     Select_Leptons(local, handle);
 
@@ -274,6 +276,7 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
         std::cout << "New " << filterTag << " config has been loaded.\n";
     */
     /// Set up filter and trigger name vectors and maps
+    /*
     if (trigger_stats) {
         Set_up_trigger_name_vectors();
 
@@ -283,12 +286,14 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
             return;
         }
     }
+    */
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
 {
     // report results of sync exercises
+    /*
     if (analysis_type == Analyze_lepton_jet) {
     }
     if (analysis_type == Analyze_dilepton) {
@@ -327,7 +332,7 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
             << "***************************************************************"
             << std::endl;
     }
-
+	*/
     std::cout
         << "***************************************************************"
         << std::endl;

@@ -155,27 +155,27 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     void Load_configuration(string); // at CU_ttH_EDA(), runs _MAODH()
     void Load_configuration_set_type(const string &); // sets analysis_type
     void Load_configuration_MAODH(bool); // runs miniAODhelper.SetUp
-    void Set_up_histograms();            // at CU_ttH_EDA()
+    //void Set_up_histograms();            // at CU_ttH_EDA()
     void Set_up_output_files();          // at CU_ttH_EDA()
     void Set_up_tokens(const edm::ParameterSet &);
     void Set_up_b_weights(); // at CU_ttH_EDA()
     void Set_up_Tree();
 
-    int Set_up_Run_histograms_triggers(); // at beginRun(), after
+    //int Set_up_Run_histograms_triggers(); // at beginRun(), after
                                           // Set_up_name_vectors()
 
-    void Set_up_trigger_name_vectors(); // at beginRun()
+    //void Set_up_trigger_name_vectors(); // at beginRun()
 
-    int End_Run_hist_fill_triggers(); // fill histograms at endRun()
+    //int End_Run_hist_fill_triggers(); // fill histograms at endRun()
 
     /// Per-event functions
     void Update_common_vars(const edm::Event &, CU_ttH_EDA_event_vars &);
 
     /// Object checks. Returns 1 in case of an error
-    int Check_beam_spot(edm::Handle<reco::BeamSpot>);
+    //int Check_beam_spot(edm::Handle<reco::BeamSpot>);
     int Check_triggers(edm::Handle<edm::TriggerResults>,
                        CU_ttH_EDA_event_vars &); // adjusts event variables
-    int Check_filters(edm::Handle<edm::TriggerResults>);
+    //int Check_filters(edm::Handle<edm::TriggerResults>);
     int Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection>);
     int Check_PV(
         const edm::Handle<reco::VertexCollection> &); // check primary vertex
@@ -275,7 +275,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
     /// Triggers, paths: configs filled/updated via run
     HLTConfigProvider hlt_config;
-    HLTConfigProvider filter_config;
+    //HLTConfigProvider filter_config;
 
     /// Triggers, paths.
     // Used for trigger statistics, filled via run (trigger_stats = true)
@@ -285,14 +285,14 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     bool trigger_stats;
 
     // counters (trigger_stats = true)
-    std::map<std::string, unsigned long> n_trigger_fired; // HLT
-    std::map<std::string, unsigned long> n_filter_fired;
+    //std::map<std::string, unsigned long> n_trigger_fired; // HLT
+    //std::map<std::string, unsigned long> n_filter_fired;
 
-    std::vector<std::string> trigger_names;
-    std::vector<std::string> trigger_names_no_ver;
+    //std::vector<std::string> trigger_names;
+    //std::vector<std::string> trigger_names_no_ver;
 
-    std::vector<std::string> filter_names;
-    std::vector<std::string> filter_names_no_ver;
+    //std::vector<std::string> filter_names;
+    //std::vector<std::string> filter_names_no_ver;
 
     // triggers of interest. Provided by config
     std::vector<std::string> trigger_on_HLT_e;    // single electron trigger
@@ -391,8 +391,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     // TRandom3 *r;
 
     /// Histograms
-    TH1D *h_hlt;
-    TH1D *h_flt;
+    //TH1D *h_hlt;
+    //TH1D *h_flt;
 
     /// Write-out files
     FILE *events_combined;
