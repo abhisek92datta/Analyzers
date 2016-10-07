@@ -128,8 +128,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
     delete f_CSVwgt_HF;
     delete f_CSVwgt_LF;
     delete NNPDF30_nlo_as_0118_PDFSet;
-    delete h_hlt;
-    delete h_flt;
+    //delete h_hlt;
+    //delete h_flt;
 }
 
 // ------------ method called for each event  ------------
