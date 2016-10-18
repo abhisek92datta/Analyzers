@@ -28,7 +28,7 @@ RUN :
 
 For MC :
 
-in yaml config file -- using_real_data : false and HLT_config_tag: 'HLT2'
+in yaml config file -- using_real_data : false 
 
 To Run Locally:
 
@@ -50,7 +50,7 @@ To Run on CRAB :
 
 For DATA :
 
-in yaml config file -- using_real_data : true and HLT_config_tag: 'HLT'
+in yaml config file -- using_real_data : true 
 
 To Run Locally:
 

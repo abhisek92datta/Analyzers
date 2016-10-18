@@ -11,7 +11,7 @@ Generic:
     # Prints events' triggers. Depends on verbosity and collect_trigger_stats
     print_HLT_event_path: false
     # HLT or HLT2 (for reHLT)
-    HLT_config_tag: 'HLT2'
+    HLT_config_tag: 'HLT'
     filter_config_tag: 'PAT'
     
 ## Triggers to fire upon

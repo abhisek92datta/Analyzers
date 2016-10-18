@@ -12,7 +12,8 @@ config.JobType.allowUndistributedCMSSW = True
 config.JobType.inputFiles = ['data']
 config.JobType.outputFiles = ['Cornell_tth_80X.csv']
 
-config.Data.userInputFiles = ['/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root']
+config.Data.inputDataset = '/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM'
+#config.Data.userInputFiles = ['/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root']
 config.Data.outputPrimaryDataset = 'ttH_Analyzer_hbb'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
