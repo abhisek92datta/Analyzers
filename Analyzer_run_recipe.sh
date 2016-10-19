@@ -1,3 +1,4 @@
+voms-proxy-init -voms cms
 cd CMSSW_8_0_20/src/
 git cms-addpkg PhysicsTools/JetMCAlgos
 mv ../../Analyzers .
