@@ -56,6 +56,13 @@ updateJetCollection(
   #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
 
+#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+#runMetCorAndUncFromMiniAOD(process,
+#    isData     = True,
+#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt",
+#    postfix    = "Recorrected",
+#    jetFlavor  = "AK4PFchs"
+#)
 
 #process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring())
 
@@ -127,13 +134,6 @@ process.source = cms.Source("PoolSource",
 import FWCore.PythonUtilities.LumiList as LumiList
 process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 
-#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-#runMetCorAndUncFromMiniAOD(process,
-#    isData     = True,
-#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt",
-#    postfix    = "Recorrected",
-#    jetFlavor  = "AK4PFchs"
-#)
 
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
