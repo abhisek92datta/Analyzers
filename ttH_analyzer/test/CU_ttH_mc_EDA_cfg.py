@@ -56,6 +56,13 @@ updateJetCollection(
   #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
 
+#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+#runMetCorAndUncFromMiniAOD(process,
+#    isData     = False,
+#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt",
+#    postfix    = "Recorrected",
+#    jetFlavor  = "AK4PFchs"
+#)
 
 #process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring())
 
@@ -79,14 +86,6 @@ process.source = cms.Source("PoolSource",
         #'/store/mc/RunIISpring16MiniAODv2/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/005054EA-CB80-E611-9836-14187733AD89.root'
         )
 )
-
-#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-#runMetCorAndUncFromMiniAOD(process,
-#    isData     = False,
-#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt",
-#    postfix    = "Recorrected",
-#    jetFlavor  = "AK4PFchs"
-#)
 
 # new electron MVA developed by the EGamma POG 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
