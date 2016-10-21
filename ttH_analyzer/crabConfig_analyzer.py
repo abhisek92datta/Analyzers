@@ -17,6 +17,7 @@ config.Data.inputDataset = '/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-
 config.Data.outputPrimaryDataset = 'ttH_Analyzer_hbb'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
+#config.Data.lumiMask = 'data/JSON/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt'
 config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/abdatta/' 
 config.Data.publication = True
