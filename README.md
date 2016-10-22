@@ -52,6 +52,9 @@ For DATA :
 
 in yaml config file -- using_real_data : true 
 
+Select the appropriate event selection for the dataset
+in CU_ttH_EDA.cc and CU_ttH_EDA_Misc.cc
+
 To Run Locally:
 
 1. put desired DATA filename in : test/CU_ttH_data_EDA_cfg.py
