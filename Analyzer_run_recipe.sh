@@ -1,8 +1,6 @@
 voms-proxy-init -voms cms
 cd CMSSW_8_0_20/src/
-#git cms-init
-#echo /PhysicsTools/PatUtils/ >> .git/info/sparse-checkout
-#git cms-merge-topic cms-met:metTool80X
+#git cms-merge-topic cms-met:METRecipe_8020
 git cms-addpkg PhysicsTools/JetMCAlgos
 mv ../../Analyzers .
 cp Analyzers/Extras/PhysicsTools_JetMCAlgos_python/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
