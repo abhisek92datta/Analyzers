@@ -728,9 +728,9 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                                          matched_genjet.pt(), jet.pt());
                 }
             } else if (genjet_match == 0) {
-                // jerSF = r->Gaus();
-                // r->SetSeed(1);
-                jerSF = 1;
+                 jerSF = r->Gaus();
+                 r->SetSeed(1);
+                 //jerSF = 1;
             }
             jet.scaleEnergy(jerSF * corrFactor);
         }

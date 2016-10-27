@@ -111,7 +111,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
     Set_up_Tree();
     Set_up_weights();
 
-    // r = new TRandom3(1);
+    r = new TRandom3(1);
 }
 
 /// Destructor
@@ -122,7 +122,7 @@ CU_ttH_EDA::~CU_ttH_EDA()
     delete _jetCorrector;
     delete _jetCorrectorUnc;
 
-    // r->SetSeed(0);
+    r->SetSeed(0);
     Close_output_files();
 
     delete f_CSVwgt_HF;
