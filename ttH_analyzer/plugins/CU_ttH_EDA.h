@@ -388,7 +388,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     int PU_x[100];
     double PU_y[100];
 
-    // TRandom3 *r;
+    TRandom3 *r;
 
     /// Histograms
     //TH1D *h_hlt;
