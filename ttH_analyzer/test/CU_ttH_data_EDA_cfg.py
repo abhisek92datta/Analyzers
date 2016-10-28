@@ -144,5 +144,6 @@ process.TFileService = cms.Service("TFileService",
 
 process.p = cms.Path(
     process.electronMVAValueMapProducer
+    * process.fullPatMetSequence
     * process.ttHbb
 )
