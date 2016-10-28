@@ -171,5 +171,6 @@ process.p = cms.Path(
     * process.matchGenBHadron
     * process.matchGenCHadron
     * process.categorizeGenTtbar
+    * process.fullPatMetSequence
     * process.ttHbb
 )
