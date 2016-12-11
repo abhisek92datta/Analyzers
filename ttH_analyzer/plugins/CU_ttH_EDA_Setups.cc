@@ -180,6 +180,8 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(
         config.getParameter<edm::InputTag>("beamspot"));
+    token.eleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(
+        config.getParameter<edm::InputTag>("eleMediumIdMap"))),
     token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
         config.getParameter<edm::InputTag>("mvaValues"));
     token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
