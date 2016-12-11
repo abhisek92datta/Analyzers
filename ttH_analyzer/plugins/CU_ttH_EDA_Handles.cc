@@ -24,7 +24,8 @@ void Set_up_handles(const Event &iEvent, const EventSetup &iSetup, edm_Handles &
     iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 
     iEvent.getByToken(token.BS, handle.BS);
-
+ 
+    iEvent.getByToken(token.eleMediumIdMapToken_, handle.medium_id_decisions);
     iEvent.getByToken(token.mvaValuesMapToken_, handle.mvaValues);
     iEvent.getByToken(token.mvaCategoriesMapToken_, handle.mvaCategories);
     iEvent.getByToken(token.electrons_for_mva_token, handle.electrons_for_mva);
