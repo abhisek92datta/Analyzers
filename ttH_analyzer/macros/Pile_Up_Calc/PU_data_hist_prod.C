@@ -31,7 +31,7 @@ void PU_data_hist_prod()
 	ofstream fout;
 	fout.open("PU_Data.txt");
 
-	for(int i=1; i<=50; i++)
+	for(int i=1; i<=75; i++)
 	{
 		fout<<h->GetBinContent(i)<<"\n";
 	}
