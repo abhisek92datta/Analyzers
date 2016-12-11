@@ -1,6 +1,6 @@
 scram b -j 32
 
-python pileupCalc.py -i '../../data/JSON/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt' --inputLumiJSON '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt' --calcMode 'true' --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50  output.root
+python pileupCalc.py -i '../../data/JSON/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt' --inputLumiJSON '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt' --calcMode 'true' --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50  output.root
 
 root -l -q PU_data_hist_prod.C
 
