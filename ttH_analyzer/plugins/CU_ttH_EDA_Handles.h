@@ -91,6 +91,7 @@ struct edm_Handles {
 
     Handle<reco::BeamSpot> BS;
 
+    Handle<edm::ValueMap<bool> > medium_id_decisions;
     Handle<edm::ValueMap<float>> mvaValues;
     Handle<edm::ValueMap<int>> mvaCategories;
     Handle<edm::View<pat::Electron>> electrons_for_mva;
@@ -123,7 +124,8 @@ struct edm_Tokens {
     EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 
     EDGetTokenT<reco::BeamSpot> BS;
-
+     
+    EDGetTokenT<edm::ValueMap<bool> > eleMediumIdMapToken_;
     EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
     EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
     EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
