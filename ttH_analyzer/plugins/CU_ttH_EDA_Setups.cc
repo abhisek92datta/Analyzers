@@ -186,8 +186,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mvaValues"));
     token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
         config.getParameter<edm::InputTag>("mvaCategories"));
-    token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
+    token.electrons_for_mva_token = mayConsume<edm::View<reco::GsfElectron>>(
         config.getParameter<edm::InputTag>("electrons"));
+    //token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
+    //    config.getParameter<edm::InputTag>("electrons"));
     token.muon_h_token = consumes<edm::View<pat::Muon>>(
         config.getParameter<edm::InputTag>("muons"));
     token.genTtbarIdToken_ =
