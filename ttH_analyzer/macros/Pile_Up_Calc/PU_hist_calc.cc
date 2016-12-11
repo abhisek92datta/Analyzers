@@ -24,7 +24,7 @@ int main()
 	double sum;
 	double norm;
 	
-	n=50;
+	n=75;
 	sum=0;
 	
 	fin.open("PU_MC.txt");
