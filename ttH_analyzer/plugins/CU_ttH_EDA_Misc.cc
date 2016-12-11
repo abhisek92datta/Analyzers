@@ -384,8 +384,8 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
                                 const edm_Handles &handle)
 {
 
-    local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
-        handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
+    //local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
+    //    handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
     // Single Lepton
     local.mu_selected = miniAODhelper.GetSelectedMuons(
         *(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04,
@@ -394,11 +394,12 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_veto_mu_eta);
     local.e_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_ele_pT, electronID::electronNonTrigMVAid80,
-        max_ele_eta);
+        *(handle.electrons_for_mva), min_ele_pT, electronID::electronGenPurposeMVAid80,
+        handle.medium_id_decisions, max_ele_eta);
     local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_veto_ele_pT,
-        electronID::electronNonTrigMVAid80, max_veto_ele_eta);
+        *(handle.electrons_for_mva), min_veto_ele_pT,
+        electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
+	max_veto_ele_eta);
     local.n_electrons = static_cast<int>(local.e_selected.size());
     local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
     local.n_muons = static_cast<int>(local.mu_selected.size());
@@ -410,8 +411,9 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_di_mu2_eta);
     local.e_di_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_di_ele2_pT,
-        electronID::electronNonTrigMVAid80, max_di_ele2_eta);
+        *(handle.electrons_for_mva), min_di_ele2_pT,
+        electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
+	max_di_ele2_eta);
     local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
     local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
     /// Sort leptons by pT
