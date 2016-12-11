@@ -18,7 +18,8 @@ process.load('Configuration.Geometry.GeometryRecoDB_cff')
 process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
-process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+#process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.options.allowUnscheduled = cms.untracked.bool(True)
@@ -70,8 +71,8 @@ process.source = cms.Source("PoolSource",
         ##reHLT
         ##'/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root'
         #withHLT
-        '/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/086ED46A-1E76-E611-ABE5-180373FF8456.root'
-        #htoNonbb
+        '/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/086ED46A-1E76-E611-ABE5-180373FF8456.root'	
+	#htoNonbb
         #witHLT
         #'/store/mc/RunIISpring16MiniAODv2/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/90000/00212379-8674-E611-956C-0CC47A4C8E22.root'
         #tt+jet 
