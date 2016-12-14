@@ -19,7 +19,7 @@ process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 #process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v7'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.options.allowUnscheduled = cms.untracked.bool(True)
