@@ -488,8 +488,11 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
     // sysType::NA, 1, doJER);
 
     // for b-weight
-    local.iSys = 0; // none - 0,  JESUp - 7 , JESDown - 8
-
+    *(local.iSys) = 0; // none 
+    *(local.iSys+1) = 9; // LF up
+    *(local.iSys+2) = 12;   // HF down
+    *(local.iSys+3) = 22;   // CErr1 down
+	
     // Jet Selection
     local.jets_sl_selected = miniAODhelper.GetSelectedJets(
         local.jets_sl_corrected, min_jet_pT, max_jet_eta, jetID::none, '-');
@@ -1036,7 +1039,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
 
     // PU Weight
     if (!isdata)
-        local.PU_weight = getPUweight(handle.PupInfo);
+        local.PU_weight = getPUweight(handle.PupInfo, local);
 
     // Q2 Weight
     if (!isdata) {
@@ -1056,6 +1059,7 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
 {
 
     int jet_index = 0;
+    int jet_index2 = 0;
     if (local.event_selection_SL != 0) {
 
         double temp_pt = local.jets_sl_selected[0].pt();
@@ -1065,8 +1069,18 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
                 temp_pt = local.jets_sl_selected[i].pt();
             }
         }
+	double temp2_pt = local.jets_sl_selected[0].pt();
+        for (int i = 0; i < local.n_sl_jets; ++i) {
+	    if (i==jet_index)
+		continue;		
+            if (local.jets_sl_selected[i].pt() > temp2_pt ) {
+                jet_index2 = i;
+                temp2_pt = local.jets_sl_selected[i].pt();
+            }
+        }
         // Jet SF
-        pat::Jet jet = local.jets_sl_selected_raw[jet_index];
+        pat::Jet jet1 = local.jets_sl_selected_raw[jet_index];
+	pat::Jet jet2 = local.jets_sl_selected_raw[jet_index2];
         /*
         local.jet1SF_sl = miniAODhelper.GetJetCorrectionFactor(jet, iEvent,
         iSetup, handle.genjets, r, sysType::NA, 1, 0);
@@ -1076,9 +1090,12 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_sl;
         */
 
-        local.jet1SF_sl = GetJetSF(jet, sysType::NA, rho);
-        local.jet1SF_up_sl = GetJetSF(jet, sysType::JESup, rho);
-        local.jet1SF_down_sl = GetJetSF(jet, sysType::JESdown, rho);
+        local.jet1SF_sl = GetJetSF(jet1, sysType::NA, rho);
+        local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho);
+        local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho);
+	local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho);
+        local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho);
+        local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho);
     }
 
     else if (local.event_selection_DL != 0) {
@@ -1090,9 +1107,18 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
                 temp_pt = local.jets_di_selected[i].pt();
             }
         }
+	double temp2_pt = local.jets_di_selected[0].pt();
+        for (int i = 0; i < local.n_di_jets; ++i) {
+	    if (i==jet_index)
+		continue;		
+            if (local.jets_di_selected[i].pt() > temp2_pt ) {
+                jet_index2 = i;
+                temp2_pt = local.jets_di_selected[i].pt();
+            }
+        }
         // Jet SF
-        pat::Jet jet = local.jets_di_selected_raw[jet_index];
-
+        pat::Jet jet1 = local.jets_di_selected_raw[jet_index];
+        pat::Jet jet2 = local.jets_di_selected_raw[jet_index2];
         /*
         local.jet1SF_di = miniAODhelper.GetJetCorrectionFactor(jet, iEvent,
         iSetup, handle.genjets, r, sysType::NA, 1, 0);
@@ -1102,9 +1128,12 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_di;
         */
 
-        local.jet1SF_di = GetJetSF(jet, sysType::NA, rho);
-        local.jet1SF_up_di = GetJetSF(jet, sysType::JESup, rho);
-        local.jet1SF_down_di = GetJetSF(jet, sysType::JESdown, rho);
+        local.jet1SF_di = GetJetSF(jet1, sysType::NA, rho);
+        local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho);
+        local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho);
+	local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho);
+        local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho);
+        local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho);
     }
 }
 
@@ -1229,7 +1258,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 }
 
 inline double
-CU_ttH_EDA::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo)
+CU_ttH_EDA::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo, CU_ttH_EDA_event_vars &local)
 {
     double pu_weight = -1;
     double numTruePV = -1;
@@ -1243,7 +1272,7 @@ CU_ttH_EDA::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo)
             }
         }
     }
-
+    local.truenpv =  numTruePV;
     for (int i = 0; i < 75; ++i) {
         if (numTruePV < (PU_x[i] + 1)) {
             pu_weight = PU_y[i];
@@ -1524,7 +1553,6 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts,
 inline void CU_ttH_EDA::getbweight(CU_ttH_EDA_event_vars &local)
 {
     double csvWgtHF, csvWgtLF, csvWgtCF;
-    csvWgtHF = csvWgtLF = csvWgtCF = 0;
 
     if (local.event_selection_SL == 1) {
         for (std::vector<pat::Jet>::const_iterator iJet =
@@ -1537,11 +1565,27 @@ inline void CU_ttH_EDA::getbweight(CU_ttH_EDA_event_vars &local)
             local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
         }
 
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
         local.b_weight_sl =
             getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
-                         local.vec_jet_hadronFlavour, local.iSys, csvWgtHF,
+                         local.vec_jet_hadronFlavour, *(local.iSys), csvWgtHF,
                          csvWgtLF, csvWgtCF);
-        local.b_weight_di = 0;
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_sl_lfup =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+1), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_sl_hfdown =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+2), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_sl_cErr1_down =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+3), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+        local.b_weight_di = local.b_weight_di_lfup = local.b_weight_di_hfdown = local.b_weight_di_cErr1_down = -1;
     }
 
     else if (local.event_selection_DL == 1) {
@@ -1555,11 +1599,27 @@ inline void CU_ttH_EDA::getbweight(CU_ttH_EDA_event_vars &local)
             local.vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
         }
 
+        csvWgtHF = csvWgtLF = csvWgtCF = 0;
         local.b_weight_di =
             getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
-                         local.vec_jet_hadronFlavour, local.iSys, csvWgtHF,
+                         local.vec_jet_hadronFlavour, *(local.iSys), csvWgtHF,
                          csvWgtLF, csvWgtCF);
-        local.b_weight_sl = 0;
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_di_lfup =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+1), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_di_hfdown =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+2), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+	local.b_weight_di_cErr1_down =
+            getCSVWeight(local.vec_jet_pt, local.vec_jet_eta, local.vec_jet_csv,
+                         local.vec_jet_hadronFlavour, *(local.iSys+3), csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+        local.b_weight_sl = local.b_weight_sl_lfup = local.b_weight_sl_hfdown = local.b_weight_sl_cErr1_down = -1;
     }
 }
 
