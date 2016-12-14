@@ -228,7 +228,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                         double &csvWgtLF, double &csvWgtCF);
     inline void getbweight(CU_ttH_EDA_event_vars &);
 
-    inline double getPUweight(edm::Handle<std::vector<PileupSummaryInfo>>);
+    inline double getPUweight(edm::Handle<std::vector<PileupSummaryInfo>>, CU_ttH_EDA_event_vars &);
     inline void getPDFweight(CU_ttH_EDA_event_vars &,
                              const edm::Handle<GenEventInfoProduct> &);
     inline double getQ2weight(const edm::Handle<GenEventInfoProduct> &,
