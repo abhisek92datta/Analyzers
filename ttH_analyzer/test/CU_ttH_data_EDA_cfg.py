@@ -51,21 +51,31 @@ process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
     'ak4PFchsResidual')
 )
 
-from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
-updateJetCollection(
-  process,
-  jetSource = cms.InputTag('slimmedJets'),
-  jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None' ),  
-  btagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags'],
-  runIVF=True,
-  #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
-)
+
+#from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+#updateJetCollection(
+#  process,
+#  jetSource = cms.InputTag('slimmedJets'),
+#  jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None' ),  
+#  btagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags'],
+#  runIVF=True,
+#  #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
+#)
 
 from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
 # If you only want to re-correct and get the proper uncertainties
 runMetCorAndUncFromMiniAOD(process,
  isData=True,
+ jecUncFile = "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt"
 )
+
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 
 #process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring())
 
@@ -166,7 +176,7 @@ process.source = cms.Source("PoolSource",
 import FWCore.PythonUtilities.LumiList as LumiList
 #process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 #process.source.lumisToProcess = LumiList.LumiList(filename = 'data/JSON/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt').getVLuminosityBlockRange()
-process.source.lumisToProcess = LumiList.LumiList(filename = 'data/JSON/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
+process.source.lumisToProcess = LumiList.LumiList(filename = 'data/JSON/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unprescaled.txt').getVLuminosityBlockRange()
 
 
 # new electron MVA developed by the EGamma POG 
@@ -188,5 +198,7 @@ process.p = cms.Path(
     #process.electronMVAValueMapProducer
     process.egmGsfElectronIDSequence
     * process.fullPatMetSequence
+    * process.BadPFMuonFilter
+    * process.BadChargedCandidateFilter
     * process.ttHbb
 )

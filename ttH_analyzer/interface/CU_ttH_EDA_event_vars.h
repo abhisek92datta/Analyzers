@@ -55,6 +55,10 @@ struct CU_ttH_EDA_event_vars {
   bool pass_double_e;
   bool pass_elemu;
 
+  /// MET Filters
+  bool filterbadChCandidate;
+  bool filterbadPFMuon;
+
   /// Particle container vectors
   std::vector<pat::Electron> e_with_id;
   std::vector<pat::Electron> e_selected;
@@ -109,19 +113,26 @@ struct CU_ttH_EDA_event_vars {
   double mll;
   int mll_passed;
   int ttHf_cat;
+  int truenpv;
 
   double MHT;
   double metLD;
   double met_pt, met_phi;
   int met_passed;
-  double b_weight_sl;
-  double b_weight_di;
+  double b_weight_sl, b_weight_sl_lfup, b_weight_sl_hfdown, b_weight_sl_cErr1_down;
+  double b_weight_di, b_weight_di_lfup, b_weight_di_hfdown, b_weight_di_cErr1_down;
   double jet1SF_sl;
   double jet1SF_up_sl;
   double jet1SF_down_sl;
   double jet1SF_di;
   double jet1SF_up_di;
   double jet1SF_down_di;
+  double jet2SF_sl;
+  double jet2SF_up_sl;
+  double jet2SF_down_sl;
+  double jet2SF_di;
+  double jet2SF_up_di;
+  double jet2SF_down_di;
 
   double lep_sf_id_sl;
   double lep_sf_iso_sl;
@@ -134,6 +145,7 @@ struct CU_ttH_EDA_event_vars {
   double lep_sf_hip_di;
   double lep_sf_trig_di;
 
+  double gen_weight;
   double PU_weight;
   double pdf_weight_up;
   double pdf_weight_down;

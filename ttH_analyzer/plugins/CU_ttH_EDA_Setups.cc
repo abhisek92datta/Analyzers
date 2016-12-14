@@ -145,10 +145,15 @@ void CU_ttH_EDA::Set_up_output_files()
     fprintf(events_combined,
             "run,lumi,event,is_e,is_mu,is_ee,is_emu,is_mumu,n_jets,n_btags,"
             "lep1_pt,lep1_iso,lep1_pdgId,lep2_pt,lep2_iso,lep2_pdgId,jet1_pt,"
-            "jet2_pt,jet1_CSVv2,jet2_CSVv2,jet1_JecSF,jet1_JecSF_up,jet1_JecSF_"
-            "down,MET_pt,MET_phi,mll,ttHFCategory,PUWeight,bWeight,triggerSF," 				"lepIDSF,lepISOSF,lepGSFSF,lepHIPSF,Q2_upup,Q2_downdown,pdf_up,pdf_down,bjetnessFV_num_leps,bjetnessFV_npvTrkOVcollTrk,"
-            "bjetnessFV_avip3d_val,bjetnessFV_avip3d_sig,bjetnessFV_avsip3d_sig,bjetnessFV_avip1d_sig\n");
+            "jet1_eta,jet1_phi,jet1_jesSF,jet1_jesSF_up,jet1_jesSF_down,jet1_csv,"
+            "jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_csv,"
+            "MET_pt,MET_phi,mll,ttHFCategory,n_interactions,PUWeight,csvSF,"
+            "csvSF_lf_up,csvSF_hf_down,csvSF_cErr1_down," 				
+            "triggerSF,lepIDSF,lepISOSF,pdf_up,pdf_down,me_up,me_down,"
+            "bdt_output,mem_output,dnn_ttH_output,dnn_ttbb_output\n");
 }
+
+//bjetnessFV_num_leps,bjetnessFV_npvTrkOVcollTrk,bjetnessFV_avip3d_val,bjetnessFV_avip3d_sig,bjetnessFV_avsip3d_sig,bjetnessFV_avip1d_sig
 
 void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 {
@@ -176,6 +181,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mets"));
     token.genjets = consumes<reco::GenJetCollection>(
         config.getParameter<edm::InputTag>("genjets"));
+    token.BadChCandFilterToken = consumes<bool>(
+	config.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
+    token.BadPFMuonFilterToken_ = consumes<bool>(
+	config.getParameter<edm::InputTag>("BadPFMuonFilter"));
     token.PF_candidates = consumes<pat::PackedCandidateCollection>(
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(

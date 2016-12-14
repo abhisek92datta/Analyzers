@@ -86,6 +86,8 @@ struct edm_Handles {
     Handle<pat::JetCollection> jets;
     Handle<pat::METCollection> METs;
     Handle<reco::GenJetCollection> genjets;
+    Handle<bool> ifilterbadChCand;
+    Handle<bool> ifilterbadPFMuon;
 
     Handle<pat::PackedCandidateCollection> PF_candidates;
 
@@ -120,6 +122,8 @@ struct edm_Tokens {
     EDGetTokenT<pat::JetCollection> jets;
     EDGetTokenT<pat::METCollection> METs;
     EDGetTokenT<reco::GenJetCollection> genjets;
+    EDGetTokenT<bool> BadChCandFilterToken_;
+    EDGetTokenT<bool> BadPFMuonFilterToken_;
 
     EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 
