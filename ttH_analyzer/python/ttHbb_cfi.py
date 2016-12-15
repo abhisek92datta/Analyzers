@@ -24,7 +24,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         HLT_electron_electron_triggers = cms.vstring(HLT_electron_electron_triggers),
         HLT_electron_muon_triggers = cms.vstring(HLT_electron_muon_triggers),
         HLT_muon_muon_triggers = cms.vstring(HLT_muon_muon_triggers),
-        MET_filter_names = cms.vstring(MET_filter_names),
+        MET_filter_names = cms.vstring(filter_names),
         # Cuts
         min_ele_pT = cms.double(min_ele_pT),
         min_mu_pT = cms.double(min_mu_pT),
