@@ -12,7 +12,10 @@ Generic:
     print_HLT_event_path: false
     # HLT or HLT2 (for reHLT)
     HLT_config_tag: 'HLT'
+    # for MC
     filter_config_tag: 'PAT'
+    # for DATA
+    filter_config_tag: 'RECO'
     
 ## Triggers to fire upon
 Triggers:
