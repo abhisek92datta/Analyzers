@@ -175,7 +175,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     //int Check_beam_spot(edm::Handle<reco::BeamSpot>);
     int Check_triggers(edm::Handle<edm::TriggerResults>,
                        CU_ttH_EDA_event_vars &); // adjusts event variables
-    //int Check_filters(edm::Handle<edm::TriggerResults>);
+    int Check_filters(edm::Handle<edm::TriggerResults>, CU_ttH_EDA_event_vars &);
     int Check_vertices_set_MAODhelper(edm::Handle<reco::VertexCollection>);
     int Check_PV(
         const edm::Handle<reco::VertexCollection> &); // check primary vertex
@@ -303,6 +303,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     std::vector<std::string> trigger_on_HLT_ee;   // dielectron tigger
     std::vector<std::string> trigger_on_HLT_emu;  // electron+muon trigger
     std::vector<std::string> trigger_on_HLT_mumu; // dimuon trigger
+    
+    //filters
+    std::vector<std::string> MET_filter_names;
 
     /// Output file is opened/closed through CMS py config
     edm::Service<TFileService> fs_;
