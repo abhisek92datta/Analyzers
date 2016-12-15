@@ -51,6 +51,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
           "HLT_electron_muon_triggers")),
       trigger_on_HLT_mumu(
           iConfig.getParameter<std::vector<string>>("HLT_muon_muon_triggers")),
+      MET_filter_names(
+          iConfig.getParameter<std::vector<string>>("MET_filter_names")),
       // Cuts
       min_ele_pT(iConfig.getParameter<double>("min_ele_pT")),
       min_mu_pT(iConfig.getParameter<double>("min_mu_pT")),
