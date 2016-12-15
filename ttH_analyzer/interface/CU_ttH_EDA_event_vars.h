@@ -56,6 +56,7 @@ struct CU_ttH_EDA_event_vars {
   bool pass_elemu;
 
   /// MET Filters
+  bool MET_filters;
   bool filterbadChCandidate;
   bool filterbadPFMuon;
 
