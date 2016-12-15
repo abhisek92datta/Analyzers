@@ -66,7 +66,7 @@ from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMet
 # If you only want to re-correct and get the proper uncertainties
 runMetCorAndUncFromMiniAOD(process,
  isData=True,
- jecUncFile = "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt"
+ #jecUncFile = "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt"
 )
 
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
