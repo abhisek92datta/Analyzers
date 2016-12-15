@@ -905,7 +905,7 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local)
    
     if (local.pass_single_e == 1 || local.pass_single_mu == 1) {
         
-        if (local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0)
+        if (local.MET_filters ==0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0)
         	return;
         if (local.n_prim_V <= 0)
             return;
@@ -941,7 +941,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local)
     if (local.pass_double_e == 1 || local.pass_double_mu == 1 ||
         local.pass_elemu == 1) {
         
-        if (local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0)
+        if (local.MET_filters ==0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0)
         	return;
         if (local.n_prim_V <= 0)
             return;
