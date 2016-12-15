@@ -142,17 +142,17 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults, CU
         return 1;
     }
      
+    bool pass = 1;
     for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
          filter != MET_filter_names.end(); ++filter) {
-
-	bool pass = 1;
+	    
         unsigned int filterIndex;        
             filterIndex = filter_config.triggerIndex(filter);
-            if (filterIndex >= triggerResults->size()){
+            if (filterIndex >= filterResults->size()){
                 pass = pass*0;
 		break;
 	    }
-            if (triggerResults->accept(filterIndex))
+            if (filterResults->accept(filterIndex))
                 pass=pass*1;
 	    else {
 	    	pass = pass*0;
