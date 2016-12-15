@@ -273,7 +273,6 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
     if (hlt_config_changed)
         std::cout << "New " << hltTag << " config has been loaded.\n";
 
-    /*
     bool filter_config_changed = true; // init() updates this one
     if (!filter_config.init(iRun, iSetup, filterTag, filter_config_changed)) {
         std::cerr << "Warning, didn't find filter process HLT,\t" << filterTag
@@ -283,7 +282,7 @@ void CU_ttH_EDA::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup)
 
     if (filter_config_changed)
         std::cout << "New " << filterTag << " config has been loaded.\n";
-    */
+    
     /// Set up filter and trigger name vectors and maps
     /*
     if (trigger_stats) {
