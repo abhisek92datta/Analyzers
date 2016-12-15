@@ -461,7 +461,7 @@ CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons,
   for (size_t i = 0; i < inputElectrons.size(); ++i){
 	const auto el = inputElectrons.ptrAt(i);
     passesID = false;    
-    passesID = *(medium_id_decisions)[el];
+    passesID = (*medium_id_decisions)[el];
    
     if(miniAODhelper.isGoodElectron(*el,iMinPt,iMaxEta,iElectronID) ) {
   		if( passesID == true )
