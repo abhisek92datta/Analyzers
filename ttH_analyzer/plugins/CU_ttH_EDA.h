@@ -278,7 +278,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
     /// Triggers, paths: configs filled/updated via run
     HLTConfigProvider hlt_config;
-    //HLTConfigProvider filter_config;
+    HLTConfigProvider filter_config;
 
     /// Triggers, paths.
     // Used for trigger statistics, filled via run (trigger_stats = true)
