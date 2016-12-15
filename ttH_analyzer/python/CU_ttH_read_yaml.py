@@ -17,6 +17,7 @@ HLT_muon_triggers = cfg["Triggers"]["HLT_muon_triggers"]
 HLT_electron_electron_triggers = cfg["Triggers"]["HLT_electron_electron_triggers"]
 HLT_electron_muon_triggers = cfg["Triggers"]["HLT_electron_muon_triggers"]
 HLT_muon_muon_triggers = cfg["Triggers"]["HLT_muon_muon_triggers"]
+filter_names = cfg["Triggers"]["filter_names"]
 
 min_ele_pT = cfg["Cuts"]["min_ele_pT"]
 min_mu_pT = cfg["Cuts"]["min_mu_pT"]
