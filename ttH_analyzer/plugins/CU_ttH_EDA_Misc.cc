@@ -148,7 +148,7 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults, CU
 	    
         unsigned int filterIndex;  
 	    std::string pathName = *filter;
-            filterIndex = filter_config.triggerIndex(pathname);
+            filterIndex = filter_config.triggerIndex(pathName);
             if (filterIndex >= filterResults->size()){
                 pass = pass*0;
 		break;
