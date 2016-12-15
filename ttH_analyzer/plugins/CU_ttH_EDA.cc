@@ -175,7 +175,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     /// Run checks on event containers via their handles
     Check_triggers(handle.triggerResults, local);
-    // Check_filters(handle.filterResults);
+    Check_filters(handle.filterResults, local);
   
     /// MET filters
     //local.filterbadChCandidate = *handle.ifilterbadChCand;
