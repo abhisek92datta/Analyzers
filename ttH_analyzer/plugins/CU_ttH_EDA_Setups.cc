@@ -181,10 +181,12 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mets"));
     token.genjets = consumes<reco::GenJetCollection>(
         config.getParameter<edm::InputTag>("genjets"));
-    token.BadChCandFilterToken_ = consumes<bool>(
-	config.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
-    token.BadPFMuonFilterToken_ = consumes<bool>(
-	config.getParameter<edm::InputTag>("BadPFMuonFilter"));
+    //token.BadChCandFilterToken_ = consumes<bool>(
+    //	config.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
+    //token.BadPFMuonFilterToken_ = consumes<bool>(
+    //	config.getParameter<edm::InputTag>("BadPFMuonFilter"));
+    token.BadChCandFilterToken_(consumes<bool>(config.getParameter<edm::InputTag>("BadChargedCandidateFilter")));
+    token.BadPFMuonFilterToken_(consumes<bool>(config.getParameter<edm::InputTag>("BadPFMuonFilter")));
     token.PF_candidates = consumes<pat::PackedCandidateCollection>(
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(
