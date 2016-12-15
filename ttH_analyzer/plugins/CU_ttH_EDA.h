@@ -183,6 +183,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     // trigger iterator, part of Check_triggers()
     inline bool Check_triggers_iterator(const vector<string> &,
                                         edm::Handle<edm::TriggerResults>);
+ 
+    // Lepton operations
+    inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const float, const electronID::electronID, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
 
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,

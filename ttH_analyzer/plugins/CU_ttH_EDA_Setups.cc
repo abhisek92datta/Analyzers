@@ -181,7 +181,7 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mets"));
     token.genjets = consumes<reco::GenJetCollection>(
         config.getParameter<edm::InputTag>("genjets"));
-    token.BadChCandFilterToken = consumes<bool>(
+    token.BadChCandFilterToken_ = consumes<bool>(
 	config.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
     token.BadPFMuonFilterToken_ = consumes<bool>(
 	config.getParameter<edm::InputTag>("BadPFMuonFilter"));
@@ -189,16 +189,16 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(
         config.getParameter<edm::InputTag>("beamspot"));
-    token.eleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(
-        config.getParameter<edm::InputTag>("eleMediumIdMap"))),
+    token.eleMediumIdMapToken_ = consumes<edm::ValueMap<bool> >(
+        config.getParameter<edm::InputTag>("eleMediumIdMap")),
     token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
         config.getParameter<edm::InputTag>("mvaValues"));
     token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
         config.getParameter<edm::InputTag>("mvaCategories"));
-    token.electrons_for_mva_token = mayConsume<edm::View<reco::GsfElectron>>(
-        config.getParameter<edm::InputTag>("electrons"));
-    //token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
+    //token.electrons_for_mva_token = mayConsume<edm::View<reco::GsfElectron>>(
     //    config.getParameter<edm::InputTag>("electrons"));
+    token.electrons_for_mva_token = consumes<edm::View<pat::Electron>>(
+        config.getParameter<edm::InputTag>("electrons"));
     token.muon_h_token = consumes<edm::View<pat::Muon>>(
         config.getParameter<edm::InputTag>("muons"));
     token.genTtbarIdToken_ =

@@ -270,7 +270,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
         fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
                 local.b_weight_sl_lfup, local.b_weight_sl_hfdown, 
                 local.b_weight_sl_cErr1_down, local.lep_sf_trig_sl);
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.lep_sf_id_sl,
+        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl,
                 local.lep_sf_iso_sl);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
@@ -379,7 +379,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
                 local.b_weight_di_cErr1_down, local.lep_sf_trig_di);
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.lep_sf_id_di,
+        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di,
                 local.lep_sf_iso_di);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
@@ -411,10 +411,17 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
         *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_veto_mu_eta);
-    local.e_selected = miniAODhelper.GetSelectedElectrons(
+    //local.e_selected = miniAODhelper.GetSelectedElectrons(
+    //    *(handle.electrons), min_ele_pT, electronID::electronGenPurposeMVAid80,
+    //    handle.medium_id_decisions, max_ele_eta);
+    //local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+    //    *(handle.electrons), min_veto_ele_pT,
+    //    electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
+	//max_veto_ele_eta);
+    local.e_selected = GetSelectedElectrons(
         *(handle.electrons_for_mva), min_ele_pT, electronID::electronGenPurposeMVAid80,
         handle.medium_id_decisions, max_ele_eta);
-    local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
+    local.e_veto_selected = GetSelectedElectrons(
         *(handle.electrons_for_mva), min_veto_ele_pT,
         electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
 	max_veto_ele_eta);
@@ -428,10 +435,14 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     local.mu_di_selected = miniAODhelper.GetSelectedMuons(
         *(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_di_mu2_eta);
-    local.e_di_selected = miniAODhelper.GetSelectedElectrons(
+    //local.e_di_selected = miniAODhelper.GetSelectedElectrons(
+    //    *(handle.electrons), min_di_ele2_pT,
+    //    electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
+	//max_di_ele2_eta);
+    local.e_di_selected = GetSelectedElectrons(
         *(handle.electrons_for_mva), min_di_ele2_pT,
         electronID::electronGenPurposeMVAid80, handle.medium_id_decisions,
-	max_di_ele2_eta);
+	max_di_ele2_eta);   
     local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
     local.n_di_muons = static_cast<int>(local.mu_di_selected.size());
     /// Sort leptons by pT
@@ -440,6 +451,24 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     local.e_di_selected_sorted =
         miniAODhelper.GetSortedByPt(local.e_di_selected);
     local.n_di_leptons = local.n_di_electrons + local.n_di_muons;
+}
+
+inline std::vector<pat::Electron>
+CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons, const float iMinPt, const electronID::electronID iElectronID, const edm::Handle<edm::ValueMap<bool>>& medium_id_decisions, const float iMaxEta){
+  std::vector<pat::Electron> selectedElectrons;
+  bool passesID;
+  
+  for (size_t i = 0; i < inputElectrons->size(); ++i){
+	const auto el = inputElectrons->ptrAt(i);
+    passesID = false;    
+    passesID = *(medium_id_decisions)[el];
+   
+    if(miniAODhelper.isGoodElectron(*el,iMinPt,iMaxEta,iElectronID) ) {
+  		if( passesID == true )
+  			selectedElectrons.push_back(*el); 
+  	}
+  }
+  return selectedElectrons;
 }
 
 void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
