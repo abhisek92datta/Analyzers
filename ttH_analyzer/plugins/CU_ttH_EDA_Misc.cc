@@ -458,8 +458,8 @@ CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons,
   std::vector<pat::Electron> selectedElectrons;
   bool passesID;
   
-  for (size_t i = 0; i < inputElectrons->size(); ++i){
-	const auto el = inputElectrons->ptrAt(i);
+  for (size_t i = 0; i < inputElectrons.size(); ++i){
+	const auto el = inputElectrons.ptrAt(i);
     passesID = false;    
     passesID = *(medium_id_decisions)[el];
    
