@@ -133,15 +133,36 @@ inline bool CU_ttH_EDA::Check_triggers_iterator(
     return false;
 }
 
-/*
-int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
+
+int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults, CU_ttH_EDA_event_vars &local)
 {
     if (!filterResults.isValid()) {
         std::cerr << "Trigger results not valid for tag " << filterTag
                   << std::endl;
         return 1;
     }
+     
+    for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
+         filter != MET_filter_names.end(); ++filter) {
 
+	bool pass = 1;
+        unsigned int filterIndex;        
+            filterIndex = filter_config.triggerIndex(filter);
+            if (filterIndex >= triggerResults->size()){
+                pass = pass*0;
+		break;
+	    }
+            if (triggerResults->accept(filterIndex))
+                pass=pass*1;
+	    else {
+	    	pass = pass*0;
+		break;
+	    }		   
+    }
+	 
+    local.MET_filters = pass;
+	
+    /*	
     if (trigger_stats) {
         for (std::vector<std::string>::const_iterator trigger =
                  filter_names.begin();
@@ -167,10 +188,10 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
                 ++n_filter_fired[pathNameNoVer];
         }
     }
-
+    */
     return 0;
 }
-*/
+
 
 int CU_ttH_EDA::Check_vertices_set_MAODhelper(
     edm::Handle<reco::VertexCollection> vertices)
