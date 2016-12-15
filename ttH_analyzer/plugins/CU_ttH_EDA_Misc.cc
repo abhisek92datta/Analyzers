@@ -518,9 +518,9 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
 
     // for b-weight
     local.iSys.push_back(0); // none 
-    local.iSys.push_back(9) // LF up
-    local.iSys.push_back(12)   // HF down
-    local.iSys.push_back(22)   // CErr1 down
+    local.iSys.push_back(9); // LF up
+    local.iSys.push_back(12);   // HF down
+    local.iSys.push_back(22);   // CErr1 down
 	
     // Jet Selection
     local.jets_sl_selected = miniAODhelper.GetSelectedJets(
