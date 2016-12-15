@@ -146,8 +146,9 @@ int CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults, CU
     for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
          filter != MET_filter_names.end(); ++filter) {
 	    
-        unsigned int filterIndex;        
-            filterIndex = filter_config.triggerIndex(filter);
+        unsigned int filterIndex;  
+	    std::string pathName = *filter;
+            filterIndex = filter_config.triggerIndex(pathname);
             if (filterIndex >= filterResults->size()){
                 pass = pass*0;
 		break;
