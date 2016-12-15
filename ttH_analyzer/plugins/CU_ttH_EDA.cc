@@ -180,6 +180,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     /// MET filters
     //local.filterbadChCandidate = *handle.ifilterbadChCand;
     //local.filterbadPFMuon = *handle.ifilterbadPFMuon;
+    local.filterbadChCandidate = 1;
+    local.filterbadPFMuon = 1;
 
     Check_vertices_set_MAODhelper(handle.vertices);
    
