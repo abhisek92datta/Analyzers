@@ -13,6 +13,7 @@ void CU_ttH_EDA::Set_up_weights()
 
 void CU_ttH_EDA::init_weights(CU_ttH_EDA_event_vars &local)
 {
+    local.gen_weight = -1;
     local.PU_weight = -1;
     local.pdf_weight_up = -1;
     local.pdf_weight_down = -1;
@@ -48,7 +49,7 @@ void CU_ttH_EDA::init_PU_weight()
     ifstream fin;
     fin.open("data/PU_weight/PU_weights.txt");
     // fin.open("/afs/cern.ch/user/a/abdatta/public/PU_weight/PU_weights.txt");
-    for (int i = 0; i < 50; ++i) {
+    for (int i = 0; i < 75; ++i) {
         fin >> PU_x[i] >> PU_y[i];
     }
     fin.close();
@@ -192,7 +193,7 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
     token.eleMediumIdMapToken_ = consumes<edm::ValueMap<bool> >(
         config.getParameter<edm::InputTag>("eleMediumIdMap")),
     token.mvaValuesMapToken_ = consumes<edm::ValueMap<float>>(
-        config.getParameter<edm::InputTag>("mvaValues"));
+        config.g	etParameter<edm::InputTag>("mvaValues"));
     token.mvaCategoriesMapToken_ = consumes<edm::ValueMap<int>>(
         config.getParameter<edm::InputTag>("mvaCategories"));
     //token.electrons_for_mva_token = mayConsume<edm::View<reco::GsfElectron>>(
