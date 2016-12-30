@@ -82,8 +82,8 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
 	    mvaCategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Categories"),
             genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
             pileupinfo = cms.InputTag("slimmedAddPileupInfo"),
-            lhepprod = cms.InputTag("externalLHEProducer")
-            badchcandfilter = cms.InputTag("BadChargedCandidateFilter");
-            badpfmufilter = cms.InputTag("BadPFMuonFilter");
+            lhepprod = cms.InputTag("externalLHEProducer"),
+            badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
+            badpfmufilter = cms.InputTag("BadPFMuonFilter")
         )
 )
