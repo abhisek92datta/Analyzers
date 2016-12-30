@@ -23,7 +23,7 @@ process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff"
 #For Datasets B-G
 process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 #For Dataset H
-process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v15'
+#process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v15'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)

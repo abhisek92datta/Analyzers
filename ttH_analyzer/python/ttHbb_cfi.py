@@ -83,5 +83,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
             pileupinfo = cms.InputTag("slimmedAddPileupInfo"),
             lhepprod = cms.InputTag("externalLHEProducer")
+            badchcandfilter = cms.InputTag("BadChargedCandidateFilter");
+            badpfmufilter = cms.InputTag("BadPFMuonFilter");
         )
 )

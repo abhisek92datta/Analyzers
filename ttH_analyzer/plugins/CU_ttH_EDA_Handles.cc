@@ -20,8 +20,8 @@ void Set_up_handles(const Event &iEvent, const EventSetup &iSetup, edm_Handles &
     iEvent.getByToken(token.jets, handle.jets);
     iEvent.getByToken(token.METs, handle.METs);	
     iEvent.getByToken(token.genjets, handle.genjets);
-    //iEvent.getByToken(token.BadChCandFilterToken_, handle.ifilterbadChCand);
-    //iEvent.getByToken(token.BadPFMuonFilterToken_, handle.ifilterbadPFMuon);
+    iEvent.getByToken(token.BadChCandFilterToken_, handle.ifilterbadChCand);
+    iEvent.getByToken(token.BadPFMuonFilterToken_, handle.ifilterbadPFMuon);
 
     iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 
