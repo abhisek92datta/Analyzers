@@ -147,7 +147,7 @@ void CU_ttH_EDA::Set_up_output_files()
             "run,lumi,event,is_e,is_mu,is_ee,is_emu,is_mumu,n_jets,n_btags,"
             "lep1_pt,lep1_iso,lep1_pdgId,lep2_pt,lep2_iso,lep2_pdgId,jet1_pt,"
             "jet1_eta,jet1_phi,jet1_jesSF,jet1_jesSF_up,jet1_jesSF_down,jet1_csv,"
-            "jet2_pt, jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_csv,"
+            "jet2_pt,jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_csv,"
             "MET_pt,MET_phi,mll,ttHFCategory,n_interactions,PUWeight,csvSF,"
             "csvSF_lf_up,csvSF_hf_down,csvSF_cErr1_down," 				
             "triggerSF,lepIDSF,lepISOSF,pdf_up,pdf_down,me_up,me_down,"
