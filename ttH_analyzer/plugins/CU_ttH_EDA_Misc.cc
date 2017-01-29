@@ -289,13 +289,14 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
     else
         fprintf(events_combined, "-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
                 local.b_weight_sl_lfup, local.b_weight_sl_hfdown, 
-                local.b_weight_sl_cErr1_down, local.lep_sf_trig_sl);
-        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_sl,
-                local.lep_sf_iso_sl);
+                local.b_weight_sl_cErr1_down);
+        //fprintf(events_combined, "%.4f,%.4f,%.4f,", local.lep_sf_trig_sl, local.lep_sf_id_sl,
+        //        local.lep_sf_iso_sl);
     } else
-        fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
+        //fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
+        fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
         fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
@@ -306,7 +307,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                 local.q2_weight_down);
     else
         fprintf(events_combined, "-1,-1,");      
-    fprintf(events_combined, "-1,-1,-1,-1\n");      
+    //fprintf(events_combined, "-1,-1,-1,-1\n");
     //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
@@ -398,13 +399,14 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     else
         fprintf(events_combined, "-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
-                local.b_weight_di_cErr1_down, local.lep_sf_trig_di);
-        fprintf(events_combined, "%.4f,%.4f,", local.lep_sf_id_di,
+                local.b_weight_di_cErr1_down);
+        fprintf(events_combined, "%.4f,%.4f,%.4f,", local.lep_sf_trig_di, local.lep_sf_id_di,
                 local.lep_sf_iso_di);
     } else
-        fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
+        //fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
+        fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
         fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
@@ -415,7 +417,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.q2_weight_down);
     else
         fprintf(events_combined, "-1,-1,");      
-    fprintf(events_combined, "-1,-1,-1,-1\n"); 
+    //fprintf(events_combined, "-1,-1,-1,-1\n");
     
     //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
@@ -629,20 +631,52 @@ CU_ttH_EDA::CheckJetID(const std::vector<pat::Jet> &inputJets,
     return outputJets;
 }
 
-void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
+void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType, CU_ttH_EDA_event_vars &local)
 {
 
     std::vector<JetCorrectorParameters> corrParams;
     if (isdata) {
 
-        JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt");
-        JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt");
-        JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt");
-        JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+        if( local.run_nr>=272007 && local.run_nr<=276811 ) {
+            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016BCDV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016BCDV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016BCDV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016BCDV3_DATA_L2L3Residual_AK4PFchs.txt");
+        }
+        else if( local.run_nr>=276831 && local.run_nr<=278801 ) {
+            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2L3Residual_AK4PFchs.txt");
+        }
+        else if( local.run_nr>=278802 && local.run_nr<=280385 ) {
+            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
+                 "data/JEC/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
+        }
+        else if( local.run_nr>=280919 && local.run_nr<=284044 ) {
+            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
+        }
 
         corrParams.push_back(*L1JetPar);
         corrParams.push_back(*L2JetPar);
@@ -662,11 +696,11 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
 
     else {
         JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt");
+            "data/JEC/Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt");
         JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt");
+            "data/JEC/Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt");
         JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
-            "data/JEC/Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt");
+            "data/JEC/Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt");
 
         corrParams.push_back(*L1JetPar);
         corrParams.push_back(*L2JetPar);
@@ -674,7 +708,7 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
         _jetCorrector = new FactorizedJetCorrector(corrParams);
 
         std::string _JESUncFile =
-            "data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt";
+            "data/JEC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt";
         _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
 
         delete L3JetPar;
@@ -827,57 +861,57 @@ inline double CU_ttH_EDA::getJERfactor(const int returnType,
     double extrauncertainty = 1.5;
 
     if (jetAbsETA < 0.5) {
-        scale_JER = 1.122;
-        scale_JERup = 1.122 + 0.026 * extrauncertainty;
-        scale_JERdown = 1.122 - 0.026 * extrauncertainty;
+        scale_JER = 1.109;
+        scale_JERup = 1.109 + 0.008 * extrauncertainty;
+        scale_JERdown = 1.109 - 0.008 * extrauncertainty;
     } else if (jetAbsETA < 0.8) {
-        scale_JER = 1.167;
-        scale_JERup = 1.167 + 0.048 * extrauncertainty;
-        scale_JERdown = 1.167 - 0.048 * extrauncertainty;
+        scale_JER = 1.138;
+        scale_JERup = 1.138 + 0.013 * extrauncertainty;
+        scale_JERdown = 1.138 - 0.013 * extrauncertainty;
     } else if (jetAbsETA < 1.1) {
-        scale_JER = 1.168;
-        scale_JERup = 1.168 + 0.046 * extrauncertainty;
-        scale_JERdown = 1.168 - 0.046 * extrauncertainty;
+        scale_JER = 1.114;
+        scale_JERup = 1.114 + 0.013 * extrauncertainty;
+        scale_JERdown = 1.114 - 0.013 * extrauncertainty;
     } else if (jetAbsETA < 1.3) {
-        scale_JER = 1.029;
-        scale_JERup = 1.029 + 0.066 * extrauncertainty;
-        scale_JERdown = 1.029 - 0.066 * extrauncertainty;
+        scale_JER = 1.123;
+        scale_JERup = 1.123 + 0.024 * extrauncertainty;
+        scale_JERdown = 1.123 - 0.024 * extrauncertainty;
     } else if (jetAbsETA < 1.7) {
-        scale_JER = 1.115;
-        scale_JERup = 1.115 + 0.03 * extrauncertainty;
-        scale_JERdown = 1.115 - 0.03 * extrauncertainty;
+        scale_JER = 1.084;
+        scale_JERup = 1.084 + 0.011 * extrauncertainty;
+        scale_JERdown = 1.084 - 0.011 * extrauncertainty;
     } else if (jetAbsETA < 1.9) {
-        scale_JER = 1.041;
-        scale_JERup = 1.041 + 0.062 * extrauncertainty;
-        scale_JERdown = 1.041 - 0.062 * extrauncertainty;
+        scale_JER = 1.082;
+        scale_JERup = 1.082 + 0.035 * extrauncertainty;
+        scale_JERdown = 1.082 - 0.035 * extrauncertainty;
     } else if (jetAbsETA < 2.1) {
-        scale_JER = 1.167;
-        scale_JERup = 1.167 + 0.086 * extrauncertainty;
-        scale_JERdown = 1.167 - 0.086 * extrauncertainty;
+        scale_JER = 1.140;
+        scale_JERup = 1.140 + 0.047 * extrauncertainty;
+        scale_JERdown = 1.140 - 0.047 * extrauncertainty;
     } else if (jetAbsETA < 2.3) {
-        scale_JER = 1.094;
-        scale_JERup = 1.094 + 0.093 * extrauncertainty;
-        scale_JERdown = 1.094 - 0.093 * extrauncertainty;
+        scale_JER = 1.067;
+        scale_JERup = 1.067 + 0.053 * extrauncertainty;
+        scale_JERdown = 1.067 - 0.053 * extrauncertainty;
     } else if (jetAbsETA < 2.5) {
-        scale_JER = 1.168;
-        scale_JERup = 1.168 + 0.120 * extrauncertainty;
-        scale_JERdown = 1.168 - 0.120 * extrauncertainty;
+        scale_JER = 1.177;
+        scale_JERup = 1.177 + 0.041 * extrauncertainty;
+        scale_JERdown = 1.177 - 0.041 * extrauncertainty;
     } else if (jetAbsETA < 2.8) {
-        scale_JER = 1.266;
-        scale_JERup = 1.266 + 0.132 * extrauncertainty;
-        scale_JERdown = 1.266 - 0.132 * extrauncertainty;
+        scale_JER = 1.364;
+        scale_JERup = 1.364 + 0.039 * extrauncertainty;
+        scale_JERdown = 1.364 - 0.039 * extrauncertainty;
     } else if (jetAbsETA < 3.0) {
-        scale_JER = 1.595;
-        scale_JERup = 1.595 + 0.175 * extrauncertainty;
-        scale_JERdown = 1.595 - 0.175 * extrauncertainty;
+        scale_JER = 1.857;
+        scale_JERup = 1.857 + 0.071 * extrauncertainty;
+        scale_JERdown = 1.857 - 0.071 * extrauncertainty;
     } else if (jetAbsETA < 3.2) {
-        scale_JER = 0.998;
-        scale_JERup = 0.998 + 0.066 * extrauncertainty;
-        scale_JERdown = 0.998 - 0.066 * extrauncertainty;
-    } else if (jetAbsETA < 5.0) {
-        scale_JER = 1.226;
-        scale_JERup = 1.226 + 0.145 * extrauncertainty;
-        scale_JERdown = 1.226 - 0.145 * extrauncertainty;
+        scale_JER = 1.328;
+        scale_JERup = 1.328 + 0.022 * extrauncertainty;
+        scale_JERdown = 1.328 - 0.022 * extrauncertainty;
+    } else if (jetAbsETA < 4.7) {
+        scale_JER = 1.160;
+        scale_JERup = 1.160 + 0.029 * extrauncertainty;
+        scale_JERdown = 1.160 - 0.029 * extrauncertainty;
     }
 
     double jetPt_JER = recojetPT;
@@ -1142,11 +1176,21 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         */
 
         local.jet1SF_sl = GetJetSF(jet1, sysType::NA, rho);
-        local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho);
-        local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho);
-	local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho);
-        local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho);
-        local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho);
+        local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho);
+
+        if (!isdata){
+            local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho);
+            local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho);
+            local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho);
+            local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho);
+        }
+        else {
+            local.jet1SF_up_sl = -1;
+            local.jet1SF_down_sl = -1;
+            local.jet2SF_up_sl = -1;
+            local.jet2SF_down_sl = -1;
+        }
+
     }
 
     else if (local.event_selection_DL != 0) {
@@ -1180,11 +1224,20 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         */
 
         local.jet1SF_di = GetJetSF(jet1, sysType::NA, rho);
-        local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho);
-        local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho);
-	local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho);
-        local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho);
-        local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho);
+        local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho);
+
+        if (!isdata){
+            local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho);
+            local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho);
+            local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho);
+            local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho);
+        }
+        else {
+            local.jet1SF_up_di = -1;
+            local.jet1SF_down_di = -1;
+            local.jet2SF_up_di = -1;
+            local.jet2SF_down_di = -1;
+        }
     }
 }
 

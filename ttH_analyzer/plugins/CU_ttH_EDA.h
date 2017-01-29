@@ -191,7 +191,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
     void
-    SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
+    SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA, CU_ttH_EDA_event_vars &);
     inline std::vector<pat::Jet>
     GetCorrectedJets(const std::vector<pat::Jet> &,
                      const edm::Handle<reco::GenJetCollection> &,

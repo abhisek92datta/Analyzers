@@ -150,8 +150,7 @@ void CU_ttH_EDA::Set_up_output_files()
             "jet2_pt,jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_csv,"
             "MET_pt,MET_phi,mll,ttHFCategory,n_interactions,PUWeight,csvSF,"
             "csvSF_lf_up,csvSF_hf_down,csvSF_cErr1_down," 				
-            "triggerSF,lepIDSF,lepISOSF,pdf_up,pdf_down,me_up,me_down,"
-            "bdt_output,mem_output,dnn_ttH_output,dnn_ttbb_output\n");
+            "pdf_up,pdf_down,me_up,me_down\n");
 }
 
 //bjetnessFV_num_leps,bjetnessFV_npvTrkOVcollTrk,bjetnessFV_avip3d_val,bjetnessFV_avip3d_sig,bjetnessFV_avsip3d_sig,bjetnessFV_avip1d_sig
@@ -226,10 +225,12 @@ void CU_ttH_EDA::Set_up_b_weights()
 {
     inputFileHF =
     //    "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
-    	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
+    //	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
+          "data/csv_weights/csv_rwt_fit_hf_v2_final_2017_1_10test.root";
     inputFileLF =
     //    "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
-    	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
+    //	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
+          "data/csv_weights/csv_rwt_fit_lf_v2_final_2017_1_10test.root";
     f_CSVwgt_HF = new TFile((inputFileHF).c_str());
     f_CSVwgt_LF = new TFile((inputFileLF).c_str());
     fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
