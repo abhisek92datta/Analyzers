@@ -15,7 +15,6 @@ git cms-merge-topic ikrav:egm_id_80X_v2
 #rm -rf tmp
 
 git cms-addpkg PhysicsTools/JetMCAlgos
-mv ../../Analyzers .
 cp Analyzers/Extras/PhysicsTools_JetMCAlgos_python/GenTtbarCategorizer_cfi.py PhysicsTools/JetMCAlgos/python/
 cp Analyzers/Extras/PhysicsTools_JetMCAlgos_plugins/GenTtbarCategorizer.cc PhysicsTools/JetMCAlgos/plugins/
 git clone https://github.com/abhisek92datta/MiniAOD.git
