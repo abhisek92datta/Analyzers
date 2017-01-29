@@ -1,11 +1,4 @@
 voms-proxy-init -voms cms
-source /cvmfs/cms.cern.ch/cmsset_default.sh
-export SCRAM_ARCH="slc6_amd64_gcc530"
-export CMSSW_VERSION="CMSSW_8_0_25"
-cmsrel $CMSSW_VERSION
-cd $CMSSW_VERSION/src
-export CMSSW_SRC="$( pwd )"
-cmsenv
 
 git cms-init
 git cms-merge-topic cms-met:METRecipe_8020

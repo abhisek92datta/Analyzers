@@ -4,6 +4,20 @@ This is for "ttH " -  H to bb" analysis
 
 #Installation :
 
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+
+export SCRAM_ARCH="slc6_amd64_gcc530"
+
+export CMSSW_VERSION="CMSSW_8_0_25"
+
+cmsrel $CMSSW_VERSION
+
+cd $CMSSW_VERSION/src
+
+export CMSSW_SRC="$( pwd )"
+
+cmsenv
+
 git clone https://github.com/abhisek92datta/Analyzers.git
 
 cp Analyzers/Analyzer_run_recipe.sh .
