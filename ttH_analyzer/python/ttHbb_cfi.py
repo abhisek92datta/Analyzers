@@ -66,10 +66,8 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             rho = cms.InputTag("fixedGridRhoFastjetAll"),
             electrons = cms.InputTag("slimmedElectrons"),
             muons = cms.InputTag("slimmedMuons"),
-            ## for Data
-            #jets = cms.InputTag("slimmedJets"),
-            ## for MC
-            jets = cms.InputTag("selectedUpdatedPatJets"),
+            jets = cms.InputTag("slimmedJets"),
+            #jets = cms.InputTag("selectedUpdatedPatJets"),
             #mets = cms.InputTag("slimmedMETs"),
             mets = cms.InputTag("slimmedMETs","","MAOD"),
             genjets = cms.InputTag("slimmedGenJets"),
