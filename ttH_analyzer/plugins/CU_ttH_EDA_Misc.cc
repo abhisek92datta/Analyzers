@@ -306,7 +306,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
         fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up,
                 local.q2_weight_down);
     else
-        fprintf(events_combined, "-1,-1\n");      
+        fprintf(events_combined, "-1,-1\n");
     //fprintf(events_combined, "-1,-1,-1,-1\n");
     //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
@@ -402,8 +402,8 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
                 local.b_weight_di_cErr1_down);
-        fprintf(events_combined, "%.4f,%.4f,%.4f,", local.lep_sf_trig_di, local.lep_sf_id_di,
-                local.lep_sf_iso_di);
+        //fprintf(events_combined, "%.4f,%.4f,%.4f,", local.lep_sf_trig_di, local.lep_sf_id_di,
+        //        local.lep_sf_iso_di);
     } else
         //fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
         fprintf(events_combined, "-1,-1,-1,-1,");
@@ -416,7 +416,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         fprintf(events_combined, "%.4f,%.4f\n", local.q2_weight_up,
                 local.q2_weight_down);
     else
-        fprintf(events_combined, "-1,-1\n");      
+        fprintf(events_combined, "-1,-1\n");
     //fprintf(events_combined, "-1,-1,-1,-1\n");
     
     //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
@@ -1247,18 +1247,24 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
                 temp_pt = local.jets_sl_selected[i].pt();
             }
         }
-	double temp2_pt = local.jets_sl_selected[0].pt();
+
+        double temp2_pt;
+        if(jet_index==0)
+            jet_index2=1;
+        temp2_pt = local.jets_sl_selected[jet_index2].pt();
         for (int i = 0; i < local.n_sl_jets; ++i) {
-	    if (i==jet_index)
-		continue;		
-            if (local.jets_sl_selected[i].pt() > temp2_pt ) {
-                jet_index2 = i;
-                temp2_pt = local.jets_sl_selected[i].pt();
+            if (i!=jet_index)
+            {
+                if (local.jets_sl_selected[i].pt() > temp2_pt ) {
+                    jet_index2 = i;
+                    temp2_pt = local.jets_sl_selected[i].pt();
+                }
             }
         }
+        
         // Jet SF
         pat::Jet jet1 = local.jets_sl_selected_raw[jet_index];
-	pat::Jet jet2 = local.jets_sl_selected_raw[jet_index2];
+        pat::Jet jet2 = local.jets_sl_selected_raw[jet_index2];
         /*
         local.jet1SF_sl = miniAODhelper.GetJetCorrectionFactor(jet, iEvent,
         iSetup, handle.genjets, r, sysType::NA, 1, 0);

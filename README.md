@@ -38,7 +38,11 @@ chmod 755 Analyzer_run_recipe.sh
 
 ./Analyzer_run_recipe.sh
 
-cd Analyzers/ttH_analyzer/
+cd Analyzers/ttH_analyzer/macros/Pile_Up_Calc/
+
+./Pileup_calculation_script.sh
+
+cd ../../
 
 RUN :
 

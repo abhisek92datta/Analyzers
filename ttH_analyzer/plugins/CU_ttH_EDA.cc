@@ -113,7 +113,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
     Set_up_Tree();
     Set_up_weights();
 
-    r = new TRandom3(1);
+    r = new TRandom3(0);
 }
 
 /// Destructor
@@ -159,7 +159,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
-    // if (local.event_nr != 2735673 )
+    //if (local.event_nr != 31533 )
     //	return;
 
     /// Create and set up edm:Handles in stack mem.
