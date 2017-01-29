@@ -36,7 +36,7 @@ Triggers:
 ## Event cuts
 Cuts:
     min_ele_pT : 30.0
-    min_mu_pT : 25.0
+    min_mu_pT : 26.0
     min_veto_ele_pT : 15.0
     min_veto_mu_pT : 15.0
     min_di_ele1_pT : 25.0

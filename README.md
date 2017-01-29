@@ -4,25 +4,17 @@ This is for "ttH " -  H to bb" analysis
 
 #Installation :
 
-cmsrel CMSSW_8_0_20
-
-cd CMSSW_8_0_20/src/
-
-cmsenv
-
-cd ../../
-
 git clone https://github.com/abhisek92datta/Analyzers.git
 
 cp Analyzers/Analyzer_run_recipe.sh .
 
 chmod 755 Analyzer_run_recipe.sh
 
-( Put the latest LUMI File name in : CMSSW_8_0_20/src/Analyzers/ttH_analyzer/macros/Pile_Up_Calc/Pileup_calculation_script.sh)
+( Put the latest LUMI File name in : $CMSSW_VERSION/src/Analyzers/ttH_analyzer/macros/Pile_Up_Calc/Pileup_calculation_script.sh)
 
 ./Analyzer_run_recipe.sh
 
-cd CMSSW_8_0_20/src/Analyzers/ttH_analyzer/
+cd $CMSSW_VERSION/src/Analyzers/ttH_analyzer/
 
 RUN :
 

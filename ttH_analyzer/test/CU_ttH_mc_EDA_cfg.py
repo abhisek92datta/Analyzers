@@ -12,6 +12,7 @@ process = cms.Process("MAOD")
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
+process.load("Configuration.StandardSequences.GeometryDB_cff")
 process.load("TrackingTools/TransientTrack/TransientTrackBuilder_cfi")
 process.load('Configuration.Geometry.GeometryRecoDB_cff')
 #process.load("Configuration.StandardSequences.MagneticField_cff")
