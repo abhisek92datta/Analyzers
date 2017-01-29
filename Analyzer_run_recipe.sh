@@ -1,11 +1,5 @@
 voms-proxy-init -voms cms
 
-git cms-init
-git cms-merge-topic cms-met:METRecipe_8020
-git cms-merge-topic ahinzmann:METRecipe_8020_Moriond17
-git cms-merge-topic cms-met:fromCMSSW_8_0_20_postICHEPfilter
-git cms-merge-topic ikrav:egm_id_80X_v2
-
 #git clone https://github.com/ikrav/RecoEgamma-ElectronIdentification.git tmp
 #cd tmp
 #git checkout egm_id_80X_v1
