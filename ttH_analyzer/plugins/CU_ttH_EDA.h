@@ -191,17 +191,18 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
     void
-    SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA, CU_ttH_EDA_event_vars &);
+    SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     inline std::vector<pat::Jet>
     GetCorrectedJets(const std::vector<pat::Jet> &,
                      const edm::Handle<reco::GenJetCollection> &,
-                     const double &, const JME::JetResolution &,
+                     const double &, const CU_ttH_EDA_event_vars &,
+                     const JME::JetResolution &,
                      const sysType::sysType iSysType = sysType::NA,
                      const bool &doJES = 1, const bool &doJER = 1,
                      const float &corrFactor = 1, const float &uncFactor = 1);
     inline double getJERfactor(const int, const double, const double,
                                const double);
-    inline double GetJetSF(pat::Jet, const sysType::sysType, const double &);
+    inline double GetJetSF(pat::Jet, const sysType::sysType, const double &, const CU_ttH_EDA_event_vars &);
 
     // Object Selection functions
     void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
@@ -354,7 +355,11 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     float min_di_met;
 
     // for JEC, JER and JEC_SF calc
-    FactorizedJetCorrector *_jetCorrector;
+    FactorizedJetCorrector *_jetCorrector_MC;
+    FactorizedJetCorrector *_jetCorrector_BCD;
+    FactorizedJetCorrector *_jetCorrector_EF;
+    FactorizedJetCorrector *_jetCorrector_G;
+    FactorizedJetCorrector *_jetCorrector_H;
     JetCorrectionUncertainty *_jetCorrectorUnc;
     // const JetCorrector* corrector;
 

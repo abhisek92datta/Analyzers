@@ -121,7 +121,11 @@ CU_ttH_EDA::~CU_ttH_EDA()
 {
     // do anything here that needs to be done at desctruction time
     // (e.g. close files, deallocate resources etc.)
-    delete _jetCorrector;
+    delete _jetCorrector_MC;
+    delete _jetCorrector_BCD;
+    delete _jetCorrector_EF;
+    delete _jetCorrector_G;
+    delete _jetCorrector_H;
     delete _jetCorrectorUnc;
 
     r->SetSeed(0);

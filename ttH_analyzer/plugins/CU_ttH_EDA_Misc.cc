@@ -526,10 +526,10 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
 
     // using my jet correction function
     local.jets_sl_corrected =
-        GetCorrectedJets(local.jets_sl_raw, handle.genjets, rho, resolution,
+        GetCorrectedJets(local.jets_sl_raw, handle.genjets, rho, local, resolution,
                          sysType::NA, 1, doJER);
     local.jets_di_corrected =
-        GetCorrectedJets(local.jets_di_raw, handle.genjets, rho, resolution,
+        GetCorrectedJets(local.jets_di_raw, handle.genjets, rho, local, resolution,
                          sysType::NA, 1, doJER);
 
     // using MiniAODHelper's jet correction function
@@ -631,67 +631,95 @@ CU_ttH_EDA::CheckJetID(const std::vector<pat::Jet> &inputJets,
     return outputJets;
 }
 
-void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType, CU_ttH_EDA_event_vars &local)
+void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
 {
 
-    std::vector<JetCorrectorParameters> corrParams;
+    std::vector<JetCorrectorParameters> corrParams_MC;
+    std::vector<JetCorrectorParameters> corrParams_BCD;
+    std::vector<JetCorrectorParameters> corrParams_EF;
+    std::vector<JetCorrectorParameters> corrParams_G;
+    std::vector<JetCorrectorParameters> corrParams_H;
+
     if (isdata) {
 
-        if( local.run_nr>=272007 && local.run_nr<=276811 ) {
-            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+            JetCorrectorParameters *L3JetPar_BCD = new JetCorrectorParameters(
                 "data/JEC/Summer16_23Sep2016BCDV3_DATA_L3Absolute_AK4PFchs.txt");
-            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+            JetCorrectorParameters *L2JetPar_BCD = new JetCorrectorParameters(
                 "data/JEC/Summer16_23Sep2016BCDV3_DATA_L2Relative_AK4PFchs.txt");
-            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+            JetCorrectorParameters *L1JetPar_BCD = new JetCorrectorParameters(
                 "data/JEC/Summer16_23Sep2016BCDV3_DATA_L1FastJet_AK4PFchs.txt");
-            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
+            JetCorrectorParameters *L2L3JetPar_BCD = new JetCorrectorParameters(
                 "data/JEC/Summer16_23Sep2016BCDV3_DATA_L2L3Residual_AK4PFchs.txt");
-        }
-        else if( local.run_nr>=276831 && local.run_nr<=278801 ) {
-            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
-               "data/JEC/Summer16_23Sep2016EFV3_DATA_L3Absolute_AK4PFchs.txt");
-            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
-               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2Relative_AK4PFchs.txt");
-            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
-               "data/JEC/Summer16_23Sep2016EFV3_DATA_L1FastJet_AK4PFchs.txt");
-            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
-               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2L3Residual_AK4PFchs.txt");
-        }
-        else if( local.run_nr>=278802 && local.run_nr<=280385 ) {
-            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt");
-            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt");
-            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt");
-            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
-                 "data/JEC/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
-        }
-        else if( local.run_nr>=280919 && local.run_nr<=284044 ) {
-            JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt");
-            JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt");
-            JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt");
-            JetCorrectorParameters *L2L3JetPar = new JetCorrectorParameters(
-                "data/JEC/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
-        }
 
-        corrParams.push_back(*L1JetPar);
-        corrParams.push_back(*L2JetPar);
-        corrParams.push_back(*L3JetPar);
-        corrParams.push_back(*L2L3JetPar);
-        _jetCorrector = new FactorizedJetCorrector(corrParams);
+            JetCorrectorParameters *L3JetPar_EF = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar_EF = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar_EF = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar_EF = new JetCorrectorParameters(
+               "data/JEC/Summer16_23Sep2016EFV3_DATA_L2L3Residual_AK4PFchs.txt");
+
+            JetCorrectorParameters *L3JetPar_G = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar_G = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar_G = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar_G = new JetCorrectorParameters(
+                 "data/JEC/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
+
+            JetCorrectorParameters *L3JetPar_H = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt");
+            JetCorrectorParameters *L2JetPar_H = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt");
+            JetCorrectorParameters *L1JetPar_H = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt");
+            JetCorrectorParameters *L2L3JetPar_H = new JetCorrectorParameters(
+                "data/JEC/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
+
+        corrParams_BCD.push_back(*L1JetPar_BCD);
+        corrParams_BCD.push_back(*L2JetPar_BCD);
+        corrParams_BCD.push_back(*L3JetPar_BCD);
+        corrParams_BCD.push_back(*L2L3JetPar_BCD);
+        _jetCorrector_BCD = new FactorizedJetCorrector(corrParams_BCD);
+        corrParams_EF.push_back(*L1JetPar_EF);
+        corrParams_EF.push_back(*L2JetPar_EF);
+        corrParams_EF.push_back(*L3JetPar_EF);
+        corrParams_EF.push_back(*L2L3JetPar_EF);
+        _jetCorrector_EF = new FactorizedJetCorrector(corrParams_EF);
+        corrParams_G.push_back(*L1JetPar_G);
+        corrParams_G.push_back(*L2JetPar_G);
+        corrParams_G.push_back(*L3JetPar_G);
+        corrParams_G.push_back(*L2L3JetPar_G);
+        _jetCorrector_G = new FactorizedJetCorrector(corrParams_G);
+        corrParams_H.push_back(*L1JetPar_H);
+        corrParams_H.push_back(*L2JetPar_H);
+        corrParams_H.push_back(*L3JetPar_H);
+        corrParams_H.push_back(*L2L3JetPar_H);
+        _jetCorrector_H = new FactorizedJetCorrector(corrParams_H);
 
         std::string _JESUncFile =
             "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt";
         _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
 
-        delete L3JetPar;
-        delete L2JetPar;
-        delete L1JetPar;
-        delete L2L3JetPar;
+        delete L3JetPar_BCD;
+        delete L2JetPar_BCD;
+        delete L1JetPar_BCD;
+        delete L2L3JetPar_BCD;
+        delete L3JetPar_EF;
+        delete L2JetPar_EF;
+        delete L1JetPar_EF;
+        delete L2L3JetPar_EF;
+        delete L3JetPar_G;
+        delete L2JetPar_G;
+        delete L1JetPar_G;
+        delete L2L3JetPar_G;
+        delete L3JetPar_H;
+        delete L2JetPar_H;
+        delete L1JetPar_H;
+        delete L2L3JetPar_H;
+
     }
 
     else {
@@ -702,10 +730,10 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType, CU_t
         JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
             "data/JEC/Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt");
 
-        corrParams.push_back(*L1JetPar);
-        corrParams.push_back(*L2JetPar);
-        corrParams.push_back(*L3JetPar);
-        _jetCorrector = new FactorizedJetCorrector(corrParams);
+        corrParams_MC.push_back(*L1JetPar);
+        corrParams_MC.push_back(*L2JetPar);
+        corrParams_MC.push_back(*L3JetPar);
+        _jetCorrector_MC = new FactorizedJetCorrector(corrParams_MC);
 
         std::string _JESUncFile =
             "data/JEC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt";
@@ -719,15 +747,48 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType, CU_t
 
 inline double CU_ttH_EDA::GetJetSF(pat::Jet jet,
                                    const sysType::sysType iSysType,
-                                   const double &rho)
+                                   const double &rho, const CU_ttH_EDA_event_vars &local)
 {
     double scale = 1;
-    _jetCorrector->setJetPt(jet.pt());
-    _jetCorrector->setJetEta(jet.eta());
-    _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
 
-    scale = _jetCorrector->getCorrection();
+    if(!isdata) {   // MC
+        _jetCorrector_MC->setJetPt(jet.pt());
+        _jetCorrector_MC->setJetEta(jet.eta());
+        _jetCorrector_MC->setJetA(jet.jetArea());
+        _jetCorrector_MC->setRho(rho); //=fixedGridRhoFastjetAll
+        scale = _jetCorrector_MC->getCorrection();
+    }
+    else {         // DATA
+        if( local.run_nr>=272007 && local.run_nr<=276811 ) {
+            _jetCorrector_BCD->setJetPt(jet.pt());
+            _jetCorrector_BCD->setJetEta(jet.eta());
+            _jetCorrector_BCD->setJetA(jet.jetArea());
+            _jetCorrector_BCD->setRho(rho); //=fixedGridRhoFastjetAll
+            scale = _jetCorrector_BCD->getCorrection();
+        }
+        else if( local.run_nr>=276831 && local.run_nr<=278801 ) {
+            _jetCorrector_EF->setJetPt(jet.pt());
+            _jetCorrector_EF->setJetEta(jet.eta());
+            _jetCorrector_EF->setJetA(jet.jetArea());
+            _jetCorrector_EF->setRho(rho); //=fixedGridRhoFastjetAll
+            scale = _jetCorrector_EF->getCorrection();
+        }
+        else if( local.run_nr>=278802 && local.run_nr<=280385 ) {
+            _jetCorrector_G->setJetPt(jet.pt());
+            _jetCorrector_G->setJetEta(jet.eta());
+            _jetCorrector_G->setJetA(jet.jetArea());
+            _jetCorrector_G->setRho(rho); //=fixedGridRhoFastjetAll
+            scale = _jetCorrector_G->getCorrection();
+        }
+        else if( local.run_nr>=280919 && local.run_nr<=284044 ) {
+            _jetCorrector_H->setJetPt(jet.pt());
+            _jetCorrector_H->setJetEta(jet.eta());
+            _jetCorrector_H->setJetA(jet.jetArea());
+            _jetCorrector_H->setRho(rho); //=fixedGridRhoFastjetAll
+            scale = _jetCorrector_H->getCorrection();
+        }
+    }
+
     jet.scaleEnergy(scale);
 
     if (iSysType == sysType::JESup || iSysType == sysType::JESdown) {
@@ -750,7 +811,7 @@ inline double CU_ttH_EDA::GetJetSF(pat::Jet jet,
 
 inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
     const std::vector<pat::Jet> &inputJets,
-    const edm::Handle<reco::GenJetCollection> &genjets, const double &rho,
+    const edm::Handle<reco::GenJetCollection> &genjets, const double &rho, const CU_ttH_EDA_event_vars &local,
     const JME::JetResolution &resolution, const sysType::sysType iSysType,
     const bool &doJES, const bool &doJER, const float &corrFactor,
     const float &uncFactor)
@@ -768,12 +829,44 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
         // JEC
         if (doJES == 1) {
 
-            _jetCorrector->setJetPt(jet.pt());
-            _jetCorrector->setJetEta(jet.eta());
-            _jetCorrector->setJetA(jet.jetArea());
-            _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+            if(!isdata) {   // MC
+                _jetCorrector_MC->setJetPt(jet.pt());
+                _jetCorrector_MC->setJetEta(jet.eta());
+                _jetCorrector_MC->setJetA(jet.jetArea());
+                _jetCorrector_MC->setRho(rho); //=fixedGridRhoFastjetAll
+                scale = _jetCorrector_MC->getCorrection();
+            }
+            else {         // DATA
+                if( local.run_nr>=272007 && local.run_nr<=276811 ) {
+                    _jetCorrector_BCD->setJetPt(jet.pt());
+                    _jetCorrector_BCD->setJetEta(jet.eta());
+                    _jetCorrector_BCD->setJetA(jet.jetArea());
+                    _jetCorrector_BCD->setRho(rho); //=fixedGridRhoFastjetAll
+                    scale = _jetCorrector_BCD->getCorrection();
+                }
+                else if( local.run_nr>=276831 && local.run_nr<=278801 ) {
+                    _jetCorrector_EF->setJetPt(jet.pt());
+                    _jetCorrector_EF->setJetEta(jet.eta());
+                    _jetCorrector_EF->setJetA(jet.jetArea());
+                    _jetCorrector_EF->setRho(rho); //=fixedGridRhoFastjetAll
+                    scale = _jetCorrector_EF->getCorrection();
+                }
+                else if( local.run_nr>=278802 && local.run_nr<=280385 ) {
+                    _jetCorrector_G->setJetPt(jet.pt());
+                    _jetCorrector_G->setJetEta(jet.eta());
+                    _jetCorrector_G->setJetA(jet.jetArea());
+                    _jetCorrector_G->setRho(rho); //=fixedGridRhoFastjetAll
+                    scale = _jetCorrector_G->getCorrection();
+                }
+                else if( local.run_nr>=280919 && local.run_nr<=284044 ) {
+                    _jetCorrector_H->setJetPt(jet.pt());
+                    _jetCorrector_H->setJetEta(jet.eta());
+                    _jetCorrector_H->setJetA(jet.jetArea());
+                    _jetCorrector_H->setRho(rho); //=fixedGridRhoFastjetAll
+                    scale = _jetCorrector_H->getCorrection();
+                }
+            }
 
-            scale = _jetCorrector->getCorrection();
             jet.scaleEnergy(scale);
 
             if (iSysType == sysType::JESup || iSysType == sysType::JESdown) {
@@ -1175,14 +1268,14 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_sl;
         */
 
-        local.jet1SF_sl = GetJetSF(jet1, sysType::NA, rho);
-        local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho);
+        local.jet1SF_sl = GetJetSF(jet1, sysType::NA, rho, local);
+        local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho, local);
 
         if (!isdata){
-            local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho);
-            local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho);
-            local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho);
-            local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho);
+            local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho, local);
+            local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho, local);
+            local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho, local);
+            local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho, local);
         }
         else {
             local.jet1SF_up_sl = -1;
@@ -1223,14 +1316,14 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_di;
         */
 
-        local.jet1SF_di = GetJetSF(jet1, sysType::NA, rho);
-        local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho);
+        local.jet1SF_di = GetJetSF(jet1, sysType::NA, rho, local);
+        local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho, local);
 
         if (!isdata){
-            local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho);
-            local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho);
-            local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho);
-            local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho);
+            local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho, local);
+            local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho, local);
+            local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho, local);
+            local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho, local);
         }
         else {
             local.jet1SF_up_di = -1;
