@@ -254,7 +254,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
         fprintf(events_combined, "%.4f,%.4f,%d,", local.e_selected[0].pt(),
                 miniAODhelper.GetElectronRelIso(local.e_selected[0],
                                                 coneSize::R03, corrType::rhoEA,
-                                                effAreaType::spring15),
+                                                effAreaType::summer16),
                 local.e_selected[0].pdgId());
     } else if (local.n_muons == 1) {
         fprintf(events_combined, "%.4f,%.4f,%d,", local.mu_selected[0].pt(),
@@ -323,13 +323,13 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.e_di_selected_sorted[0].pt(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[0],
                                                 coneSize::R03, corrType::rhoEA,
-                                                effAreaType::spring15),
+                                                effAreaType::summer16),
                 local.e_di_selected_sorted[0].pdgId());
         fprintf(events_combined, "%.4f,%.4f,%d,",
                 local.e_di_selected_sorted[1].pt(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected_sorted[1],
                                                 coneSize::R03, corrType::rhoEA,
-                                                effAreaType::spring15),
+                                                effAreaType::summer16),
                 local.e_di_selected_sorted[1].pdgId());
     } else if (local.n_di_muons == 2) {
         fprintf(events_combined, "%.4f,%.4f,%d,",
@@ -355,14 +355,14 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.e_di_selected_sorted[0].pt(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected_sorted[0], coneSize::R03,
-                        corrType::rhoEA, effAreaType::spring15),
+                        corrType::rhoEA, effAreaType::summer16),
                     local.e_di_selected_sorted[0].pdgId());
         } else {
             fprintf(events_combined, "%.4f,%.4f,%d,",
                     local.e_di_selected_sorted[0].pt(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected_sorted[0], coneSize::R03,
-                        corrType::rhoEA, effAreaType::spring15),
+                        corrType::rhoEA, effAreaType::summer16),
                     local.e_di_selected_sorted[0].pdgId());
             fprintf(events_combined, "%.4f,%.4f,%d,",
                     local.mu_di_selected_sorted[0].pt(),
@@ -426,8 +426,8 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
                                 const edm_Handles &handle)
 {
 
-    local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
-        handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
+    //local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
+    //    handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
     // Single Lepton
     local.mu_selected = miniAODhelper.GetSelectedMuons(
         *(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04,
@@ -436,10 +436,10 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_veto_mu_eta);
     local.e_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_ele_pT, electronID::electron80XCutBasedM,
+        *(handle.electrons), min_ele_pT, electronID::electron80XCutBasedM,
         max_ele_eta);
     local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_veto_ele_pT,
+        *(handle.electrons), min_veto_ele_pT,
         electronID::electron80XCutBasedM,
 	max_veto_ele_eta);
     //local.e_selected = GetSelectedElectrons(
@@ -460,7 +460,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_di_mu2_eta);
     local.e_di_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_di_ele2_pT,
+        *(handle.electrons), min_di_ele2_pT,
         electronID::electron80XCutBasedM,
 	max_di_ele2_eta);
     //local.e_di_selected = GetSelectedElectrons(

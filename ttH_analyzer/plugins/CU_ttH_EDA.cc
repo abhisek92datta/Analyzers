@@ -159,7 +159,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
-    //if (local.event_nr != 31533 )
+    //if (local.event_nr != 31608 )
     //	return;
 
     /// Create and set up edm:Handles in stack mem.
@@ -231,6 +231,21 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     if (local.event_selection_SL != 0 || local.event_selection_DL != 0) {
         ++selection_count;
     }
+
+    /*
+    std::cout<<local.event_nr<<"  "<<local.pass_single_e<<"  "<<local.MET_filters<<"  "<<local.filterbadChCandidate<<"  "<<local.filterbadPFMuon<<"\n";
+    std::cout<<local.n_electrons<<"  "<<local.n_veto_electrons<<"  "<<local.n_veto_muons<<"\n";
+    std::cout<<local.n_sl_jets<<"  "<<local.n_sl_btags<<"\n";
+    std::cout<<"\n";
+    for(int i=0; i<local.n_electrons; i++)
+        std::cout<<local.e_selected[i].pt()<<"  "<<local.e_selected[i].eta()<<"  "<<miniAODhelper.GetElectronRelIso(local.e_selected[i],coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
+    std::cout<<"\n";
+    for(int i=0; i<local.n_sl_jets; i++)
+        std::cout<<local.jets_sl_selected_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+    for(int i=0; i<local.n_sl_btags; i++)
+        std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+     */
 
     /// Check tags, fill ntuple, print events
     if (local.event_selection_SL != 0) {
