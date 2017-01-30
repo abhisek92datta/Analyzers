@@ -110,6 +110,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
     SetFactorizedJetCorrector();
     // miniAODhelper.SetJetCorrectorUncertainty();
 
+    SetpT_ResFile();
+
     Set_up_Tree();
     Set_up_weights();
 

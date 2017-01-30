@@ -192,6 +192,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                                             const std::vector<pat::Jet> &);
     void
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
+    void
+    SetpT_ResFile();
     inline std::vector<pat::Jet>
     GetCorrectedJets(const std::vector<pat::Jet> &,
                      const edm::Handle<reco::GenJetCollection> &,
@@ -354,7 +356,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     float min_di_mll;
     float min_di_met;
 
-    // for JEC, JER and JEC_SF calc
+    // for JEC and JEC_SF calc
     FactorizedJetCorrector *_jetCorrector_MC;
     FactorizedJetCorrector *_jetCorrector_BCD;
     FactorizedJetCorrector *_jetCorrector_EF;
@@ -362,6 +364,18 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     FactorizedJetCorrector *_jetCorrector_H;
     JetCorrectionUncertainty *_jetCorrectorUnc;
     // const JetCorrector* corrector;
+
+    // for JER
+    std::vector<double>    JER_etaMin;
+    std::vector<double>    JER_etaMax;
+    std::vector<double>    JER_rhoMin;
+    std::vector<double>    JER_rhoMax;
+    std::vector<double>    JER_PtMin;
+    std::vector<double>    JER_PtMax;
+    std::vector<double>    JER_Par0;
+    std::vector<double>    JER_Par1;
+    std::vector<double>    JER_Par2;
+    std::vector<double>    JER_Par3;
 
     // 4 momentum
 

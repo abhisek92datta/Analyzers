@@ -28,6 +28,16 @@ git cms-merge-topic cms-met:fromCMSSW_8_0_20_postICHEPfilter
 
 git cms-merge-topic ikrav:egm_id_80X_v2
 
+git cms-merge-topic rafaellopesdesa:Regression80XEgammaAnalysis_v2
+
+git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
+
+cd EgammaAnalysis/ElectronTools/data
+
+git clone git@github.com:ECALELFS/ScalesSmearings.git
+
+cd ../../..
+
 git clone https://github.com/abhisek92datta/Analyzers.git
 
 cp Analyzers/Analyzer_run_recipe.sh .

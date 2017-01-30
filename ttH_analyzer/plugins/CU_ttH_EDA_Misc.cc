@@ -745,6 +745,55 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
     }
 }
 
+
+void CU_ttH_EDA::SetpT_ResFile()
+{
+    std::string JER_file =  string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/JER/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt" ;
+    std::ifstream infile( JER_file);
+    if( ! infile ){
+        std::cerr << "Error: cannot open file(" << JER_file << ")" << endl;
+        exit(1);
+        }
+
+        double eta_min;
+        double eta_max;
+        double rho_min;
+        double rho_max;
+        double dummy;
+        double pt_min;
+        double pt_max;
+        double par0;
+        double par1;
+        double par2;
+        double par3;
+
+        JER_etaMin.clear();
+        JER_etaMax.clear();
+        JER_rhoMin.clear();
+        JER_rhoMax.clear();
+        JER_PtMin.clear();
+        JER_PtMax.clear();
+        JER_Par0.clear();
+        JER_Par1.clear();
+        JER_Par2.clear();
+        JER_Par3.clear();
+
+        while (infile>>eta_min>>eta_max>>rho_min>>rho_max>>dummy>>pt_min>>pt_max>>par0>>par1>>par2>>par3) {
+            JER_etaMin.push_back(eta_min);
+            JER_etaMax.push_back(eta_max);
+            JER_rhoMin.push_back(rho_min);
+            JER_rhoMax.push_back(rho_max);
+            JER_PtMin .push_back(pt_min);
+            JER_PtMax .push_back(pt_max);
+            JER_Par0  .push_back(par0);
+            JER_Par1  .push_back(par1);
+            JER_Par2  .push_back(par2);
+            JER_Par3  .push_back(par3);
+        }
+        infile.close();
+}
+
+
 inline double CU_ttH_EDA::GetJetSF(pat::Jet jet,
                                    const sysType::sysType iSysType,
                                    const double &rho, const CU_ttH_EDA_event_vars &local)
@@ -894,12 +943,29 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
             double dpt_min = 99999;
             double dpt;
             double dR;
+            double res=0;
 
+            // from GT
+            /*
             JME::JetParameters parameters_1;
             parameters_1.setJetPt(jet.pt());
             parameters_1.setJetEta(jet.eta());
             parameters_1.setRho(rho);
-            float res = resolution.getResolution(parameters_1) * jet.pt();
+            res = resolution.getResolution(parameters_1);
+            */
+
+            // from text file
+            for( int unsigned i = 0 ; i < JER_etaMax.size() ; i ++){
+                if(jet.eta() < JER_etaMax[i] && jet.eta() >= JER_etaMin[i] && rho < JER_rhoMax[i] && rho >= JER_rhoMin[i] ) {
+                    double jet_pt=jet.pt();
+                    if(jet_pt < JER_PtMin[i])
+                        jet_pt=JER_PtMin[i];
+                    if(jet_pt > JER_PtMax[i])
+                        jet_pt=JER_PtMax[i];
+                    res=sqrt( JER_Par0[i]*fabs(JER_Par0[i]) / (jet_pt*jet_pt)+JER_Par1[i]*JER_Par1[i]*pow(jet_pt,JER_Par3[i])+JER_Par2[i]*JER_Par2[i]);
+                }
+            }
+
             reco::GenJet matched_genjet;
 
             for (reco::GenJetCollection::const_iterator iter = genjets->begin();
@@ -907,7 +973,7 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                 dpt = fabs(jet.pt() - iter->pt());
                 dR = miniAODhelper.DeltaR(&jet, iter);
                 if (dR < (0.4 / 2)) {
-                    if (dpt < (3 * fabs(res))) {
+                    if (dpt < (3*fabs(res)*jet.pt())) {
                         genjet_match = 1;
                         if (dpt <= dpt_min) {
                             matched_genjet = *(iter);
@@ -929,9 +995,10 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                                          matched_genjet.pt(), jet.pt());
                 }
             } else if (genjet_match == 0) {
-                 jerSF = r->Gaus();
-                 r->SetSeed(1);
-                 //jerSF = 1;
+                 //double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
+                 //jerSF = 1 + ((r->Gaus(0,res))*sqrt( fmax( 0.0, (s*s)-1 ) ));
+                 //r->SetSeed(0);
+                 jerSF = 1;
             }
             jet.scaleEnergy(jerSF * corrFactor);
         }
@@ -940,6 +1007,7 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
 
     return outputJets;
 }
+
 
 // JER factors for 80X
 inline double CU_ttH_EDA::getJERfactor(const int returnType,
