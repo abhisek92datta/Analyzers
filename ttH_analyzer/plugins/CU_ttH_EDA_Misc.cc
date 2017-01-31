@@ -997,7 +997,7 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
             } else if (genjet_match == 0) {
                  //double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
                  //jerSF = 1 + ((r->Gaus(0,res))*sqrt( fmax( 0.0, (s*s)-1 ) ));
-                 //r->SetSeed(0);
+                 r->SetSeed(0);
                  jerSF = 1;
             }
             jet.scaleEnergy(jerSF * corrFactor);
