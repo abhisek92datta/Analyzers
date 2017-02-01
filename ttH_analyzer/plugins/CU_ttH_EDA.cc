@@ -161,7 +161,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
-    //if (local.event_nr != 31608 )
+    //if (local.event_nr != 308543 && local.event_nr != 368694 && local.event_nr != 368816)
     //	return;
 
     /// Create and set up edm:Handles in stack mem.
@@ -239,14 +239,23 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     std::cout<<local.n_electrons<<"  "<<local.n_veto_electrons<<"  "<<local.n_veto_muons<<"\n";
     std::cout<<local.n_sl_jets<<"  "<<local.n_sl_btags<<"\n";
     std::cout<<"\n";
-    for(int i=0; i<local.n_electrons; i++)
-        std::cout<<local.e_selected[i].pt()<<"  "<<local.e_selected[i].eta()<<"  "<<miniAODhelper.GetElectronRelIso(local.e_selected[i],coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
-    std::cout<<"\n";
-    for(int i=0; i<local.n_sl_jets; i++)
-        std::cout<<local.jets_sl_selected_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-    std::cout<<"\n";
-    for(int i=0; i<local.n_sl_btags; i++)
-        std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    //std::vector<pat::Electron> inputElectrons = *(handle.electrons);
+    int nn=0;
+    for( std::vector<pat::Electron>::const_iterator it = local.e_with_id.begin(), ed = local.e_with_id.end(); it != ed; ++it ){
+        pat::Electron iElectron = *it;
+        nn++;
+        std::cout<<iElectron.pt()<<"  "<<iElectron.eta()<<"  "<<fabs(iElectron.superCluster()->position().eta())<<"  "<<miniAODhelper.GetElectronRelIso(iElectron,coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
+        //std::cout<<fabs(iElectron.superCluster()->position().eta())<<"  "<<iElectron.full5x5_sigmaIetaIeta()<<"  "<<fabs(iElectron.superCluster().isNonnull() && iElectron.superCluster()->seed().isNonnull() ? iElectron.deltaEtaSuperClusterTrackAtVtx() - iElectron.superCluster()->eta() + iElectron.superCluster()->seed()->eta() : std::numeric_limits<float>::max())<<"  "<<fabs( iElectron.deltaPhiSuperClusterTrackAtVtx() )<<"  "<<iElectron.hcalOverEcal()<<"  "<<fabs(1.0/iElectron.ecalEnergy() - iElectron.eSuperClusterOverP()/iElectron.ecalEnergy() )<<"  "<<iElectron.passConversionVeto()<<"  "<<iElectron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)<<"  "<<fabs(iElectron.gsfTrack()->dxy(vertex.position()))<<"  "<<fabs(iElectron.gsfTrack()->dz(vertex.position()))<<"\n";
+        std::cout<<miniAODhelper.PassElectron80XId(iElectron, electronID::electron80XCutBasedM)<<"\n";
+    }
+    //for(int i=0; i<*(handle.electrons).size(); i++)
+    //     std::cout<<local.e_selected[i].pt()<<"  "<<local.e_selected[i].eta()<<"  "<<miniAODhelper.GetElectronRelIso(local.e_selected[i],coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
+    std::cout<<nn<<"\n";
+    //for(int i=0; i<local.n_sl_jets; i++)
+    //    std::cout<<local.jets_sl_selected_sorted[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    //std::cout<<"\n";
+    //for(int i=0; i<local.n_sl_btags; i++)
+    //    std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
      */
 
     /// Check tags, fill ntuple, print events
