@@ -426,8 +426,8 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
                                 const edm_Handles &handle)
 {
 
-    local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
-        handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
+    //local.e_with_id = miniAODhelper.GetElectronsWithMVAid(
+    //    handle.electrons_for_mva, handle.mvaValues, handle.mvaCategories);
     // Single Lepton
     local.mu_selected = miniAODhelper.GetSelectedMuons(
         *(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04,
@@ -436,10 +436,10 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_veto_mu_eta);
     local.e_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_ele_pT, electronID::electron80XCutBasedM,
+        *(handle.electrons), min_ele_pT, electronID::electron80XCutBasedM,
         max_ele_eta);
     local.e_veto_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_veto_ele_pT,
+        *(handle.electrons), min_veto_ele_pT,
         electronID::electron80XCutBasedM,
 	max_veto_ele_eta);
     //local.e_selected = GetSelectedElectrons(
@@ -460,7 +460,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04,
         corrType::deltaBeta, max_di_mu2_eta);
     local.e_di_selected = miniAODhelper.GetSelectedElectrons(
-        local.e_with_id, min_di_ele2_pT,
+        *(handle.electrons), min_di_ele2_pT,
         electronID::electron80XCutBasedM,
 	max_di_ele2_eta);
     //local.e_di_selected = GetSelectedElectrons(
@@ -955,6 +955,7 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
             */
 
             // from text file
+
             for( int unsigned i = 0 ; i < JER_etaMax.size() ; i ++){
                 if(jet.eta() < JER_etaMax[i] && jet.eta() >= JER_etaMin[i] && rho < JER_rhoMax[i] && rho >= JER_rhoMin[i] ) {
                     double jet_pt=jet.pt();
@@ -963,8 +964,12 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                     if(jet_pt > JER_PtMax[i])
                         jet_pt=JER_PtMax[i];
                     res=sqrt( JER_Par0[i]*fabs(JER_Par0[i]) / (jet_pt*jet_pt)+JER_Par1[i]*JER_Par1[i]*pow(jet_pt,JER_Par3[i])+JER_Par2[i]*JER_Par2[i]);
+                    //std::cout<<JER_Par0[i]<<"  "<<JER_Par1[i]<<"  "<<JER_Par2[i]<<"  "<<JER_Par3[i]<<"\n";
                 }
             }
+
+            //std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<rho<<"  "<<res<<"  "<<res1<<"\n";
+            //std::cout<<"\n";
 
             reco::GenJet matched_genjet;
 

@@ -161,7 +161,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
-    //if (local.event_nr != 308543 && local.event_nr != 368694 && local.event_nr != 368816)
+    //if (local.event_nr != 31533)
     //	return;
 
     /// Create and set up edm:Handles in stack mem.
