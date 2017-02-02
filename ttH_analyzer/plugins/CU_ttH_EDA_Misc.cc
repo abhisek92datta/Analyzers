@@ -1374,15 +1374,21 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
                 temp_pt = local.jets_di_selected[i].pt();
             }
         }
-	double temp2_pt = local.jets_di_selected[0].pt();
+
+        double temp2_pt;
+        if(jet_index==0)
+            jet_index2=1;
+        temp2_pt = local.jets_di_selected[jet_index2].pt();
         for (int i = 0; i < local.n_di_jets; ++i) {
-	    if (i==jet_index)
-		continue;		
-            if (local.jets_di_selected[i].pt() > temp2_pt ) {
-                jet_index2 = i;
-                temp2_pt = local.jets_di_selected[i].pt();
+            if (i!=jet_index)
+            {
+                if (local.jets_di_selected[i].pt() > temp2_pt ) {
+                    jet_index2 = i;
+                    temp2_pt = local.jets_di_selected[i].pt();
+                }
             }
         }
+
         // Jet SF
         pat::Jet jet1 = local.jets_di_selected_raw[jet_index];
         pat::Jet jet2 = local.jets_di_selected_raw[jet_index2];
