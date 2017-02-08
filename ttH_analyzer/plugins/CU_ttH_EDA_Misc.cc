@@ -283,11 +283,10 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                                 "pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     fprintf(events_combined, "%.4f,%.4f,-1,", local.met_pt, local.met_phi);
     fprintf(events_combined, "%d,", local.ttHf_cat);
-    fprintf(events_combined, "%d,", local.truenpv);
     if (!isdata)
-        fprintf(events_combined, "%.4f,", local.PU_weight);
+        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
-        fprintf(events_combined, "-1,");
+        fprintf(events_combined, "-1,-1,");
     if (!isdata) {
         fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
                 local.b_weight_sl_lfup, local.b_weight_sl_hfdown, 
@@ -393,11 +392,10 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     fprintf(events_combined, "%.4f,%.4f,%.4f,", local.met_pt, local.met_phi,
             local.mll);  
     fprintf(events_combined, "%d,", local.ttHf_cat);
-    fprintf(events_combined, "%d,", local.truenpv);
     if (!isdata)
-        fprintf(events_combined, "%.4f,", local.PU_weight);
+        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
-        fprintf(events_combined, "-1,");
+        fprintf(events_combined, "-1,-1,");
     if (!isdata) {
         fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
