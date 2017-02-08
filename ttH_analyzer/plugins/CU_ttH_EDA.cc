@@ -133,6 +133,10 @@ CU_ttH_EDA::~CU_ttH_EDA()
     r->SetSeed(0);
     Close_output_files();
 
+    // delete r;
+    //delete events_combined;
+    //delete eventTree;
+
     delete f_CSVwgt_HF;
     delete f_CSVwgt_LF;
     delete NNPDF30_nlo_as_0118_PDFSet;
@@ -147,8 +151,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     using namespace edm;
     ++event_count;
 
-    JME::JetResolution resolution;
-    resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
+    //JME::JetResolution resolution;
+    //resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
 
     /// Declaring local struct for data readout and manipulations
     CU_ttH_EDA_event_vars local;
@@ -169,10 +173,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     Set_up_handles(iEvent, iSetup, handle, token, isdata);
 
     // for JEC
+    /*
     const JetCorrector *corrector =
         JetCorrector::getJetCorrector("ak4PFchsL1L2L3", iSetup);
     miniAODhelper.SetJetCorrector(corrector);
     miniAODhelper.SetJetCorrectorUncertainty(iSetup);
+    */
 
     // for PDF weight
     if (!isdata)
@@ -180,6 +186,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     // for Q2 weight
     if (!isdata)
         iEvent.getByToken(token.lheptoken, handle.EvtHandle);
+    // for ttHf categorization
+    if (!isdata)
+        iEvent.getByToken(token.genTtbarIdToken_, handle.genTtbarId);
 
     /// Run checks on event containers via their handles
     Check_triggers(handle.triggerResults, local);
@@ -215,7 +224,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     Select_Leptons(local, handle);
 
     /// Jet selection
-    Select_Jets(local, iEvent, iSetup, handle, *rho, resolution);
+    //Select_Jets(local, iEvent, iSetup, handle, *rho, resolution);
+    Select_Jets(local, iEvent, iSetup, handle, *rho);
 
     /// MET
     Init_Mets(local, handle);

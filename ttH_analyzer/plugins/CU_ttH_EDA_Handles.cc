@@ -27,13 +27,12 @@ void Set_up_handles(const Event &iEvent, const EventSetup &iSetup, edm_Handles &
 
     iEvent.getByToken(token.BS, handle.BS);
  
-    iEvent.getByToken(token.eleMediumIdMapToken_, handle.medium_id_decisions);
+    //iEvent.getByToken(token.eleMediumIdMapToken_, handle.medium_id_decisions);
     iEvent.getByToken(token.mvaValuesMapToken_, handle.mvaValues);
     iEvent.getByToken(token.mvaCategoriesMapToken_, handle.mvaCategories);
     iEvent.getByToken(token.electrons_for_mva_token, handle.electrons_for_mva);
     iEvent.getByToken(token.muon_h_token, handle.muon_h);
 
-    iEvent.getByToken(token.genTtbarIdToken_, handle.genTtbarId);
     iEvent.getByToken(token.puInfoToken, handle.PupInfo);
     
     iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", handle.ttrkbuilder);

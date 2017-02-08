@@ -194,11 +194,20 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     void
     SetpT_ResFile();
+    /*
     inline std::vector<pat::Jet>
     GetCorrectedJets(const std::vector<pat::Jet> &,
                      const edm::Handle<reco::GenJetCollection> &,
                      const double &, const CU_ttH_EDA_event_vars &,
                      const JME::JetResolution &,
+                     const sysType::sysType iSysType = sysType::NA,
+                     const bool &doJES = 1, const bool &doJER = 1,
+                     const float &corrFactor = 1, const float &uncFactor = 1);
+    */
+    inline std::vector<pat::Jet>
+    GetCorrectedJets(const std::vector<pat::Jet> &,
+                     const edm::Handle<reco::GenJetCollection> &,
+                     const double &, const CU_ttH_EDA_event_vars &,
                      const sysType::sysType iSysType = sysType::NA,
                      const bool &doJES = 1, const bool &doJER = 1,
                      const float &corrFactor = 1, const float &uncFactor = 1);
@@ -208,9 +217,14 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
     // Object Selection functions
     void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
+    /*
     void Select_Jets(CU_ttH_EDA_event_vars &, const edm::Event &,
                      const edm::EventSetup &, const edm_Handles &,
                      const double &, const JME::JetResolution &);
+    */
+    void Select_Jets(CU_ttH_EDA_event_vars &, const edm::Event &,
+                     const edm::EventSetup &, const edm_Handles &,
+                     const double &);
     void Init_Mets(CU_ttH_EDA_event_vars &, const edm_Handles &);
 
     // Initialization functions
