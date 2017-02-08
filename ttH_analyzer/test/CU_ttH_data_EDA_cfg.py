@@ -21,10 +21,16 @@ process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 #process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
 
+
+# Combined B-H
+process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
+
+######################Old###################
 #For Datasets B-G
-process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
+#process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 #For Dataset H
 #process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v15'
+############################################
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
