@@ -10,4 +10,4 @@ g++ PU_hist_calc.cc -o PU_hist_calc
 
 mv PU_weights.txt ../../data/PU_weight/
 
-rm -rf PU_Data.txt output.root
+rm -rf PU_hist_calc PU_Data.txt output.root
