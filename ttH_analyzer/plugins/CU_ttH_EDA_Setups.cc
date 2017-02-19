@@ -47,7 +47,7 @@ void CU_ttH_EDA::init_flags(CU_ttH_EDA_event_vars &local)
 void CU_ttH_EDA::init_PU_weight()
 {
     ifstream fin;
-    fin.open("data/PU_weight/PU_weights.txt");
+    fin.open("data/PU_weight/PU_weight.txt");
     // fin.open("/afs/cern.ch/user/a/abdatta/public/PU_weight/PU_weights.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_x[i] >> PU_y[i];
