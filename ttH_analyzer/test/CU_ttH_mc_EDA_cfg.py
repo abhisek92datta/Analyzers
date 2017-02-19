@@ -101,8 +101,8 @@ process.source = cms.Source("PoolSource",
         )
 )
 
-# new electron MVA developed by the EGamma POG 
-#process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+# new electron MVA developed by the EGamma POG
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 #from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 #switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
 #my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']
@@ -186,9 +186,9 @@ process.TFileService = cms.Service("TFileService",
 )
 
 process.p = cms.Path(
-    #process.electronMVAValueMapProducer
+    process.electronMVAValueMapProducer
     #process.egmGsfElectronIDSequence
-    process.genParticlesForJetsNoNu
+    * process.genParticlesForJetsNoNu
     * process.ak4GenJetsCustom
     * process.selectedHadronsAndPartons
     * process.genJetFlavourInfos
