@@ -8,15 +8,15 @@ source /cvmfs/cms.cern.ch/cmsset_default.sh
 
 export SCRAM_ARCH="slc6_amd64_gcc530"
 
-export CMSSW_VERSION="CMSSW_8_0_25"
+export CMSSW_VERSION="CMSSW_8_0_26_patch2"
 
 cmsrel $CMSSW_VERSION
 
 cd $CMSSW_VERSION/src
 
-export CMSSW_SRC="$( pwd )"
-
 cmsenv
+
+cd ../..
 
 git clone https://github.com/abhisek92datta/Analyzers.git
 
@@ -28,7 +28,7 @@ chmod 755 Analyzer_run_recipe.sh
 
 ./Analyzer_run_recipe.sh
 
-cd Analyzers/ttH_analyzer/macros/Pile_Up_Calc/
+cd $CMSSW_VERSION/src/Analyzers/ttH_analyzer/macros/Pile_Up_Calc/
 
 ./Pileup_calculation_script.sh
 
