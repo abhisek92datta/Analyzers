@@ -93,9 +93,9 @@ struct edm_Handles {
 
     Handle<reco::BeamSpot> BS;
 
-    //Handle<edm::ValueMap<bool> > medium_id_decisions;
-    Handle<edm::ValueMap<float>> mvaValues;
-    Handle<edm::ValueMap<int>> mvaCategories;
+    Handle<edm::ValueMap<bool> > tight_id_decisions;
+    //Handle<edm::ValueMap<float>> mvaValues;
+    //Handle<edm::ValueMap<int>> mvaCategories;
     Handle<edm::View<pat::Electron>> electrons_for_mva;
 	Handle<edm::View<pat::Muon>> muon_h;
 
@@ -129,9 +129,9 @@ struct edm_Tokens {
 
     EDGetTokenT<reco::BeamSpot> BS;
      
-    //EDGetTokenT<edm::ValueMap<bool> > eleMediumIdMapToken_;
-    EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
-    EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
+    EDGetTokenT<edm::ValueMap<bool> > eleTightIdMapToken_;
+    //EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken_;
+    //EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken_;
     EDGetTokenT<edm::View<pat::Electron>> electrons_for_mva_token;
     EDGetTokenT<edm::View<pat::Muon>> muon_h_token;
 

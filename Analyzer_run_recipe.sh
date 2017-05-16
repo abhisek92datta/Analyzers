@@ -24,10 +24,6 @@ git clone https://github.com/abhisek92datta/MiniAOD.git
 cd MiniAOD
 git checkout CMSSW_8_0_8_ICHEP_Leptons
 cd ..
-scram b -j 32
-scram b -j 32
-scram b -j 32
-scram b -j 32
-scram b -j 32
+scram b
 cd Analyzers/ttH_analyzer/macros/Pile_Up_Calc/
 chmod 755 Pileup_calculation_script.sh
