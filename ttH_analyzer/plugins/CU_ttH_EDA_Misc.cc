@@ -443,7 +443,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     */
 
     //Using Cut-Based ID
-    /*
+
     local.e_selected = miniAODhelper.GetSelectedElectrons(
         *(handle.electrons), min_ele_pT, electronID::electron80XCutBasedM,
         max_ele_eta);
@@ -451,9 +451,10 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.electrons), min_veto_ele_pT,
         electronID::electron80XCutBasedM,
 	max_veto_ele_eta);
-    */
+
 
     // Using VID
+    /*
     local.e_selected = GetSelectedElectrons(
         *(handle.electrons_for_mva), min_ele_pT,
         handle.tight_id_decisions, max_ele_eta);
@@ -461,6 +462,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
         *(handle.electrons_for_mva), min_veto_ele_pT,
         handle.tight_id_decisions,
 	max_veto_ele_eta);
+     */
 
     local.n_electrons = static_cast<int>(local.e_selected.size());
     local.n_veto_electrons = static_cast<int>(local.e_veto_selected.size());
@@ -479,18 +481,20 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     // Ele
 
     //USing Cut-Based ID
-    /*
+
     local.e_di_selected = miniAODhelper.GetSelectedElectrons(
         *(handle.electrons), min_di_ele2_pT,
         electronID::electron80XCutBasedM,
 	max_di_ele2_eta);
-    */
+
 
     //Using VID
+    /*
     local.e_di_selected = GetSelectedElectrons(
         *(handle.electrons_for_mva), min_di_ele2_pT,
         handle.tight_id_decisions,
 	max_di_ele2_eta);
+    */
 
     local.n_di_electrons = static_cast<int>(local.e_di_selected.size());
     local.n_di_muons = static_cast<int>(local.mu_di_selected.size());

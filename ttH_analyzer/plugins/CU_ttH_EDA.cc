@@ -123,20 +123,24 @@ CU_ttH_EDA::~CU_ttH_EDA()
 {
     // do anything here that needs to be done at desctruction time
     // (e.g. close files, deallocate resources etc.)
+    /*
     delete _jetCorrector_MC;
     delete _jetCorrector_BCD;
     delete _jetCorrector_EF;
     delete _jetCorrector_G;
     delete _jetCorrector_H;
     delete _jetCorrectorUnc;
-
+    */
+    
     //r->SetSeed(0);
     Close_output_files();
 
-    // delete r;
+    //delete r;
     //delete events_combined;
     //delete eventTree;
 
+    f_CSVwgt_HF->Close();
+    f_CSVwgt_LF->Close();
     delete f_CSVwgt_HF;
     delete f_CSVwgt_LF;
     delete NNPDF30_nlo_as_0118_PDFSet;
@@ -193,7 +197,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     /// Run checks on event containers via their handles
     Check_triggers(handle.triggerResults, local);
     Check_filters(handle.filterResults, local);
-  
+
+
     /// MET filters
     local.filterbadChCandidate = *handle.ifilterbadChCand;
     local.filterbadPFMuon = *handle.ifilterbadPFMuon;

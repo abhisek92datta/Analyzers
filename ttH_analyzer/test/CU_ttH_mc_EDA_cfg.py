@@ -194,28 +194,28 @@ if options.electronSmearing and options.electronRegression:
     )
     electronCollection = cms.InputTag("selectedElectrons", "", process.name_())
 
-    # setup the smearing
-    process.load("EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi")
-    from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import files
-    process.calibratedPatElectrons.isMC           = cms.bool(not options.realData)
-    process.calibratedPatElectrons.correctionFile = cms.string(files[options.electronSmearing])
-    process.calibratedPatElectrons.electrons      = electronCollection
-    seq += process.calibratedPatElectrons
+# setup the smearing
+process.load("EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi")
+from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import files
+process.calibratedPatElectrons.isMC           = cms.bool(not options.realData)
+process.calibratedPatElectrons.correctionFile = cms.string(files[options.electronSmearing])
+process.calibratedPatElectrons.electrons      = electronCollection
+seq += process.calibratedPatElectrons
 
-    # use our deterministic seeds or a random generator service
-    if options.deterministicSeeds:
-        process.calibratedPatElectrons.seedUserInt = process.deterministicSeeds.seedUserInt
-    else:
-        process.load("Configuration.StandardSequences.Services_cff")
-        process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-            calibratedPatElectrons = cms.PSet(
-                 initialSeed = cms.untracked.uint32(81),
-                 engineName  = cms.untracked.string("TRandom3")
-            )
+# use our deterministic seeds or a random generator service
+if options.deterministicSeeds:
+    process.calibratedPatElectrons.seedUserInt = process.deterministicSeeds.seedUserInt
+else:
+    process.load("Configuration.StandardSequences.Services_cff")
+    process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+        calibratedPatElectrons = cms.PSet(
+                initialSeed = cms.untracked.uint32(81),
+                engineName  = cms.untracked.string("TRandom3")
         )
+    )
 
-     # overwrite output collections
-     electronCollection = cms.InputTag("calibratedPatElectrons", "", process.name_())
+    # overwrite output collections
+    electronCollection = cms.InputTag("calibratedPatElectrons", "", process.name_())
 
 
 #
@@ -322,6 +322,8 @@ process.badGlobalMuonTaggerMAOD.taggingMode   = cms.bool(True)
 process.cloneGlobalMuonTaggerMAOD.muons       = muonCollection
 process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
 
+seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
+
 #
 # update PUJetId values
 #
@@ -388,7 +390,7 @@ process.ttHbb.jets     = jetCollection
 #)
 
 # additional MET filters
-process.myAnalyzer.additionalMETFilterCollections = cms.VInputTag(
+process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
      "BadPFMuonFilter",
      "BadChargedCandidateFilter",
      "badGlobalMuonTaggerMAOD",
@@ -396,7 +398,7 @@ process.myAnalyzer.additionalMETFilterCollections = cms.VInputTag(
 )
 
 # ttbar-related collections
-process.myAnalyzer.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
+process.ttHbb.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
 
 
 
@@ -478,7 +480,7 @@ process.categorizeGenTtbar = categorizeGenTtbar.clone(
 seq += process.categorizeGenTtbar
 
 process.TFileService = cms.Service("TFileService",
-	fileName = cms.string('ttHbbNtuple.root')
+	fileName = cms.string("ttHbbNtuple.root")
 )
 
 process.p = cms.Path(

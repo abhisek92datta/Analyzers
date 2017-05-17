@@ -185,10 +185,6 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
     	config.getParameter<edm::InputTag>("badchcandfilter"));
     token.BadPFMuonFilterToken_ = consumes<bool>(
     	config.getParameter<edm::InputTag>("badpfmufilter"));
-    //token.BadChCandFilterToken_ = consumes<bool>(
-    //    edm::InputTag(std::string("BadChargedCandidateFilter")));
-    //token.BadPFMuonFilterToken_ = consumes<bool>(
-    //    edm::InputTag(std::string("BadPFMuonFilter")));
     token.PF_candidates = consumes<pat::PackedCandidateCollection>(
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(

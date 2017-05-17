@@ -307,8 +307,8 @@ if options.electronSmearing and options.electronRegression:
             )
         )
                                                          
-     # overwrite output collections
-     electronCollection = cms.InputTag("calibratedPatElectrons", "", process.name_())
+        # overwrite output collections
+        electronCollection = cms.InputTag("calibratedPatElectrons", "", process.name_())
 
 
 #
@@ -415,6 +415,8 @@ process.badGlobalMuonTaggerMAOD.taggingMode   = cms.bool(True)
 process.cloneGlobalMuonTaggerMAOD.muons       = muonCollection
 process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
 
+seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
+
 
 #
 # update PUJetId values
@@ -482,7 +484,7 @@ process.ttHbb.jets     = jetCollection
 #)
 
 # additional MET filters
-process.myAnalyzer.additionalMETFilterCollections = cms.VInputTag(
+process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
     "BadPFMuonFilter",
     "BadChargedCandidateFilter",
     "badGlobalMuonTaggerMAOD",
@@ -490,7 +492,7 @@ process.myAnalyzer.additionalMETFilterCollections = cms.VInputTag(
 )
 
 # ttbar-related collections
-process.myAnalyzer.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
+process.ttHbb.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
 
 
 process.TFileService = cms.Service("TFileService",
