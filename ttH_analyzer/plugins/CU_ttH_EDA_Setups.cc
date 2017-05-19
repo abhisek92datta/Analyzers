@@ -212,7 +212,8 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
 
 void CU_ttH_EDA::Set_up_Tree()
 {
-    eventTree = fs_->make<TTree>("eventTree", "Event tree");
+    eventTree = fs_->make<TTree>();
+    //eventTree = fs_->make<TTree>("eventTree", "Event tree");
     hbbNtuple.set_up_branches(eventTree);
     //hbbNtuple = 0;
     //eventTree->Branch("hbbNtuple", "CU_ttH_EDA_Ntuple", &hbbNtuple, 8000, 1);
