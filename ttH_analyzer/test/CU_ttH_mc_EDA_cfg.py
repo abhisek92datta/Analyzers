@@ -102,6 +102,9 @@ process.load('Configuration.Geometry.GeometryRecoDB_cff')
 #process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 
+# Supplies PDG ID to real name resolution of MC particles
+process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+
 process.load( "Configuration.StandardSequences.FrontierConditions_GlobalTag_cff" )
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 
@@ -109,7 +112,7 @@ process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
-	input = cms.untracked.int32(-1)
+	input = cms.untracked.int32(100)
 )
 
 seq = cms.Sequence()
@@ -131,6 +134,7 @@ process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
     'ak4PFchsL3Absolute')
 )
 
+
 #
 # deterministic seed producer
 #
@@ -146,6 +150,7 @@ if options.deterministicSeeds:
     process.deterministicSeeds.photonCollection   = photonCollection
     process.deterministicSeeds.jetCollection      = jetCollection
     process.deterministicSeeds.METCollection      = METCollection
+
     # overwrite output collections
     electronCollection = cms.InputTag("deterministicSeeds", "electronsWithSeed", process.name_())
     muonCollection     = cms.InputTag("deterministicSeeds", "muonsWithSeed", process.name_())
@@ -172,12 +177,15 @@ if options.electronRegression:
         process.es_prefer_regressions = cms.ESPrefer("PoolDBESSource", "regressions")
     process.load("EgammaAnalysis.ElectronTools.regressionApplication_cff")
     seq += process.regressionApplication
+
     # set the electron and photon sources
     process.slimmedElectrons.src = electronCollection
     process.slimmedPhotons.src = photonCollection
+
     # overwrite output collections
     electronCollection = cms.InputTag("slimmedElectrons", "", process.name_())
     photonCollection = cms.InputTag("slimmedPhotons", "", process.name_())
+
 
 
 #
@@ -189,33 +197,34 @@ if options.electronRegression:
 if options.electronSmearing and options.electronRegression:
     # the smearing procedure requires a preselection
     process.selectedElectrons = cms.EDFilter("PATElectronSelector",
-          src = electronCollection,
-          cut = cms.string("pt>5 && abs(superCluster.eta)<2.5")
+        src = electronCollection,
+        cut = cms.string("pt>5 && abs(superCluster.eta)<2.5")
     )
     electronCollection = cms.InputTag("selectedElectrons", "", process.name_())
 
-# setup the smearing
-process.load("EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi")
-from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import files
-process.calibratedPatElectrons.isMC           = cms.bool(not options.realData)
-process.calibratedPatElectrons.correctionFile = cms.string(files[options.electronSmearing])
-process.calibratedPatElectrons.electrons      = electronCollection
-seq += process.calibratedPatElectrons
+    # setup the smearing
+    process.load("EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi")
+    from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import files
+    process.calibratedPatElectrons.isMC           = cms.bool(not options.realData)
+    process.calibratedPatElectrons.correctionFile = cms.string(files[options.electronSmearing])
+    process.calibratedPatElectrons.electrons      = electronCollection
+    seq += process.calibratedPatElectrons
 
-# use our deterministic seeds or a random generator service
-if options.deterministicSeeds:
-    process.calibratedPatElectrons.seedUserInt = process.deterministicSeeds.seedUserInt
-else:
-    process.load("Configuration.StandardSequences.Services_cff")
-    process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-        calibratedPatElectrons = cms.PSet(
-                initialSeed = cms.untracked.uint32(81),
-                engineName  = cms.untracked.string("TRandom3")
-        )
-    )
-
+    # use our deterministic seeds or a random generator service
+    if options.deterministicSeeds:
+       process.calibratedPatElectrons.seedUserInt = process.deterministicSeeds.seedUserInt
+    else:
+       process.load("Configuration.StandardSequences.Services_cff")
+       process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+            calibratedPatElectrons = cms.PSet(
+                 initialSeed = cms.untracked.uint32(81),
+                 engineName  = cms.untracked.string("TRandom3")
+            )
+       )
+                                                         
     # overwrite output collections
     electronCollection = cms.InputTag("calibratedPatElectrons", "", process.name_())
+
 
 
 #
@@ -370,12 +379,10 @@ if options.updatePUJetId:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
 # pat object collections
-process.ttHbb.electrons = electronCollection
-process.ttHbb.muons     = muonCollection
-#process.ttHbb.tauCollection      = tauCollection
-#process.ttHbb.photonCollection   = photonCollection
-process.ttHbb.mets      = METCollection
-process.ttHbb.jets     = jetCollection
+process.ttHbb.input_tags.electrons = electronCollection
+process.ttHbb.input_tags.muons     = muonCollection
+process.ttHbb.input_tags.mets      = METCollection
+process.ttHbb.input_tags.jets     = jetCollection
 
 #electron VID collections
 #process.ttHbb.electronVIDCollections = cms.VInputTag(
@@ -416,9 +423,7 @@ process.genParticlesForJetsNoNu = genParticlesForJetsNoNu.clone(
 	src = genJetInputParticleCollection
 )
 seq += process.genParticlesForJetsNoNu
-    
-# Supplies PDG ID to real name resolution of MC particles
-process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+
     
 # Producing own jets for testing purposes
 from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
