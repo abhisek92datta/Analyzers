@@ -1,6 +1,5 @@
 import os
 import FWCore.ParameterSet.Config as cms
-import PhysicsTools.PythonAnalysis.LumiList as LumiList
 from FWCore.ParameterSet.VarParsing import VarParsing
 
 from RecoJets.Configuration.RecoJets_cff import *

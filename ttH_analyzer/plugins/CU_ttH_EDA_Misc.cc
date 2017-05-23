@@ -427,12 +427,12 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     // Single Lepton
 
     //Mu
-    local.mu_selected = miniAODhelper.GetSelectedMuons(
-        *(handle.muons), min_mu_pT, muonID::muonTight, coneSize::R04,
-        corrType::deltaBeta, max_mu_eta);
-    local.mu_veto_selected = miniAODhelper.GetSelectedMuons(
-        *(handle.muons), min_veto_mu_pT, muonID::muonTightDL, coneSize::R04,
-        corrType::deltaBeta, max_veto_mu_eta);
+    local.mu_selected = GetSelectedMuons(local,
+        *(handle.muons), min_mu_pT, coneSize::R04,
+        corrType::deltaBeta, max_mu_eta, 0.15);
+    local.mu_veto_selected = GetSelectedMuons(local,
+        *(handle.muons), min_veto_mu_pT, coneSize::R04,
+        corrType::deltaBeta, max_veto_mu_eta, 0.25);
 
     //Ele
 
@@ -474,9 +474,9 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
 
     //Mu
 
-    local.mu_di_selected = miniAODhelper.GetSelectedMuons(
-        *(handle.muons), min_di_mu2_pT, muonID::muonTightDL, coneSize::R04,
-        corrType::deltaBeta, max_di_mu2_eta);
+    local.mu_di_selected = GetSelectedMuons(local,
+        *(handle.muons), min_di_mu2_pT, coneSize::R04,
+        corrType::deltaBeta, max_di_mu2_eta, 0.25);
 
     // Ele
 
@@ -502,10 +502,12 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     /// Sort leptons by pT
 
     local.mu_di_selected_sorted =
+        //GetSortedByPt_Mu(local, local.mu_di_selected);
         miniAODhelper.GetSortedByPt(local.mu_di_selected);
     local.e_di_selected_sorted =
         miniAODhelper.GetSortedByPt(local.e_di_selected);
     local.n_di_leptons = local.n_di_electrons + local.n_di_muons;
+
 }
 
 inline std::vector<pat::Electron>
@@ -534,6 +536,89 @@ CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons,
   }
   return selectedElectrons;
 }
+
+inline std::vector<pat::Muon>
+CU_ttH_EDA::GetSelectedMuons(CU_ttH_EDA_event_vars & local, const std::vector<pat::Muon>& inputMuons, const float iMinPt, const coneSize::coneSize iconeSize, const corrType::corrType icorrType, const float iMaxEta, const float iMaxIso) {
+
+    std::vector<pat::Muon> muons = inputMuons;
+    std::vector<pat::Muon> selectedMuons;
+
+    for( std::vector<pat::Muon>::const_iterator mu = muons.begin(), ed = muons.end(); mu != ed; ++mu ){
+
+        const pat::Muon iMuon = *mu;
+
+        bool passesKinematics = false;
+        bool passesIso = false;
+        bool passesID = false;
+
+        // get the seed and update the random number generator
+        int seed = iMuon.userInt("deterministicSeed");
+        rnd.SetSeed((unsigned int)seed);
+
+        //double gen_pt = 0.0;
+        //bool gen_mu_match = false;
+        double muon_SF = 1;
+        double mu_pT;
+
+        // Rochester Correction
+        /*
+        if(isdata)
+            muon_SF = rc.kScaleDT(iMuon.charge(), iMuon.pt(), iMuon.eta(), iMuon.phi(), 0, 0);
+
+        else {
+            double u1 = rnd.Rndm();
+            double u2 = rnd.Rndm();
+
+
+
+            if(gen_mu_match == true)
+                muon_SF = rc.kScaleFromGenMC(iMuon.charge(), iMuon.pt(), iMuon.eta(), iMuon.phi(), iMuon.track()->hitPattern().trackerLayersWithMeasurement(), gen_pt , u1, 0, 0);
+            else
+                muon_SF = rc.kScaleAndSmearMC(iMuon.charge(), iMuon.pt(), iMuon.eta(), iMuon.phi(), iMuon.track()->hitPattern().trackerLayersWithMeasurement(), u1, u2, 0, 0);
+
+        }
+        */
+
+        mu_pT = iMuon.pt() * muon_SF;
+
+        passesKinematics = ((mu_pT >= iMinPt) && (fabs(iMuon.eta()) <= iMaxEta));
+        passesIso  = (miniAODhelper.GetMuonRelIso(iMuon,iconeSize,icorrType) < iMaxIso);
+        passesID = miniAODhelper.passesMuonPOGIdTight(iMuon);
+
+        if(passesKinematics == true && passesID == true && passesIso == true) {
+            selectedMuons.push_back(iMuon);
+            local.mu_corr_pt.push_back(mu_pT);
+        }
+    }
+
+    return selectedMuons;
+}
+
+
+inline std::vector<pat::Muon>
+CU_ttH_EDA::GetSortedByPt_Mu(CU_ttH_EDA_event_vars &local , const std::vector<pat::Muon> &inputMuons) {
+
+    std::vector<pat::Muon> outputMuons = inputMuons;
+    int n = local.mu_corr_pt.size();
+    double temp;
+    pat::Muon mu_temp;
+
+    for(int i=0; i<n; i++){
+        for(int j=n-1; j>i; j--){
+            if(local.mu_corr_pt[j] > local.mu_corr_pt[j-1]){
+                temp = local.mu_corr_pt[j];
+                local.mu_corr_pt[j] = local.mu_corr_pt[j-1];
+                local.mu_corr_pt[j-1] = temp;
+                mu_temp = outputMuons[j];
+                outputMuons[j] = outputMuons[j-1];
+                outputMuons[j-1] = mu_temp;
+            }
+        }
+    }
+
+    return outputMuons;
+}
+
 /*
 void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
                              const edm::Event &iEvent,
@@ -552,11 +637,13 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
     local.jets_raw = miniAODhelper.GetSelectedJets(*(handle.jets), 0., 999,
                                                    jetID::jetTight, '-');
 
+    local.jets_raw_puid = GetSelectedJets_PUID(local.jets_raw, 4);
+
     // Overlap removal
     local.jets_sl_raw = miniAODhelper.GetDeltaRCleanedJets(
-        local.jets_raw, local.mu_veto_selected, local.e_veto_selected, 0.4);
+        local.jets_raw_puid, local.mu_veto_selected, local.e_veto_selected, 0.4);
     local.jets_di_raw = miniAODhelper.GetDeltaRCleanedJets(
-        local.jets_raw, local.mu_di_selected, local.e_di_selected, 0.4);
+        local.jets_raw_puid, local.mu_di_selected, local.e_di_selected, 0.4);
 
     // Uncorrected jets
     local.jets_sl_raw = miniAODhelper.GetUncorrectedJets(local.jets_sl_raw);
@@ -653,6 +740,29 @@ void CU_ttH_EDA::Init_Mets(CU_ttH_EDA_event_vars &local,
     local.met_passed = 0;
     local.mll_passed = 0;
 }
+
+inline std::vector<pat::Jet>
+CU_ttH_EDA::GetSelectedJets_PUID(const std::vector<pat::Jet> &inputJets, const int &id) {
+
+    std::vector<pat::Jet> outputJets;
+
+    for( std::vector<pat::Jet>::const_iterator jet = inputJets.begin(), ed = inputJets.end(); jet != ed; ++jet ){
+
+        const pat::Jet iJet = *jet;
+        bool passesID = false;
+
+        int seed = iJet.userInt("pileupJetIdUpdated:fullId");
+
+        if(seed >= id)
+            passesID = true;
+
+        if(passesID == true)
+            outputJets.push_back(iJet);
+    }
+
+    return outputJets;
+}
+
 
 inline std::vector<pat::Jet>
 CU_ttH_EDA::CheckJetID(const std::vector<pat::Jet> &inputJets,

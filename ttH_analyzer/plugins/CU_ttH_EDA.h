@@ -107,6 +107,8 @@
 #include "Analyzers/ttH_analyzer/interface/CU_ttH_EDA_Ntuple.h"
 #include "Analyzers/ttH_analyzer/interface/LHEEventProduct.h"
 
+//#include "Analyzers/ttH_analyzer/src/RoccoR.h"
+
 /// Configuration reader
 #include "yaml-cpp/yaml.h"
 
@@ -186,10 +188,13 @@ class CU_ttH_EDA : public edm::EDAnalyzer
  
     // Lepton operations
     inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
+    inline std::vector<pat::Muon> GetSelectedMuons(CU_ttH_EDA_event_vars &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
+    inline std::vector<pat::Muon> GetSortedByPt_Mu(CU_ttH_EDA_event_vars &, const std::vector<pat::Muon> &);
 
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
+    inline std::vector<pat::Jet> GetSelectedJets_PUID(const std::vector<pat::Jet> &, const int &);
     void
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     void
@@ -408,9 +413,12 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     TH1D *c_csv_wgt_hf[9][6];
     TH1D *h_csv_wgt_lf[9][4][3];
 
-    /// Selection helper
+    // Selection helper
     MiniAODHelper miniAODhelper;
     LeptonSFHelper leptonSFhelper;
+
+    // Object for Rochester Correction for muons
+    //RoccoR *rc;
 
     // for PDF weight
     LHAPDF::PDFSet *NNPDF30_nlo_as_0118_PDFSet;
@@ -427,7 +435,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     int PU_x[100];
     double PU_y[100];
 
-    //TRandom3 *r;
+    TRandom3 rnd;
 
     /// Histograms
     //TH1D *h_hlt;
