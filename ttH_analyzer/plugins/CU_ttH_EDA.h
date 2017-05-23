@@ -105,7 +105,7 @@
 #include "CU_ttH_EDA_Handles.h"
 
 #include "Analyzers/ttH_analyzer/interface/CU_ttH_EDA_Ntuple.h"
-#include "Analyzers/ttH_analyzer/interface/LHEEventProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
 //#include "Analyzers/ttH_analyzer/src/RoccoR.h"
 
