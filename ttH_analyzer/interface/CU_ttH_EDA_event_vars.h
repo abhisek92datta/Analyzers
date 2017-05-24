@@ -64,19 +64,22 @@ struct CU_ttH_EDA_event_vars {
   std::vector<pat::Electron> e_with_id;
   std::vector<pat::Electron> e_selected;
   std::vector<pat::Electron> e_veto_selected;
-  std::vector<pat::Electron> e_selected_sorted;
-  std::vector<pat::Electron> e_veto_selected_sorted;
   std::vector<pat::Muon> mu_selected;
   std::vector<pat::Muon> mu_veto_selected;
-  std::vector<pat::Muon> mu_selected_sorted;
-  std::vector<pat::Muon> mu_veto_selected_sorted;
 
-  std::vector<double> mu_corr_pt;
+  std::vector<TLorentzVector> corr_mu_sl;
+  std::vector<TLorentzVector> corr_mu_sl_veto;
+  std::vector<TLorentzVector> corr_mu_di;
+
+  std::vector<int> ele_sl_seeds;
+  std::vector<int> ele_sl_veto_seeds;
+  std::vector<int> ele_di_seeds;
+  std::vector<int> mu_sl_seeds;
+  std::vector<int> mu_sl_veto_seeds;
+  std::vector<int> mu_di_seeds;
 
   std::vector<pat::Electron> e_di_selected;
   std::vector<pat::Muon> mu_di_selected;
-  std::vector<pat::Electron> e_di_selected_sorted;
-  std::vector<pat::Muon> mu_di_selected_sorted;
 
   std::vector<pat::Jet> jets_raw;
   std::vector<pat::Jet> jets_raw_puid;
@@ -99,6 +102,10 @@ struct CU_ttH_EDA_event_vars {
   std::vector<pat::Jet> jets_di_selected_tag_old;
   std::vector<pat::Jet> jets_di_selected_tag;
   std::vector<pat::Jet> jets_di_selected_tag_sorted;
+  std::vector<int> jet_seeds;
+
+  std::vector<int> jet_sl_seeds;
+  std::vector<int> jet_di_seeds;
   
   std::vector<pat::Jet> jets_inp_bjetness;
 

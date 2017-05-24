@@ -27,7 +27,7 @@ private:
   // private member functions
   inline void fill_ntuple_electrons(const std::vector<pat::Electron> &,
                                     const MiniAODHelper &);
-  inline void fill_ntuple_muons(const std::vector<pat::Muon> &,
+    inline void fill_ntuple_muons(const std::vector<pat::Muon> &, const std::vector<TLorentzVector> &,
                                 const MiniAODHelper &);
   inline void fill_ntuple_jets(const std::vector<pat::Jet> &,
                                const MiniAODHelper &);
@@ -195,26 +195,12 @@ public:
   // jets
   int n_jets;
   int n_btags;
-  double jet0_pt;
-  double jet0_eta;
-  double jet0_phi;
-  double jet0_E;
-  double jet0_CSV;
-  double jet1_pt;
-  double jet1_eta;
-  double jet1_phi;
-  double jet1_E;
-  double jet1_CSV;
-  double jet2_pt;
-  double jet2_eta;
-  double jet2_phi;
-  double jet2_E;
-  double jet2_CSV;
-  double jet3_pt;
-  double jet3_eta;
-  double jet3_phi;
-  double jet3_E;
-  double jet3_CSV;
+  std::vector<double> jet_pt;
+  std::vector<double> jet_eta;
+  std::vector<double> jet_phi;
+  std::vector<double> jet_E;
+  std::vector<double> jet_CSV;
+
   // MET
   double PFMETpt;
   double PFMETphi;

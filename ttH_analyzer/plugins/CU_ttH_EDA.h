@@ -107,7 +107,7 @@
 #include "Analyzers/ttH_analyzer/interface/CU_ttH_EDA_Ntuple.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
-//#include "Analyzers/ttH_analyzer/src/RoccoR.h"
+#include "Analyzers/ttH_analyzer/interface/RoccoR.h"
 
 /// Configuration reader
 #include "yaml-cpp/yaml.h"
@@ -188,13 +188,14 @@ class CU_ttH_EDA : public edm::EDAnalyzer
  
     // Lepton operations
     inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
-    inline std::vector<pat::Muon> GetSelectedMuons(CU_ttH_EDA_event_vars &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
-    inline std::vector<pat::Muon> GetSortedByPt_Mu(CU_ttH_EDA_event_vars &, const std::vector<pat::Muon> &);
-
+    inline void GetElectronSeeds(std::vector<int> &, const std::vector<pat::Electron> &);
+    inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
+    
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
     inline std::vector<pat::Jet> GetSelectedJets_PUID(const std::vector<pat::Jet> &, const int &);
+    inline void GetJetSeeds(std::vector<int> &, const std::vector<pat::Jet> &);
     void
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     void
@@ -418,7 +419,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     LeptonSFHelper leptonSFhelper;
 
     // Object for Rochester Correction for muons
-    //RoccoR *rc;
+    RoccoR rc;
 
     // for PDF weight
     LHAPDF::PDFSet *NNPDF30_nlo_as_0118_PDFSet;

@@ -116,7 +116,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
     Set_up_weights();
 
     // Rochester Correction
-    //rc.init("data/rcdata.2016.v3");
+    rc.init("data/rcdata.2016.v3");
     //rc = new RoccoR("data/rcdata.2016.v3");
 
     //r = new TRandom3(0);
