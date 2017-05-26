@@ -22,7 +22,7 @@ Triggers:
     # Performs unnecessary loops to collect all trigger data
     collect_trigger_stats: false
     ## Single lepton triggers:
-    HLT_electron_triggers: ['HLT_Ele27_eta2p1_WPTight_Gsf_v']
+    HLT_electron_triggers: ['HLT_Ele27_WPTight_Gsf_v']
     HLT_muon_triggers: ['HLT_IsoMu24_v','HLT_IsoTkMu24_v']
     ## Dilepton triggers:    
     HLT_electron_electron_triggers: ['HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v']

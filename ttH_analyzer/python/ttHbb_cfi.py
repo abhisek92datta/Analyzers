@@ -83,6 +83,8 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
             pileupinfo = cms.InputTag("slimmedAddPileupInfo"),
             lhepprod = cms.InputTag("externalLHEProducer"),
             badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
-            badpfmufilter = cms.InputTag("BadPFMuonFilter")
+            badpfmufilter = cms.InputTag("BadPFMuonFilter"),
+            badglobalmutagger = cms.InputTag("badGlobalMuonTaggerMAOD"),
+            cloneglobalmutagger = cms.InputTag("cloneGlobalMuonTaggerMAOD")
         )
 )

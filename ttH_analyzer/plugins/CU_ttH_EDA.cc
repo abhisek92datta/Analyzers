@@ -147,7 +147,7 @@ CU_ttH_EDA::~CU_ttH_EDA()
     f_CSVwgt_LF->Close();
     delete f_CSVwgt_HF;
     delete f_CSVwgt_LF;
-    delete NNPDF30_nlo_as_0118_PDFSet;
+    delete pdfSet;
     //delete h_hlt;
     //delete h_flt;
 }
@@ -206,8 +206,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     /// MET filters
     local.filterbadChCandidate = *handle.ifilterbadChCand;
     local.filterbadPFMuon = *handle.ifilterbadPFMuon;
-    //local.filterbadChCandidate = 1;
-    //local.filterbadPFMuon = 1;
+    local.badGlobalMuonTagger = *handle.ibadGlobalMuonTagger;
+    local.cloneGlobalMuonTagger = *handle.icloneGlobalMuonTagger;
 
     Check_vertices_set_MAODhelper(handle.vertices);
    
@@ -241,6 +241,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     init_flags(local);
     init_weights(local);
+    init_SFs(local);
     init_bjetness_var(local);
 
     // Event selection criteria for single lepton events

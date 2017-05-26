@@ -87,12 +87,13 @@ public:
   double mll;
 
   // muons
-  double mu0_pt;
-  double mu0_eta;
-  double mu0_phi;
-  double mu0_E;
-  int mu0_charge;
-  double mu0_iso;
+  std::vector<double> mu_pt;
+  std::vector<double> mu_eta;
+  std::vector<double> mu_phi;
+  std::vector<double> mu_E;
+  std::vector<int> mu_charge;
+  std::vector<double> mu_iso;
+
   /*
   int    mu0_jetNDauChargedMVASel;
   double mu0_miniRelIso;
@@ -111,14 +112,6 @@ public:
   int    mu0_iscutsel;
   int    mu0_ismvasel;
   int    mu0_isfakeablesel;
-  */
-  double mu1_pt;
-  double mu1_eta;
-  double mu1_phi;
-  double mu1_E;
-  int mu1_charge;
-  double mu1_iso;
-  /*
   int    mu1_jetNDauChargedMVASel;
   double mu1_miniRelIso;
   double mu1_miniIsoCharged;
@@ -139,12 +132,13 @@ public:
   */
 
   // electrons
-  double ele0_pt;
-  double ele0_eta;
-  double ele0_phi;
-  double ele0_E;
-  int ele0_charge;
-  double ele0_iso;
+  std::vector<double> ele_pt;
+  std::vector<double> ele_eta;
+  std::vector<double> ele_phi;
+  std::vector<double> ele_E;
+  std::vector<int> ele_charge;
+  std::vector<double> ele_iso;
+
   /*
   int    ele0_jetNDauChargedMVASel;
   double ele0_miniRelIso;
@@ -164,14 +158,6 @@ public:
   int    ele0_iscutsel;
   int    ele0_ismvasel;
   int    ele0_isfakeablesel;
-  */
-  double ele1_pt;
-  double ele1_eta;
-  double ele1_phi;
-  double ele1_E;
-  int ele1_charge;
-  double ele1_iso;
-  /*
   int    ele1_jetNDauChargedMVASel;
   double ele1_miniRelIso;
   double ele1_miniIsoCharged;

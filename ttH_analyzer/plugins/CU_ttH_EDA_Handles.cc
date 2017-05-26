@@ -22,6 +22,8 @@ void Set_up_handles(const Event &iEvent, const EventSetup &iSetup, edm_Handles &
     iEvent.getByToken(token.genjets, handle.genjets);
     iEvent.getByToken(token.BadChCandFilterToken_, handle.ifilterbadChCand);
     iEvent.getByToken(token.BadPFMuonFilterToken_, handle.ifilterbadPFMuon);
+    iEvent.getByToken(token.BadGlobalMuonTaggerToken_, handle.ibadGlobalMuonTagger);
+    iEvent.getByToken(token.CloneGlobalMuonTaggerToken_, handle.icloneGlobalMuonTagger);
 
     iEvent.getByToken(token.PF_candidates, handle.PF_candidates);
 

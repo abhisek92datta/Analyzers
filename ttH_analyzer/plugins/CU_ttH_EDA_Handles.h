@@ -88,6 +88,8 @@ struct edm_Handles {
     Handle<reco::GenJetCollection> genjets;
     Handle<bool> ifilterbadChCand;
     Handle<bool> ifilterbadPFMuon;
+    Handle<bool> ibadGlobalMuonTagger;
+    Handle<bool> icloneGlobalMuonTagger;
 
     Handle<pat::PackedCandidateCollection> PF_candidates;
 
@@ -124,6 +126,8 @@ struct edm_Tokens {
     EDGetTokenT<reco::GenJetCollection> genjets;
     EDGetTokenT<bool> BadChCandFilterToken_;
     EDGetTokenT<bool> BadPFMuonFilterToken_;
+    EDGetTokenT<bool> BadGlobalMuonTaggerToken_;
+    EDGetTokenT<bool> CloneGlobalMuonTaggerToken_;
 
     EDGetTokenT<pat::PackedCandidateCollection> PF_candidates;
 

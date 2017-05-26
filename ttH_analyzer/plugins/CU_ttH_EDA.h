@@ -195,7 +195,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
     inline std::vector<pat::Jet> GetSelectedJets_PUID(const std::vector<pat::Jet> &, const int &);
-    inline void GetJetSeeds(std::vector<int> &, const std::vector<pat::Jet> &);
+    inline void GetJetSeeds(std::vector<int> &, std::vector<int> &, std::vector<double> &, const std::vector<pat::Jet> &);
     void
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     void
@@ -238,6 +238,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     void init_PU_weight();
     void init_PDF_weight();
     void init_weights(CU_ttH_EDA_event_vars &);
+    void init_SFs(CU_ttH_EDA_event_vars &);
     void init_bjetness_var(CU_ttH_EDA_event_vars &);
 
     // Event Selection functions
@@ -422,7 +423,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     RoccoR rc;
 
     // for PDF weight
-    LHAPDF::PDFSet *NNPDF30_nlo_as_0118_PDFSet;
+    LHAPDF::PDFSet *pdfSet;
     std::vector<LHAPDF::PDF *> _systPDFs;
 
     bool isdata;

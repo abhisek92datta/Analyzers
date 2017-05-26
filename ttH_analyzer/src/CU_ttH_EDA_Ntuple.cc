@@ -63,10 +63,8 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
   n_btags = local.n_sl_btags;
 
   // MET/MHT
-  PFMETpt =
-      local.pfMET
-          .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
-  PFMETphi = local.pfMET.phi();
+  PFMETpt = local.met_pt_phi_corr; // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
+  PFMETphi = local.met_phi_phi_corr;
 }
 
 void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
@@ -91,10 +89,8 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
   n_btags = local.n_di_btags;
 
   // MET/MHT
-  PFMETpt =
-      local.pfMET
-          .pt(); // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
-  PFMETphi = local.pfMET.phi();
+  PFMETpt = local.met_pt_phi_corr; // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
+  PFMETphi = local.met_phi_phi_corr;
 
   mll = local.mll;
 }
@@ -151,13 +147,12 @@ CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon> &muons, const 
                                      const MiniAODHelper &miniAODhelper) {
 
   if (muons.size() == 1) {
-    mu0_pt = corr_mu[0].Pt();
-    mu0_eta = muons[0].eta();
-    mu0_phi = muons[0].phi();
-    mu0_E = muons[0].energy();
-    mu0_charge = muons[0].charge();
-    mu0_iso = miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04,
-                                          corrType::deltaBeta);
+    mu_pt.push_back(corr_mu[0].Pt());
+    mu_eta.push_back(muons[0].eta());
+    mu_phi.push_back(muons[0].phi());
+    mu_E.push_back(muons[0].energy());
+    mu_charge.push_back(muons[0].charge());
+    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04, corrType::deltaBeta));
     /*
     mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
     mu0_miniRelIso = muons[0].userFloat("miniIso");
@@ -190,20 +185,19 @@ CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon> &muons, const 
         sublead = 0;
     }
 
-    mu0_pt = corr_mu[lead].Pt();
-    mu0_eta = muons[lead].eta();
-    mu0_phi = muons[lead].phi();
-    mu0_E = muons[lead].energy();
-    mu0_charge = muons[lead].charge();
-    mu0_iso = miniAODhelper.GetMuonRelIso(muons[lead], coneSize::R04,
-                                            corrType::deltaBeta);
-    mu1_pt = corr_mu[sublead].Pt();
-    mu1_eta = muons[sublead].eta();
-    mu1_phi = muons[sublead].phi();
-    mu1_E = muons[sublead].energy();
-    mu1_charge = muons[sublead].charge();
-    mu1_iso = miniAODhelper.GetMuonRelIso(muons[sublead], coneSize::R04,
-                                          corrType::deltaBeta);
+    mu_pt.push_back(corr_mu[lead].Pt());
+    mu_eta.push_back(muons[lead].eta());
+    mu_phi.push_back(muons[lead].phi());
+    mu_E.push_back(muons[lead].energy());
+    mu_charge.push_back(muons[lead].charge());
+    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[lead], coneSize::R04, corrType::deltaBeta));
+
+    mu_pt.push_back(corr_mu[sublead].Pt());
+    mu_eta.push_back(muons[sublead].eta());
+    mu_phi.push_back(muons[sublead].phi());
+    mu_E.push_back(muons[sublead].energy());
+    mu_charge.push_back(muons[sublead].charge());
+    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[sublead], coneSize::R04, corrType::deltaBeta));
     /*
     mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
     mu1_miniRelIso = muons[1].userFloat("miniIso");
@@ -232,13 +226,12 @@ inline void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(
     const MiniAODHelper &miniAODhelper) {
 
   if (electrons.size() == 1) {
-    ele0_pt = electrons[0].pt();
-    ele0_eta = electrons[0].eta();
-    ele0_phi = electrons[0].phi();
-    ele0_E = electrons[0].energy();
-    ele0_charge = electrons[0].charge();
-    ele0_iso = miniAODhelper.GetElectronRelIso(
-        electrons[0], coneSize::R03, corrType::rhoEA, effAreaType::spring15);
+    ele_pt.push_back(electrons[0].pt());
+    ele_eta.push_back(electrons[0].eta());
+    ele_phi.push_back(electrons[0].phi());
+    ele_E.push_back(electrons[0].energy());
+    ele_charge.push_back(electrons[0].charge());
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[0], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
     /*
     ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
     ele0_miniRelIso = electrons[0].userFloat("miniIso");
@@ -272,21 +265,19 @@ inline void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(
         sublead = 0;
     }
 
-    ele0_pt = electrons[lead].pt();
-    ele0_eta = electrons[lead].eta();
-    ele0_phi = electrons[lead].phi();
-    ele0_E = electrons[lead].energy();
-    ele0_charge = electrons[lead].charge();
-    ele0_iso = miniAODhelper.GetElectronRelIso(
-        electrons[lead], coneSize::R03, corrType::rhoEA, effAreaType::spring15);
+    ele_pt.push_back(electrons[lead].pt());
+    ele_eta.push_back(electrons[lead].eta());
+    ele_phi.push_back(electrons[lead].phi());
+    ele_E.push_back(electrons[lead].energy());
+    ele_charge.push_back(electrons[lead].charge());
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[lead], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
       
-    ele1_pt = electrons[sublead].pt();
-    ele1_eta = electrons[sublead].eta();
-    ele1_phi = electrons[sublead].phi();
-    ele1_E = electrons[sublead].energy();
-    ele1_charge = electrons[sublead].charge();
-    ele1_iso = miniAODhelper.GetElectronRelIso(
-        electrons[sublead], coneSize::R03, corrType::rhoEA, effAreaType::spring15);
+    ele_pt.push_back(electrons[sublead].pt());
+    ele_eta.push_back(electrons[sublead].eta());
+    ele_phi.push_back(electrons[sublead].phi());
+    ele_E.push_back(electrons[sublead].energy());
+    ele_charge.push_back(electrons[sublead].charge());
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[sublead], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
     /*
     ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
     ele1_miniRelIso = electrons[1].userFloat("miniIso");
@@ -320,8 +311,7 @@ CU_ttH_EDA_Ntuple::fill_ntuple_jets(const std::vector<pat::Jet> &jets,
       jet_eta.push_back(jets[i].eta());
       jet_phi.push_back(jets[i].phi());
       jet_E.push_back(jets[i].energy());
-      jet_CSV.push_back(miniAODhelper.GetJetCSV(
-                                                jets[i], "pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+      jet_CSV.push_back(miniAODhelper.GetJetCSV(jets[i], "pfCombinedInclusiveSecondaryVertexV2BJetTags"));
   }
 
 }
@@ -362,12 +352,12 @@ void CU_ttH_EDA_Ntuple::initialize() {
   mll = -9999;
 
   // muons
-  mu0_pt = -9999.;
-  mu0_eta = -9999.;
-  mu0_phi = -9999.;
-  mu0_E = -9999.;
-  mu0_charge = -9999;
-  mu0_iso = -9999;
+  mu_pt.clear();
+  mu_eta.clear();
+  mu_phi.clear();
+  mu_E.clear();
+  mu_charge.clear();
+  mu_iso.clear();
   /*
   mu0_jetNDauChargedMVASel = -9999;
   mu0_miniRelIso = -9999.;
@@ -386,14 +376,6 @@ void CU_ttH_EDA_Ntuple::initialize() {
   mu0_iscutsel = -9999;
   mu0_ismvasel = -9999;
   mu0_isfakeablesel = -9999;
-  */
-  mu1_pt = -9999.;
-  mu1_eta = -9999.;
-  mu1_phi = -9999.;
-  mu1_E = -9999.;
-  mu1_charge = -9999;
-  mu1_iso = -9999;
-  /*
   mu1_jetNDauChargedMVASel = -9999;
   mu1_miniRelIso = -9999.;
   mu1_miniIsoCharged = -9999.;
@@ -414,12 +396,12 @@ void CU_ttH_EDA_Ntuple::initialize() {
   */
 
   // electrons
-  ele0_pt = -9999.;
-  ele0_eta = -9999.;
-  ele0_phi = -9999.;
-  ele0_E = -9999.;
-  ele0_charge = -9999;
-  ele0_iso = -9999;
+  ele_pt.clear();
+  ele_eta.clear();
+  ele_phi.clear();
+  ele_E.clear();
+  ele_charge.clear();
+  ele_iso.clear();
   /*
   ele0_jetNDauChargedMVASel = -9999;
   ele0_miniRelIso = -9999.;
@@ -439,14 +421,6 @@ void CU_ttH_EDA_Ntuple::initialize() {
   ele0_iscutsel = -9999;
   ele0_ismvasel = -9999;
   ele0_isfakeablesel = -9999;
-  */
-  ele1_pt = -9999.;
-  ele1_eta = -9999.;
-  ele1_phi = -9999.;
-  ele1_E = -9999.;
-  ele1_charge = -9999;
-  ele1_iso = -9999;
-  /*
   ele1_jetNDauChargedMVASel = -9999;
   ele1_miniRelIso = -9999.;
   ele1_miniIsoCharged = -9999.;
@@ -515,12 +489,12 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("mll", &mll);
 
   // muons
-  tree->Branch("mu0_pt", &mu0_pt);
-  tree->Branch("mu0_eta", &mu0_eta);
-  tree->Branch("mu0_phi", &mu0_phi);
-  tree->Branch("mu0_E", &mu0_E);
-  tree->Branch("mu0_charge", &mu0_charge);
-  tree->Branch("mu0_iso", &mu0_iso);
+  tree->Branch("mu_pt", &mu_pt);
+  tree->Branch("mu_eta", &mu_eta);
+  tree->Branch("mu_phi", &mu_phi);
+  tree->Branch("mu_E", &mu_E);
+  tree->Branch("mu_charge", &mu_charge);
+  tree->Branch("mu_iso", &mu_iso);
   
   
   /*tree->Branch("mu0_jetNDauChargedMVASel", &mu0_jetNDauChargedMVASel);
@@ -540,16 +514,6 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("mu0_iscutsel", &mu0_iscutsel);
   tree->Branch("mu0_ismvasel", &mu0_ismvasel);
   tree->Branch("mu0_isfakeablesel", &mu0_isfakeablesel);
-  */
-  
-  tree->Branch("mu1_pt", &mu1_pt);
-  tree->Branch("mu1_eta", &mu1_eta);
-  tree->Branch("mu1_phi", &mu1_phi);
-  tree->Branch("mu1_E", &mu1_E);
-  tree->Branch("mu1_charge", &mu1_charge);
-  tree->Branch("mu1_iso", &mu1_iso);
-  
-  /*
   tree->Branch("mu1_jetNDauChargedMVASel", &mu1_jetNDauChargedMVASel);
   tree->Branch("mu1_miniRelIso",           &mu1_miniRelIso);
   tree->Branch("mu1_miniIsoCharged",       &mu1_miniIsoCharged);
@@ -570,12 +534,12 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   */
   // electrons
   
-  tree->Branch("ele0_pt", &ele0_pt);
-  tree->Branch("ele0_eta", &ele0_eta);
-  tree->Branch("ele0_phi", &ele0_phi);
-  tree->Branch("ele0_E", &ele0_E);
-  tree->Branch("ele0_charge", &ele0_charge);
-  tree->Branch("ele0_iso", &ele0_iso);
+  tree->Branch("ele_pt", &ele_pt);
+  tree->Branch("ele_eta", &ele_eta);
+  tree->Branch("ele_phi", &ele_phi);
+  tree->Branch("ele_E", &ele_E);
+  tree->Branch("ele_charge", &ele_charge);
+  tree->Branch("ele_iso", &ele_iso);
   
   /*
   tree->Branch("ele0_jetNDauChargedMVASel", &ele0_jetNDauChargedMVASel);
@@ -596,16 +560,6 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("ele0_iscutsel", &ele0_iscutsel);
   tree->Branch("ele0_ismvasel", &ele0_ismvasel);
   tree->Branch("ele0_isfakeablesel", &ele0_isfakeablesel);
-  */
-  
-  tree->Branch("ele1_pt", &ele1_pt);
-  tree->Branch("ele1_eta", &ele1_eta);
-  tree->Branch("ele1_phi", &ele1_phi);
-  tree->Branch("ele1_E", &ele1_E);
-  tree->Branch("ele1_charge", &ele1_charge);
-  tree->Branch("ele1_iso", &ele1_iso);
-  
-  /*
   tree->Branch("ele1_jetNDauChargedMVASel", &ele1_jetNDauChargedMVASel);
   tree->Branch("ele1_miniRelIso",           &ele1_miniRelIso);
   tree->Branch("ele1_miniIsoCharged",       &ele1_miniIsoCharged);

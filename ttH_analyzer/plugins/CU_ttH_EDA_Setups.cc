@@ -21,6 +21,29 @@ void CU_ttH_EDA::init_weights(CU_ttH_EDA_event_vars &local)
     local.q2_weight_down = -1;
 }
 
+void CU_ttH_EDA::init_SFs(CU_ttH_EDA_event_vars &local)
+{
+    local.b_weight_sl = -1;
+    local.b_weight_sl_lfup = -1;
+    local.b_weight_sl_hfdown = -1;
+    local.b_weight_sl_cErr1_down = -1;
+    local.b_weight_di = -1;
+    local.b_weight_di_lfup = -1;
+    local.b_weight_di_hfdown = -1;
+    local.b_weight_di_cErr1_down = -1;
+
+    local.lep_sf_id_sl.clear();
+    local.lep_sf_iso_sl.clear();
+    local.lep_sf_gsf_sl = -1;
+    local.lep_sf_hip_sl = -1;
+    local.lep_sf_trig_sl = -1;
+    local.lep_sf_id_di.clear();
+    local.lep_sf_iso_di.clear();
+    local.lep_sf_gsf_di = -1;
+    local.lep_sf_hip_di = -1;
+    local.lep_sf_trig_di = -1;
+}
+
 void CU_ttH_EDA::init_bjetness_var(CU_ttH_EDA_event_vars &local)
 {
   local.bjetnessFV_num_leps = -1; 
@@ -57,8 +80,8 @@ void CU_ttH_EDA::init_PU_weight()
 
 void CU_ttH_EDA::init_PDF_weight()
 {
-    NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
-    _systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
+    pdfSet = new LHAPDF::PDFSet("PDF4LHC15_nlo_30");
+    _systPDFs = pdfSet->mkPDFs();
 }
 
 void CU_ttH_EDA::Close_output_files() { fclose(events_combined); }
@@ -145,12 +168,15 @@ void CU_ttH_EDA::Set_up_output_files()
     events_combined = fopen("Cornell_tth_80X.csv", "w");
     fprintf(events_combined,
             "run,lumi,event,is_e,is_mu,is_ee,is_emu,is_mumu,n_jets,n_btags,"
-            "lep1_pt,lep1_iso,lep1_pdgId,lep2_pt,lep2_iso,lep2_pdgId,jet1_pt,"
-            "jet1_eta,jet1_phi,jet1_jesSF,jet1_jesSF_up,jet1_jesSF_down,jet1_csv,"
-            "jet2_pt,jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_csv,"
-            "MET_pt,MET_phi,mll,ttHFCategory,n_interactions,puWeight,csvSF,"
+            "lep1_pt,lep1_eta,lep1_iso,lep1_pdgId,lep1_idSF,lep1_isoSF,lep1_seed,"
+            "lep2_pt,lep2_eta,lep2_iso,lep2_pdgId,lep2_idSF,lep2_isoSF,lep2_seed,"
+            "jet1_pt,jet1_eta,jet1_phi,jet1_jesSF,jet1_jesSF_up,jet1_jesSF_down,jet1_jesSF_PileUpDataMC_down,jet1_jesSF_RelativeFSR_up,"
+            "jet1_jerSF_nominal,jet1_csv,jet1_PUJetId,jet1_PUJetDiscriminant,jet1_seed,"
+            "jet2_pt,jet2_eta,jet2_phi,jet2_jesSF,jet2_jesSF_up,jet2_jesSF_down,jet2_jesSF_PileUpDataMC_down,jet2_jesSF_RelativeFSR_up,"
+            "jet2_jerSF_nominal,jet2_csv,jet2_PUJetId,jet2_PUJetDiscriminant,jet2_seed,"
+            "MET_pt,MET_phi,MET_pt_phiCor,MET_phi_phiCor,mll,ttHFCategory,ttHFGenFilterTag,n_interactions,puWeight,csvSF,"
             "csvSF_lf_up,csvSF_hf_down,csvSF_cErr1_down," 				
-            "pdf_up,pdf_down,me_up,me_down\n");
+            "pdf_up,pdf_down,me_up,me_down,triggerSF,top_pt_weight,bdt_output,dnn_ttH_output,dnn_ttbb_output\n");
 }
 
 //bjetnessFV_num_leps,bjetnessFV_npvTrkOVcollTrk,bjetnessFV_avip3d_val,bjetnessFV_avip3d_sig,bjetnessFV_avsip3d_sig,bjetnessFV_avip1d_sig
@@ -185,6 +211,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
     	config.getParameter<edm::InputTag>("badchcandfilter"));
     token.BadPFMuonFilterToken_ = consumes<bool>(
     	config.getParameter<edm::InputTag>("badpfmufilter"));
+    token.BadGlobalMuonTaggerToken_ = consumes<bool>(
+        config.getParameter<edm::InputTag>("badglobalmutagger"));
+    token.CloneGlobalMuonTaggerToken_ = consumes<bool>(
+        config.getParameter<edm::InputTag>("cloneglobalmutagger"));
     token.PF_candidates = consumes<pat::PackedCandidateCollection>(
         config.getParameter<edm::InputTag>("pfcand"));
     token.BS = consumes<reco::BeamSpot>(
@@ -223,13 +253,12 @@ void CU_ttH_EDA::Set_up_Tree()
 void CU_ttH_EDA::Set_up_b_weights()
 {
     inputFileHF =
-    //    "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_06_30test.root";
-    //	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
-          "data/csv_weights/csv_rwt_fit_hf_v2_final_2017_1_10test.root";
+    //    "data/csv_weights/csv_rwt_fit_hf_v2_final_2017_1_10test.root";
+          "data/csv_weights/csv_rwt_fit_hf_v2_final_2017_3_29test.root";
     inputFileLF =
-    //    "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_06_30test.root";
-    //	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
-          "data/csv_weights/csv_rwt_fit_lf_v2_final_2017_1_10test.root";
+    //    "data/csv_weights/csv_rwt_fit_lf_v2_final_2017_1_10test.root";
+          "data/csv_weights/csv_rwt_fit_lf_v2_final_2017_3_29test.root";
+
     f_CSVwgt_HF = new TFile((inputFileHF).c_str());
     f_CSVwgt_LF = new TFile((inputFileLF).c_str());
     fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);

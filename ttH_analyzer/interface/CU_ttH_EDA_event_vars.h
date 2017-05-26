@@ -59,6 +59,8 @@ struct CU_ttH_EDA_event_vars {
   bool MET_filters;
   bool filterbadChCandidate;
   bool filterbadPFMuon;
+  bool badGlobalMuonTagger;
+  bool cloneGlobalMuonTagger;
 
   /// Particle container vectors
   std::vector<pat::Electron> e_with_id;
@@ -106,6 +108,10 @@ struct CU_ttH_EDA_event_vars {
 
   std::vector<int> jet_sl_seeds;
   std::vector<int> jet_di_seeds;
+  std::vector<int> jet_sl_puid;
+  std::vector<int> jet_di_puid;
+  std::vector<double> jet_sl_pudisc;
+  std::vector<double> jet_di_pudisc;
   
   std::vector<pat::Jet> jets_inp_bjetness;
 
@@ -125,33 +131,48 @@ struct CU_ttH_EDA_event_vars {
   int mll_passed;
   int ttHf_cat;
   int truenpv;
+  int ttHFGenFilterTag;
 
   double MHT;
   double metLD;
-  double met_pt, met_phi;
+  double met_pt_uncorr, met_phi_uncorr;
+  double met_pt_corr, met_phi_corr;
+  double met_pt_phi_corr, met_phi_phi_corr;
   int met_passed;
   double b_weight_sl, b_weight_sl_lfup, b_weight_sl_hfdown, b_weight_sl_cErr1_down;
   double b_weight_di, b_weight_di_lfup, b_weight_di_hfdown, b_weight_di_cErr1_down;
   double jet1SF_sl;
   double jet1SF_up_sl;
   double jet1SF_down_sl;
+  double jet1_jesSF_PileUpDataMC_down_sl;
+  double jet1_jesSF_RelativeFSR_up_sl;
+  double jet1_jerSF_nominal_sl;
   double jet1SF_di;
   double jet1SF_up_di;
   double jet1SF_down_di;
+  double jet1_jesSF_PileUpDataMC_down_di;
+  double jet1_jesSF_RelativeFSR_up_di;
+  double jet1_jerSF_nominal_di;
   double jet2SF_sl;
   double jet2SF_up_sl;
   double jet2SF_down_sl;
+  double jet2_jesSF_PileUpDataMC_down_sl;
+  double jet2_jesSF_RelativeFSR_up_sl;
+  double jet2_jerSF_nominal_sl;
   double jet2SF_di;
   double jet2SF_up_di;
   double jet2SF_down_di;
+  double jet2_jesSF_PileUpDataMC_down_di;
+  double jet2_jesSF_RelativeFSR_up_di;
+  double jet2_jerSF_nominal_di;
 
-  double lep_sf_id_sl;
-  double lep_sf_iso_sl;
+  std::vector<double> lep_sf_id_sl;
+  std::vector<double> lep_sf_iso_sl;
   double lep_sf_gsf_sl;
   double lep_sf_hip_sl;
   double lep_sf_trig_sl;
-  double lep_sf_id_di;
-  double lep_sf_iso_di;
+  std::vector<double> lep_sf_id_di;
+  std::vector<double> lep_sf_iso_di;
   double lep_sf_gsf_di;
   double lep_sf_hip_di;
   double lep_sf_trig_di;
