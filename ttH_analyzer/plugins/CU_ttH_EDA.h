@@ -219,7 +219,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                      const float &corrFactor = 1, const float &uncFactor = 1);
     inline double getJERfactor(const int, const double, const double,
                                const double);
-    inline double GetJetSF(pat::Jet, const sysType::sysType, const double &, const CU_ttH_EDA_event_vars &);
+    inline double GetJECSF(pat::Jet, const sysType::sysType, const double &, const CU_ttH_EDA_event_vars &);
+    inline double GetJERSF(pat::Jet, const sysType::sysType, const double &, const edm::Handle<reco::GenJetCollection> &, const CU_ttH_EDA_event_vars &, const float &corrFactor = 1, const float &uncFactor = 1);
 
     // Object Selection functions
     void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
@@ -245,6 +246,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     void Check_SL_Event_Selection(CU_ttH_EDA_event_vars &);
     void Check_DL_Event_Selection(CU_ttH_EDA_event_vars &);
 
+    inline bool check_trigger_selection(const CU_ttH_EDA_event_vars &, const int &, const bool &, const int &);
+
     // Weights and SFs
     void Set_up_weights();
 
@@ -261,7 +264,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline double getQ2weight(const edm::Handle<GenEventInfoProduct> &,
                               const edm::Handle<LHEEventProduct> &,
                               const string &);
-    inline void getJECSF(CU_ttH_EDA_event_vars &, const double &, const edm_Handles &);
+    inline void getjetSF(CU_ttH_EDA_event_vars &, const double &, const edm_Handles &);
     inline void getLeptonSF(CU_ttH_EDA_event_vars &);
     
     inline void set_bjetness_input(CU_ttH_EDA_event_vars &, const edm::Handle<reco::VertexCollection> &);
@@ -384,6 +387,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     FactorizedJetCorrector *_jetCorrector_G;
     FactorizedJetCorrector *_jetCorrector_H;
     JetCorrectionUncertainty *_jetCorrectorUnc;
+    JetCorrectionUncertainty *_jetCorrectorUnc_PileUpDataMC;
+    JetCorrectionUncertainty *_jetCorrectorUnc_RelativeFSR;
     // const JetCorrector* corrector;
 
     // for JER
@@ -427,6 +432,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     std::vector<LHAPDF::PDF *> _systPDFs;
 
     bool isdata;
+    int dataset;
     char MAODHelper_b_tag_strength;
     int MAODHelper_sample_nr; // past insample_, in-development var. for
                               // MAODHelper?

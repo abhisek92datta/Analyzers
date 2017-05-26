@@ -83,6 +83,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
       min_di_met(iConfig.getParameter<double>("min_di_met")),
       // miniAODhelper
       isdata(iConfig.getParameter<bool>("using_real_data")),
+      dataset(iConfig.getParameter<int>("dataset")),
       MAODHelper_b_tag_strength(
           iConfig.getParameter<string>("b_tag_strength")[0])
 {

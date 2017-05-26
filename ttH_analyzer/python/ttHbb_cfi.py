@@ -55,6 +55,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         min_di_met = cms.double(min_di_met),
         # MiniAODhelper
         using_real_data = cms.bool(using_real_data),
+        dataset = cms.int32(dataset),
         ## available choices '-': none, 'L': loose, 'M': medium, 'T': tight
         b_tag_strength = cms.string(b_tag_strength),
                           

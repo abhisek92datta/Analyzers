@@ -1000,6 +1000,14 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
             "data/JEC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt";
         _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
 
+        std::string _JESUncFile_PileUpDataMC =
+        "data/JEC/Summer16_23Sep2016V4_MC_UncertaintySources_PileUpDataMC_AK4PFchs.txt";
+        _jetCorrectorUnc_PileUpDataMC = new JetCorrectionUncertainty(_JESUncFile_PileUpDataMC);
+
+        std::string _JESUncFile_RelativeFSR =
+        "data/JEC/Summer16_23Sep2016V4_MC_UncertaintySources_RelativeFSR_AK4PFchs.txt";
+        _jetCorrectorUnc_RelativeFSR = new JetCorrectionUncertainty(_JESUncFile_RelativeFSR);
+
         delete L3JetPar;
         delete L2JetPar;
         delete L1JetPar;
@@ -1055,7 +1063,7 @@ void CU_ttH_EDA::SetpT_ResFile()
 }
 
 
-inline double CU_ttH_EDA::GetJetSF(pat::Jet jet,
+inline double CU_ttH_EDA::GetJECSF(pat::Jet jet,
                                    const sysType::sysType iSysType,
                                    const double &rho, const CU_ttH_EDA_event_vars &local)
 {
@@ -1115,9 +1123,120 @@ inline double CU_ttH_EDA::GetJetSF(pat::Jet jet,
         }
         jet.scaleEnergy(jes);
         return jes;
-    } else
+    }
+    else if (iSysType == sysType::JESup_PileUpDataMC || iSysType == sysType::JESdown_PileUpDataMC) {
+        _jetCorrectorUnc_PileUpDataMC->setJetPt(jet.pt());
+        _jetCorrectorUnc_PileUpDataMC->setJetEta(jet.eta());
+        double unc = 1;
+        double jes = 1;
+        if (iSysType == sysType::JESup_PileUpDataMC) {
+            unc = _jetCorrectorUnc_PileUpDataMC->getUncertainty(true);
+            jes = 1 + unc;
+        } else if (iSysType == sysType::JESdown_PileUpDataMC) {
+            unc = _jetCorrectorUnc_PileUpDataMC->getUncertainty(false);
+            jes = 1 - unc;
+        }
+        jet.scaleEnergy(jes);
+        return jes;
+    }
+    else if (iSysType == sysType::JESup_RelativeFSR || iSysType == sysType::JESdown_RelativeFSR) {
+        _jetCorrectorUnc_RelativeFSR->setJetPt(jet.pt());
+        _jetCorrectorUnc_RelativeFSR->setJetEta(jet.eta());
+        double unc = 1;
+        double jes = 1;
+        if (iSysType == sysType::JESup_RelativeFSR) {
+            unc = _jetCorrectorUnc_RelativeFSR->getUncertainty(true);
+            jes = 1 + unc;
+        } else if (iSysType == sysType::JESdown_RelativeFSR) {
+            unc = _jetCorrectorUnc_RelativeFSR->getUncertainty(false);
+            jes = 1 - unc;
+        }
+        jet.scaleEnergy(jes);
+        return jes;
+    }
+    else
         return scale;
 }
+
+inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
+                                   const sysType::sysType iSysType,const double &rho,
+                                   const edm::Handle<reco::GenJetCollection> &genjets,
+                                   const CU_ttH_EDA_event_vars &local, const float &corrFactor,
+                                   const float &uncFactor)
+{
+
+    double jerSF = 1.;
+    bool genjet_match = 0;
+    double dpt_min = 99999;
+    double dpt;
+    double dR;
+    double res=0;
+    double scale = 1;
+
+    // from GT
+    /*
+     JME::JetParameters parameters_1;
+     parameters_1.setJetPt(jet.pt());
+     parameters_1.setJetEta(jet.eta());
+     parameters_1.setRho(rho);
+     res = resolution.getResolution(parameters_1);
+     */
+
+    // from text file
+
+    for( int unsigned i = 0 ; i < JER_etaMax.size() ; i ++){
+        if(jet.eta() < JER_etaMax[i] && jet.eta() >= JER_etaMin[i] && rho < JER_rhoMax[i] && rho >= JER_rhoMin[i] ) {
+            double jet_pt=jet.pt();
+            if(jet_pt < JER_PtMin[i])
+                jet_pt=JER_PtMin[i];
+            if(jet_pt > JER_PtMax[i])
+                jet_pt=JER_PtMax[i];
+            res=sqrt( JER_Par0[i]*fabs(JER_Par0[i]) / (jet_pt*jet_pt)+JER_Par1[i]*JER_Par1[i]*pow(jet_pt,JER_Par3[i])+JER_Par2[i]*JER_Par2[i]);
+        }
+    }
+
+    reco::GenJet matched_genjet;
+
+    for (reco::GenJetCollection::const_iterator iter = genjets->begin();
+         iter != genjets->end(); ++iter) {
+        dpt = fabs(jet.pt() - iter->pt());
+        dR = miniAODhelper.DeltaR(&jet, iter);
+        if (dR < (0.4 / 2)) {
+            if (dpt < (3*fabs(res)*jet.pt())) {
+                genjet_match = 1;
+                if (dpt <= dpt_min) {
+                    matched_genjet = *(iter);
+                    dpt_min = dpt;
+                }
+            }
+        }
+    }
+
+    if (genjet_match == 1) {
+        if (iSysType == sysType::JERup) {
+            jerSF = getJERfactor(uncFactor, fabs(jet.eta()),
+                                 matched_genjet.pt(), jet.pt());
+        } else if (iSysType == sysType::JERdown) {
+            jerSF = getJERfactor(-uncFactor, fabs(jet.eta()),
+                                 matched_genjet.pt(), jet.pt());
+        } else {
+            jerSF = getJERfactor(0, fabs(jet.eta()),
+                                 matched_genjet.pt(), jet.pt());
+        }
+    }
+    else if (genjet_match == 0) {
+        int seed = jet.userInt("deterministicSeed");
+        rnd.SetSeed((unsigned int)seed);
+        double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
+        jerSF = 1 + ((rnd.Gaus(0,res))*sqrt( fmax( 0.0, (s*s)-1 ) ));
+    }
+
+    jet.scaleEnergy(jerSF * corrFactor);
+    scale = jerSF * corrFactor;
+
+    return scale;
+}
+
 /*
 inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
     const std::vector<pat::Jet> &inputJets,
@@ -1371,21 +1490,99 @@ inline double CU_ttH_EDA::getJERfactor(const int returnType,
     return factor;
 }
 
+inline bool
+CU_ttH_EDA::check_trigger_selection(const CU_ttH_EDA_event_vars &local, const int &sel_type, const bool &isdata, const int &dataset){
+
+// sel_type & dataset : 0 = MC , 1 = sl_e , 2 = sl_mu , 3 = ee, 4 = emu, 5 = mumu
+
+    bool trigger_select = false;
+
+    if(!isdata){                // MC
+        if(sel_type == 1){
+            if(local.pass_single_e == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 2){
+            if(local.pass_single_mu == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 3){
+            if(local.pass_double_e == 1 || local.pass_single_e == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 4){
+            if(local.pass_elemu == 1 || local.pass_single_e == 1 || local.pass_single_mu == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 5){
+            if(local.pass_double_mu == 1 || local.pass_single_mu == 1)
+                trigger_select = true;
+        }
+    }
+    else if (dataset == 1){    // Single Electron Dataset
+        if(sel_type == 1){
+            if(local.pass_single_e == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 3){
+            if(local.pass_single_e == 1 && local.pass_double_e != 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 4){
+            if(local.pass_single_e == 1 && local.pass_elemu != 1 && local.pass_single_mu != 1 )
+                trigger_select = true;
+        }
+    }
+    else if (dataset == 2){     // Single Muon Dataset
+        if(sel_type == 2){
+            if(local.pass_single_mu == 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 4){
+            if(local.pass_single_mu == 1 && local.pass_elemu != 1 && local.pass_single_e != 1)
+                trigger_select = true;
+        }
+        else if (sel_type == 5){
+            if(local.pass_single_mu == 1 && local.pass_double_mu != 1 )
+                trigger_select = true;
+        }
+    }
+    else if (dataset == 3){     //  Double Electron Dataset
+        if (sel_type == 3){
+            if(local.pass_double_e == 1)
+                trigger_select = true;
+        }
+    }
+    else if (dataset == 4){     //  Electron Muon Dataset
+        if (sel_type == 4){
+            if(local.pass_elemu == 1)
+                trigger_select = true;
+        }
+    }
+    else if (dataset == 5){     //  Double Muon Dataset
+        if (sel_type == 5){
+            if(local.pass_double_mu == 1)
+                trigger_select = true;
+        }
+    }
+
+    return trigger_select;
+
+}
+
 void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local)
 {
-   
-    if (local.pass_single_e == 1 || local.pass_single_mu == 1) {
-        
-        if (local.MET_filters == 0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0 || local.badGlobalMuonTagger == 0 || local.cloneGlobalMuonTagger == 0)
-        	return;
-        if (local.n_prim_V <= 0)
-            return;
-        if (local.n_leptons != 1)
-            return;
+    if (local.MET_filters == 0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0 || local.badGlobalMuonTagger == 0 || local.cloneGlobalMuonTagger == 0)
+        return;
+    if (local.n_prim_V <= 0)
+        return;
+    if (local.n_leptons != 1)
+        return;
 
-        if (local.n_electrons == 1) {
+    if (local.n_electrons == 1) {                                           // Single Electron event selection
+        if( dataset == 0 || dataset == 1 ){
             if (local.n_veto_electrons != 1 || local.n_veto_muons != 0 ||
-                local.pass_single_e != 1)
+                check_trigger_selection(local,1,isdata,dataset) != 1)
                 return;
             if (local.n_sl_jets < min_njets || local.n_sl_btags < min_nbtags)
                 return;
@@ -1393,10 +1590,12 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local)
             local.is_e = true;
             ++sl_e;
         }
+    }
 
-        else if (local.n_muons == 1) {
+    else if (local.n_muons == 1) {                                          // Single Muon event selection
+        if( dataset == 0 || dataset == 2 ){
             if (local.n_veto_muons != 1 || local.n_veto_electrons != 0 ||
-                local.pass_single_mu != 1)
+                check_trigger_selection(local,2,isdata,dataset) != 1)
                 return;
             if (local.n_sl_jets < min_njets || local.n_sl_btags < min_nbtags)
                 return;
@@ -1409,21 +1608,20 @@ void CU_ttH_EDA::Check_SL_Event_Selection(CU_ttH_EDA_event_vars &local)
 
 void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local)
 {
-    if (local.pass_double_e == 1 || local.pass_double_mu == 1 ||
-        local.pass_elemu == 1) {
         
-        if (local.MET_filters == 0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0 || local.badGlobalMuonTagger == 0 || local.cloneGlobalMuonTagger == 0)
-        	return;
-        if (local.n_prim_V <= 0)
-            return;
-        if (local.n_di_leptons != 2)
-            return;
+    if (local.MET_filters == 0 || local.filterbadChCandidate == 0 || local.filterbadPFMuon == 0 || local.badGlobalMuonTagger == 0 || local.cloneGlobalMuonTagger == 0)
+        return;
+    if (local.n_prim_V <= 0)
+        return;
+    if (local.n_di_leptons != 2)
+        return;
 
-        if (local.n_di_electrons == 2) { // di e
+    if (local.n_di_electrons == 2) {                             // Double Electron event selection
+        if(dataset == 0 || dataset == 1 || dataset == 3){
             if ((local.e_di_selected[0].pdgId() *
                      local.e_di_selected[1].pdgId() >
                  0) ||
-                local.pass_double_e != 1)
+                check_trigger_selection(local,3,isdata,dataset) != 1)
                 return;
             if ( (local.e_di_selected[0].pt() <= min_di_ele1_pT) && (local.e_di_selected[1].pt() <= min_di_ele1_pT) )
                 return;
@@ -1455,12 +1653,14 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local)
                 ++dl_ee;
             }
         }
+    }
 
-        else if (local.n_di_muons == 2) { // di mu
+    else if (local.n_di_muons == 2) {                           // Double Muon event selection
+        if(dataset == 0 || dataset == 2 || dataset == 5){
             if ((local.mu_di_selected[0].pdgId() *
                      local.mu_di_selected[1].pdgId() >
                  0) ||
-                local.pass_double_mu != 1)
+                check_trigger_selection(local,5,isdata,dataset) != 1)
                 return;
             if ( (local.corr_mu_di[0].Pt() <= min_di_mu1_pT) && (local.corr_mu_di[1].Pt() <= min_di_mu1_pT) )
                 return;
@@ -1494,13 +1694,14 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local)
                 ++dl_mumu;
             }
         }
+    }
 
-        else if (local.n_di_muons == 1 &&
-                 local.n_di_electrons == 1) { // 1 e 1 mu
+    else if (local.n_di_muons == 1 && local.n_di_electrons == 1) {              // Electron Muon event selection
+        if(dataset == 0 || dataset == 1 || dataset == 2 || dataset == 4){
             if ((local.mu_di_selected[0].pdgId() *
                      local.e_di_selected[0].pdgId() >
                  0) ||
-                local.pass_elemu != 1)
+                check_trigger_selection(local,4,isdata,dataset) != 1)
                 return;
             if ((local.corr_mu_di[0].Pt() <= min_di_mu1_pT) &&
                 (local.e_di_selected[0].pt() <= min_di_ele1_pT))
@@ -1533,6 +1734,7 @@ void CU_ttH_EDA::Check_DL_Event_Selection(CU_ttH_EDA_event_vars &local)
             }
         }
     }
+
 }
 
 void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
@@ -1541,7 +1743,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
                                  const double &rho, const edm_Handles &handle)
 {
 
-    getJECSF(local, rho, handle); // to get JEC scale factors
+    getjetSF(local, rho, handle); // to get JEC scale factors
 
     // to get b-weight
     if(!isdata)
@@ -1588,7 +1790,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
 }
 
-inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle)
+inline void CU_ttH_EDA::getjetSF(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle)
 {
 
     int jet_index = 0;
@@ -1629,20 +1831,20 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_sl;
         */
 
-        local.jet1SF_sl = GetJetSF(jet1, sysType::NA, rho, local);
-        local.jet2SF_sl = GetJetSF(jet2, sysType::NA, rho, local);
+        local.jet1SF_sl = GetJECSF(jet1, sysType::NA, rho, local);
+        local.jet2SF_sl = GetJECSF(jet2, sysType::NA, rho, local);
 
         if (!isdata){
-            local.jet1SF_up_sl = GetJetSF(jet1, sysType::JESup, rho, local);
-            local.jet1SF_down_sl = GetJetSF(jet1, sysType::JESdown, rho, local);
-            local.jet2SF_up_sl = GetJetSF(jet2, sysType::JESup, rho, local);
-            local.jet2SF_down_sl = GetJetSF(jet2, sysType::JESdown, rho, local);
-            local.jet1_jesSF_PileUpDataMC_down_sl = -1;
-            local.jet1_jesSF_RelativeFSR_up_sl = -1;
-            local.jet1_jerSF_nominal_sl = -1;
-            local.jet2_jesSF_PileUpDataMC_down_sl = -1;
-            local.jet2_jesSF_RelativeFSR_up_sl = -1;
-            local.jet2_jerSF_nominal_sl = -1;
+            local.jet1SF_up_sl = GetJECSF(jet1, sysType::JESup, rho, local);
+            local.jet1SF_down_sl = GetJECSF(jet1, sysType::JESdown, rho, local);
+            local.jet2SF_up_sl = GetJECSF(jet2, sysType::JESup, rho, local);
+            local.jet2SF_down_sl = GetJECSF(jet2, sysType::JESdown, rho, local);
+            local.jet1_jesSF_PileUpDataMC_down_sl = GetJECSF(jet1, sysType::JESdown_PileUpDataMC, rho, local);
+            local.jet1_jesSF_RelativeFSR_up_sl = GetJECSF(jet1, sysType::JESup_RelativeFSR, rho, local);
+            local.jet1_jerSF_nominal_sl = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
+            local.jet2_jesSF_PileUpDataMC_down_sl = GetJECSF(jet2, sysType::JESdown_PileUpDataMC, rho, local);
+            local.jet2_jesSF_RelativeFSR_up_sl = GetJECSF(jet2, sysType::JESup_RelativeFSR, rho, local);
+            local.jet2_jerSF_nominal_sl = GetJERSF(jet2, sysType::NA, rho, handle.genjets, local);
         }
         else {
             local.jet1SF_up_sl = -1;
@@ -1695,20 +1897,20 @@ inline void CU_ttH_EDA::getJECSF(CU_ttH_EDA_event_vars &local, const double &rho
         iSetup, handle.genjets, r, sysType::JESdown, 1, 0)/local.jet1SF_di;
         */
 
-        local.jet1SF_di = GetJetSF(jet1, sysType::NA, rho, local);
-        local.jet2SF_di = GetJetSF(jet2, sysType::NA, rho, local);
+        local.jet1SF_di = GetJECSF(jet1, sysType::NA, rho, local);
+        local.jet2SF_di = GetJECSF(jet2, sysType::NA, rho, local);
 
         if (!isdata){
-            local.jet1SF_up_di = GetJetSF(jet1, sysType::JESup, rho, local);
-            local.jet1SF_down_di = GetJetSF(jet1, sysType::JESdown, rho, local);
-            local.jet2SF_up_di = GetJetSF(jet2, sysType::JESup, rho, local);
-            local.jet2SF_down_di = GetJetSF(jet2, sysType::JESdown, rho, local);
-            local.jet1_jesSF_PileUpDataMC_down_di = -1;
-            local.jet1_jesSF_RelativeFSR_up_di = -1;
-            local.jet1_jerSF_nominal_di = -1;
-            local.jet2_jesSF_PileUpDataMC_down_di = -1;
-            local.jet2_jesSF_RelativeFSR_up_di = -1;
-            local.jet2_jerSF_nominal_di = -1;
+            local.jet1SF_up_di = GetJECSF(jet1, sysType::JESup, rho, local);
+            local.jet1SF_down_di = GetJECSF(jet1, sysType::JESdown, rho, local);
+            local.jet2SF_up_di = GetJECSF(jet2, sysType::JESup, rho, local);
+            local.jet2SF_down_di = GetJECSF(jet2, sysType::JESdown, rho, local);
+            local.jet1_jesSF_PileUpDataMC_down_di = GetJECSF(jet1, sysType::JESdown_PileUpDataMC, rho, local);
+            local.jet1_jesSF_RelativeFSR_up_di = GetJECSF(jet1, sysType::JESup_RelativeFSR, rho, local);
+            local.jet1_jerSF_nominal_di = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
+            local.jet2_jesSF_PileUpDataMC_down_di = GetJECSF(jet2, sysType::JESdown_PileUpDataMC, rho, local);
+            local.jet2_jesSF_RelativeFSR_up_di = GetJECSF(jet2, sysType::JESup_RelativeFSR, rho, local);
+            local.jet2_jerSF_nominal_di = GetJERSF(jet2, sysType::NA, rho, handle.genjets, local);
         }
         else {
             local.jet1SF_up_di = -1;
@@ -1797,21 +1999,21 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 
             local.lep_sf_id_di.push_back(
                 leptonSFhelper.GetElectronSF(
-                    local.e_selected[lead].userFloat("ptBeforeRun2Calibration"),
+                    local.e_di_selected[lead].userFloat("ptBeforeRun2Calibration"),
                     local.e_di_selected[lead].superCluster()->position().eta(), 0,"ID"));
             local.lep_sf_id_di.push_back(
                 leptonSFhelper.GetElectronSF(
-                    local.e_selected[sublead].userFloat("ptBeforeRun2Calibration"),
+                    local.e_di_selected[sublead].userFloat("ptBeforeRun2Calibration"),
                     local.e_di_selected[sublead].superCluster()->position().eta(), 0,
                     "ID"));
 
             local.lep_sf_iso_di.push_back(
                 leptonSFhelper.GetElectronSF(
-                    local.e_selected[lead].userFloat("ptBeforeRun2Calibration"),
+                    local.e_di_selected[lead].userFloat("ptBeforeRun2Calibration"),
                        local.e_di_selected[lead].superCluster()->position().eta(), 0,"Iso"));
             local.lep_sf_iso_di.push_back(
                 leptonSFhelper.GetElectronSF(
-                    local.e_selected[sublead].userFloat("ptBeforeRun2Calibration"),
+                    local.e_di_selected[sublead].userFloat("ptBeforeRun2Calibration"),
                     local.e_di_selected[sublead].superCluster()->position().eta(), 0,
                     "Iso"));
 
@@ -1848,13 +2050,13 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 
 
             id_BF_lead = leptonSFhelper.GetMuonSF(
-               local.mu_selected[lead].pt(), local.mu_selected[lead].eta(), 0, "ID_BF");
+               local.mu_di_selected[lead].pt(), local.mu_di_selected[lead].eta(), 0, "ID_BF");
             id_GH_lead = leptonSFhelper.GetMuonSF(
-               local.mu_selected[lead].pt(), local.mu_selected[lead].eta(), 0, "ID_GH");
+               local.mu_di_selected[lead].pt(), local.mu_di_selected[lead].eta(), 0, "ID_GH");
             id_BF_sublead = leptonSFhelper.GetMuonSF(
-               local.mu_selected[sublead].pt(), local.mu_selected[sublead].eta(), 0, "ID_BF");
+               local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "ID_BF");
             id_GH_sublead = leptonSFhelper.GetMuonSF(
-                local.mu_selected[sublead].pt(), local.mu_selected[sublead].eta(), 0, "ID_GH");
+                local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "ID_GH");
 
             id_lead = (id_BF_lead*19.710 + id_GH_lead*16.135)/35.845;
             id_sublead = (id_BF_sublead*19.710 + id_GH_sublead*16.135)/35.845;
@@ -1862,13 +2064,13 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             local.lep_sf_id_di.push_back(id_sublead);
 
             iso_BF_lead = leptonSFhelper.GetMuonSF(
-                local.mu_selected[lead].pt(), local.mu_selected[lead].eta(), 0, "Iso_DL_BF");
+                local.mu_di_selected[lead].pt(), local.mu_di_selected[lead].eta(), 0, "Iso_DL_BF");
             iso_GH_lead = leptonSFhelper.GetMuonSF(
-                local.mu_selected[lead].pt(), local.mu_selected[lead].eta(), 0, "Iso_DL_GH");
+                local.mu_di_selected[lead].pt(), local.mu_di_selected[lead].eta(), 0, "Iso_DL_GH");
             iso_BF_sublead = leptonSFhelper.GetMuonSF(
-                local.mu_selected[sublead].pt(), local.mu_selected[sublead].eta(), 0, "Iso_DL_BF");
+                local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "Iso_DL_BF");
             iso_GH_sublead = leptonSFhelper.GetMuonSF(
-                local.mu_selected[sublead].pt(), local.mu_selected[sublead].eta(), 0, "Iso_DL_GH");
+                local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "Iso_DL_GH");
 
             iso_lead = (iso_BF_lead*19.710 + iso_GH_lead*16.135)/35.845;
             iso_sublead = (iso_BF_sublead*19.710 + iso_GH_sublead*16.135)/35.845;
@@ -1897,13 +2099,13 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             double iso_BF, iso_GH;
 
             ele_id = leptonSFhelper.GetElectronSF(
-                  local.e_selected[0].userFloat("ptBeforeRun2Calibration"),
-                  local.e_selected[0].superCluster()->position().eta(), 0, "ID");
+                  local.e_di_selected[0].userFloat("ptBeforeRun2Calibration"),
+                  local.e_di_selected[0].superCluster()->position().eta(), 0, "ID");
 
             id_BF = leptonSFhelper.GetMuonSF(
-                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "ID_BF");
+                 local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_BF");
             id_GH = leptonSFhelper.GetMuonSF(
-                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "ID_GH");
+                 local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_GH");
             mu_id = (id_BF*19.710 + id_GH*16.135)/35.845;
 
             local.lep_sf_id_di.push_back(ele_id);
@@ -1911,13 +2113,13 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 
 
             ele_iso = leptonSFhelper.GetElectronSF(
-                 local.e_selected[0].userFloat("ptBeforeRun2Calibration"),
-                 local.e_selected[0].superCluster()->position().eta(), 0, "Iso");
+                 local.e_di_selected[0].userFloat("ptBeforeRun2Calibration"),
+                 local.e_di_selected[0].superCluster()->position().eta(), 0, "Iso");
 
             iso_BF = leptonSFhelper.GetMuonSF(
-                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Iso_DL_BF");
+                 local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_BF");
             iso_GH = leptonSFhelper.GetMuonSF(
-                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Iso_DL_GH");
+                 local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_GH");
             mu_iso = (iso_BF*19.710 + iso_GH*16.135)/35.845;
 
             local.lep_sf_iso_di.push_back(ele_iso);
@@ -2169,16 +2371,29 @@ double CU_ttH_EDA::getCSVWeight(std::vector<double> jetPts,
 
         int iPt = -1;
         int iEta = -1;
-        if (jetPt >= 20 && jetPt < 30)
-            iPt = 0;
-        else if (jetPt >= 30 && jetPt < 50)
-            iPt = 1;
-        else if (jetPt >= 50 && jetPt < 70)
-            iPt = 2;
-        else if (jetPt >= 70 && jetPt < 100)
-            iPt = 3;
-        else if (jetPt >= 100)
-            iPt = 4;
+
+        if((abs(flavor) == 4) || (abs(flavor) == 5)) {    // HF
+            if (jetPt >= 20 && jetPt < 30)
+                iPt = 0;
+            else if (jetPt >= 30 && jetPt < 50)
+                iPt = 1;
+            else if (jetPt >= 50 && jetPt < 70)
+                iPt = 2;
+            else if (jetPt >= 70 && jetPt < 100)
+                iPt = 3;
+            else if (jetPt >= 100)
+                iPt = 4;
+        }
+        else {                                              // LF
+            if (jetPt >= 20 && jetPt < 30)
+                iPt = 0;
+            else if (jetPt >= 30 && jetPt < 40)
+                iPt = 1;
+            else if (jetPt >= 40 && jetPt < 60)
+                iPt = 2;
+            else if (jetPt >= 60)
+                iPt = 3;
+        }
 
         if (jetAbsEta >= 0 && jetAbsEta < 0.8)
             iEta = 0;
