@@ -27,21 +27,15 @@ private:
   // private member functions
   inline void fill_ntuple_electrons(const std::vector<pat::Electron> &,
                                     const MiniAODHelper &);
-    inline void fill_ntuple_muons(const std::vector<pat::Muon> &, const std::vector<TLorentzVector> &,
+  inline void fill_ntuple_muons(const std::vector<pat::Muon> &, const std::vector<TLorentzVector> &,
                                 const MiniAODHelper &);
   inline void fill_ntuple_jets(const std::vector<pat::Jet> &,
                                const MiniAODHelper &);
-  // void fill_ntuple_met(const pat::MET &);
-  // double Comb(int, int);
-  // template<typename T> void update_ldgLeps_vars(T&);
+  inline void fill_ntuple_bjets(const std::vector<pat::Jet> &,
+                                 const MiniAODHelper &);
 
-  // internal variables
-  // TLorentzVector lep0_p4;
-  // TLorentzVector lep1_p4;
-  // bool lep0_isfakeable;
-  // bool lep1_isfakeable;
-  // double lep0_ptRatio;
-  // double lep1_ptRatio;
+  inline void fill_SF_SL(const CU_ttH_EDA_event_vars &);
+  inline void fill_SF_DL(const CU_ttH_EDA_event_vars &);
 
 public:
   /// function member
@@ -52,39 +46,22 @@ public:
   void set_up_branches(TTree *);
   void write_ntuple_SL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
   void write_ntuple_DL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
-  // void write_evtMVAvars_2lss(const CU_ttH_EDA_event_vars &);
 
   /// variables
   // event variables
   int nEvent;
   int ls;  // luminosity section number
   int run; // run number
-  // int n_presel_mu;
-  // int n_cutsel_mu;
-  // int n_mvasel_mu;
-  // int n_fakeablesel_mu;
-  // int n_presel_ele;
-  // int n_cutsel_ele;
-  // int n_mvasel_ele;
-  // int n_fakeablesel_ele;
-  // int n_presel_jet;
-  // event level MVA
-  // double MVA_2lss_ttV;
-  // double MVA_2lss_ttbar;
-  // double MT_met_lep0;
-  // int    n_jet25_recl;
-  // double mindr_lep0_jet;
-  // double mindr_lep1_jet;
-  // double lep0_conept;
-  // double lep1_conept;
-  // double avg_dr_jet;
-  // double max_lep_eta;
+
+  int npv;
+  int ttHf_cat;
 
   int n_ele;
   int n_mu;
   int n_lep;
 
   double mll;
+  double ht;
 
   // muons
   std::vector<double> mu_pt;
@@ -181,37 +158,37 @@ public:
   // jets
   int n_jets;
   int n_btags;
+
   std::vector<double> jet_pt;
   std::vector<double> jet_eta;
   std::vector<double> jet_phi;
   std::vector<double> jet_E;
   std::vector<double> jet_CSV;
 
+  std::vector<double> bjet_pt;
+  std::vector<double> bjet_eta;
+  std::vector<double> bjet_phi;
+  std::vector<double> bjet_E;
+  std::vector<double> bjet_CSV;
+
   // MET
   double PFMETpt;
   double PFMETphi;
+
+  // SF and event weight
+
+  std::vector<double> lep_sf_id;
+  std::vector<double> lep_sf_iso;
+  double lep_sf_trig;
+
+  double b_weight;
+  double gen_weight;
+  double PU_weight;
+  double pdf_weight_up;
+  double pdf_weight_down;
+  double q2_weight_up;
+  double q2_weight_down;
+
 };
-/*
-template<typename T>
-void CU_ttH_EDA_Ntuple::update_ldgLeps_vars(T& leptons)
-{
-        for (auto & l : leptons) {
-                if (l.pt() > lep0_p4.Pt()) {
-                        lep1_p4 = lep0_p4;
-                        lep1_isfakeable = lep0_isfakeable;
-                        lep1_ptRatio = lep0_ptRatio;
-                        lep0_p4.SetPtEtaPhiE(l.pt(), l.eta(), l.phi(),
-l.energy());
-                        lep0_isfakeable = l.userFloat("idFakeable") > 0.5;
-                        lep0_ptRatio = l.userFloat("nearestJetPtRatio");
-                }
-                else if (l.pt() > lep1_p4.Pt()) {
-                        lep1_p4.SetPtEtaPhiE(l.pt(), l.eta(), l.phi(),
-l.energy());
-                        lep1_isfakeable = l.userFloat("idFakeable") > 0.5;
-                        lep1_ptRatio = l.userFloat("nearestJetPtRatio");
-                }
-        }
-}
-*/
+
 #endif

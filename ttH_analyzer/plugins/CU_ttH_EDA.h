@@ -221,6 +221,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                                const double);
     inline double GetJECSF(pat::Jet, const sysType::sysType, const double &, const CU_ttH_EDA_event_vars &);
     inline double GetJERSF(pat::Jet, const sysType::sysType, const double &, const edm::Handle<reco::GenJetCollection> &, const CU_ttH_EDA_event_vars &, const float &corrFactor = 1, const float &uncFactor = 1);
+    inline double GetHT(const std::vector<pat::Jet> &);
 
     // Object Selection functions
     void Select_Leptons(CU_ttH_EDA_event_vars &, const edm_Handles &);
@@ -410,6 +411,10 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     double pz;
     double py;
     double px;
+
+    // JER
+    JME::JetResolution resolution;
+    JME::JetResolutionScaleFactor resolution_sf;
 
     // for b-weights
     std::string inputFileHF;

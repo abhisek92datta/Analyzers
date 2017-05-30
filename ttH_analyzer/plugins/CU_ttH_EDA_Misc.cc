@@ -312,10 +312,10 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
-    if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
-                local.q2_weight_down);
-    else
+    //if (!isdata)
+    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
+    //            local.q2_weight_down);
+    //else
         fprintf(events_combined, "-1,-1,");
     fprintf(events_combined, "%.4f,", local.lep_sf_trig_sl);
     fprintf(events_combined, "-1,-1,-1,-1\n");
@@ -476,10 +476,10 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
-    if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
-                local.q2_weight_down);
-    else
+    //if (!isdata)
+    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
+    //            local.q2_weight_down);
+    //else
         fprintf(events_combined, "-1,-1,");
     fprintf(events_combined, "%.4f,", local.lep_sf_trig_di);
     fprintf(events_combined, "-1,-1,-1,-1\n");
@@ -798,6 +798,11 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
 
     GetJetSeeds(local.jet_sl_seeds, local.jet_sl_puid, local.jet_sl_pudisc, local.jets_sl_selected_sorted);
     GetJetSeeds(local.jet_di_seeds, local.jet_di_puid, local.jet_di_pudisc, local.jets_di_selected_sorted);
+
+    // Calculate HT = sum of selected jet pTs
+    local.ht_sl = GetHT(local.jets_sl_selected_sorted);
+    local.ht_di = GetHT(local.jets_di_selected_sorted);
+
 }
 
 void CU_ttH_EDA::Init_Mets(CU_ttH_EDA_event_vars &local,
@@ -822,6 +827,17 @@ void CU_ttH_EDA::Init_Mets(CU_ttH_EDA_event_vars &local,
 
     local.met_passed = 0;
     local.mll_passed = 0;
+}
+
+inline double
+CU_ttH_EDA::GetHT(const std::vector<pat::Jet> &inputJets){
+
+    double ht = 0;
+    for( std::vector<pat::Jet>::const_iterator jet = inputJets.begin(), ed = inputJets.end(); jet != ed; ++jet ){
+        const pat::Jet iJet = *jet;
+        ht = ht + iJet.pt();
+    }
+    return ht;
 }
 
 inline std::vector<pat::Jet>
@@ -1017,6 +1033,11 @@ void CU_ttH_EDA::SetFactorizedJetCorrector(const sysType::sysType iSysType)
 
 void CU_ttH_EDA::SetpT_ResFile()
 {
+
+    resolution = JME::JetResolution(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/JER/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt");
+    resolution_sf = JME::JetResolutionScaleFactor(string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/JER/Spring16_25nsV10_MC_SF_AK4PFchs.txt");
+
+    /*
     std::string JER_file =  string(getenv("CMSSW_BASE")) + "/src/Analyzers/ttH_analyzer/data/JER/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt" ;
     std::ifstream infile( JER_file);
     if( ! infile ){
@@ -1060,6 +1081,7 @@ void CU_ttH_EDA::SetpT_ResFile()
             JER_Par3  .push_back(par3);
         }
         infile.close();
+     */
 }
 
 
@@ -1171,19 +1193,19 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
     double dpt;
     double dR;
     double res=0;
-    double scale = 1;
+    double s=0;
 
-    // from GT
+    // from GT and text file (new)
+
+    JME::JetParameters parameters_1;
+    parameters_1.set(JME::Binning::JetPt, jet.pt());
+    parameters_1.set({JME::Binning::JetEta, jet.eta()});
+    parameters_1.set({JME::Binning::Rho, rho});
+    res = resolution.getResolution(parameters_1);
+    s = resolution_sf.getScaleFactor(parameters_1);
+
+    // from text file (old)
     /*
-     JME::JetParameters parameters_1;
-     parameters_1.setJetPt(jet.pt());
-     parameters_1.setJetEta(jet.eta());
-     parameters_1.setRho(rho);
-     res = resolution.getResolution(parameters_1);
-     */
-
-    // from text file
-
     for( int unsigned i = 0 ; i < JER_etaMax.size() ; i ++){
         if(jet.eta() < JER_etaMax[i] && jet.eta() >= JER_etaMin[i] && rho < JER_rhoMax[i] && rho >= JER_rhoMin[i] ) {
             double jet_pt=jet.pt();
@@ -1194,6 +1216,7 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
             res=sqrt( JER_Par0[i]*fabs(JER_Par0[i]) / (jet_pt*jet_pt)+JER_Par1[i]*JER_Par1[i]*pow(jet_pt,JER_Par3[i])+JER_Par2[i]*JER_Par2[i]);
         }
     }
+    */
 
     reco::GenJet matched_genjet;
 
@@ -1227,12 +1250,14 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
     else if (genjet_match == 0) {
         int seed = jet.userInt("deterministicSeed");
         rnd.SetSeed((unsigned int)seed);
-        double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
-        jerSF = 1 + ((rnd.Gaus(0,res))*sqrt( fmax( 0.0, (s*s)-1 ) ));
+        //double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
+        double sig_gaus = res*sqrt(fmax(0.0,(s*s)-1));
+        jerSF = 1 + rnd.Gaus(0,sig_gaus);
     }
-
-    jet.scaleEnergy(jerSF * corrFactor);
+    if(jerSF<0)
+        jerSF = 0;
     scale = jerSF * corrFactor;
+    jet.scaleEnergy(scale);
 
     return scale;
 }
@@ -1331,18 +1356,20 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
             double dpt;
             double dR;
             double res=0;
+            double s=0;
 
-            // from GT
-            /*
+            // from text file (new) or from GT
+
             JME::JetParameters parameters_1;
-            parameters_1.setJetPt(jet.pt());
-            parameters_1.setJetEta(jet.eta());
-            parameters_1.setRho(rho);
+            parameters_1.set(JME::Binning::JetPt, jet.pt());
+            parameters_1.set({JME::Binning::JetEta, jet.eta()});
+            parameters_1.set({JME::Binning::Rho, rho});
             res = resolution.getResolution(parameters_1);
-            */
+            s  = resolution_sf.getScaleFactor(parameters_1);
 
-            // from text file
+            // from text file (old)
 
+            /*
             for( int unsigned i = 0 ; i < JER_etaMax.size() ; i ++){
                 if(jet.eta() < JER_etaMax[i] && jet.eta() >= JER_etaMin[i] && rho < JER_rhoMax[i] && rho >= JER_rhoMin[i] ) {
                     double jet_pt=jet.pt();
@@ -1351,12 +1378,9 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                     if(jet_pt > JER_PtMax[i])
                         jet_pt=JER_PtMax[i];
                     res=sqrt( JER_Par0[i]*fabs(JER_Par0[i]) / (jet_pt*jet_pt)+JER_Par1[i]*JER_Par1[i]*pow(jet_pt,JER_Par3[i])+JER_Par2[i]*JER_Par2[i]);
-                    //std::cout<<JER_Par0[i]<<"  "<<JER_Par1[i]<<"  "<<JER_Par2[i]<<"  "<<JER_Par3[i]<<"\n";
                 }
             }
-
-            //std::cout<<jet.pt()<<"  "<<jet.eta()<<"  "<<rho<<"  "<<res<<"  "<<res1<<"\n";
-            //std::cout<<"\n";
+            */
 
             reco::GenJet matched_genjet;
 
@@ -1386,15 +1410,30 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                     jerSF = getJERfactor(0, fabs(jet.eta()),
                                          matched_genjet.pt(), jet.pt());
                 }
-            } else if (genjet_match == 0) {
+            }
+            else if (genjet_match == 0) {
                  int seed = jet.userInt("deterministicSeed");
                  rnd.SetSeed((unsigned int)seed);
-                 double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
-                 jerSF = 1 + ((rnd.Gaus(0,res))*sqrt( fmax( 0.0, (s*s)-1 ) ));
-                 //rnd.SetSeed(0);
-                 //jerSF = 1;
+                 //double s = getJERfactor(0, fabs(jet.eta()),0, jet.pt());
+                 double sig_gaus = res*sqrt(fmax(0.0,(s*s)-1));
+                 jerSF = 1 + rnd.Gaus(0,sig_gaus);
+                
+                 /*
+                 std::cout<<jet.pt()<<"  ";
+                 std::cout<<jerSF<<"  ";
+                 std::cout<<1 + rnd.Gaus(0,sig_gaus)<<"     ";
+                 rnd.SetSeed((unsigned int)seed);
+                 std::cout<< 1 + rnd.Gaus(0,0.2)*0.2<<"  ";
+                 std::cout<< 1 + rnd.Gaus(0,0.2)*0.2<<"     ";
+                 rnd.SetSeed((unsigned int)seed);
+                 std::cout<<1 + (rnd.Gaus(0,res))*sqrt(fmax(0.0,(s*s)-1))<<"  ";
+                 std::cout<<1 + (rnd.Gaus(0,res))*sqrt(fmax(0.0,(s*s)-1))<<"     ";
+                 */
             }
+            if(jerSF<0)
+                jerSF = 0;
             jet.scaleEnergy(jerSF * corrFactor);
+            //std::cout<<jet.pt()<<"\n";
         }
         outputJets.push_back(jet);
     }

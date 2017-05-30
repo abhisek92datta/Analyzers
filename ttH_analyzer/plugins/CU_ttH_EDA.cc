@@ -160,9 +160,6 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     using namespace edm;
     ++event_count;
 
-    //JME::JetResolution resolution;
-    //resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
-
     /// Declaring local struct for data readout and manipulations
     CU_ttH_EDA_event_vars local;
 
@@ -174,8 +171,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
-    //if (local.event_nr != 31533)
-    //	return;
+    /*
+    if (local.event_nr != 3178568)
+    	return;
+    std::cout<<event_count<<"\n\n";
+    */
 
     /// Create and set up edm:Handles in stack mem.
     edm_Handles handle;
@@ -188,6 +188,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     miniAODhelper.SetJetCorrector(corrector);
     miniAODhelper.SetJetCorrectorUncertainty(iSetup);
     */
+
+    // for JER (from GT)
+    //resolution = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
+    //resolution_sf = JME::JetResolutionScaleFactor::get(iSetup, "AK4PFchs");
 
     // for PDF weight
     if (!isdata)
@@ -256,27 +260,38 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     }
 
     /*
-    std::cout<<local.event_nr<<"  "<<local.pass_single_e<<"  "<<local.MET_filters<<"  "<<local.filterbadChCandidate<<"  "<<local.filterbadPFMuon<<"\n";
-    std::cout<<local.n_electrons<<"  "<<local.n_veto_electrons<<"  "<<local.n_veto_muons<<"\n";
+    std::cout<<"\n"<<local.event_nr<<"  "<<local.pass_single_mu<<"  "<<local.MET_filters<<"  "<<local.filterbadChCandidate<<"  "<<local.filterbadPFMuon<<"  "<<local.badGlobalMuonTagger<<"  "<<local.cloneGlobalMuonTagger<<"\n";
+    std::cout<<local.n_muons<<"  "<<local.n_veto_electrons<<"  "<<local.n_veto_muons<<"\n";
     std::cout<<local.n_sl_jets<<"  "<<local.n_sl_btags<<"\n";
     std::cout<<"\n";
-    //std::vector<pat::Electron> inputElectrons = *(handle.electrons);
-    int nn=0;
-    for( std::vector<pat::Electron>::const_iterator it = local.e_with_id.begin(), ed = local.e_with_id.end(); it != ed; ++it ){
-        pat::Electron iElectron = *it;
-        nn++;
-        std::cout<<iElectron.pt()<<"  "<<iElectron.eta()<<"  "<<fabs(iElectron.superCluster()->position().eta())<<"  "<<miniAODhelper.GetElectronRelIso(iElectron,coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
-        //std::cout<<fabs(iElectron.superCluster()->position().eta())<<"  "<<iElectron.full5x5_sigmaIetaIeta()<<"  "<<fabs(iElectron.superCluster().isNonnull() && iElectron.superCluster()->seed().isNonnull() ? iElectron.deltaEtaSuperClusterTrackAtVtx() - iElectron.superCluster()->eta() + iElectron.superCluster()->seed()->eta() : std::numeric_limits<float>::max())<<"  "<<fabs( iElectron.deltaPhiSuperClusterTrackAtVtx() )<<"  "<<iElectron.hcalOverEcal()<<"  "<<fabs(1.0/iElectron.ecalEnergy() - iElectron.eSuperClusterOverP()/iElectron.ecalEnergy() )<<"  "<<iElectron.passConversionVeto()<<"  "<<iElectron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)<<"  "<<fabs(iElectron.gsfTrack()->dxy(vertex.position()))<<"  "<<fabs(iElectron.gsfTrack()->dz(vertex.position()))<<"\n";
-        std::cout<<miniAODhelper.PassElectron80XId(iElectron, electronID::electron80XCutBasedM)<<"\n";
-    }
-    //for(int i=0; i<*(handle.electrons).size(); i++)
-    //     std::cout<<local.e_selected[i].pt()<<"  "<<local.e_selected[i].eta()<<"  "<<miniAODhelper.GetElectronRelIso(local.e_selected[i],coneSize::R03, corrType::rhoEA, effAreaType::summer16)<<"\n";
-    std::cout<<nn<<"\n";
-    //for(int i=0; i<local.n_sl_jets; i++)
-    //    std::cout<<local.jets_sl_selected_sorted[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
-    //std::cout<<"\n";
-    //for(int i=0; i<local.n_sl_btags; i++)
-    //    std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    for(unsigned int i=0; i<local.corr_mu_sl.size(); i++)
+        std::cout<<local.corr_mu_sl[i].Pt()<<"  "<<local.corr_mu_sl[i].Eta()<<"\n";
+    std::cout<<"\n";
+
+
+    for(unsigned int i=0; i<local.jets_raw.size(); i++)
+        std::cout<<local.jets_raw[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_raw[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+
+    for(unsigned int i=0; i<local.jets_raw_puid.size(); i++)
+        std::cout<<local.jets_raw_puid[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_raw_puid[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+
+    for(unsigned int i=0; i<local.jets_sl_raw.size(); i++)
+        std::cout<<local.jets_sl_raw[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_sl_raw[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+
+    for(unsigned int i=0; i<local.jets_sl_corrected.size(); i++)
+        std::cout<<local.jets_sl_corrected[i].pt()<<" "<<local.jets_sl_corrected[i].eta()<<"  "<<
+        miniAODhelper.GetJetCSV(local.jets_sl_corrected[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+
+    for(int i=0; i<local.n_sl_jets; i++)
+        std::cout<<local.jets_sl_selected_sorted[i].pt()<<" "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
+    std::cout<<"\n";
+
+    for(int i=0; i<local.n_sl_btags; i++)
+        std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
      */
 
     /// Check tags, fill ntuple, print events

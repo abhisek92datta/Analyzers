@@ -128,6 +128,8 @@ struct CU_ttH_EDA_event_vars {
   double dielectron_mass;
   double dilepton_mass;
   double mll;
+  double ht_sl;
+  double ht_di;
   int mll_passed;
   int ttHf_cat;
   int truenpv;
