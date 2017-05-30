@@ -1194,6 +1194,7 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
     double dR;
     double res=0;
     double s=0;
+    double scale = 0;
 
     // from GT and text file (new)
 
