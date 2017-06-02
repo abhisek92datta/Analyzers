@@ -5,12 +5,3 @@
 *.c~
 *.cc~
 *.cpp~
-*.eps
-*.pdf
-*.pxlio
-*.root
-*.tar.gz
-*.tgz
-*.gz
-*.so
-._*
