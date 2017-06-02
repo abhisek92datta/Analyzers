@@ -31,6 +31,8 @@ struct CU_ttH_EDA_event_vars {
   int event_nr;
   int lumisection_nr;
 
+  bool isdata;
+
   /// Number of tags per event
   int n_electrons;
   int n_veto_electrons;
@@ -73,12 +75,12 @@ struct CU_ttH_EDA_event_vars {
   std::vector<TLorentzVector> corr_mu_sl_veto;
   std::vector<TLorentzVector> corr_mu_di;
 
-  std::vector<int> ele_sl_seeds;
-  std::vector<int> ele_sl_veto_seeds;
-  std::vector<int> ele_di_seeds;
-  std::vector<int> mu_sl_seeds;
-  std::vector<int> mu_sl_veto_seeds;
-  std::vector<int> mu_di_seeds;
+  std::vector<unsigned int> ele_sl_seeds;
+  std::vector<unsigned int> ele_sl_veto_seeds;
+  std::vector<unsigned int> ele_di_seeds;
+  std::vector<unsigned int> mu_sl_seeds;
+  std::vector<unsigned int> mu_sl_veto_seeds;
+  std::vector<unsigned int> mu_di_seeds;
 
   std::vector<pat::Electron> e_di_selected;
   std::vector<pat::Muon> mu_di_selected;
@@ -104,10 +106,9 @@ struct CU_ttH_EDA_event_vars {
   std::vector<pat::Jet> jets_di_selected_tag_old;
   std::vector<pat::Jet> jets_di_selected_tag;
   std::vector<pat::Jet> jets_di_selected_tag_sorted;
-  std::vector<int> jet_seeds;
 
-  std::vector<int> jet_sl_seeds;
-  std::vector<int> jet_di_seeds;
+  std::vector<unsigned int> jet_sl_seeds;
+  std::vector<unsigned int> jet_di_seeds;
   std::vector<int> jet_sl_puid;
   std::vector<int> jet_di_puid;
   std::vector<double> jet_sl_pudisc;
@@ -132,8 +133,8 @@ struct CU_ttH_EDA_event_vars {
   double ht_di;
   int mll_passed;
   int ttHf_cat;
+  int ttHFGenFilter;
   int truenpv;
-  int ttHFGenFilterTag;
 
   double MHT;
   double metLD;

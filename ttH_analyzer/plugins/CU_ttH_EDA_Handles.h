@@ -102,6 +102,7 @@ struct edm_Handles {
 	Handle<edm::View<pat::Muon>> muon_h;
 
     Handle<int> genTtbarId;
+    Handle<bool> ttHFGenFilter;
     Handle<std::vector<PileupSummaryInfo>> PupInfo;
     Handle<LHEEventProduct> EvtHandle;
     
@@ -140,6 +141,7 @@ struct edm_Tokens {
     EDGetTokenT<edm::View<pat::Muon>> muon_h_token;
 
     EDGetTokenT<int> genTtbarIdToken_;
+    EDGetTokenT<bool> ttHFGenFilterToken_;
     EDGetTokenT<std::vector<PileupSummaryInfo>> puInfoToken;
     EDGetTokenT<LHEEventProduct> lheptoken;
 };

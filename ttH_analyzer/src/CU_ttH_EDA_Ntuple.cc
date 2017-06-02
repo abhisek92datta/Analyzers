@@ -22,6 +22,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
 
   npv = local.truenpv;
   ttHf_cat = local.ttHf_cat;
+  ttHFGenFilter = local.ttHFGenFilter;
 
   n_ele = local.n_electrons;
   n_mu = local.n_muons;
@@ -59,6 +60,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
 
   npv = local.truenpv;
   ttHf_cat = local.ttHf_cat;
+  ttHFGenFilter = local.ttHFGenFilter;
 
   // Muons
   fill_ntuple_muons(local.mu_di_selected, local.corr_mu_di, miniAODhelper);
@@ -274,49 +276,83 @@ CU_ttH_EDA_Ntuple::fill_ntuple_bjets(const std::vector<pat::Jet> &bjets,
 inline void
 CU_ttH_EDA_Ntuple::fill_SF_SL(const CU_ttH_EDA_event_vars &local) {
 
-    lep_sf_id.push_back(local.lep_sf_id_sl[0]);
-    lep_sf_id.push_back(1.00);
-    lep_sf_iso.push_back(local.lep_sf_iso_sl[0]);
-    lep_sf_iso.push_back(1.00);
-    lep_sf_trig = local.lep_sf_trig_sl;
+    if (local.isdata == 0){
+        lep_sf_id.push_back(local.lep_sf_id_sl[0]);
+        lep_sf_id.push_back(1.00);
+        lep_sf_iso.push_back(local.lep_sf_iso_sl[0]);
+        lep_sf_iso.push_back(1.00);
+        lep_sf_trig = local.lep_sf_trig_sl;
 
-    b_weight = local.b_weight_sl;
-    gen_weight = local.gen_weight;
-    PU_weight = local.PU_weight;
-    pdf_weight_up = local.pdf_weight_up;
-    pdf_weight_down = local.pdf_weight_down;
-    q2_weight_up = local.q2_weight_up;
-    q2_weight_down = local.q2_weight_down;
+        b_weight = local.b_weight_sl;
+        gen_weight = local.gen_weight;
+        PU_weight = local.PU_weight;
+        pdf_weight_up = local.pdf_weight_up;
+        pdf_weight_down = local.pdf_weight_down;
+        q2_weight_up = local.q2_weight_up;
+        q2_weight_down = local.q2_weight_down;
+    }
+    else {
+        lep_sf_id.push_back(1.00);
+        lep_sf_id.push_back(1.00);
+        lep_sf_iso.push_back(1.00);
+        lep_sf_iso.push_back(1.00);
+        lep_sf_trig = 1;
 
+        b_weight = 1;
+        gen_weight = 1;
+        PU_weight = 1;
+        pdf_weight_up = 1;
+        pdf_weight_down = 1;
+        q2_weight_up = 1;
+        q2_weight_down = 1;
+    }
 }
 
 inline void
 CU_ttH_EDA_Ntuple::fill_SF_DL(const CU_ttH_EDA_event_vars &local) {
 
-    lep_sf_id.push_back(local.lep_sf_id_di[0]);
-    lep_sf_id.push_back(local.lep_sf_id_di[1]);
-    lep_sf_iso.push_back(local.lep_sf_iso_di[0]);
-    lep_sf_iso.push_back(local.lep_sf_iso_di[1]);
-    lep_sf_trig = local.lep_sf_trig_di;
+    if (local.isdata == 0){
+        lep_sf_id.push_back(local.lep_sf_id_di[0]);
+        lep_sf_id.push_back(local.lep_sf_id_di[1]);
+        lep_sf_iso.push_back(local.lep_sf_iso_di[0]);
+        lep_sf_iso.push_back(local.lep_sf_iso_di[1]);
+        lep_sf_trig = local.lep_sf_trig_di;
 
-    b_weight = local.b_weight_di;
-    gen_weight = local.gen_weight;
-    PU_weight = local.PU_weight;
-    pdf_weight_up = local.pdf_weight_up;
-    pdf_weight_down = local.pdf_weight_down;
-    q2_weight_up = local.q2_weight_up;
-    q2_weight_down = local.q2_weight_down;
-    
+        b_weight = local.b_weight_di;
+        gen_weight = local.gen_weight;
+        PU_weight = local.PU_weight;
+        pdf_weight_up = local.pdf_weight_up;
+        pdf_weight_down = local.pdf_weight_down;
+        q2_weight_up = local.q2_weight_up;
+        q2_weight_down = local.q2_weight_down;
+    }
+    else {
+        lep_sf_id.push_back(1.00);
+        lep_sf_id.push_back(1.00);
+        lep_sf_iso.push_back(1.00);
+        lep_sf_iso.push_back(1.00);
+        lep_sf_trig = 1;
+
+        b_weight = 1;
+        gen_weight = 1;
+        PU_weight = 1;
+        pdf_weight_up = 1;
+        pdf_weight_down = 1;
+        q2_weight_up = 1;
+        q2_weight_down = 1;
+    }
 }
 
 void CU_ttH_EDA_Ntuple::initialize() {
   // event variables
+
   nEvent = -9999;
   ls = -9999;
   run = -9999;
 
   npv = -9999;
   ttHf_cat = -9999;
+  ttHFGenFilter = -9999;
 
   n_ele = -9999;
   n_mu = -9999;
@@ -463,6 +499,7 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
 
   tree->Branch("npv", &npv);
   tree->Branch("ttHf_cat", &ttHf_cat);
+  tree->Branch("ttHFGenFilter", &ttHFGenFilter);
 
   tree->Branch("n_ele", &n_ele);
   tree->Branch("n_mu", &n_mu);

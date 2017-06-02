@@ -171,6 +171,8 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     local.pass_elemu = false;
     Update_common_vars(iEvent, local);
 
+    local.isdata = isdata;
+
     /*
     if (local.event_nr != 3178568)
     	return;
@@ -200,8 +202,10 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     if (!isdata)
         iEvent.getByToken(token.lheptoken, handle.EvtHandle);
     // for ttHf categorization
-    if (!isdata)
+    if (!isdata) {
         iEvent.getByToken(token.genTtbarIdToken_, handle.genTtbarId);
+        iEvent.getByToken(token.ttHFGenFilterToken_, handle.ttHFGenFilter);
+    }
 
     /// Run checks on event containers via their handles
     Check_triggers(handle.triggerResults, local);
@@ -294,20 +298,28 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
         std::cout<<local.jets_sl_selected_tag_sorted[i].pt()<<"  "<<miniAODhelper.GetJetCSV(local.jets_sl_selected_tag_sorted[i],"pfCombinedInclusiveSecondaryVertexV2BJetTags")<<"\n";
      */
 
+
+    // Initialize Ntuple and record generator weight
+    hbbNtuple.initialize();
+    if (!isdata)
+        hbbNtuple.gen_weight = handle.event_gen_info->weight();
+    else
+        hbbNtuple.gen_weight = 1;
+
     /// Check tags, fill ntuple, print events
     if (local.event_selection_SL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
         Check_Fill_Print_single_lepton(local);
-        hbbNtuple.initialize();
         hbbNtuple.write_ntuple_SL(local, miniAODhelper);
-        eventTree->Fill();
     } else if (local.event_selection_DL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
         Check_Fill_Print_di_lepton(local);
-        hbbNtuple.initialize();
         hbbNtuple.write_ntuple_DL(local, miniAODhelper);
-        eventTree->Fill();
     }
+
+    // Fill Ntuple
+    eventTree->Fill();
+
 }
 
 // ------------ method called once each job just before starting event loop

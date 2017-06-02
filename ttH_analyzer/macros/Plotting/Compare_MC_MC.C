@@ -62,21 +62,21 @@ void Compare_Data_MC() {
     // Reading the Histograms from the different files
     ///////////////////////////////////////////////////////////////////////
 
-	TFile *f1 = new TFile("Distribution_mc_tthbb.root");
-    //TFile *f2 = new TFile("Distribution_mc_ttjets.root");
+	TFile *f1 = new TFile("Distribution_mc_ttjets_pp.root");
+    //TFile *f2 = new TFile("Distribution_mc_ttjets_ol.root");
     //TFile *f3 = new TFile("Distribution_data_2016.root");
 
-    std::vector<TH1D*> tthbb_e;
-    std::vector<TH1D*> tthbb_mu;
-    std::vector<TH1D*> tthbb_ee;
-    std::vector<TH1D*> tthbb_emu;
-    std::vector<TH1D*> tthbb_mumu;
+    std::vector<TH1D*> ttjets_pp_e;
+    std::vector<TH1D*> ttjets_pp_mu;
+    std::vector<TH1D*> ttjets_pp_ee;
+    std::vector<TH1D*> ttjets_pp_emu;
+    std::vector<TH1D*> ttjets_pp_mumu;
     /*
-    std::vector<TH1D*> ttjets_e;
-    std::vector<TH1D*> ttjets_mu;
-    std::vector<TH1D*> ttjets_ee;
-    std::vector<TH1D*> ttjets_emu;
-    std::vector<TH1D*> ttjets_mumu;
+    std::vector<TH1D*> ttjets_ol_e;
+    std::vector<TH1D*> ttjets_ol_mu;
+    std::vector<TH1D*> ttjets_ol_ee;
+    std::vector<TH1D*> ttjets_ol_emu;
+    std::vector<TH1D*> ttjets_ol_mumu;
     std::vector<TH1D*> data_e;
     std::vector<TH1D*> data_mu;
     std::vector<TH1D*> data_ee;
@@ -94,16 +94,16 @@ void Compare_Data_MC() {
         //TH1D *h2;
         //TH1D *h3;
 
-        // ttHbb
+        // ttjets_pp
         h1 = (TH1D*)f1->Get((histo).c_str());
-        h1->SetName(("tthbb_" + histo).c_str());
-        h1->SetTitle(("MC ttHbb : " + histo).c_str());
+        h1->SetName(("ttjets_pp_" + histo).c_str());
+        h1->SetTitle(("MC ttjets_pp : " + histo).c_str());
 
         /*
-        // ttjets
+        // ttjets_ol
         h2 = (TH1D*)f2->Get((histo).c_str());
-        h2->SetName(("ttjets_" + histo).c_str());
-        h2->SetTitle(("MC ttjets : " + histo).c_str());
+        h2->SetName(("ttjets_ol_" + histo).c_str());
+        h2->SetTitle(("MC ttjets_ol : " + histo).c_str());
 
         // data
         h3 = (TH1D*)f3->Get((histo).c_str());
@@ -112,8 +112,8 @@ void Compare_Data_MC() {
         */
 
         if(histo.find("_sl_e") != std::string::npos){
-            tthbb_e.push_back(h1);
-            //ttjets_e.push_back(h2);
+            ttjets_pp_e.push_back(h1);
+            //ttjets_ol_e.push_back(h2);
             //data_e.push_back(h3);
 
             out_file_e.push_back((histo + ".png").c_str());
@@ -121,8 +121,8 @@ void Compare_Data_MC() {
         }
 
         else if(histo.find("_sl_mu") != std::string::npos){
-            tthbb_mu.push_back(h1);
-            //ttjets_mu.push_back(h2);
+            ttjets_pp_mu.push_back(h1);
+            //ttjets_ol_mu.push_back(h2);
             //data_mu.push_back(h3);
 
             out_file_mu.push_back((histo + ".png").c_str());
@@ -130,8 +130,8 @@ void Compare_Data_MC() {
         }
 
         else if(histo.find("_di_ee") != std::string::npos){
-            tthbb_ee.push_back(h1);
-            //ttjets_ee.push_back(h2);
+            ttjets_pp_ee.push_back(h1);
+            //ttjets_ol_ee.push_back(h2);
             //data_ee.push_back(h3);
 
             out_file_ee.push_back((histo + ".png").c_str());
@@ -139,8 +139,8 @@ void Compare_Data_MC() {
         }
 
         else if(histo.find("_di_emu") != std::string::npos){
-            tthbb_emu.push_back(h1);
-            //ttjets_emu.push_back(h2);
+            ttjets_pp_emu.push_back(h1);
+            //ttjets_ol_emu.push_back(h2);
             //data_emu.push_back(h3);
 
             out_file_emu.push_back((histo + ".png").c_str());
@@ -148,8 +148,8 @@ void Compare_Data_MC() {
         }
 
         else if(histo.find("_di_mumu") != std::string::npos){
-            tthbb_mumu.push_back(h1);
-            //ttjets_mumu.push_back(h2);
+            ttjets_pp_mumu.push_back(h1);
+            //ttjets_ol_mumu.push_back(h2);
             //data_mumu.push_back(h3);
 
             out_file_mumu.push_back((histo + ".png").c_str());
@@ -163,43 +163,43 @@ void Compare_Data_MC() {
     // Scaling and Normlization of MC signal and background
     ///////////////////////////////////////////////////////////////////////
 
-    //ttHbb
-    double factor_tthbb = 600.0;
-    double sigma_tthbb = 0.5824*0.5071; // pb
-    double N_total_tthbb = 46790;
-    double sum_gen_weight_tthbb = 26283.4;
-    double norm_tthbb = (L*sigma_tthbb*1000)/(sum_gen_weight_tthbb);
-    double scale_tthbb = factor_tthbb*norm_tthbb;
+    //ttjets_pp
+    double factor_ttjets_pp = 1.0;
+    double sigma_ttjets_pp = ; // pb
+    double N_total_ttjets_pp = ;
+    double sum_gen_weight_ttjets_pp = ;
+    double norm_ttjets_pp = (L*sigma_ttjets_pp*1000)/(sum_gen_weight_ttjets_pp);
+    double scale_ttjets_pp = factor_ttjets_pp*norm_ttjets_pp;
 
     /*
-    //ttjets
-    double factor_ttjets = 1.0;
-    double sigma_ttjets = 831.76; // pb
-    double N_total_ttjets = ;
-    double sum_gen_weight_ttjets = ;
-    double norm_ttjets = (L*sigma_ttjets*1000)/(sum_gen_weight_ttjets);
-    double scale_ttjets = factor_ttjets*norm_ttjets;
+    //ttjets_ol
+    double factor_ttjets_ol = 1.0;
+    double sigma_ttjets_ol = 831.76; // pb
+    double N_total_ttjets_ol = ;
+    double sum_gen_weight_ttjets_ol = ;
+    double norm_ttjets_ol = (L*sigma_ttjets_ol*1000)/(sum_gen_weight_ttjets_ol);
+    double scale_ttjets_ol = factor_ttjets_ol*norm_ttjets_ol;
     */
 
     for(int i=0; i<n_e; i++){
-        tthbb_e[i]->Scale(scale_tthbb);
-        //ttjets_e[i]->Scale(scale_ttjets);
+        ttjets_pp_e[i]->Scale(scale_ttjets_pp);
+        //ttjets_ol_e[i]->Scale(scale_ttjets_ol);
     }
     for(int i=0; i<n_mu; i++){
-        tthbb_mu[i]->Scale(scale_tthbb);
-        //ttjets_mu[i]->Scale(scale_ttjets);
+        ttjets_pp_mu[i]->Scale(scale_ttjets_pp);
+        //ttjets_ol_mu[i]->Scale(scale_ttjets_ol);
     }
     for(int i=0; i<n_ee; i++){
-        tthbb_ee[i]->Scale(scale_tthbb);
-        //ttjets_ee[i]->Scale(scale_ttjets);
+        ttjets_pp_ee[i]->Scale(scale_ttjets_pp);
+        //ttjets_ol_ee[i]->Scale(scale_ttjets_ol);
     }
     for(int i=0; i<n_emu; i++){
-        tthbb_emu[i]->Scale(scale_tthbb);
-        //ttjets_emu[i]->Scale(scale_ttjets);
+        ttjets_pp_emu[i]->Scale(scale_ttjets_pp);
+        //ttjets_ol_emu[i]->Scale(scale_ttjets_ol);
     }
     for(int i=0; i<n_mumu; i++){
-        tthbb_mumu[i]->Scale(scale_tthbb);
-        //ttjets_mumu[i]->Scale(scale_ttjets);
+        ttjets_pp_mumu[i]->Scale(scale_ttjets_pp);
+        //ttjets_ol_mumu[i]->Scale(scale_ttjets_ol);
     }
 
 
@@ -483,16 +483,16 @@ void Compare_Data_MC() {
         TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
         leg1->SetFillColor(kWhite);
         leg1->SetFillStyle(1001);
-        leg1->AddEntry(tthbb_e[i],"MC : ttH x 600","L");
-        //leg1->AddEntry(ttjets_e[i],"MC : Background","L");
+        leg1->AddEntry(ttjets_pp_e[i],"MC : ttH x 600","L");
+        //leg1->AddEntry(ttjets_ol_e[i],"MC : Background","L");
         //leg1->AddEntry(data_e[i],"Data","L");
-        tthbb_e[i]->SetLineColor(kRed);
-        tthbb_e[i]->SetLineWidth(2);
-        tthbb_e[i]->Draw("same");
+        ttjets_pp_e[i]->SetLineColor(kRed);
+        ttjets_pp_e[i]->SetLineWidth(2);
+        ttjets_pp_e[i]->Draw("same");
         /*
-        ttjets_e[i]->SetLineColor(kGreen+3);
-        ttjets_e[i]->SetLineWidth(3);
-        ttjets_e[i]->Draw("same");
+        ttjets_ol_e[i]->SetLineColor(kGreen+3);
+        ttjets_ol_e[i]->SetLineWidth(3);
+        ttjets_ol_e[i]->Draw("same");
         data_e[i]->SetLineColor(kBlue);
         data_e[i]->SetLineWidth(2);
         data_e[i]->Draw("same");
@@ -512,16 +512,16 @@ void Compare_Data_MC() {
         TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
         leg1->SetFillColor(kWhite);
         leg1->SetFillStyle(1001);
-        leg1->AddEntry(tthbb_mu[i],"MC : ttH x 600","L");
-        //leg1->AddEntry(ttjets_mu[i],"MC : Background","L");
+        leg1->AddEntry(ttjets_pp_mu[i],"MC : ttH x 600","L");
+        //leg1->AddEntry(ttjets_ol_mu[i],"MC : Background","L");
         //leg1->AddEntry(data_mu[i],"Data","L");
-        tthbb_mu[i]->SetLineColor(kRed);
-        tthbb_mu[i]->SetLineWidth(2);
-        tthbb_mu[i]->Draw("same");
+        ttjets_pp_mu[i]->SetLineColor(kRed);
+        ttjets_pp_mu[i]->SetLineWidth(2);
+        ttjets_pp_mu[i]->Draw("same");
         /*
-        ttjets_mu[i]->SetLineColor(kGreen+3);
-        ttjets_mu[i]->SetLineWidth(3);
-        ttjets_mu[i]->Draw("same");
+        ttjets_ol_mu[i]->SetLineColor(kGreen+3);
+        ttjets_ol_mu[i]->SetLineWidth(3);
+        ttjets_ol_mu[i]->Draw("same");
         data_mu[i]->SetLineColor(kBlue);
         data_mu[i]->SetLineWidth(2);
         data_mu[i]->Draw("same");
@@ -541,16 +541,16 @@ void Compare_Data_MC() {
         TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
         leg1->SetFillColor(kWhite);
         leg1->SetFillStyle(1001);
-        leg1->AddEntry(tthbb_ee[i],"MC : ttH x 600","L");
-        //leg1->AddEntry(ttjets_ee[i],"MC : Background","L");
+        leg1->AddEntry(ttjets_pp_ee[i],"MC : ttH x 600","L");
+        //leg1->AddEntry(ttjets_ol_ee[i],"MC : Background","L");
         //leg1->AddEntry(data_ee[i],"Data","L");
-        tthbb_ee[i]->SetLineColor(kRed);
-        tthbb_ee[i]->SetLineWidth(2);
-        tthbb_ee[i]->Draw("same");
+        ttjets_pp_ee[i]->SetLineColor(kRed);
+        ttjets_pp_ee[i]->SetLineWidth(2);
+        ttjets_pp_ee[i]->Draw("same");
         /*
-        ttjets_ee[i]->SetLineColor(kGreen+3);
-        ttjets_ee[i]->SetLineWidth(3);
-        ttjets_ee[i]->Draw("same");
+        ttjets_ol_ee[i]->SetLineColor(kGreen+3);
+        ttjets_ol_ee[i]->SetLineWidth(3);
+        ttjets_ol_ee[i]->Draw("same");
         data_ee[i]->SetLineColor(kBlue);
         data_ee[i]->SetLineWidth(2);
         data_ee[i]->Draw("same");
@@ -570,16 +570,16 @@ void Compare_Data_MC() {
         TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
         leg1->SetFillColor(kWhite);
         leg1->SetFillStyle(1001);
-        leg1->AddEntry(tthbb_emu[i],"MC : ttH x 600","L");
-        //leg1->AddEntry(ttjets_emu[i],"MC : Background","L");
+        leg1->AddEntry(ttjets_pp_emu[i],"MC : ttH x 600","L");
+        //leg1->AddEntry(ttjets_ol_emu[i],"MC : Background","L");
         //leg1->AddEntry(data_emu[i],"Data","L");
-        tthbb_emu[i]->SetLineColor(kRed);
-        tthbb_emu[i]->SetLineWidth(2);
-        tthbb_emu[i]->Draw("same");
+        ttjets_pp_emu[i]->SetLineColor(kRed);
+        ttjets_pp_emu[i]->SetLineWidth(2);
+        ttjets_pp_emu[i]->Draw("same");
         /*
-        ttjets_emu[i]->SetLineColor(kGreen+3);
-        ttjets_emu[i]->SetLineWidth(3);
-        ttjets_emu[i]->Draw("same");
+        ttjets_ol_emu[i]->SetLineColor(kGreen+3);
+        ttjets_ol_emu[i]->SetLineWidth(3);
+        ttjets_ol_emu[i]->Draw("same");
         data_emu[i]->SetLineColor(kBlue);
         data_emu[i]->SetLineWidth(2);
         data_emu[i]->Draw("same");
@@ -599,16 +599,16 @@ void Compare_Data_MC() {
         TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
         leg1->SetFillColor(kWhite);
         leg1->SetFillStyle(1001);
-        leg1->AddEntry(tthbb_mumu[i],"MC : ttH x 600","L");
-        //leg1->AddEntry(ttjets_mumu[i],"MC : Background","L");
+        leg1->AddEntry(ttjets_pp_mumu[i],"MC : ttH x 600","L");
+        //leg1->AddEntry(ttjets_ol_mumu[i],"MC : Background","L");
         //leg1->AddEntry(data_mumu[i],"Data","L");
-        tthbb_mumu[i]->SetLineColor(kRed);
-        tthbb_mumu[i]->SetLineWidth(2);
-        tthbb_mumu[i]->Draw("same");
+        ttjets_pp_mumu[i]->SetLineColor(kRed);
+        ttjets_pp_mumu[i]->SetLineWidth(2);
+        ttjets_pp_mumu[i]->Draw("same");
         /*
-        ttjets_mumu[i]->SetLineColor(kGreen+3);
-        ttjets_mumu[i]->SetLineWidth(3);
-        ttjets_mumu[i]->Draw("same");
+        ttjets_ol_mumu[i]->SetLineColor(kGreen+3);
+        ttjets_ol_mumu[i]->SetLineWidth(3);
+        ttjets_ol_mumu[i]->Draw("same");
         data_mumu[i]->SetLineColor(kBlue);
         data_mumu[i]->SetLineWidth(2);
         data_mumu[i]->Draw("same");

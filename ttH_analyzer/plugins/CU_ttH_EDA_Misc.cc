@@ -296,7 +296,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
             local.jet_sl_puid[1], local.jet_sl_pudisc[1], local.jet_sl_seeds[1]
             );
     fprintf(events_combined, "%.4f,%.4f,-1,-1,-1,", local.met_pt_phi_corr, local.met_phi_phi_corr);
-    fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilterTag);
+    fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
         fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
@@ -460,7 +460,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
             );
     fprintf(events_combined, "%.4f,%.4f,-1,-1,%.4f,", local.met_pt_phi_corr, local.met_phi_phi_corr,
             local.mll);  
-    fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilterTag);
+    fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
         fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
@@ -601,7 +601,7 @@ CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons,
 }
 
 inline void
-CU_ttH_EDA::GetElectronSeeds(std::vector<int> & ele_seeds, const std::vector<pat::Electron> &inputElectrons){
+CU_ttH_EDA::GetElectronSeeds(std::vector<unsigned int> & ele_seeds, const std::vector<pat::Electron> &inputElectrons){
 
     for( std::vector<pat::Electron>::const_iterator el = inputElectrons.begin(), ed = inputElectrons.end(); el != ed; ++el ){
 
@@ -609,12 +609,12 @@ CU_ttH_EDA::GetElectronSeeds(std::vector<int> & ele_seeds, const std::vector<pat
 
         // get the seed
         int seed = iElectron.userInt("deterministicSeed");
-        ele_seeds.push_back(seed);
+        ele_seeds.push_back((unsigned int)seed);
     }
 }
 
 inline std::vector<pat::Muon>
-CU_ttH_EDA::GetSelectedMuons(std::vector<TLorentzVector> & corr_mu, std::vector<int> & mu_seeds, const std::vector<pat::Muon>& inputMuons, const float iMinPt, const coneSize::coneSize iconeSize, const corrType::corrType icorrType, const float iMaxEta, const float iMaxIso) {
+CU_ttH_EDA::GetSelectedMuons(std::vector<TLorentzVector> & corr_mu, std::vector<unsigned int> & mu_seeds, const std::vector<pat::Muon>& inputMuons, const float iMinPt, const coneSize::coneSize iconeSize, const corrType::corrType icorrType, const float iMaxEta, const float iMaxIso) {
 
     std::vector<pat::Muon> muons = inputMuons;
     std::vector<pat::Muon> selectedMuons;
@@ -679,7 +679,7 @@ CU_ttH_EDA::GetSelectedMuons(std::vector<TLorentzVector> & corr_mu, std::vector<
             selectedMuons.push_back(iMuon);
             TL_mu.SetPtEtaPhiE(mu_pT, iMuon.eta(), iMuon.phi(), (iMuon.energy()*muon_SF));
             corr_mu.push_back(TL_mu);
-            mu_seeds.push_back(seed);
+            mu_seeds.push_back((unsigned int)seed);
         }
     }
 
@@ -799,7 +799,7 @@ void CU_ttH_EDA::Select_Jets(CU_ttH_EDA_event_vars &local,
     GetJetSeeds(local.jet_sl_seeds, local.jet_sl_puid, local.jet_sl_pudisc, local.jets_sl_selected_sorted);
     GetJetSeeds(local.jet_di_seeds, local.jet_di_puid, local.jet_di_pudisc, local.jets_di_selected_sorted);
 
-    // Calculate HT = sum of selected jet pTs
+    // Calculating HT = sum of selected jet pTs
     local.ht_sl = GetHT(local.jets_sl_selected_sorted);
     local.ht_di = GetHT(local.jets_di_selected_sorted);
 
@@ -863,7 +863,7 @@ CU_ttH_EDA::GetSelectedJets_PUID(const std::vector<pat::Jet> &inputJets, const i
 }
 
 inline void
-CU_ttH_EDA::GetJetSeeds(std::vector<int> & jet_seeds, std::vector<int> & jet_puid, std::vector<double> & jet_pudisc, const std::vector<pat::Jet> &inputJets){
+CU_ttH_EDA::GetJetSeeds(std::vector<unsigned int> & jet_seeds, std::vector<int> & jet_puid, std::vector<double> & jet_pudisc, const std::vector<pat::Jet> &inputJets){
 
     for( std::vector<pat::Jet>::const_iterator jet = inputJets.begin(), ed = inputJets.end(); jet != ed; ++jet ){
 
@@ -871,7 +871,7 @@ CU_ttH_EDA::GetJetSeeds(std::vector<int> & jet_seeds, std::vector<int> & jet_pui
 
         // get the seed
         int seed = iJet.userInt("deterministicSeed");
-        jet_seeds.push_back(seed);
+        jet_seeds.push_back((unsigned int)seed);
 
         int id = iJet.userInt("pileupJetIdUpdated:fullId");
         jet_puid.push_back(id);
@@ -1187,6 +1187,7 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
                                    const float &uncFactor)
 {
 
+    double min_energy = 1e-2;
     double jerSF = 1.;
     bool genjet_match = 0;
     double dpt_min = 99999;
@@ -1255,8 +1256,10 @@ inline double CU_ttH_EDA::GetJERSF(pat::Jet jet,
         double sig_gaus = res*sqrt(fmax(0.0,(s*s)-1));
         jerSF = 1 + rnd.Gaus(0,sig_gaus);
     }
-    if(jerSF<0)
-        jerSF = 0;
+
+    // truncation
+    jerSF = max(jerSF, min_energy / jet.energy());
+
     scale = jerSF * corrFactor;
     jet.scaleEnergy(scale);
 
@@ -1351,6 +1354,7 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
         // JER
         if (doJER == 1) {
 
+            double min_energy = 1e-2;
             double jerSF = 1.;
             bool genjet_match = 0;
             double dpt_min = 99999;
@@ -1431,8 +1435,10 @@ inline std::vector<pat::Jet> CU_ttH_EDA::GetCorrectedJets(
                  std::cout<<1 + (rnd.Gaus(0,res))*sqrt(fmax(0.0,(s*s)-1))<<"     ";
                  */
             }
-            if(jerSF<0)
-                jerSF = 0;
+
+            // truncation
+            jerSF = max(jerSF, min_energy / jet.energy());
+
             jet.scaleEnergy(jerSF * corrFactor);
             //std::cout<<jet.pt()<<"\n";
         }
@@ -1795,10 +1801,15 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
 
     // ttHf Category
     local.ttHf_cat = -1;
+    local.ttHFGenFilter = -1;
     if (!isdata && handle.genTtbarId.isValid())
         local.ttHf_cat = *handle.genTtbarId;
-
-    local.ttHFGenFilterTag = -1;
+    if(!isdata) {
+        if(*handle.ttHFGenFilter == True)
+            local.ttHFGenFilter = 1;
+        else
+            local.ttHFGenFilter = 0;
+    }
    
     // Generator Weight
     local.gen_weight = -1;
@@ -1881,9 +1892,12 @@ inline void CU_ttH_EDA::getjetSF(CU_ttH_EDA_event_vars &local, const double &rho
             local.jet2SF_down_sl = GetJECSF(jet2, sysType::JESdown, rho, local);
             local.jet1_jesSF_PileUpDataMC_down_sl = GetJECSF(jet1, sysType::JESdown_PileUpDataMC, rho, local);
             local.jet1_jesSF_RelativeFSR_up_sl = GetJECSF(jet1, sysType::JESup_RelativeFSR, rho, local);
-            local.jet1_jerSF_nominal_sl = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
             local.jet2_jesSF_PileUpDataMC_down_sl = GetJECSF(jet2, sysType::JESdown_PileUpDataMC, rho, local);
             local.jet2_jesSF_RelativeFSR_up_sl = GetJECSF(jet2, sysType::JESup_RelativeFSR, rho, local);
+
+            jet1.scaleEnergy(local.jet1SF_sl);
+            jet2.scaleEnergy(local.jet2SF_sl);
+            local.jet1_jerSF_nominal_sl = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
             local.jet2_jerSF_nominal_sl = GetJERSF(jet2, sysType::NA, rho, handle.genjets, local);
         }
         else {
@@ -1947,9 +1961,12 @@ inline void CU_ttH_EDA::getjetSF(CU_ttH_EDA_event_vars &local, const double &rho
             local.jet2SF_down_di = GetJECSF(jet2, sysType::JESdown, rho, local);
             local.jet1_jesSF_PileUpDataMC_down_di = GetJECSF(jet1, sysType::JESdown_PileUpDataMC, rho, local);
             local.jet1_jesSF_RelativeFSR_up_di = GetJECSF(jet1, sysType::JESup_RelativeFSR, rho, local);
-            local.jet1_jerSF_nominal_di = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
             local.jet2_jesSF_PileUpDataMC_down_di = GetJECSF(jet2, sysType::JESdown_PileUpDataMC, rho, local);
             local.jet2_jesSF_RelativeFSR_up_di = GetJECSF(jet2, sysType::JESup_RelativeFSR, rho, local);
+
+            jet1.scaleEnergy(local.jet1SF_di);
+            jet2.scaleEnergy(local.jet2SF_di);
+            local.jet1_jerSF_nominal_di = GetJERSF(jet1, sysType::NA, rho, handle.genjets, local);
             local.jet2_jerSF_nominal_di = GetJERSF(jet2, sysType::NA, rho, handle.genjets, local);
         }
         else {

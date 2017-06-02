@@ -25,6 +25,7 @@ class CU_ttH_EDA_Ntuple //: public TClass
 
 private:
   // private member functions
+
   inline void fill_ntuple_electrons(const std::vector<pat::Electron> &,
                                     const MiniAODHelper &);
   inline void fill_ntuple_muons(const std::vector<pat::Muon> &, const std::vector<TLorentzVector> &,
@@ -48,6 +49,7 @@ public:
   void write_ntuple_DL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
 
   /// variables
+
   // event variables
   int nEvent;
   int ls;  // luminosity section number
@@ -55,6 +57,7 @@ public:
 
   int npv;
   int ttHf_cat;
+  int ttHFGenFilter;
 
   int n_ele;
   int n_mu;

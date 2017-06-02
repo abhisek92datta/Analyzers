@@ -490,10 +490,6 @@ process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
     "cloneGlobalMuonTaggerMAOD"
 )
 
-# ttbar-related collections
-process.ttHbb.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
-
-
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('ttHbbNtuple.root')
 )

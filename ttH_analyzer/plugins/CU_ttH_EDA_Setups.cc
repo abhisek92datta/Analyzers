@@ -231,9 +231,12 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("electrons"));
     token.muon_h_token = consumes<edm::View<pat::Muon>>(
         config.getParameter<edm::InputTag>("muons"));
-    if (!isdata)
+    if (!isdata) {
         token.genTtbarIdToken_ =
             consumes<int>(config.getParameter<edm::InputTag>("genTtbarId"));
+        ttHFGenFilterToken_ =
+            consumes<bool>(config.getParameter<edm::InputTag>("ttHFGenFilter"));
+    }
     token.puInfoToken = consumes<std::vector<PileupSummaryInfo>>(
         config.getParameter<edm::InputTag>("pileupinfo"));
     token.lheptoken = consumes<LHEEventProduct>(

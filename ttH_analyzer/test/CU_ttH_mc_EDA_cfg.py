@@ -57,7 +57,7 @@ options.register("updatePUJetId",
                  "update the PUJetId values"
                  )
 options.register("isTtbar",
-                 False, # set to True for all ttbar datasets
+                 True, # set to True for all ttbar datasets
                  VarParsing.multiplicity.singleton,
                  VarParsing.varType.bool,
                  "creates the ttbar gen id and performs ttbar heavy flavour tagging"
@@ -355,15 +355,6 @@ if options.updatePUJetId:
     jetCollection = cms.InputTag("updatedPatJets", "", process.name_())
 
 
-#
-# ttbar related setup
-#
-
-#if options.isTtbar:
-#    process.load("FOO.BAR.ttbarSequence_cff") # replace FOO.BAR with your subystem.module
-
-
-
 # new electron MVA developed by the EGamma POG
 #process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 #from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
@@ -402,11 +393,6 @@ process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
      "badGlobalMuonTaggerMAOD",
      "cloneGlobalMuonTaggerMAOD"
 )
-
-# ttbar-related collections
-process.ttHbb.ttHFGenFilterCollection = cms.InputTag("ttHFGenFilter")
-
-
 
 #ttHf categorization
 
@@ -482,6 +468,16 @@ process.categorizeGenTtbar = categorizeGenTtbar.clone(
 )
 
 seq += process.categorizeGenTtbar
+
+if options.isTtbar:
+    # the ttHFGen filter, used as a tagger
+    from PhysicsTools.JetMCAlgos.ttHFGenFilter_cfi import ttHFGenFilter
+    ttHFGenFilter = ttHFGenFilter.clone(
+       genParticles = cms.InputTag(genParticleCollection),
+       taggingMode  = cms.bool(True)
+    )
+    seq += process.ttHFGenFilter
+
 
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string("ttHbbNtuple.root")

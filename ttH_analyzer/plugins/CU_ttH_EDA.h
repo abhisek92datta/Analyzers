@@ -188,14 +188,14 @@ class CU_ttH_EDA : public edm::EDAnalyzer
  
     // Lepton operations
     inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
-    inline void GetElectronSeeds(std::vector<int> &, const std::vector<pat::Electron> &);
-    inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
+    inline void GetElectronSeeds(std::vector<unsigned int> &, const std::vector<pat::Electron> &);
+    inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<unsigned int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
     
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
                                             const std::vector<pat::Jet> &);
     inline std::vector<pat::Jet> GetSelectedJets_PUID(const std::vector<pat::Jet> &, const int &);
-    inline void GetJetSeeds(std::vector<int> &, std::vector<int> &, std::vector<double> &, const std::vector<pat::Jet> &);
+    inline void GetJetSeeds(std::vector<unsigned int> &, std::vector<int> &, std::vector<double> &, const std::vector<pat::Jet> &);
     void
     SetFactorizedJetCorrector(const sysType::sysType iSysType = sysType::NA);
     void
