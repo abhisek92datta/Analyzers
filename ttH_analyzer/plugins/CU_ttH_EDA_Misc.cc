@@ -1805,7 +1805,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     if (!isdata && handle.genTtbarId.isValid())
         local.ttHf_cat = *handle.genTtbarId;
     if(!isdata) {
-        if(*handle.ttHFGenFilter == True)
+        if(*handle.ttHFGenFilter == true)
             local.ttHFGenFilter = 1;
         else
             local.ttHFGenFilter = 0;
