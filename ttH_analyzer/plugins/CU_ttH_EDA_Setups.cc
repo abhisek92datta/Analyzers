@@ -234,7 +234,7 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
     if (!isdata) {
         token.genTtbarIdToken_ =
             consumes<int>(config.getParameter<edm::InputTag>("genTtbarId"));
-        ttHFGenFilterToken_ =
+        token.ttHFGenFilterToken_ =
             consumes<bool>(config.getParameter<edm::InputTag>("ttHFGenFilter"));
     }
     token.puInfoToken = consumes<std::vector<PileupSummaryInfo>>(
