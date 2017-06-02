@@ -472,7 +472,7 @@ seq += process.categorizeGenTtbar
 if options.isTtbar:
     # the ttHFGen filter, used as a tagger
     from PhysicsTools.JetMCAlgos.ttHFGenFilter_cfi import ttHFGenFilter
-    ttHFGenFilter = ttHFGenFilter.clone(
+    process.ttHFGenFilter = ttHFGenFilter.clone(
        genParticles = cms.InputTag(genParticleCollection),
        taggingMode  = cms.bool(True)
     )
