@@ -251,7 +251,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
             local.is_ee, local.is_emu, local.is_mumu);
     fprintf(events_combined, "%d,%d,", local.n_sl_jets, local.n_sl_btags);
     if (local.n_electrons == 1) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,", local.e_selected[0].pt(),
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.e_selected[0].pt(),
                 local.e_selected[0].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_selected[0],
                                                 coneSize::R03, corrType::rhoEA,
@@ -262,10 +262,10 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                 local.ele_sl_seeds[0]
                 );
     } else if (local.n_muons == 1) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,", local.corr_mu_sl[0].Pt(),
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.corr_mu_sl[0].Pt(),
                 local.mu_selected[0].eta(),
-                miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04,
-                                            corrType::deltaBeta),
+                ((miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04,
+                                            corrType::deltaBeta)) * (local.mu_selected[0].pt()/local.corr_mu_sl[0].Pt())),
                 local.mu_selected[0].pdgId(),
                 local.lep_sf_id_sl[0],
                 local.lep_sf_iso_sl[0],
@@ -278,7 +278,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
         local.jets_sl_selected_sorted[0].pt(),
         local.jets_sl_selected_sorted[0].eta(),
         local.jets_sl_selected_sorted[0].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%d,", local.jet1SF_sl,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_sl,
             local.jet1SF_up_sl, local.jet1SF_down_sl,
             local.jet1_jesSF_PileUpDataMC_down_sl, local.jet1_jesSF_RelativeFSR_up_sl, local.jet1_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
@@ -289,7 +289,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
         local.jets_sl_selected_sorted[1].pt(),
         local.jets_sl_selected_sorted[1].eta(),
         local.jets_sl_selected_sorted[1].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%d,", local.jet2SF_sl,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_sl,
             local.jet2SF_up_sl, local.jet2SF_down_sl,
             local.jet2_jesSF_PileUpDataMC_down_sl, local.jet2_jesSF_RelativeFSR_up_sl, local.jet2_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
@@ -342,7 +342,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         }
 
 
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.e_di_selected[lead].pt(), local.e_di_selected[lead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[lead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -352,7 +352,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.lep_sf_iso_di[0],
                 local.ele_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.e_di_selected[sublead].pt(), local.e_di_selected[sublead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[sublead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -372,19 +372,19 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
             sublead = 0;
         }
 
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.corr_mu_di[lead].Pt(), local.corr_mu_di[lead].Eta(),
-                miniAODhelper.GetMuonRelIso(local.mu_di_selected[lead],
-                                            coneSize::R04, corrType::deltaBeta),
+                ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[lead], coneSize::R04,
+                                              corrType::deltaBeta)) * (local.mu_di_selected[lead].pt()/local.corr_mu_di[lead].Pt())),
                 local.mu_di_selected[lead].pdgId(),
                 local.lep_sf_id_di[0],
                 local.lep_sf_iso_di[0],
                 local.mu_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.corr_mu_di[sublead].Pt(), local.corr_mu_di[sublead].Eta(),
-                miniAODhelper.GetMuonRelIso(local.mu_di_selected[sublead],
-                                            coneSize::R04, corrType::deltaBeta),
+                ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[sublead], coneSize::R04,
+                                              corrType::deltaBeta)) * (local.mu_di_selected[sublead].pt()/local.corr_mu_di[sublead].Pt())),
                 local.mu_di_selected[sublead].pdgId(),
                 local.lep_sf_id_di[1],
                 local.lep_sf_iso_di[1],
@@ -393,17 +393,16 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     } else {
         if (local.corr_mu_di[0].Pt() >
             local.e_di_selected[0].pt()) {
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
-                    miniAODhelper.GetMuonRelIso(local.mu_di_selected[0],
-                                                coneSize::R04,
-                                                corrType::deltaBeta),
+                    ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
+                                                  corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
                     local.mu_di_selected[0].pdgId(),
                     local.lep_sf_id_di[1],
                     local.lep_sf_iso_di[1],
                     local.mu_di_seeds[0]
                     );
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -414,7 +413,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.ele_di_seeds[0]
                     );
         } else {
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -424,11 +423,10 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.lep_sf_iso_di[0],
                     local.ele_di_seeds[0]
                     );
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%d,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
-                    miniAODhelper.GetMuonRelIso(local.mu_di_selected[0],
-                                                coneSize::R04,
-                                                corrType::deltaBeta),
+                    ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
+                                                  corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
                     local.mu_di_selected[0].pdgId(),
                     local.lep_sf_id_di[1],
                     local.lep_sf_iso_di[1],
@@ -441,7 +439,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         local.jets_di_selected_sorted[0].pt(),
         local.jets_di_selected_sorted[0].eta(),
         local.jets_di_selected_sorted[0].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%d,", local.jet1SF_di,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_di,
             local.jet1SF_up_di, local.jet1SF_down_di,
             local.jet1_jesSF_PileUpDataMC_down_di, local.jet1_jesSF_RelativeFSR_up_di, local.jet1_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
@@ -452,7 +450,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         local.jets_di_selected_sorted[1].pt(),
         local.jets_di_selected_sorted[1].eta(),
         local.jets_di_selected_sorted[1].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%d,", local.jet2SF_di,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_di,
             local.jet2SF_up_di, local.jet2SF_down_di,
             local.jet2_jesSF_PileUpDataMC_down_di, local.jet2_jesSF_RelativeFSR_up_di, local.jet2_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
@@ -524,10 +522,10 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     // Using VID
 
     local.e_selected = GetSelectedElectrons(
-        *(handle.electrons_for_mva), min_ele_pT,
+        *(handle.electrons_for_mva), local, min_ele_pT,
         handle.tight_id_decisions, max_ele_eta);
     local.e_veto_selected = GetSelectedElectrons(
-        *(handle.electrons_for_mva), min_veto_ele_pT,
+        *(handle.electrons_for_mva), local, min_veto_ele_pT,
         handle.tight_id_decisions,
 	max_veto_ele_eta);
 
@@ -561,7 +559,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
     //Using VID
 
     local.e_di_selected = GetSelectedElectrons(
-        *(handle.electrons_for_mva), min_di_ele2_pT,
+        *(handle.electrons_for_mva), local, min_di_ele2_pT,
         handle.tight_id_decisions,
 	max_di_ele2_eta);
 
@@ -574,7 +572,7 @@ void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
 }
 
 inline std::vector<pat::Electron>
-CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons, const float iMinPt, const edm::Handle<edm::ValueMap<bool>>& tight_id_decisions, const float iMaxEta){
+CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons, const CU_ttH_EDA_event_vars &local, const float iMinPt, const edm::Handle<edm::ValueMap<bool>>& tight_id_decisions, const float iMaxEta){
 
   std::vector<pat::Electron> selectedElectrons;
   
@@ -593,7 +591,24 @@ CU_ttH_EDA::GetSelectedElectrons(const edm::View<pat::Electron>& inputElectrons,
     bool passesKinematics = false;
     passesKinematics = ((iElectron.pt() >= iMinPt) && (fabs(iElectron.eta()) <= iMaxEta) && !inCrack);
 
-    if(passesKinematics == true && passesID == true )
+    bool passesIPcuts = false;
+    double d0 = -999;
+    double dZ = -999;
+    if( iElectron.gsfTrack().isAvailable() && local.n_prim_V == 1){
+        d0 = fabs(iElectron.gsfTrack()->dxy(prim_vertex.position()));
+        dZ = fabs(iElectron.gsfTrack()->dz(prim_vertex.position()));
+    }
+
+    if(absSCeta < 1.479){
+        if(d0 < 0.05 && dZ < 0.1)
+            passesIPcuts = true;
+    }
+    else {
+        if(d0 < 0.1 && dZ < 0.2)
+            passesIPcuts = true;
+    }
+
+    if(passesKinematics == true && passesID == true && passesIPcuts == true )
         selectedElectrons.push_back(*el);
 
   }
@@ -636,6 +651,7 @@ CU_ttH_EDA::GetSelectedMuons(std::vector<TLorentzVector> & corr_mu, std::vector<
         bool gen_mu_match = false;
         double muon_SF = 1;
         double mu_pT;
+        double rel_iso;
         TLorentzVector TL_mu;
         int nl = 0;
 
@@ -670,9 +686,10 @@ CU_ttH_EDA::GetSelectedMuons(std::vector<TLorentzVector> & corr_mu, std::vector<
 
 
         mu_pT = iMuon.pt() * muon_SF;
+        rel_iso = (miniAODhelper.GetMuonRelIso(iMuon,iconeSize,icorrType)) * (iMuon.pt()/mu_pT);
 
         passesKinematics = ((mu_pT >= iMinPt) && (fabs(iMuon.eta()) <= iMaxEta));
-        passesIso  = (miniAODhelper.GetMuonRelIso(iMuon,iconeSize,icorrType) < iMaxIso);
+        passesIso  = (  rel_iso < iMaxIso);
         passesID = miniAODhelper.passesMuonPOGIdTight(iMuon);
 
         if(passesKinematics == true && passesID == true && passesIso == true) {

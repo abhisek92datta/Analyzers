@@ -187,7 +187,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
                                         edm::Handle<edm::TriggerResults>);
  
     // Lepton operations
-    inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
+    inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const CU_ttH_EDA_event_vars &, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
     inline void GetElectronSeeds(std::vector<unsigned int> &, const std::vector<pat::Electron> &);
     inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<unsigned int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
     
@@ -411,6 +411,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     double pz;
     double py;
     double px;
+
+    //primary vertex
+    reco::Vertex prim_vertex;
 
     // JER
     JME::JetResolution resolution;

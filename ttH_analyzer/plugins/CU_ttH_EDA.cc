@@ -221,6 +221,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     Check_vertices_set_MAODhelper(handle.vertices);
    
     local.n_prim_V = Check_PV(handle.vertices);
+    prim_vertex = *(handle.vertices->begin());
 
     // Setting rho
     auto rho = handle.srcRho;
