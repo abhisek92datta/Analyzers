@@ -478,6 +478,8 @@ if options.isTtbar:
     )
     seq += process.ttHFGenFilter
 
+process.ttHbb.input_tags.ttHFGenFilter = cms.InputTag("ttHFGenFilter")
+
 
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string("ttHbbNtuple.root")

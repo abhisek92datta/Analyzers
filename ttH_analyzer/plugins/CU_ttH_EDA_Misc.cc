@@ -2039,7 +2039,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             id_GH = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "ID_GH");
 
-            local.lep_sf_id_sl.push_back((id_BF*19.710 + id_GH*16.135)/35.845);
+            local.lep_sf_id_sl.push_back((id_BF*19.695 + id_GH*16.226)/35.922);
 
 
             iso_BF = leptonSFhelper.GetMuonSF(
@@ -2047,7 +2047,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             iso_GH = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Iso_SL_GH");
 
-            local.lep_sf_iso_sl.push_back((iso_BF*19.710 + iso_GH*16.135)/35.845);
+            local.lep_sf_iso_sl.push_back((iso_BF*19.695 + iso_GH*16.226)/35.922);
 
             //local.lep_sf_gsf_sl = -1;
             //local.lep_sf_hip_sl = leptonSFhelper.GetMuonSF(local.mu_selected[0].pt(),
@@ -2058,7 +2058,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             trig_GH = leptonSFhelper.GetMuonSF(
                  local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Trigger_GH");
 
-            local.lep_sf_trig_sl = (trig_BF*19.710 + trig_GH*16.135)/35.845;
+            local.lep_sf_trig_sl = (trig_BF*19.695 + trig_GH*16.226)/35.922;
         }
     }
 
@@ -2135,8 +2135,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             id_GH_sublead = leptonSFhelper.GetMuonSF(
                 local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "ID_GH");
 
-            id_lead = (id_BF_lead*19.710 + id_GH_lead*16.135)/35.845;
-            id_sublead = (id_BF_sublead*19.710 + id_GH_sublead*16.135)/35.845;
+            id_lead = (id_BF_lead*19.695 + id_GH_lead*16.226)/35.922;
+            id_sublead = (id_BF_sublead*19.695 + id_GH_sublead*16.226)/35.922;
             local.lep_sf_id_di.push_back(id_lead);
             local.lep_sf_id_di.push_back(id_sublead);
 
@@ -2149,8 +2149,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             iso_GH_sublead = leptonSFhelper.GetMuonSF(
                 local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "Iso_DL_GH");
 
-            iso_lead = (iso_BF_lead*19.710 + iso_GH_lead*16.135)/35.845;
-            iso_sublead = (iso_BF_sublead*19.710 + iso_GH_sublead*16.135)/35.845;
+            iso_lead = (iso_BF_lead*19.695 + iso_GH_lead*16.226)/35.922;
+            iso_sublead = (iso_BF_sublead*19.695 + iso_GH_sublead*16.226)/35.922;
             local.lep_sf_iso_di.push_back(iso_lead);
             local.lep_sf_iso_di.push_back(iso_sublead);
 
@@ -2183,7 +2183,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_BF");
             id_GH = leptonSFhelper.GetMuonSF(
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_GH");
-            mu_id = (id_BF*19.710 + id_GH*16.135)/35.845;
+            mu_id = (id_BF*19.695 + id_GH*16.226)/35.922;
 
             local.lep_sf_id_di.push_back(ele_id);
             local.lep_sf_id_di.push_back(mu_id);
@@ -2197,7 +2197,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_BF");
             iso_GH = leptonSFhelper.GetMuonSF(
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_GH");
-            mu_iso = (iso_BF*19.710 + iso_GH*16.135)/35.845;
+            mu_iso = (iso_BF*19.695 + iso_GH*16.226)/35.922;
 
             local.lep_sf_iso_di.push_back(ele_iso);
             local.lep_sf_iso_di.push_back(mu_iso);

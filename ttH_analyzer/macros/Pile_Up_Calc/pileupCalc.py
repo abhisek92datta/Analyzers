@@ -54,6 +54,7 @@ def MyErf(input):
 def fillPileupHistogram (lumiInfo, calcOption, hist, minbXsec, Nbins):
     '''
     lumiinfo:[intlumi per LS, mean interactions ]
+
     intlumi is the deadtime corrected average integraged lumi per lumisection
     '''
 
@@ -285,4 +286,4 @@ if __name__ == '__main__':
 
     else:
         print "must specify a pileup calculation mode via --calcMode true or --calcMode observed"
-sys.exit()
+        sys.exit()
