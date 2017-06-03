@@ -49,6 +49,7 @@ min_di_met = cfg["Cuts"]["min_di_met"]
 
 using_real_data = cfg["MiniAODhelper"]["using_real_data"]
 dataset = cfg["MiniAODhelper"]["dataset"]
+write_csv = cfg["MiniAODhelper"]["write_csv"]
 
 b_tag_strength = cfg["B_tag"]["b_tag_strength"]
 

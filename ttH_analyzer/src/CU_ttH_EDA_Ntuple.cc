@@ -95,7 +95,8 @@ CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon> &muons, const 
     mu_phi.push_back(muons[0].phi());
     mu_E.push_back(muons[0].energy());
     mu_charge.push_back(muons[0].charge());
-    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04, corrType::deltaBeta));
+    mu_iso.push_back(((miniAODhelper.GetMuonRelIso(muons[0], coneSize::R04,
+                       corrType::deltaBeta)) * (muons[0].pt()/corr_mu[0].Pt())));
     /*
     mu0_jetNDauChargedMVASel = muons[0].userFloat("nearestJetNDauCharged");
     mu0_miniRelIso = muons[0].userFloat("miniIso");
@@ -133,14 +134,16 @@ CU_ttH_EDA_Ntuple::fill_ntuple_muons(const std::vector<pat::Muon> &muons, const 
     mu_phi.push_back(muons[lead].phi());
     mu_E.push_back(muons[lead].energy());
     mu_charge.push_back(muons[lead].charge());
-    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[lead], coneSize::R04, corrType::deltaBeta));
+    mu_iso.push_back(((miniAODhelper.GetMuonRelIso(muons[lead], coneSize::R04,
+                       corrType::deltaBeta)) * (muons[lead].pt()/corr_mu[lead].Pt())));
 
     mu_pt.push_back(corr_mu[sublead].Pt());
     mu_eta.push_back(muons[sublead].eta());
     mu_phi.push_back(muons[sublead].phi());
     mu_E.push_back(muons[sublead].energy());
     mu_charge.push_back(muons[sublead].charge());
-    mu_iso.push_back(miniAODhelper.GetMuonRelIso(muons[sublead], coneSize::R04, corrType::deltaBeta));
+    mu_iso.push_back(((miniAODhelper.GetMuonRelIso(muons[sublead], coneSize::R04,
+                        corrType::deltaBeta)) * (muons[sublead].pt()/corr_mu[sublead].Pt())));
     /*
     mu1_jetNDauChargedMVASel = muons[1].userFloat("nearestJetNDauCharged");
     mu1_miniRelIso = muons[1].userFloat("miniIso");

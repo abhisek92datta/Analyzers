@@ -84,6 +84,7 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
       // miniAODhelper
       isdata(iConfig.getParameter<bool>("using_real_data")),
       dataset(iConfig.getParameter<int>("dataset")),
+      write_csv(iConfig.getParameter<bool>("write_csv")),
       MAODHelper_b_tag_strength(
           iConfig.getParameter<string>("b_tag_strength")[0])
 {
@@ -105,7 +106,8 @@ CU_ttH_EDA::CU_ttH_EDA(const edm::ParameterSet &iConfig)
 
     Set_up_tokens(iConfig.getParameter<edm::ParameterSet>("input_tags"));
     //Set_up_histograms();
-    Set_up_output_files();
+    if(write_csv)
+        Set_up_output_files();
 
     // For Jet Correction
     SetFactorizedJetCorrector();
@@ -138,7 +140,8 @@ CU_ttH_EDA::~CU_ttH_EDA()
     */
     
     rnd.SetSeed(0);
-    Close_output_files();
+    if(write_csv)
+        Close_output_files();
 
     //delete r;
     //delete events_combined;
@@ -310,11 +313,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     /// Check tags, fill ntuple, print events
     if (local.event_selection_SL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
-        Check_Fill_Print_single_lepton(local);
+        if(write_csv)
+            Check_Fill_Print_single_lepton(local);
         hbbNtuple.write_ntuple_SL(local, miniAODhelper);
     } else if (local.event_selection_DL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
-        Check_Fill_Print_di_lepton(local);
+        if(write_csv)
+            Check_Fill_Print_di_lepton(local);
         hbbNtuple.write_ntuple_DL(local, miniAODhelper);
     }
 

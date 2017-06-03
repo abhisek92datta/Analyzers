@@ -1822,12 +1822,15 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     if (!isdata && handle.genTtbarId.isValid())
         local.ttHf_cat = *handle.genTtbarId;
     if(!isdata) {
+        local.ttHFGenFilter = *handle.ttHFGenFilter;
+        /*
         if(*handle.ttHFGenFilter == true)
             local.ttHFGenFilter = 1;
         else
             local.ttHFGenFilter = 0;
+        */
     }
-   
+    
     // Generator Weight
     local.gen_weight = -1;
     if (!isdata)
