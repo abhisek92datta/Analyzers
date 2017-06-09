@@ -7,7 +7,8 @@ config.General.requestName = 'ttH_Analyzer_SingleElectron_Run2016B'
 #config.General.requestName = 'ttH_Analyzer_DoubleElectron_Run2016B'
 #config.General.requestName = 'ttH_Analyzer_ElectronMuon_Run2016B'
 #config.General.requestName = 'ttH_Analyzer_DoubleMuon_Run2016B'
-config.General.workArea = 'crab_projects'
+
+#config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 

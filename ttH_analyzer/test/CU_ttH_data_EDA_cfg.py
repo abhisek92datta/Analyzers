@@ -67,12 +67,12 @@ options.parseArguments()
 #
 # collection placeholders
 #
-electronCollection = cms.InputTag("slimmedElectrons", "", "PAT")
-muonCollection     = cms.InputTag("slimmedMuons", "", "PAT")
-tauCollection      = cms.InputTag("slimmedTaus", "", "PAT")
-photonCollection   = cms.InputTag("slimmedPhotons", "", "PAT")
-METCollection      = cms.InputTag("slimmedMETs", "", "PAT")
-jetCollection      = cms.InputTag("slimmedJets", "", "PAT")
+electronCollection = cms.InputTag("slimmedElectrons", "", "RECO")
+muonCollection     = cms.InputTag("slimmedMuons", "", "RECO")
+tauCollection      = cms.InputTag("slimmedTaus", "", "RECO")
+photonCollection   = cms.InputTag("slimmedPhotons", "", "RECO")
+METCollection      = cms.InputTag("slimmedMETs", "", "RECO")
+jetCollection      = cms.InputTag("slimmedJets", "", "RECO")
 
 
 
@@ -85,20 +85,20 @@ process.source = cms.Source("PoolSource",
    ## Single Electron
    '/store/data/Run2016B/SingleElectron/MINIAOD/23Sep2016-v3/00000/00099863-E799-E611-A876-141877343E6D.root',
    '/store/data/Run2016B/SingleElectron/MINIAOD/23Sep2016-v3/00000/0077B9D8-1E9A-E611-963A-0CC47A57CCE8.root',
-   '/store/data/Run2016C/SingleElectron/MINIAOD/23Sep2016-v1/50000/001B31C0-248C-E611-B7BD-0025905B860E.root',
-   '/store/data/Run2016C/SingleElectron/MINIAOD/23Sep2016-v1/50000/001C375D-098B-E611-9453-0025905B85E8.root',
-   '/store/data/Run2016D/SingleElectron/MINIAOD/23Sep2016-v1/70000/04E8F72C-AF89-E611-9D2F-FA163E1D7951.root',
-   '/store/data/Run2016D/SingleElectron/MINIAOD/23Sep2016-v1/70000/0654EC37-FA8A-E611-820F-FA163E066046.root',
-   '/store/data/Run2016E/SingleElectron/MINIAOD/23Sep2016-v1/100000/00827A71-F98C-E611-9639-0CC47A4D7650.root',
-   '/store/data/Run2016E/SingleElectron/MINIAOD/23Sep2016-v1/100000/008A51FD-AC8C-E611-87AE-008CFA197E84.root',
-   '/store/data/Run2016F/SingleElectron/MINIAOD/23Sep2016-v1/100000/00FFEF1F-EA96-E611-9A24-0090FAA583C4.root',
-   '/store/data/Run2016F/SingleElectron/MINIAOD/23Sep2016-v1/100000/04173AAE-F893-E611-8B11-002590E7D5AE.root',
-   '/store/data/Run2016G/SingleElectron/MINIAOD/23Sep2016-v1/100000/004A7893-A990-E611-B29F-002590E7DE36.root',
-   '/store/data/Run2016G/SingleElectron/MINIAOD/23Sep2016-v1/100000/0083C5D5-968F-E611-B630-7845C4FC35CF.root',
-   '/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v2/000/281/207/00000/989A10BD-6282-E611-975A-02163E011C96.root',
-   '/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v2/000/281/209/00000/884F1086-6382-E611-98D8-02163E0143CB.root',
-   '/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v3/000/284/036/00000/1257A268-599F-E611-A437-02163E011E7A.root',
-   '/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v3/000/284/036/00000/1CBE1DEB-589F-E611-ABBB-02163E0143B5.root'
+   #'/store/data/Run2016C/SingleElectron/MINIAOD/23Sep2016-v1/50000/001B31C0-248C-E611-B7BD-0025905B860E.root',
+   #'/store/data/Run2016C/SingleElectron/MINIAOD/23Sep2016-v1/50000/001C375D-098B-E611-9453-0025905B85E8.root',
+   #'/store/data/Run2016D/SingleElectron/MINIAOD/23Sep2016-v1/70000/04E8F72C-AF89-E611-9D2F-FA163E1D7951.root',
+   #'/store/data/Run2016D/SingleElectron/MINIAOD/23Sep2016-v1/70000/0654EC37-FA8A-E611-820F-FA163E066046.root',
+   #'/store/data/Run2016E/SingleElectron/MINIAOD/23Sep2016-v1/100000/00827A71-F98C-E611-9639-0CC47A4D7650.root',
+   #'/store/data/Run2016E/SingleElectron/MINIAOD/23Sep2016-v1/100000/008A51FD-AC8C-E611-87AE-008CFA197E84.root',
+   #'/store/data/Run2016F/SingleElectron/MINIAOD/23Sep2016-v1/100000/00FFEF1F-EA96-E611-9A24-0090FAA583C4.root',
+   #'/store/data/Run2016F/SingleElectron/MINIAOD/23Sep2016-v1/100000/04173AAE-F893-E611-8B11-002590E7D5AE.root',
+   #'/store/data/Run2016G/SingleElectron/MINIAOD/23Sep2016-v1/100000/004A7893-A990-E611-B29F-002590E7DE36.root',
+   #'/store/data/Run2016G/SingleElectron/MINIAOD/23Sep2016-v1/100000/0083C5D5-968F-E611-B630-7845C4FC35CF.root',
+   #'/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v2/000/281/207/00000/989A10BD-6282-E611-975A-02163E011C96.root',
+   #'/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v2/000/281/209/00000/884F1086-6382-E611-98D8-02163E0143CB.root',
+   #'/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v3/000/284/036/00000/1257A268-599F-E611-A437-02163E011E7A.root',
+   #'/store/data/Run2016H/SingleElectron/MINIAOD/PromptReco-v3/000/284/036/00000/1CBE1DEB-589F-E611-ABBB-02163E0143B5.root'
 
    ## Single Muon
    #'/store/data/Run2016B/SingleMuon/MINIAOD/23Sep2016-v3/00000/00AE0629-1F98-E611-921A-008CFA1112CC.root',
@@ -370,7 +370,7 @@ if options.recorrectMET:
          runOnMiniAOD          = True,
          postfix               = "MuEGClean"
       )
-      process.slimmedMETsMuEGClean = process.slimmedMETsRecorrected.clone(
+      process.slimmedMETsMuEGClean = getattr(process, METCollection.getModuleLabel()).clone(
          src             = cms.InputTag("patPFMetT1MuEGClean"),
          rawVariation    = cms.InputTag("patPFMetRawMuEGClean"),
          t1Uncertainties = cms.InputTag("patPFMetT1%sMuEGClean")
@@ -463,12 +463,11 @@ if options.updatePUJetId:
 process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
 
 # pat object collections
-process.ttHbb.electrons = electronCollection
-process.ttHbb.muons     = muonCollection
-#process.ttHbb.tauCollection      = tauCollection
-#process.ttHbb.photonCollection   = photonCollection
-process.ttHbb.mets      = METCollection
-process.ttHbb.jets     = jetCollection
+process.ttHbb.input_tags.electrons = electronCollection
+process.ttHbb.input_tags.muons     = muonCollection
+process.ttHbb.input_tags.mets      = METCollection
+process.ttHbb.input_tags.jets     = jetCollection
+
 
 #electron VID collections
 #process.ttHbb.electronVIDCollections = cms.VInputTag(

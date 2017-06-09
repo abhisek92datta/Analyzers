@@ -202,7 +202,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     if (!isdata)
         iEvent.getByToken(token.event_gen_info, handle.event_gen_info);
     // for Q2 weight
-    if (!isdata)
+    if (!isdata && !is_OLS)
         iEvent.getByToken(token.lheptoken, handle.EvtHandle);
     // for ttHf categorization
     if (!isdata) {

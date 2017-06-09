@@ -238,8 +238,10 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
     }
     token.puInfoToken = consumes<std::vector<PileupSummaryInfo>>(
         config.getParameter<edm::InputTag>("pileupinfo"));
+    if (!isdata && !is_OLS) {
     token.lheptoken = consumes<LHEEventProduct>(
         config.getParameter<edm::InputTag>("lhepprod"));
+    }
 }
 
 void CU_ttH_EDA::Set_up_Tree()

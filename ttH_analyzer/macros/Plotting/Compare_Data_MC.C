@@ -36,7 +36,7 @@ void Compare_Data_MC() {
 
     // Set Integrated Luminosity
 
-    double L = 35.845; // 1/fb
+    double L = 35.9182; // 1/fb
 
     // List of Histograms
 

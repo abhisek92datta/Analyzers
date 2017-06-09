@@ -251,7 +251,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
             local.is_ee, local.is_emu, local.is_mumu);
     fprintf(events_combined, "%d,%d,", local.n_sl_jets, local.n_sl_btags);
     if (local.n_electrons == 1) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.e_selected[0].pt(),
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,", local.e_selected[0].pt(),
                 local.e_selected[0].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_selected[0],
                                                 coneSize::R03, corrType::rhoEA,
@@ -262,7 +262,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                 local.ele_sl_seeds[0]
                 );
     } else if (local.n_muons == 1) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.corr_mu_sl[0].Pt(),
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,", local.corr_mu_sl[0].Pt(),
                 local.mu_selected[0].eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04,
                                             corrType::deltaBeta)) * (local.mu_selected[0].pt()/local.corr_mu_sl[0].Pt())),
@@ -274,54 +274,54 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
     }
     fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
     fprintf(
-        events_combined, "%.4f,%.4f,%.4f,",
+        events_combined, "%.6f,%.6f,%.6f,",
         local.jets_sl_selected_sorted[0].pt(),
         local.jets_sl_selected_sorted[0].eta(),
         local.jets_sl_selected_sorted[0].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_sl,
+    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet1SF_sl,
             local.jet1SF_up_sl, local.jet1SF_down_sl,
             local.jet1_jesSF_PileUpDataMC_down_sl, local.jet1_jesSF_RelativeFSR_up_sl, local.jet1_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_sl_puid[0], local.jet_sl_pudisc[0], local.jet_sl_seeds[0]
             );
     fprintf(
-        events_combined, "%.4f,%.4f,%.4f,",
+        events_combined, "%.6f,%.6f,%.6f,",
         local.jets_sl_selected_sorted[1].pt(),
         local.jets_sl_selected_sorted[1].eta(),
         local.jets_sl_selected_sorted[1].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_sl,
+    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet2SF_sl,
             local.jet2SF_up_sl, local.jet2SF_down_sl,
             local.jet2_jesSF_PileUpDataMC_down_sl, local.jet2_jesSF_RelativeFSR_up_sl, local.jet2_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_sl_puid[1], local.jet_sl_pudisc[1], local.jet_sl_seeds[1]
             );
-    fprintf(events_combined, "%.4f,%.4f,-1,-1,-1,", local.met_pt_phi_corr, local.met_phi_phi_corr);
+    fprintf(events_combined, "%.6f,%.6f,-1,-1,-1,", local.met_pt_phi_corr, local.met_phi_phi_corr);
     fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
-        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
+        fprintf(events_combined, "%d,%.6f,", local.truenpv, local.PU_weight);
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,", local.b_weight_sl,
                 local.b_weight_sl_lfup, local.b_weight_sl_hfdown, 
                 local.b_weight_sl_cErr1_down);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
+        fprintf(events_combined, "%.6f,%.6f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
     //if (!isdata)
-    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
+    //    fprintf(events_combined, "%.6f,%.6f,", local.q2_weight_up,
     //            local.q2_weight_down);
     //else
         fprintf(events_combined, "-1,-1,");
-    fprintf(events_combined, "%.4f,", local.lep_sf_trig_sl);
+    fprintf(events_combined, "%.6f,", local.lep_sf_trig_sl);
     fprintf(events_combined, "-1,-1,-1,-1\n");
 
     //fprintf(events_combined, "-1,-1,-1,-1\n");
-    //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
+    //fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
@@ -342,7 +342,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         }
 
 
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                 local.e_di_selected[lead].pt(), local.e_di_selected[lead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[lead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -352,7 +352,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.lep_sf_iso_di[0],
                 local.ele_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                 local.e_di_selected[sublead].pt(), local.e_di_selected[sublead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[sublead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -372,7 +372,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
             sublead = 0;
         }
 
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                 local.corr_mu_di[lead].Pt(), local.corr_mu_di[lead].Eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[lead], coneSize::R04,
                                               corrType::deltaBeta)) * (local.mu_di_selected[lead].pt()/local.corr_mu_di[lead].Pt())),
@@ -381,7 +381,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.lep_sf_iso_di[0],
                 local.mu_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                 local.corr_mu_di[sublead].Pt(), local.corr_mu_di[sublead].Eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[sublead], coneSize::R04,
                                               corrType::deltaBeta)) * (local.mu_di_selected[sublead].pt()/local.corr_mu_di[sublead].Pt())),
@@ -393,7 +393,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     } else {
         if (local.corr_mu_di[0].Pt() >
             local.e_di_selected[0].pt()) {
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
                     ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
                                                   corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
@@ -402,7 +402,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.lep_sf_iso_di[1],
                     local.mu_di_seeds[0]
                     );
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -413,7 +413,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.ele_di_seeds[0]
                     );
         } else {
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -423,7 +423,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.lep_sf_iso_di[0],
                     local.ele_di_seeds[0]
                     );
-            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
+            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
                     ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
                                                   corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
@@ -435,55 +435,55 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         }
     }
     fprintf(
-        events_combined, "%.4f,%.4f,%.4f,",
+        events_combined, "%.6f,%.6f,%.6f,",
         local.jets_di_selected_sorted[0].pt(),
         local.jets_di_selected_sorted[0].eta(),
         local.jets_di_selected_sorted[0].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_di,
+    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet1SF_di,
             local.jet1SF_up_di, local.jet1SF_down_di,
             local.jet1_jesSF_PileUpDataMC_down_di, local.jet1_jesSF_RelativeFSR_up_di, local.jet1_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_di_puid[0], local.jet_di_pudisc[0], local.jet_di_seeds[0]
             );
     fprintf(
-        events_combined, "%.4f,%.4f,%.4f,",
+        events_combined, "%.6f,%.6f,%.6f,",
         local.jets_di_selected_sorted[1].pt(),
         local.jets_di_selected_sorted[1].eta(),
         local.jets_di_selected_sorted[1].phi());
-    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_di,
+    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet2SF_di,
             local.jet2SF_up_di, local.jet2SF_down_di,
             local.jet2_jesSF_PileUpDataMC_down_di, local.jet2_jesSF_RelativeFSR_up_di, local.jet2_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_di_puid[1], local.jet_di_pudisc[1], local.jet_di_seeds[1]
             );
-    fprintf(events_combined, "%.4f,%.4f,-1,-1,%.4f,", local.met_pt_phi_corr, local.met_phi_phi_corr,
+    fprintf(events_combined, "%.6f,%.6f,-1,-1,%.6f,", local.met_pt_phi_corr, local.met_phi_phi_corr,
             local.mll);  
     fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
-        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
+        fprintf(events_combined, "%d,%.6f,", local.truenpv, local.PU_weight);
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
+        fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
                 local.b_weight_di_cErr1_down);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
+        fprintf(events_combined, "%.6f,%.6f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
     //if (!isdata)
-    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
+    //    fprintf(events_combined, "%.6f,%.6f,", local.q2_weight_up,
     //            local.q2_weight_down);
     //else
         fprintf(events_combined, "-1,-1,");
-    fprintf(events_combined, "%.4f,", local.lep_sf_trig_di);
+    fprintf(events_combined, "%.6f,", local.lep_sf_trig_di);
     fprintf(events_combined, "-1,-1,-1,-1\n");
 
     //fprintf(events_combined, "-1,-1,-1,-1\n");
-    //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
+    //fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
@@ -1845,7 +1845,7 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
         local.PU_weight = getPUweight(handle.PupInfo, local);
 
     // Q2 Weight
-    if (!isdata) {
+    if (!isdata && !is_OLS){
         local.q2_weight_up =
             getQ2weight(handle.event_gen_info, handle.EvtHandle, "1005");
         local.q2_weight_down =
@@ -2039,7 +2039,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             id_GH = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "ID_GH");
 
-            local.lep_sf_id_sl.push_back((id_BF*19.695 + id_GH*16.226)/35.922);
+            local.lep_sf_id_sl.push_back((id_BF*19.692 + id_GH*16.226)/35.918);
 
 
             iso_BF = leptonSFhelper.GetMuonSF(
@@ -2047,7 +2047,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             iso_GH = leptonSFhelper.GetMuonSF(
                 local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Iso_SL_GH");
 
-            local.lep_sf_iso_sl.push_back((iso_BF*19.695 + iso_GH*16.226)/35.922);
+            local.lep_sf_iso_sl.push_back((iso_BF*19.692 + iso_GH*16.226)/35.918);
 
             //local.lep_sf_gsf_sl = -1;
             //local.lep_sf_hip_sl = leptonSFhelper.GetMuonSF(local.mu_selected[0].pt(),
@@ -2058,7 +2058,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             trig_GH = leptonSFhelper.GetMuonSF(
                  local.mu_selected[0].pt(), local.mu_selected[0].eta(), 0, "Trigger_GH");
 
-            local.lep_sf_trig_sl = (trig_BF*19.695 + trig_GH*16.226)/35.922;
+            local.lep_sf_trig_sl = (trig_BF*19.692 + trig_GH*16.226)/35.918;
         }
     }
 
@@ -2135,8 +2135,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             id_GH_sublead = leptonSFhelper.GetMuonSF(
                 local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "ID_GH");
 
-            id_lead = (id_BF_lead*19.695 + id_GH_lead*16.226)/35.922;
-            id_sublead = (id_BF_sublead*19.695 + id_GH_sublead*16.226)/35.922;
+            id_lead = (id_BF_lead*19.692 + id_GH_lead*16.226)/35.918;
+            id_sublead = (id_BF_sublead*19.692 + id_GH_sublead*16.226)/35.918;
             local.lep_sf_id_di.push_back(id_lead);
             local.lep_sf_id_di.push_back(id_sublead);
 
@@ -2149,8 +2149,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
             iso_GH_sublead = leptonSFhelper.GetMuonSF(
                 local.mu_di_selected[sublead].pt(), local.mu_di_selected[sublead].eta(), 0, "Iso_DL_GH");
 
-            iso_lead = (iso_BF_lead*19.695 + iso_GH_lead*16.226)/35.922;
-            iso_sublead = (iso_BF_sublead*19.695 + iso_GH_sublead*16.226)/35.922;
+            iso_lead = (iso_BF_lead*19.692 + iso_GH_lead*16.226)/35.918;
+            iso_sublead = (iso_BF_sublead*19.692 + iso_GH_sublead*16.226)/35.918;
             local.lep_sf_iso_di.push_back(iso_lead);
             local.lep_sf_iso_di.push_back(iso_sublead);
 
@@ -2183,7 +2183,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_BF");
             id_GH = leptonSFhelper.GetMuonSF(
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "ID_GH");
-            mu_id = (id_BF*19.695 + id_GH*16.226)/35.922;
+            mu_id = (id_BF*19.692 + id_GH*16.226)/35.918;
 
             local.lep_sf_id_di.push_back(ele_id);
             local.lep_sf_id_di.push_back(mu_id);
@@ -2197,7 +2197,7 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_BF");
             iso_GH = leptonSFhelper.GetMuonSF(
                  local.mu_di_selected[0].pt(), local.mu_di_selected[0].eta(), 0, "Iso_DL_GH");
-            mu_iso = (iso_BF*19.695 + iso_GH*16.226)/35.922;
+            mu_iso = (iso_BF*19.692 + iso_GH*16.226)/35.918;
 
             local.lep_sf_iso_di.push_back(ele_iso);
             local.lep_sf_iso_di.push_back(mu_iso);

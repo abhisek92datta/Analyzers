@@ -57,7 +57,7 @@ ttHbb =  cms.EDAnalyzer('CU_ttH_EDA',
         using_real_data = cms.bool(using_real_data),
         dataset = cms.int32(dataset),
         write_csv = cms.bool(write_csv),
-        ## available choices '-': none, 'L': loose, 'M': medium, 'T': tight
+        is_OLS = cms.bool(is_OLS),
         b_tag_strength = cms.string(b_tag_strength),
                           
         # InputTags

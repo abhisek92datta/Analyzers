@@ -10,7 +10,8 @@ config.General.requestName = 'ttH_Analyzer_tthbb'
 #config.General.requestName = 'ttH_Analyzer_ttjets_pp_dl'
 #config.General.requestName = 'ttH_Analyzer_ttjets_pp_sl_hf'
 #config.General.requestName = 'ttH_Analyzer_ttjets_pp_dl_hf'
-config.General.workArea = 'crab_projects'
+
+#config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 

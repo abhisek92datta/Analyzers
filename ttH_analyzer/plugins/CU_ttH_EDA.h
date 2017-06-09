@@ -442,6 +442,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     bool isdata;
     int dataset;
     bool write_csv;
+    bool is_OLS;
     char MAODHelper_b_tag_strength;
     int MAODHelper_sample_nr; // past insample_, in-development var. for
                               // MAODHelper?

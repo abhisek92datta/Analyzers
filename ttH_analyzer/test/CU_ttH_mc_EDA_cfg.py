@@ -286,7 +286,7 @@ if options.recorrectMET:
            runOnMiniAOD          = True,
            postfix               = "MuEGClean"
         )
-        process.slimmedMETsMuEGClean = process.slimmedMETsRecorrected.clone(
+        process.slimmedMETsMuEGClean = getattr(process, METCollection.getModuleLabel()).clone(
            src             = cms.InputTag("patPFMetT1MuEGClean"),
            rawVariation    = cms.InputTag("patPFMetRawMuEGClean"),
            t1Uncertainties = cms.InputTag("patPFMetT1%sMuEGClean")
