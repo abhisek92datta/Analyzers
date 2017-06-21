@@ -29,11 +29,13 @@
 void Gen_weight( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     int N_total = 0;
+    int N_sel = 0;
 
     double sum_gen_weights = 0;
 
     // input filename
-	std::string treefilename = "ttHbbNtuple.root";
+    //std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
+    std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/ttbb_4FS_OpenLoops_13TeV-sherpa/ttH_Analyzer_ttjets_ol/170606_013446/0000/ttHbbNtuple*.root";
 	
 	TChain *chain = new TChain("ttHbb/eventTree");
 
@@ -48,8 +50,12 @@ void Gen_weight( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   	if( jobN==1 ) firstEvent = 0;
  
     double gen_weight;
+    int ttHFGenFilter;
+    int n_lep;
 
+    chain->SetBranchAddress("n_lep", &n_lep );
     chain->SetBranchAddress("gen_weight", &gen_weight );
+    chain->SetBranchAddress("ttHFGenFilter", &ttHFGenFilter );
 
 	std::cout << "========  Starting Event Loop  ========" << std::endl;
  	for (Long64_t ievt=0; ievt<chain->GetEntries();ievt++) {   
@@ -67,16 +73,21 @@ void Gen_weight( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		chain->GetEntry(ievt);
 
-
         sum_gen_weights = sum_gen_weights + gen_weight;
-        
+
+        if(ttHFGenFilter!=1)
+            continue;
+
+        if(n_lep==1 || n_lep==2)
+            N_sel++;
 
 
 	}   
 
     std::cout << " Done! " << std::endl;
  	std::cout<<"**********************************************************************************************\n";
-    std::cout<<"Total No. of events : "<<N_total<<"\n";   
+    std::cout<<"Total No. of events : "<<N_total<<"\n";
+    std::cout<<"Total No. of selected events : "<<N_sel<<"\n";
     std::cout<<"Sum of Generator weights of all Events: "<<sum_gen_weights<<"\n";
     std::cout<<"**********************************************************************************************\n";
     

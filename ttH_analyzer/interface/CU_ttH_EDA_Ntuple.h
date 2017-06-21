@@ -58,6 +58,9 @@ public:
   int npv;
   int ttHf_cat;
   int ttHFGenFilter;
+  int SL_tag;
+  int DL_tag;
+  int FH_tag;
 
   int n_ele;
   int n_mu;

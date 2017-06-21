@@ -135,6 +135,9 @@ struct CU_ttH_EDA_event_vars {
   int ttHf_cat;
   int ttHFGenFilter;
   int truenpv;
+  int SL_tag;
+  int DL_tag;
+  int FH_tag;
 
   double MHT;
   double metLD;

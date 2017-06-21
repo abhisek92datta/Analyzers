@@ -43,7 +43,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     int isttbar = 0;  // Set 1 for ttbar datasets
 
     // input filename
-	std::string treefilename = "ttHbbNtuple.root";
+	//std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
+    std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/ttbb_4FS_OpenLoops_13TeV-sherpa/ttH_Analyzer_ttjets_ol/170606_013446/0000/ttHbbNtuple*.root";
 
 	std::string histofilename = "Distribution.root";
 	
@@ -308,6 +309,10 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             std::cout<<ttHf_cat<<","<<npv<<","<<PU_weight<<","<<b_weight<<","<<pdf_weight_up<<","<<pdf_weight_down<<","<<lep_sf_trig<<"\n\n";
         }
         */
+
+        // for taking tt jets hf filtered events only
+        //if(ttHFGenFilter!=1)
+        //    continue;
 
         sum_gen_weights = sum_gen_weights + gen_weight;
 

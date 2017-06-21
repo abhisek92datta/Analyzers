@@ -22,7 +22,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
 
   npv = local.truenpv;
   ttHf_cat = local.ttHf_cat;
-  ttHFGenFilter = local.ttHFGenFilter;
+  SL_tag = local.SL_tag;
+  DL_tag = local.DL_tag;
+  FH_tag = local.FH_tag;
 
   n_ele = local.n_electrons;
   n_mu = local.n_muons;
@@ -60,7 +62,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
 
   npv = local.truenpv;
   ttHf_cat = local.ttHf_cat;
-  ttHFGenFilter = local.ttHFGenFilter;
+  SL_tag = local.SL_tag;
+  DL_tag = local.DL_tag;
+  FH_tag = local.FH_tag;
 
   // Muons
   fill_ntuple_muons(local.mu_di_selected, local.corr_mu_di, miniAODhelper);
@@ -356,6 +360,9 @@ void CU_ttH_EDA_Ntuple::initialize() {
   npv = -9999;
   ttHf_cat = -9999;
   ttHFGenFilter = -9999;
+  SL_tag = -9999;
+  DL_tag = -9999;
+  FH_tag = -9999;
 
   n_ele = -9999;
   n_mu = -9999;
@@ -503,6 +510,10 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("npv", &npv);
   tree->Branch("ttHf_cat", &ttHf_cat);
   tree->Branch("ttHFGenFilter", &ttHFGenFilter);
+  tree->Branch("SL_tag", &SL_tag);
+  tree->Branch("DL_tag", &DL_tag);
+  tree->Branch("FH_tag", &FH_tag);
+
 
   tree->Branch("n_ele", &n_ele);
   tree->Branch("n_mu", &n_mu);

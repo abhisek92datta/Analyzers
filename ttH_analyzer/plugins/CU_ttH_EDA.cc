@@ -176,11 +176,11 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     local.isdata = isdata;
 
-    /*
-    if (local.event_nr != 3178568)
-    	return;
-    std::cout<<event_count<<"\n\n";
-    */
+
+    //if (local.event_nr != 315602 && local.event_nr != 315735)
+    //	return;
+    //std::cout<<local.event_nr<<"    "<<event_count<<"\n\n";
+
 
     /// Create and set up edm:Handles in stack mem.
     edm_Handles handle;
@@ -310,6 +310,26 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     else
         hbbNtuple.gen_weight = 1;
 
+    local.ttHFGenFilter = -1;
+    if(!isdata) {
+        local.ttHFGenFilter = *handle.ttHFGenFilter;
+    }
+    hbbNtuple.ttHFGenFilter = local.ttHFGenFilter;
+
+    //SL, DL and FH tagger
+    if (!isdata)
+        Lepton_Tag(*(handle.electrons), *(handle.muons), local);
+    else {
+        local.SL_tag = -1;
+        local.DL_tag = -1;
+        local.FH_tag = -1;
+    }
+    gen_SL_count = gen_SL_count + local.SL_tag;
+    gen_DL_count = gen_DL_count + local.DL_tag;
+    gen_FH_count = gen_FH_count + local.FH_tag;
+    gen_tot_count = gen_SL_count + gen_DL_count + gen_FH_count;
+
+
     /// Check tags, fill ntuple, print events
     if (local.event_selection_SL != 0) {
         Fill_addn_quant(local, iEvent, iSetup, *rho, handle);
@@ -337,6 +357,7 @@ void CU_ttH_EDA::beginJob()
     event_count = 0;
     selection_count = 0;
     sl_e = sl_mu = dl_ee = dl_emu = dl_mumu = 0;
+    gen_SL_count = gen_DL_count = gen_FH_count = gen_tot_count = 0;
 }
 
 // ------------ method called once each job just after ending the event loop
@@ -446,7 +467,17 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
     std::cout
         << "***************************************************************"
         << std::endl;
-    std::cout << "  Total number of events = " << event_count << std::endl;
+    std::cout << "Total number of events = " << event_count << std::endl;
+    std::cout
+        << "***************************************************************"
+        << std::endl;
+    std::cout
+        << "***************************************************************"
+        << std::endl;
+    std::cout << "Total number of SL tagged events = " << gen_SL_count << std::endl;
+    std::cout << "Total number of DL tagged events = " << gen_DL_count << std::endl;
+    std::cout << "Total number of FH tagged events = " << gen_FH_count << std::endl;
+    std::cout << "Total number of tagged events = " << gen_tot_count << std::endl;
     std::cout
         << "***************************************************************"
         << std::endl;

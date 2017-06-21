@@ -251,7 +251,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
             local.is_ee, local.is_emu, local.is_mumu);
     fprintf(events_combined, "%d,%d,", local.n_sl_jets, local.n_sl_btags);
     if (local.n_electrons == 1) {
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,", local.e_selected[0].pt(),
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.e_selected[0].pt(),
                 local.e_selected[0].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_selected[0],
                                                 coneSize::R03, corrType::rhoEA,
@@ -262,7 +262,7 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
                 local.ele_sl_seeds[0]
                 );
     } else if (local.n_muons == 1) {
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,", local.corr_mu_sl[0].Pt(),
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,", local.corr_mu_sl[0].Pt(),
                 local.mu_selected[0].eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_selected[0], coneSize::R04,
                                             corrType::deltaBeta)) * (local.mu_selected[0].pt()/local.corr_mu_sl[0].Pt())),
@@ -274,54 +274,54 @@ void CU_ttH_EDA::Check_Fill_Print_single_lepton(
     }
     fprintf(events_combined, "-1,-1,-1,-1,-1,-1,-1,");
     fprintf(
-        events_combined, "%.6f,%.6f,%.6f,",
+        events_combined, "%.4f,%.4f,%.4f,",
         local.jets_sl_selected_sorted[0].pt(),
         local.jets_sl_selected_sorted[0].eta(),
         local.jets_sl_selected_sorted[0].phi());
-    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet1SF_sl,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_sl,
             local.jet1SF_up_sl, local.jet1SF_down_sl,
             local.jet1_jesSF_PileUpDataMC_down_sl, local.jet1_jesSF_RelativeFSR_up_sl, local.jet1_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_sl_puid[0], local.jet_sl_pudisc[0], local.jet_sl_seeds[0]
             );
     fprintf(
-        events_combined, "%.6f,%.6f,%.6f,",
+        events_combined, "%.4f,%.4f,%.4f,",
         local.jets_sl_selected_sorted[1].pt(),
         local.jets_sl_selected_sorted[1].eta(),
         local.jets_sl_selected_sorted[1].phi());
-    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet2SF_sl,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_sl,
             local.jet2SF_up_sl, local.jet2SF_down_sl,
             local.jet2_jesSF_PileUpDataMC_down_sl, local.jet2_jesSF_RelativeFSR_up_sl, local.jet2_jerSF_nominal_sl,
             miniAODhelper.GetJetCSV(local.jets_sl_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_sl_puid[1], local.jet_sl_pudisc[1], local.jet_sl_seeds[1]
             );
-    fprintf(events_combined, "%.6f,%.6f,-1,-1,-1,", local.met_pt_phi_corr, local.met_phi_phi_corr);
+    fprintf(events_combined, "%.4f,%.4f,-1,-1,-1,", local.met_pt_phi_corr, local.met_phi_phi_corr);
     fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
-        fprintf(events_combined, "%d,%.6f,", local.truenpv, local.PU_weight);
+        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,", local.b_weight_sl,
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_sl,
                 local.b_weight_sl_lfup, local.b_weight_sl_hfdown, 
                 local.b_weight_sl_cErr1_down);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.6f,%.6f,", local.pdf_weight_up,
+        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
     //if (!isdata)
-    //    fprintf(events_combined, "%.6f,%.6f,", local.q2_weight_up,
+    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
     //            local.q2_weight_down);
     //else
         fprintf(events_combined, "-1,-1,");
-    fprintf(events_combined, "%.6f,", local.lep_sf_trig_sl);
+    fprintf(events_combined, "%.4f,", local.lep_sf_trig_sl);
     fprintf(events_combined, "-1,-1,-1,-1\n");
 
     //fprintf(events_combined, "-1,-1,-1,-1\n");
-    //fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
+    //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
@@ -342,7 +342,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         }
 
 
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.e_di_selected[lead].pt(), local.e_di_selected[lead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[lead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -352,7 +352,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.lep_sf_iso_di[0],
                 local.ele_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.e_di_selected[sublead].pt(), local.e_di_selected[sublead].eta(),
                 miniAODhelper.GetElectronRelIso(local.e_di_selected[sublead],
                                                 coneSize::R03, corrType::rhoEA,
@@ -372,7 +372,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
             sublead = 0;
         }
 
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.corr_mu_di[lead].Pt(), local.corr_mu_di[lead].Eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[lead], coneSize::R04,
                                               corrType::deltaBeta)) * (local.mu_di_selected[lead].pt()/local.corr_mu_di[lead].Pt())),
@@ -381,7 +381,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                 local.lep_sf_iso_di[0],
                 local.mu_di_seeds[lead]
                 );
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                 local.corr_mu_di[sublead].Pt(), local.corr_mu_di[sublead].Eta(),
                 ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[sublead], coneSize::R04,
                                               corrType::deltaBeta)) * (local.mu_di_selected[sublead].pt()/local.corr_mu_di[sublead].Pt())),
@@ -393,7 +393,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
     } else {
         if (local.corr_mu_di[0].Pt() >
             local.e_di_selected[0].pt()) {
-            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
                     ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
                                                   corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
@@ -402,7 +402,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.lep_sf_iso_di[1],
                     local.mu_di_seeds[0]
                     );
-            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -413,7 +413,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.ele_di_seeds[0]
                     );
         } else {
-            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.e_di_selected[0].pt(), local.e_di_selected[0].eta(),
                     miniAODhelper.GetElectronRelIso(
                         local.e_di_selected[0], coneSize::R03,
@@ -423,7 +423,7 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
                     local.lep_sf_iso_di[0],
                     local.ele_di_seeds[0]
                     );
-            fprintf(events_combined, "%.6f,%.6f,%.6f,%d,%.6f,%.6f,%u,",
+            fprintf(events_combined, "%.4f,%.4f,%.4f,%d,%.4f,%.4f,%u,",
                     local.corr_mu_di[0].Pt(), local.corr_mu_di[0].Eta(),
                     ((miniAODhelper.GetMuonRelIso(local.mu_di_selected[0], coneSize::R04,
                                                   corrType::deltaBeta)) * (local.mu_di_selected[0].pt()/local.corr_mu_di[0].Pt())),
@@ -435,55 +435,55 @@ void CU_ttH_EDA::Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &local)
         }
     }
     fprintf(
-        events_combined, "%.6f,%.6f,%.6f,",
+        events_combined, "%.4f,%.4f,%.4f,",
         local.jets_di_selected_sorted[0].pt(),
         local.jets_di_selected_sorted[0].eta(),
         local.jets_di_selected_sorted[0].phi());
-    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet1SF_di,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet1SF_di,
             local.jet1SF_up_di, local.jet1SF_down_di,
             local.jet1_jesSF_PileUpDataMC_down_di, local.jet1_jesSF_RelativeFSR_up_di, local.jet1_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[0],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_di_puid[0], local.jet_di_pudisc[0], local.jet_di_seeds[0]
             );
     fprintf(
-        events_combined, "%.6f,%.6f,%.6f,",
+        events_combined, "%.4f,%.4f,%.4f,",
         local.jets_di_selected_sorted[1].pt(),
         local.jets_di_selected_sorted[1].eta(),
         local.jets_di_selected_sorted[1].phi());
-    fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%.6f,%u,", local.jet2SF_di,
+    fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%d,%.4f,%u,", local.jet2SF_di,
             local.jet2SF_up_di, local.jet2SF_down_di,
             local.jet2_jesSF_PileUpDataMC_down_di, local.jet2_jesSF_RelativeFSR_up_di, local.jet2_jerSF_nominal_di,
             miniAODhelper.GetJetCSV(local.jets_di_selected_sorted[1],"pfCombinedInclusiveSecondaryVertexV2BJetTags"),
             local.jet_di_puid[1], local.jet_di_pudisc[1], local.jet_di_seeds[1]
             );
-    fprintf(events_combined, "%.6f,%.6f,-1,-1,%.6f,", local.met_pt_phi_corr, local.met_phi_phi_corr,
+    fprintf(events_combined, "%.4f,%.4f,-1,-1,%.4f,", local.met_pt_phi_corr, local.met_phi_phi_corr,
             local.mll);  
     fprintf(events_combined, "%d,%d,", local.ttHf_cat, local.ttHFGenFilter);
     if (!isdata)
-        fprintf(events_combined, "%d,%.6f,", local.truenpv, local.PU_weight);
+        fprintf(events_combined, "%d,%.4f,", local.truenpv, local.PU_weight);
     else
         fprintf(events_combined, "-1,-1,");
     if (!isdata) {
-        fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,", local.b_weight_di,
+        fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,", local.b_weight_di,
                 local.b_weight_di_lfup, local.b_weight_di_hfdown, 
                 local.b_weight_di_cErr1_down);
     } else
         fprintf(events_combined, "-1,-1,-1,-1,");
     if (!isdata)
-        fprintf(events_combined, "%.6f,%.6f,", local.pdf_weight_up,
+        fprintf(events_combined, "%.4f,%.4f,", local.pdf_weight_up,
                 local.pdf_weight_down);
     else
         fprintf(events_combined, "-1,-1,");
     //if (!isdata)
-    //    fprintf(events_combined, "%.6f,%.6f,", local.q2_weight_up,
+    //    fprintf(events_combined, "%.4f,%.4f,", local.q2_weight_up,
     //            local.q2_weight_down);
     //else
         fprintf(events_combined, "-1,-1,");
-    fprintf(events_combined, "%.6f,", local.lep_sf_trig_di);
+    fprintf(events_combined, "%.4f,", local.lep_sf_trig_di);
     fprintf(events_combined, "-1,-1,-1,-1\n");
 
     //fprintf(events_combined, "-1,-1,-1,-1\n");
-    //fprintf(events_combined, "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
+    //fprintf(events_combined, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",local.bjetnessFV_num_leps, local.bjetnessFV_npvTrkOVcollTrk, local.bjetnessFV_avip3d_val, local.bjetnessFV_avip3d_sig, local.bjetnessFV_avsip3d_sig, local.bjetnessFV_avip1d_sig);
 }
 
 void CU_ttH_EDA::Select_Leptons(CU_ttH_EDA_event_vars &local,
@@ -1813,26 +1813,15 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
         getbweight(local);
 
     // to get Lepton ID, Iso and Trigger SFs
-    if(!isdata)
-        getLeptonSF(local);
+    getLeptonSF(local);
 
     // ttHf Category
     local.ttHf_cat = -1;
-    local.ttHFGenFilter = -1;
     if (!isdata && handle.genTtbarId.isValid())
         local.ttHf_cat = *handle.genTtbarId;
-    if(!isdata) {
-        local.ttHFGenFilter = *handle.ttHFGenFilter;
-        /*
-        if(*handle.ttHFGenFilter == true)
-            local.ttHFGenFilter = 1;
-        else
-            local.ttHFGenFilter = 0;
-        */
-    }
-    
+
     // Generator Weight
-    local.gen_weight = -1;
+    local.gen_weight = 1;
     if (!isdata)
     	local.gen_weight = handle.event_gen_info->weight();
 
@@ -1860,6 +1849,136 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
     }
 }
+
+void
+CU_ttH_EDA::Lepton_Tag(const std::vector<pat::Electron> &electrons, const std::vector<pat::Muon> &muons , CU_ttH_EDA_event_vars &local)
+{
+
+    local.SL_tag = 0;
+    local.DL_tag = 0;
+    local.FH_tag = 0;
+
+    int genid_eminus = 11;
+    int genid_eplus = -11;
+    int genid_muminus = 13;
+    int genid_muplus = -13;
+    int genid_t = 6;
+    int genid_tbar = -6;
+    int genid_Wplus = 24;
+    int genid_Wminus = -24;
+    int genid_tauplus = 15;
+    int genid_tauminus = -15;
+
+    int n_mu = 0;
+    int n_ele = 0;
+    int n_lep = 0;
+
+    //std::cout<<"Muons : \n\n";
+    for( std::vector<pat::Muon>::const_iterator mu = muons.begin(), ed = muons.end(); mu != ed; ++mu ){
+
+        int genId, genParentId, genGrandParentId, genGreatGrandParentId, genGreatGreatGrandParentId;
+        genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;
+        if( (mu->genLepton()) ){
+            genId = mu->genLepton()->pdgId();
+            if( mu->genLepton()->numberOfMothers()>=1 ){
+                genParentId = mu->genLepton()->mother(0)->pdgId();
+                if( mu->genLepton()->mother(0)->numberOfMothers()>=1 ){
+                    genGrandParentId = mu->genLepton()->mother(0)->mother(0)->pdgId();
+                    if( mu->genLepton()->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                        genGreatGrandParentId = mu->genLepton()->mother(0)->mother(0)->mother(0)->pdgId();
+                        if( mu->genLepton()->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                            genGreatGreatGrandParentId = mu->genLepton()->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+                        }
+                    }
+                }
+            }
+        }
+
+        //std::cout<<"GenId :  "<<genId<<"  GenParentId :  "<<genParentId<<"  GenGrandParentId :  "<<genGrandParentId<<" GreatGrandParentId :  "<<genGreatGrandParentId<<"  GreatGreatGrandParentId : "<<genGreatGreatGrandParentId<<"\n\n";
+
+        if(genId == genid_muminus && genParentId == genid_muminus){
+            if(genGrandParentId == genid_Wminus) {
+                if(genGreatGrandParentId == genid_tbar)
+                    n_mu++;
+                else if(genGreatGrandParentId == genid_Wminus){
+                    if(genGreatGreatGrandParentId == genid_tbar)
+                        n_mu++;
+                }
+            }
+        }
+        else if(genId == genid_muplus && genParentId == genid_muplus){
+            if(genGrandParentId == genid_Wplus){
+                if(genGreatGrandParentId == genid_t)
+                    n_mu++;
+                else if(genGreatGrandParentId == genid_Wplus){
+                    if(genGreatGreatGrandParentId == genid_t)
+                        n_mu++;
+                }
+            }
+        }
+
+    }
+
+    //std::cout<<"Electrons : \n\n";
+    for( std::vector<pat::Electron>::const_iterator ele = electrons.begin(), ed = electrons.end(); ele != ed; ++ele ){
+
+        int genId, genParentId, genGrandParentId, genGreatGrandParentId, genGreatGreatGrandParentId;
+        genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;
+        if( (ele->genLepton()) ){
+            genId = ele->genLepton()->pdgId();
+            if( ele->genLepton()->numberOfMothers()>=1 ){
+                genParentId = ele->genLepton()->mother(0)->pdgId();
+                if( ele->genLepton()->mother(0)->numberOfMothers()>=1 ){
+                    genGrandParentId = ele->genLepton()->mother(0)->mother(0)->pdgId();
+                    if( ele->genLepton()->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                        genGreatGrandParentId = ele->genLepton()->mother(0)->mother(0)->mother(0)->pdgId();
+                        if( ele->genLepton()->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                            genGreatGreatGrandParentId = ele->genLepton()->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+                        }
+                    }
+                }
+            }
+        }
+
+        //std::cout<<"GenId :  "<<genId<<"  GenParentId :  "<<genParentId<<"  GenGrandParentId :  "<<genGrandParentId<<" GreatGrandParentId :  "<<genGreatGrandParentId<<"  GreatGreatGrandParentId : "<<genGreatGreatGrandParentId<<"\n\n";
+
+        if(genId == genid_eminus && genParentId == genid_eminus){
+            if(genGrandParentId == genid_Wminus) {
+                if(genGreatGrandParentId == genid_tbar)
+                    n_ele++;
+                else if(genGreatGrandParentId == genid_Wminus){
+                    if(genGreatGreatGrandParentId == genid_tbar)
+                        n_ele++;
+                }
+            }
+        }
+        else if(genId == genid_eplus && genParentId == genid_eplus){
+            if(genGrandParentId == genid_Wplus){
+                if(genGreatGrandParentId == genid_t)
+                    n_ele++;
+                else if(genGreatGrandParentId == genid_Wplus){
+                    if(genGreatGreatGrandParentId == genid_t)
+                        n_ele++;
+                }
+            }
+        }
+
+    }
+
+    n_lep = n_mu + n_ele;
+
+    if(n_lep==0)
+        local.FH_tag = 1;
+    else if(n_lep==1)
+        local.SL_tag = 1;
+    else if(n_lep==2)
+        local.DL_tag = 1;
+
+
+    //std::cout<<"nleptons:  "<<n_lep<<"  SL : "<<local.SL_tag<<"  DL : "<<local.DL_tag<<"  FH : "<<local.FH_tag<<"\n\n";
+
+}
+
 
 inline void CU_ttH_EDA::getjetSF(CU_ttH_EDA_event_vars &local, const double &rho, const edm_Handles &handle)
 {
@@ -2009,7 +2128,11 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 
     if (local.event_selection_SL != 0) {
 
-        if (local.is_e) {
+        if(isdata){
+            local.lep_sf_id_sl.push_back(-1);
+            local.lep_sf_iso_sl.push_back(-1);
+        }
+        else if (local.is_e) {
 
             local.lep_sf_id_sl.push_back(leptonSFhelper.GetElectronSF(
                 local.e_selected[0].userFloat("ptBeforeRun2Calibration"),
@@ -2028,7 +2151,8 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
                 local.e_selected[0].userFloat("ptBeforeRun2Calibration"),
                 local.e_selected[0].superCluster()->position().eta(), 0, "Trigger");
 
-        } else if (local.is_mu) {
+        }
+        else if (local.is_mu) {
 
             double id_BF, id_GH;
             double iso_BF, iso_GH;
@@ -2064,7 +2188,14 @@ inline void CU_ttH_EDA::getLeptonSF(CU_ttH_EDA_event_vars &local)
 
     if (local.event_selection_DL != 0) {
 
-        if (local.is_ee) {
+        if(isdata){
+            local.lep_sf_id_di.push_back(-1);
+            local.lep_sf_id_di.push_back(-1);
+            local.lep_sf_iso_di.push_back(-1);
+            local.lep_sf_iso_di.push_back(-1);
+        }
+
+        else if (local.is_ee) {
 
             int lead = 0;
             int sublead = 1;
