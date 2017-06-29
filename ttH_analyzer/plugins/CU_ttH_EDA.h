@@ -190,7 +190,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline std::vector<pat::Electron> GetSelectedElectrons(const edm::View<pat::Electron>&, const CU_ttH_EDA_event_vars &, const float, const edm::Handle<edm::ValueMap<bool>>& , const float = 2.4);
     inline void GetElectronSeeds(std::vector<unsigned int> &, const std::vector<pat::Electron> &);
     inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<unsigned int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
-    void Lepton_Tag(const std::vector<pat::Electron> &, const std::vector<pat::Muon> & , CU_ttH_EDA_event_vars &);
+    void Lepton_Tag(const std::vector<reco::GenParticle> & , CU_ttH_EDA_event_vars &);
+    inline void find_link(const reco::GenParticle &, const int &);
+    inline int find_id(const int &, const int &);
 
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
@@ -457,6 +459,9 @@ class CU_ttH_EDA : public edm::EDAnalyzer
 
     int PU_x[100];
     double PU_y[100];
+
+    // Generator Info
+    int gen_id_list[100];
 
     TRandom3 rnd;
 

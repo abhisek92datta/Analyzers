@@ -21,7 +21,6 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
   run = local.run_nr;
 
   npv = local.truenpv;
-  ttHf_cat = local.ttHf_cat;
   SL_tag = local.SL_tag;
   DL_tag = local.DL_tag;
   FH_tag = local.FH_tag;
@@ -61,7 +60,6 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
   n_lep = local.n_di_leptons;
 
   npv = local.truenpv;
-  ttHf_cat = local.ttHf_cat;
   SL_tag = local.SL_tag;
   DL_tag = local.DL_tag;
   FH_tag = local.FH_tag;

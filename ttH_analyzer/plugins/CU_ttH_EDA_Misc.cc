@@ -1815,16 +1815,6 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     // to get Lepton ID, Iso and Trigger SFs
     getLeptonSF(local);
 
-    // ttHf Category
-    local.ttHf_cat = -1;
-    if (!isdata && handle.genTtbarId.isValid())
-        local.ttHf_cat = *handle.genTtbarId;
-
-    // Generator Weight
-    local.gen_weight = 1;
-    if (!isdata)
-    	local.gen_weight = handle.event_gen_info->weight();
-
     // PDF Weight
     if (!isdata)
         getPDFweight(local, handle.event_gen_info);
@@ -1850,8 +1840,130 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
 }
 
+inline void
+CU_ttH_EDA::find_link( const reco::GenParticle &gen, const int &genId)
+{
+
+    for(int j=0; j<15; j++)
+        gen_id_list[j] = -99;
+
+    int i=0;
+
+    gen_id_list[i++] = gen.pdgId();
+
+    if( gen.numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    return;
+
+}
+
+inline int
+CU_ttH_EDA::find_id(const int &n, const int &genId)
+{
+    int j=0;
+    if(j==n)
+        return gen_id_list[j];
+    j++;
+    for(unsigned int i=1; i<15; i++){
+
+        if( gen_id_list[i] != gen_id_list[i-1]){
+
+            if(j==n){
+                return gen_id_list[i];
+            }
+            else
+                j++;
+
+        }
+    }
+
+    return gen_id_list[14];
+}
+
 void
-CU_ttH_EDA::Lepton_Tag(const std::vector<pat::Electron> &electrons, const std::vector<pat::Muon> &muons , CU_ttH_EDA_event_vars &local)
+CU_ttH_EDA::Lepton_Tag(const std::vector<reco::GenParticle> &genparticles , CU_ttH_EDA_event_vars &local)
 {
 
     local.SL_tag = 0;
@@ -1862,117 +1974,110 @@ CU_ttH_EDA::Lepton_Tag(const std::vector<pat::Electron> &electrons, const std::v
     int genid_eplus = -11;
     int genid_muminus = 13;
     int genid_muplus = -13;
+    int genid_tauplus = 15;
+    int genid_tauminus = -15;
     int genid_t = 6;
     int genid_tbar = -6;
     int genid_Wplus = 24;
     int genid_Wminus = -24;
-    int genid_tauplus = 15;
-    int genid_tauminus = -15;
 
-    int n_mu = 0;
-    int n_ele = 0;
+    int n_lep_minus = 0;
+    int n_lep_plus = 0;
     int n_lep = 0;
 
-    //std::cout<<"Muons : \n\n";
-    for( std::vector<pat::Muon>::const_iterator mu = muons.begin(), ed = muons.end(); mu != ed; ++mu ){
+    for( std::vector<reco::GenParticle>::const_iterator gen = genparticles.begin(), ed = genparticles.end(); gen != ed; ++gen ){
+
+        if(!gen->isHardProcess())
+            continue;
 
         int genId, genParentId, genGrandParentId, genGreatGrandParentId, genGreatGreatGrandParentId;
         genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;
-        if( (mu->genLepton()) ){
-            genId = mu->genLepton()->pdgId();
-            if( mu->genLepton()->numberOfMothers()>=1 ){
-                genParentId = mu->genLepton()->mother(0)->pdgId();
-                if( mu->genLepton()->mother(0)->numberOfMothers()>=1 ){
-                    genGrandParentId = mu->genLepton()->mother(0)->mother(0)->pdgId();
-                    if( mu->genLepton()->mother(0)->mother(0)->numberOfMothers()>=1 ) {
-                        genGreatGrandParentId = mu->genLepton()->mother(0)->mother(0)->mother(0)->pdgId();
-                        if( mu->genLepton()->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ) {
-                            genGreatGreatGrandParentId = mu->genLepton()->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
-                        }
+        genId = gen->pdgId();
+
+        find_link(*gen, genId);
+
+        /*
+        for(unsigned int i=0; i<15; i++){
+            std::cout<<gen_id_list[i]<<"  ";
+        }
+        std::cout<<"\n";
+        */
+
+        genParentId = find_id(1, genId );
+        genGrandParentId = find_id(2, genId);
+
+        /*
+        if( gen->numberOfMothers()>=1 ){
+            genParentId = gen->mother(0)->pdgId();
+            if( gen->mother(0)->numberOfMothers()>=1 ){
+                genGrandParentId = gen->mother(0)->mother(0)->pdgId();
+                if( gen->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                    genGreatGrandParentId = gen->mother(0)->mother(0)->mother(0)->pdgId();
+                    if( gen->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ) {
+                        genGreatGreatGrandParentId = gen->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
                     }
                 }
             }
         }
-
+        */
         //std::cout<<"GenId :  "<<genId<<"  GenParentId :  "<<genParentId<<"  GenGrandParentId :  "<<genGrandParentId<<" GreatGrandParentId :  "<<genGreatGrandParentId<<"  GreatGreatGrandParentId : "<<genGreatGreatGrandParentId<<"\n\n";
 
-        if(genId == genid_muminus && genParentId == genid_muminus){
-            if(genGrandParentId == genid_Wminus) {
-                if(genGreatGrandParentId == genid_tbar)
-                    n_mu++;
-                else if(genGreatGrandParentId == genid_Wminus){
-                    if(genGreatGreatGrandParentId == genid_tbar)
-                        n_mu++;
-                }
+
+        //std::cout<<"GenId :  "<<genId<<"  GenParentId :  "<<genParentId<<"  GenGrandParentId :  "<<genGrandParentId<<"\n\n";
+
+        if( (genId == genid_muminus) || (genId == genid_eminus) || (genId == genid_tauminus) ){
+            if(genParentId == genid_Wminus){
+                if(genGrandParentId == genid_tbar)
+                    n_lep_minus++;
             }
         }
-        else if(genId == genid_muplus && genParentId == genid_muplus){
-            if(genGrandParentId == genid_Wplus){
-                if(genGreatGrandParentId == genid_t)
-                    n_mu++;
-                else if(genGreatGrandParentId == genid_Wplus){
-                    if(genGreatGreatGrandParentId == genid_t)
-                        n_mu++;
-                }
+        if( (genId == genid_muplus) || (genId == genid_eplus) || (genId == genid_tauplus) ){
+            if(genParentId == genid_Wplus){
+                if(genGrandParentId == genid_t)
+                    n_lep_plus++;
             }
         }
 
-    }
-
-    //std::cout<<"Electrons : \n\n";
-    for( std::vector<pat::Electron>::const_iterator ele = electrons.begin(), ed = electrons.end(); ele != ed; ++ele ){
-
-        int genId, genParentId, genGrandParentId, genGreatGrandParentId, genGreatGreatGrandParentId;
-        genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;
-        if( (ele->genLepton()) ){
-            genId = ele->genLepton()->pdgId();
-            if( ele->genLepton()->numberOfMothers()>=1 ){
-                genParentId = ele->genLepton()->mother(0)->pdgId();
-                if( ele->genLepton()->mother(0)->numberOfMothers()>=1 ){
-                    genGrandParentId = ele->genLepton()->mother(0)->mother(0)->pdgId();
-                    if( ele->genLepton()->mother(0)->mother(0)->numberOfMothers()>=1 ) {
-                        genGreatGrandParentId = ele->genLepton()->mother(0)->mother(0)->mother(0)->pdgId();
-                        if( ele->genLepton()->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ) {
-                            genGreatGreatGrandParentId = ele->genLepton()->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
-                        }
+        /*
+        if( (genId == genid_muminus) || (genId == genid_eminus) || (genId == genid_tauminus) ){
+            if( genParentId == genId){
+                if(genGrandParentId == genid_Wminus) {
+                    if(genGreatGrandParentId == genid_tbar)
+                        n_lep_minus++;
+                    else if(genGreatGrandParentId == genid_Wminus){
+                        if(genGreatGreatGrandParentId == genid_tbar)
+                            n_lep_minus++;
                     }
                 }
             }
         }
-
-        //std::cout<<"GenId :  "<<genId<<"  GenParentId :  "<<genParentId<<"  GenGrandParentId :  "<<genGrandParentId<<" GreatGrandParentId :  "<<genGreatGrandParentId<<"  GreatGreatGrandParentId : "<<genGreatGreatGrandParentId<<"\n\n";
-
-        if(genId == genid_eminus && genParentId == genid_eminus){
-            if(genGrandParentId == genid_Wminus) {
-                if(genGreatGrandParentId == genid_tbar)
-                    n_ele++;
-                else if(genGreatGrandParentId == genid_Wminus){
-                    if(genGreatGreatGrandParentId == genid_tbar)
-                        n_ele++;
+        else if( (genId == genid_muplus) || (genId == genid_eplus) || (genId == genid_tauplus) ){
+            if( (genParentId == genid_muplus) || (genParentId == genid_eplus) || (genParentId == genid_tauplus) ){
+                if(genGrandParentId == genid_Wplus){
+                    if(genGreatGrandParentId == genid_t)
+                        n_lep_plus++;
+                    else if(genGreatGrandParentId == genid_Wplus){
+                        if(genGreatGreatGrandParentId == genid_t)
+                            n_lep_plus++;
+                    }
                 }
             }
-        }
-        else if(genId == genid_eplus && genParentId == genid_eplus){
-            if(genGrandParentId == genid_Wplus){
-                if(genGreatGrandParentId == genid_t)
-                    n_ele++;
-                else if(genGreatGrandParentId == genid_Wplus){
-                    if(genGreatGreatGrandParentId == genid_t)
-                        n_ele++;
-                }
-            }
-        }
+        }   
+        */
+
 
     }
 
-    n_lep = n_mu + n_ele;
+    n_lep = n_lep_minus + n_lep_plus;
 
     if(n_lep==0)
         local.FH_tag = 1;
     else if(n_lep==1)
         local.SL_tag = 1;
-    else if(n_lep==2)
-        local.DL_tag = 1;
+    else if(n_lep==2){
+        if(n_lep_minus==1 && n_lep_plus==1)
+            local.DL_tag = 1;
+    }
 
 
     //std::cout<<"nleptons:  "<<n_lep<<"  SL : "<<local.SL_tag<<"  DL : "<<local.DL_tag<<"  FH : "<<local.FH_tag<<"\n\n";

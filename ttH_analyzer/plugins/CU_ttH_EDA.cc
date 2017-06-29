@@ -305,11 +305,20 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     // Initialize Ntuple and record generator weight
     hbbNtuple.initialize();
-    if (!isdata)
-        hbbNtuple.gen_weight = handle.event_gen_info->weight();
-    else
-        hbbNtuple.gen_weight = 1;
 
+    // generator weight
+    local.gen_weight = 1;
+    if (!isdata)
+        local.gen_weight = handle.event_gen_info->weight();
+    hbbNtuple.gen_weight = local.gen_weight;
+
+    //ttHF categorization
+    local.ttHf_cat = -1;
+    if (!isdata && handle.genTtbarId.isValid())
+        local.ttHf_cat = *handle.genTtbarId;
+    hbbNtuple.ttHf_cat = local.ttHf_cat;
+
+    // ttHFGenFilter
     local.ttHFGenFilter = -1;
     if(!isdata) {
         local.ttHFGenFilter = *handle.ttHFGenFilter;
@@ -318,7 +327,7 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
 
     //SL, DL and FH tagger
     if (!isdata)
-        Lepton_Tag(*(handle.electrons), *(handle.muons), local);
+        Lepton_Tag(*(handle.genparticles), local);
     else {
         local.SL_tag = -1;
         local.DL_tag = -1;

@@ -206,6 +206,8 @@ void CU_ttH_EDA::Set_up_tokens(const edm::ParameterSet &config)
         config.getParameter<edm::InputTag>("mets"));
     token.genjets = consumes<reco::GenJetCollection>(
         config.getParameter<edm::InputTag>("genjets"));
+    token.genparticles = consumes<reco::GenParticleCollection>(
+        config.getParameter<edm::InputTag>("genparticles"));
     token.BadChCandFilterToken_ = consumes<bool>(
     	config.getParameter<edm::InputTag>("badchcandfilter"));
     token.BadPFMuonFilterToken_ = consumes<bool>(
