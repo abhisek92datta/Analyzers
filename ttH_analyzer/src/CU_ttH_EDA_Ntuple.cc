@@ -285,7 +285,7 @@ CU_ttH_EDA_Ntuple::fill_ntuple_bjets(const std::vector<pat::Jet> &bjets,
 }
 
 inline void
-CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &){
+CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &local){
 
     /*
     reco::GenParticle lead_ele;
@@ -778,7 +778,6 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("genjet_eta", &genjet_eta);
   tree->Branch("genjet_phi", &genjet_phi);
   tree->Branch("genjet_E", &genjet_E);
-  tree->Branch("genjet_charge", &genjet_charge);
 
   // SF and event-weight
   tree->Branch("lep_sf_id", &lep_sf_id);

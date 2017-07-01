@@ -185,7 +185,7 @@ public:
   // Gen-Level Info
 
   std::vector<double> genmu_pt;
-  std::vector<double> gennu_eta;
+  std::vector<double> genmu_eta;
   std::vector<double> genmu_phi;
   std::vector<double> genmu_E;
   std::vector<int> genmu_charge;
