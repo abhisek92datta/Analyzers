@@ -43,6 +43,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
   PFMETpt = local.met_pt_phi_corr; // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
   PFMETphi = local.met_phi_phi_corr;
 
+  if(!local.isdata)
+      fill_ntuple_gen(local);
+
   fill_SF_SL(local);
 
   ht = local.ht_sl;
@@ -50,7 +53,7 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
 
 void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
                                         const MiniAODHelper &miniAODhelper) {
-  // Event variales
+  // Event variables
   nEvent = local.event_nr;
   ls = local.lumisection_nr;
   run = local.run_nr;
@@ -79,6 +82,9 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
   // MET/MHT
   PFMETpt = local.met_pt_phi_corr; // sqrt(local.pfMET.px()*local.pfMET.px()+local.pfMET.py()*local.pfMET.py());
   PFMETphi = local.met_phi_phi_corr;
+
+  if(!local.isdata)
+    fill_ntuple_gen(local);
 
   fill_SF_DL(local);
 
@@ -276,6 +282,111 @@ CU_ttH_EDA_Ntuple::fill_ntuple_bjets(const std::vector<pat::Jet> &bjets,
         bjet_CSV.push_back(miniAODhelper.GetJetCSV(bjets[i], "pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     }
     
+}
+
+inline void
+CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &){
+
+    /*
+    reco::GenParticle lead_ele;
+    reco::GenParticle sublead_ele;
+    reco::GenParticle lead_mu;
+    reco::GenParticle sublead_mu;
+    double temp1, temp2;
+
+    temp1 = temp2 = -9999;
+    if(local.genelectrons_selected.size() == 1)
+        lead_ele = local.genelectrons_selected[0];
+    else {
+        for( unsigned int i=0; i<local.genelectrons_selected.size(); i++ ){
+            if(local.genelectrons_selected[i].pt() > temp1){
+                lead_ele = local.genelectrons_selected[i];
+                temp1 = local.genelectrons_selected[i].pt();
+            }
+        }
+        for( unsigned int i=0; i<local.genelectrons_selected.size(); i++ ){
+            if( local.genelectrons_selected[i].pt() > temp2  && local.genelectrons_selected[i].pt() < temp1  ){
+                sublead_ele = local.genelectrons_selected[i];
+                temp2 = local.genelectrons_selected[i].pt();
+            }
+        }
+    }
+
+    temp1 = temp2 = -9999;
+    if(local.genmuons_selected.size() == 1)
+        lead_mu = local.genmuons_selected[0];
+    else {
+        for( unsigned int i=0; i<local.genmuons_selected.size(); i++ ){
+            if(local.genmuons_selected[i].pt() > temp1){
+                lead_mu = local.genmuons_selected[i];
+                temp1 = local.genmuons_selected[i].pt();
+            }
+        }
+        for( unsigned int i=0; i<local.genmuons_selected.size(); i++ ){
+            if( local.genmuons_selected[i].pt() > temp2  && local.genmuons_selected[i].pt() < temp1  ){
+                sublead_mu = local.genmuons_selected[i];
+                temp2 = local.genmuons_selected[i].pt();
+            }
+        }
+    }
+
+    if( local.is_e == 1 ){
+        if( lead_ele.pt() > 30 && fabs(lead_ele.eta()) < 2.1 ){
+            genele_pt.push_back(lead_ele.pt());
+            genele_eta.push_back(lead_ele.eta());
+            genele_phi.push_back(lead_ele.phi());
+            genele_E.push_back(lead_ele.energy());
+            genele_charge.push_back(lead_ele.charge());
+        }
+        for( unsigned int i=0; i<local.genjets_selected.size(); i++ ){
+            if(local.genjets_selected[i].pt() > 30){
+                genjet_pt.push_back(local.genjets_selected[i].pt());
+                genjet_eta.push_back(local.genjets_selected[i].eta());
+                genjet_phi.push_back(local.genjets_selected[i].phi());
+                genjet_E.push_back(local.genjets_selected[i].energy());
+            }
+        }
+    }
+    if( local.is_mu == 1 ){
+        if( lead_mu.pt() > 26 && fabs(lead_mu.eta()) < 2.1 ){
+            genmu_pt.push_back(lead_mu.pt());
+            genmu_eta.push_back(lead_mu.eta());
+            genmu_phi.push_back(lead_mu.phi());
+            genmu_E.push_back(lead_mu.energy());
+            genmu_charge.push_back(lead_mu.charge());
+        }
+        for( unsigned int i=0; i<local.genjets_selected.size(); i++ ){
+            if(local.genjets_selected[i].pt() > 30){
+                genjet_pt.push_back(local.genjets_selected[i].pt());
+                genjet_eta.push_back(local.genjets_selected[i].eta());
+                genjet_phi.push_back(local.genjets_selected[i].phi());
+                genjet_E.push_back(local.genjets_selected[i].energy());
+            }
+        }
+    }
+    */
+
+    for( unsigned int i=0; i<local.genelectrons_selected.size(); i++ ){
+        genele_pt.push_back(local.genelectrons_selected[i].pt());
+        genele_eta.push_back(local.genelectrons_selected[i].eta());
+        genele_phi.push_back(local.genelectrons_selected[i].phi());
+        genele_E.push_back(local.genelectrons_selected[i].energy());
+        genele_charge.push_back(local.genelectrons_selected[i].charge());
+    }
+    for( unsigned int i=0; i<local.genmuons_selected.size(); i++ ){
+        genmu_pt.push_back(local.genmuons_selected[i].pt());
+        genmu_eta.push_back(local.genmuons_selected[i].eta());
+        genmu_phi.push_back(local.genmuons_selected[i].phi());
+        genmu_E.push_back(local.genmuons_selected[i].energy());
+        genmu_charge.push_back(local.genmuons_selected[i].charge());
+    }
+    for( unsigned int i=0; i<local.genjets_selected.size(); i++ ){
+        genjet_pt.push_back(local.genjets_selected[i].pt());
+        genjet_eta.push_back(local.genjets_selected[i].eta());
+        genjet_phi.push_back(local.genjets_selected[i].phi());
+        genjet_E.push_back(local.genjets_selected[i].energy());
+    }
+
 }
 
 inline void
@@ -479,6 +590,25 @@ void CU_ttH_EDA_Ntuple::initialize() {
   PFMETpt = -9999.;
   PFMETphi = -9999.;
 
+  // Gen-Level Info
+
+  genmu_pt.clear();
+  gennu_eta.clear();
+  genmu_phi.clear();
+  genmu_E.clear();
+  genmu_charge.clear();
+
+  genele_pt.clear();
+  genele_eta.clear();
+  genele_phi.clear();
+  genele_E.clear();
+  genele_charge.clear();
+
+  genjet_pt.clear();
+  genjet_eta.clear();
+  genjet_phi.clear();
+  genjet_E.clear();
+
   // SF and event_weight
 
   lep_sf_id.clear();
@@ -630,6 +760,25 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   // MET
   tree->Branch("PFMETpt", &PFMETpt);
   tree->Branch("PFMETphi", &PFMETphi);
+
+  // Gen-Level Info
+  tree->Branch("genmu_pt", &genmu_pt);
+  tree->Branch("genmu_eta", &genmu_eta);
+  tree->Branch("genmu_phi", &genmu_phi);
+  tree->Branch("genmu_E", &genmu_E);
+  tree->Branch("genmu_charge", &genmu_charge);
+
+  tree->Branch("genele_pt", &genele_pt);
+  tree->Branch("genele_eta", &genele_eta);
+  tree->Branch("genele_phi", &genele_phi);
+  tree->Branch("genele_E", &genele_E);
+  tree->Branch("genele_charge", &genele_charge);
+
+  tree->Branch("genjet_pt", &genjet_pt);
+  tree->Branch("genjet_eta", &genjet_eta);
+  tree->Branch("genjet_phi", &genjet_phi);
+  tree->Branch("genjet_E", &genjet_E);
+  tree->Branch("genjet_charge", &genjet_charge);
 
   // SF and event-weight
   tree->Branch("lep_sf_id", &lep_sf_id);

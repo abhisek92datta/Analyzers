@@ -27,9 +27,9 @@ struct CU_ttH_EDA_event_vars {
   double weight; // total event weight (there are partial weights)
 
   /// Common, run parameters
-  int run_nr;
-  int event_nr;
-  int lumisection_nr;
+  unsigned int run_nr;
+  unsigned int event_nr;
+  unsigned int lumisection_nr;
 
   bool isdata;
 
@@ -115,6 +115,10 @@ struct CU_ttH_EDA_event_vars {
   std::vector<double> jet_di_pudisc;
   
   std::vector<pat::Jet> jets_inp_bjetness;
+
+  std::vector<reco::GenParticle> genelectrons_selected;
+  std::vector<reco::GenParticle> genmuons_selected;
+  std::vector<reco::GenJet> genjets_selected;
 
   std::vector<double> vec_jet_pt;
   std::vector<double> vec_jet_eta;

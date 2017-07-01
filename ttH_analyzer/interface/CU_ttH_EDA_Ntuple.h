@@ -34,6 +34,7 @@ private:
                                const MiniAODHelper &);
   inline void fill_ntuple_bjets(const std::vector<pat::Jet> &,
                                  const MiniAODHelper &);
+  inline void fill_ntuple_gen(const CU_ttH_EDA_event_vars &);
 
   inline void fill_SF_SL(const CU_ttH_EDA_event_vars &);
   inline void fill_SF_DL(const CU_ttH_EDA_event_vars &);
@@ -180,6 +181,26 @@ public:
   // MET
   double PFMETpt;
   double PFMETphi;
+
+  // Gen-Level Info
+
+  std::vector<double> genmu_pt;
+  std::vector<double> gennu_eta;
+  std::vector<double> genmu_phi;
+  std::vector<double> genmu_E;
+  std::vector<int> genmu_charge;
+
+  std::vector<double> genele_pt;
+  std::vector<double> genele_eta;
+  std::vector<double> genele_phi;
+  std::vector<double> genele_E;
+  std::vector<int> genele_charge;
+
+  std::vector<double> genjet_pt;
+  std::vector<double> genjet_eta;
+  std::vector<double> genjet_phi;
+  std::vector<double> genjet_E;
+
 
   // SF and event weight
 

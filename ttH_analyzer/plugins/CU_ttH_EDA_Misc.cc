@@ -38,9 +38,9 @@ int CU_ttH_EDA::End_Run_hist_fill_triggers()
 void CU_ttH_EDA::Update_common_vars(const edm::Event &iEvent,
                                     CU_ttH_EDA_event_vars &local)
 {
-    local.run_nr = iEvent.id().run();
-    local.event_nr = iEvent.id().event();
-    local.lumisection_nr = iEvent.id().luminosityBlock();
+    local.run_nr = (unsigned int)iEvent.id().run();
+    local.event_nr = (unsigned int)iEvent.id().event();
+    local.lumisection_nr = (unsigned int)iEvent.id().luminosityBlock();
 }
 
 /*
@@ -1808,6 +1808,10 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
 
     getjetSF(local, rho, handle); // to get JEC scale factors
 
+    // Generator Information
+    if (!isdata)
+        Fill_Gen_info(*(handle.genparticles), *(handle.genjets), local);
+
     // to get b-weight
     if(!isdata)
         getbweight(local);
@@ -1839,6 +1843,31 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
     }
 }
+
+inline void
+CU_ttH_EDA::Fill_Gen_info(const std::vector<reco::GenParticle> & genparticles , const std::vector<reco::GenJet> & genjets , CU_ttH_EDA_event_vars & local)
+{
+    local.genelectrons_selected.clear();
+    local.genmuons_selected.clear();
+    local.genjets_selected.clear();
+
+    for( std::vector<reco::GenParticle>::const_iterator gen = genparticles.begin(), ed = genparticles.end(); gen != ed; ++gen ){
+        if( gen->pdgId() == 11 || gen->pdgId() == -11 ){
+            //if( gen->pt() > 15 && fabs(gen->eta()) < 2.4 )
+                local.genelectrons_selected.push_back(*gen);
+        }
+        else if( gen->pdgId() == 13 || gen->pdgId() == -13 ){
+            //if( gen->pt() > 15 && fabs(gen->eta()) < 2.4 )
+                local.genmuons_selected.push_back(*gen);
+        }
+    }
+
+    for (reco::GenJetCollection::const_iterator iter = genjets->begin(); iter != genjets->end(); ++iter) {
+        //if( iter->pt() > 20 && fabs(iter->eta()) < 2.4 )
+            local.genjets_selected.push_back(*iter);
+    }
+}
+
 
 inline void
 CU_ttH_EDA::find_link( const reco::GenParticle &gen, const int &genId)

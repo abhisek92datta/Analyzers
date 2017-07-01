@@ -281,6 +281,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline void get_avip1d(vector<reco::Track> , const TransientTrackBuilder& , reco::Vertex , vector<tuple<double, double, double> >& , double& );
     inline void get_bjetness_vars( vector<pat::Jet> , const reco::Vertex& , const TransientTrackBuilder& , edm::Handle<edm::View<pat::Electron> > , edm::Handle<edm::View<pat::Muon> > , double& , double& , double& , double& , double& , double& );  
 
+    inline void Fill_Gen_info(const std::vector<reco::GenParticle> & , const std::vector<reco::GenJet> & , CU_ttH_EDA_event_vars &);
+
     /// Other functions
     void Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &);
     void Check_Fill_Print_di_lepton(const CU_ttH_EDA_event_vars &);
