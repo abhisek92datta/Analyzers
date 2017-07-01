@@ -1862,7 +1862,7 @@ CU_ttH_EDA::Fill_Gen_info(const std::vector<reco::GenParticle> & genparticles , 
         }
     }
 
-    for (reco::GenJetCollection::const_iterator iter = genjets->begin(); iter != genjets->end(); ++iter) {
+    for (reco::GenJetCollection::const_iterator iter = genjets.begin(); iter != genjets.end(); ++iter) {
         //if( iter->pt() > 20 && fabs(iter->eta()) < 2.4 )
             local.genjets_selected.push_back(*iter);
     }
