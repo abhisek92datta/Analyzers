@@ -333,6 +333,9 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
         local.DL_tag = -1;
         local.FH_tag = -1;
     }
+    hbbNtuple.SL_tag = local.SL_tag;
+    hbbNtuple.DL_tag = local.DL_tag;
+    hbbNtuple.FH_tag = local.FH_tag;
     gen_SL_count = gen_SL_count + local.SL_tag;
     gen_DL_count = gen_DL_count + local.DL_tag;
     gen_FH_count = gen_FH_count + local.FH_tag;

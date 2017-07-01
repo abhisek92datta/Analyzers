@@ -21,9 +21,6 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
   run = local.run_nr;
 
   npv = local.truenpv;
-  SL_tag = local.SL_tag;
-  DL_tag = local.DL_tag;
-  FH_tag = local.FH_tag;
 
   n_ele = local.n_electrons;
   n_mu = local.n_muons;
@@ -63,9 +60,6 @@ void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
   n_lep = local.n_di_leptons;
 
   npv = local.truenpv;
-  SL_tag = local.SL_tag;
-  DL_tag = local.DL_tag;
-  FH_tag = local.FH_tag;
 
   // Muons
   fill_ntuple_muons(local.mu_di_selected, local.corr_mu_di, miniAODhelper);
