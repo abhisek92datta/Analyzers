@@ -593,7 +593,7 @@ void CU_ttH_EDA_Ntuple::initialize() {
   // Gen-Level Info
 
   genmu_pt.clear();
-  gennu_eta.clear();
+  genmu_eta.clear();
   genmu_phi.clear();
   genmu_E.clear();
   genmu_charge.clear();
