@@ -29,6 +29,8 @@
 void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     int N_total = 0;
+    int N_4b_pass = 0;
+    int N_ttbb_pass = 0;
     int N_sel = 0;
     int N_SL = 0;
     int N_DL = 0;
@@ -43,10 +45,11 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     int isttbar = 0;  // Set 1 for ttbar datasets
 
     // input filename
-	//std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
-    std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/ttbb_4FS_OpenLoops_13TeV-sherpa/ttH_Analyzer_ttjets_ol/170606_013446/0000/ttHbbNtuple*.root";
+    std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
+    //std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/ttbb_4FS_OpenLoops_13TeV-sherpa/ttH_Analyzer_ttjets_ol/170606_013446/0000/ttHbbNtuple*.root";
 
-	std::string histofilename = "Distribution.root";
+	std::string histofilename = "Distribution_pp.root";
+    //std::string histofilename = "Distribution_ol.root";
 	
 	TChain *chain = new TChain("ttHbb/eventTree");
 
@@ -58,99 +61,104 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 	TH1::SetDefaultSumw2();
 
     // Single Electron Histograms
-	TH1D* pt_e1_sl_e = new TH1D("pt_e1_sl_e","Leading Electron pT Distribution (Single Electron) ;Leading Electron pT (GeV);Nr. of Events",150,0,300);
-	TH1D* eta_e1_sl_e = new TH1D("eta_e1_sl_e","Leading Electron eta Distribution (Single Electron) ;Leading Electron #eta; Nr. of Events",30,-3,3);
-	TH1D* phi_e1_sl_e = new TH1D("phi_e1_sl_e","Leading Electron phi Distribution (Single Electron) ;Leading Electron #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_jet1_sl_e = new TH1D("pt_jet1_sl_e","Leading Jet pT Distribution (Single Electron) ;Jet 1 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet2_sl_e = new TH1D("pt_jet2_sl_e","2nd Leading Jet pT Distribution (Single Electron) ;Jet 2 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet3_sl_e = new TH1D("pt_jet3_sl_e","3rd Leading Jet pT Distribution (Single Electron) ;Jet 3 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet4_sl_e = new TH1D("pt_jet4_sl_e","4th Leading Jet pT Distribution (Single Electron) ;Jet 4 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet5_sl_e = new TH1D("pt_jet5_sl_e","5th Leading Jet pT Distribution (Single Electron) ;Jet 5 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet6_sl_e = new TH1D("pt_jet6_sl_e","6th Leading Jet pT Distribution (Single Electron) ;Jet 6 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet_all_sl_e = new TH1D("pt_jet_all_sl_e","Jet (all) pT Distribution (Single Electron) ;Jet pT (GeV);Nr. of Events",150,0,300);
-    TH1D* csv_jet_all_sl_e = new TH1D("csv_jet_all_sl_e","Jet (all) CSV Distribution (Single Electron) ;Jet CSV (GeV);Nr. of Events",100,0,1);
-    TH1D* ht_sl_e = new TH1D("ht_sl_e","HT Distribution (Single Electron) ;HT (GeV);Nr. of Events",200,0,1000);
+    TH1D* pt_e1_sl_e = new TH1D("pt_e1_sl_e","Leading Electron pT Distribution (Single Electron) ;Leading Electron pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_e1_sl_e = new TH1D("eta_e1_sl_e","Leading Electron eta Distribution (Single Electron) ;Leading Electron #eta; Nr. of Events",15,-3,3);
+    TH1D* phi_e1_sl_e = new TH1D("phi_e1_sl_e","Leading Electron phi Distribution (Single Electron) ;Leading Electron #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_jet1_sl_e = new TH1D("pt_jet1_sl_e","Leading Jet pT Distribution (Single Electron) ;Jet 1 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet2_sl_e = new TH1D("pt_jet2_sl_e","2nd Leading Jet pT Distribution (Single Electron) ;Jet 2 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet3_sl_e = new TH1D("pt_jet3_sl_e","3rd Leading Jet pT Distribution (Single Electron) ;Jet 3 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet4_sl_e = new TH1D("pt_jet4_sl_e","4th Leading Jet pT Distribution (Single Electron) ;Jet 4 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet5_sl_e = new TH1D("pt_jet5_sl_e","5th Leading Jet pT Distribution (Single Electron) ;Jet 5 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet6_sl_e = new TH1D("pt_jet6_sl_e","6th Leading Jet pT Distribution (Single Electron) ;Jet 6 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet_all_sl_e = new TH1D("pt_jet_all_sl_e","Jet (all) pT Distribution (Single Electron) ;Jet pT (GeV);Nr. of Events",50,0,300);
+    TH1D* csv_jet_all_sl_e = new TH1D("csv_jet_all_sl_e","Jet (all) CSV Distribution (Single Electron) ;Jet CSV (GeV);Nr. of Events",50,0,1);
+    TH1D* ht_sl_e = new TH1D("ht_sl_e","HT Distribution (Single Electron) ;HT (GeV);Nr. of Events",50,0,1000);
+    TH2D* njets_ht_sl_e = new TH2D("njets_ht_2D_sl_e","Jet Multiplicity and HT 2D Distribution (Single Electron) ;Nr. of jets ;HT (GeV)",15,0,15,50,0,1000);
     TH1D* njets_sl_e = new TH1D("njets_sl_e","Jet Multiplicity (Single Electron) ;Nr. of jets; Nr. of Events",15,0,15);
     TH1D* nbtags_sl_e = new TH1D("nbtags_sl_e","B-jet Multiplicity (Single Electron) ;Nr. of b-jets; Nr. of Events",8,0,8);
-    TH1D* npv_sl_e = new TH1D("npv_sl_e","Nr. of Primary Vertices (Single Electron)  ;NPV; Nr. of Events",75,0,75);
+    TH1D* npv_sl_e = new TH1D("npv_sl_e","Nr. of Primary Vertices (Single Electron)  ;NPV; Nr. of Events",20,0,75);
 
     // Single Muon Histograms
-	TH1D* pt_mu1_sl_mu = new TH1D("pt_mu1_sl_mu","Leading Muon pT Distribution (Single Muon) ;Leading Muon pT (GeV);Nr. of Events",150,0,300);
-	TH1D* eta_mu1_sl_mu = new TH1D("eta_mu1_sl_mu","Leading Muon eta Distribution (Single Muon) ;Leading Muon #eta; Nr. of Events",30,-3,3);
-	TH1D* phi_mu1_sl_mu = new TH1D("phi_mu1_sl_mu","Leading Muon phi Distribution (Single Muon) ;Leading Muon #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_jet1_sl_mu = new TH1D("pt_jet1_sl_mu","Leading Jet pT Distribution (Single Muon) ;Jet 1 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet2_sl_mu = new TH1D("pt_jet2_sl_mu","2nd Leading Jet pT Distribution (Single Muon) ;Jet 2 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet3_sl_mu = new TH1D("pt_jet3_sl_mu","3rd Leading Jet pT Distribution (Single Muon) ;Jet 3 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet4_sl_mu = new TH1D("pt_jet4_sl_mu","4th Leading Jet pT Distribution (Single Muon) ;Jet 4 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet5_sl_mu = new TH1D("pt_jet5_sl_mu","5th Leading Jet pT Distribution (Single Muon) ;Jet 5 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet6_sl_mu = new TH1D("pt_jet6_sl_mu","6th Leading Jet pT Distribution (Single Muon) ;Jet 6 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet_all_sl_mu = new TH1D("pt_jet_all_sl_mu","Jet (all) pT Distribution (Single Muon) ;Jet pT (GeV);Nr. of Events",150,0,300);
-    TH1D* csv_jet_all_sl_mu = new TH1D("csv_jet_all_sl_mu","Jet (all) CSV Distribution (Single Muon) ;Jet CSV (GeV);Nr. of Events",100,0,1);
-    TH1D* ht_sl_mu = new TH1D("ht_sl_mu","HT Distribution (Single Muon) ;HT (GeV);Nr. of Events",200,0,1000);
+    TH1D* pt_mu1_sl_mu = new TH1D("pt_mu1_sl_mu","Leading Muon pT Distribution (Single Muon) ;Leading Muon pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_mu1_sl_mu = new TH1D("eta_mu1_sl_mu","Leading Muon eta Distribution (Single Muon) ;Leading Muon #eta; Nr. of Events",15,-3,3);
+    TH1D* phi_mu1_sl_mu = new TH1D("phi_mu1_sl_mu","Leading Muon phi Distribution (Single Muon) ;Leading Muon #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_jet1_sl_mu = new TH1D("pt_jet1_sl_mu","Leading Jet pT Distribution (Single Muon) ;Jet 1 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet2_sl_mu = new TH1D("pt_jet2_sl_mu","2nd Leading Jet pT Distribution (Single Muon) ;Jet 2 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet3_sl_mu = new TH1D("pt_jet3_sl_mu","3rd Leading Jet pT Distribution (Single Muon) ;Jet 3 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet4_sl_mu = new TH1D("pt_jet4_sl_mu","4th Leading Jet pT Distribution (Single Muon) ;Jet 4 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet5_sl_mu = new TH1D("pt_jet5_sl_mu","5th Leading Jet pT Distribution (Single Muon) ;Jet 5 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet6_sl_mu = new TH1D("pt_jet6_sl_mu","6th Leading Jet pT Distribution (Single Muon) ;Jet 6 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet_all_sl_mu = new TH1D("pt_jet_all_sl_mu","Jet (all) pT Distribution (Single Muon) ;Jet pT (GeV);Nr. of Events",50,0,300);
+    TH1D* csv_jet_all_sl_mu = new TH1D("csv_jet_all_sl_mu","Jet (all) CSV Distribution (Single Muon) ;Jet CSV (GeV);Nr. of Events",50,0,1);
+    TH1D* ht_sl_mu = new TH1D("ht_sl_mu","HT Distribution (Single Muon) ;HT (GeV);Nr. of Events",50,0,1000);
+    TH2D* njets_ht_sl_mu = new TH2D("njets_ht_2D_sl_mu","Jet Multiplicity and HT 2D Distribution (Single Muon) ;Nr. of jets ;HT (GeV)",15,0,15,50,0,1000);
     TH1D* njets_sl_mu = new TH1D("njets_sl_mu","Jet Multiplicity (Single Muon) ;Nr. of jets; Nr. of Events",15,0,15);
     TH1D* nbtags_sl_mu = new TH1D("nbtags_sl_mu","B-jet Multiplicity (Single Muon) ;Nr. of b-jets; Nr. of Events",8,0,8);
-    TH1D* npv_sl_mu = new TH1D("npv_sl_mu","Nr. of Primary Vertices (Single Muon)  ;NPV; Nr. of Events",75,0,75);
+    TH1D* npv_sl_mu = new TH1D("npv_sl_mu","Nr. of Primary Vertices (Single Muon)  ;NPV; Nr. of Events",20,0,75);
 
     // Double Electron Histograms
-    TH1D* pt_e1_di_ee = new TH1D("pt_e1_di_ee","Leading Electron pT Distribution (Double Electron) ;Leading Electron pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_e1_di_ee = new TH1D("eta_e1_di_ee","Leading Electron eta Distribution (Double Electron) ;Leading Electron #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_e1_di_ee = new TH1D("phi_e1_di_ee","Leading Electron phi Distribution (Double Electron) ;Leading Electron #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_e2_di_ee = new TH1D("pt_e2_di_ee","Sub-leading Electron pT Distribution (Double Electron) ;Sub-leading Electron pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_e2_di_ee = new TH1D("eta_e2_di_ee","Sub-leading Electron eta Distribution (Double Electron) ;Sub-leading Electron #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_e2_di_ee = new TH1D("phi_e2_di_ee","Sub-leading Electron phi Distribution (Double Electron) ;Sub-leading Electron #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_jet1_di_ee = new TH1D("pt_jet1_di_ee","Leading Jet pT Distribution (Double Electron) ;Jet 1 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet2_di_ee = new TH1D("pt_jet2_di_ee","2nd Leading Jet pT Distribution (Double Electron) ;Jet 2 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet3_di_ee = new TH1D("pt_jet3_di_ee","3rd Leading Jet pT Distribution (Double Electron) ;Jet 3 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet4_di_ee = new TH1D("pt_jet4_di_ee","4th Leading Jet pT Distribution (Double Electron) ;Jet 4 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet5_di_ee = new TH1D("pt_jet5_di_ee","5th Leading Jet pT Distribution (Double Electron) ;Jet 5 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet6_di_ee = new TH1D("pt_jet6_di_ee","6th Leading Jet pT Distribution (Double Electron) ;Jet 6 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet_all_di_ee = new TH1D("pt_jet_all_di_ee","Jet (all) pT Distribution (Double Electron) ;Jet pT (GeV);Nr. of Events",150,0,300);
-    TH1D* csv_jet_all_di_ee = new TH1D("csv_jet_all_di_ee","Jet (all) CSV Distribution (Double Electron) ;Jet CSV (GeV);Nr. of Events",100,0,1);
-    TH1D* ht_di_ee = new TH1D("ht_di_ee","HT Distribution (Double Electron) ;HT (GeV);Nr. of Events",200,0,1000);
+    TH1D* pt_e1_di_ee = new TH1D("pt_e1_di_ee","Leading Electron pT Distribution (Double Electron) ;Leading Electron pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_e1_di_ee = new TH1D("eta_e1_di_ee","Leading Electron eta Distribution (Double Electron) ;Leading Electron #eta; Nr. of Events",15,-3,3);
+    TH1D* phi_e1_di_ee = new TH1D("phi_e1_di_ee","Leading Electron phi Distribution (Double Electron) ;Leading Electron #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_e2_di_ee = new TH1D("pt_e2_di_ee","Sub-leading Electron pT Distribution (Double Electron) ;Sub-leading Electron pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_e2_di_ee = new TH1D("eta_e2_di_ee","Sub-leading Electron eta Distribution (Double Electron) ;Sub-leading Electron #eta; Nr. of Events",10,-3,3);
+    TH1D* phi_e2_di_ee = new TH1D("phi_e2_di_ee","Sub-leading Electron phi Distribution (Double Electron) ;Sub-leading Electron #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_jet1_di_ee = new TH1D("pt_jet1_di_ee","Leading Jet pT Distribution (Double Electron) ;Jet 1 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet2_di_ee = new TH1D("pt_jet2_di_ee","2nd Leading Jet pT Distribution (Double Electron) ;Jet 2 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet3_di_ee = new TH1D("pt_jet3_di_ee","3rd Leading Jet pT Distribution (Double Electron) ;Jet 3 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet4_di_ee = new TH1D("pt_jet4_di_ee","4th Leading Jet pT Distribution (Double Electron) ;Jet 4 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet5_di_ee = new TH1D("pt_jet5_di_ee","5th Leading Jet pT Distribution (Double Electron) ;Jet 5 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet6_di_ee = new TH1D("pt_jet6_di_ee","6th Leading Jet pT Distribution (Double Electron) ;Jet 6 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet_all_di_ee = new TH1D("pt_jet_all_di_ee","Jet (all) pT Distribution (Double Electron) ;Jet pT (GeV);Nr. of Events",50,0,300);
+    TH1D* csv_jet_all_di_ee = new TH1D("csv_jet_all_di_ee","Jet (all) CSV Distribution (Double Electron) ;Jet CSV (GeV);Nr. of Events",50,0,1);
+    TH1D* ht_di_ee = new TH1D("ht_di_ee","HT Distribution (Double Electron) ;HT (GeV);Nr. of Events",50,0,1000);
+    TH2D* njets_ht_di_ee = new TH2D("njets_ht_2D_di_ee","Jet Multiplicity and HT 2D Distribution (Double Electron) ;Nr. of jets ;HT (GeV)",15,0,15,50,0,1000);
     TH1D* njets_di_ee = new TH1D("njets_di_ee","Jet Multiplicity (Double Electron) ;Nr. of jets; Nr. of Events",15,0,15);
     TH1D* nbtags_di_ee = new TH1D("nbtags_di_ee","B-jet Multiplicity (Double Electron) ;Nr. of b-jets; Nr. of Events",8,0,8);
-    TH1D* npv_di_ee = new TH1D("npv_di_ee","Nr. of Primary Vertices (Double Electron)  ;NPV; Nr. of Events",75,0,75);
+    TH1D* npv_di_ee = new TH1D("npv_di_ee","Nr. of Primary Vertices (Double Electron)  ;NPV; Nr. of Events",20,0,75);
 
     // Electron Muon Histograms
-    TH1D* pt_e1_di_emu = new TH1D("pt_e1_di_emu","Electron pT Distribution (Electron Muon) ;Electron pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_e1_di_emu = new TH1D("eta_e1_di_emu","Electron eta Distribution (Electron Muon) ;Electron #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_e1_di_emu = new TH1D("phi_e1_di_emu","Electron phi Distribution (Electron Muon) ;Electron #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_mu1_di_emu = new TH1D("pt_mu1_di_emu","Muon pT Distribution (Electron Muon) ;Muon pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_mu1_di_emu = new TH1D("eta_mu1_di_emu","Muon eta Distribution (Electron Muon) ;Muon #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_mu1_di_emu = new TH1D("phi_mu1_di_emu","Muon phi Distribution (Electron Muon) ;Muon #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_jet1_di_emu = new TH1D("pt_jet1_di_emu","Leading Jet pT Distribution (Electron Muon) ;Jet 1 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet2_di_emu = new TH1D("pt_jet2_di_emu","2nd Leading Jet pT Distribution (Electron Muon) ;Jet 2 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet3_di_emu = new TH1D("pt_jet3_di_emu","3rd Leading Jet pT Distribution (Electron Muon) ;Jet 3 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet4_di_emu = new TH1D("pt_jet4_di_emu","4th Leading Jet pT Distribution (Electron Muon) ;Jet 4 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet5_di_emu = new TH1D("pt_jet5_di_emu","5th Leading Jet pT Distribution (Electron Muon) ;Jet 5 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet6_di_emu = new TH1D("pt_jet6_di_emu","6th Leading Jet pT Distribution (Electron Muon) ;Jet 6 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet_all_di_emu = new TH1D("pt_jet_all_di_emu","Jet (all) pT Distribution (Electron Muon) ;Jet pT (GeV);Nr. of Events",150,0,300);
-    TH1D* csv_jet_all_di_emu = new TH1D("csv_jet_all_di_emu","Jet (all) CSV Distribution (Electron Muon) ;Jet CSV (GeV);Nr. of Events",100,0,1);
-    TH1D* ht_di_emu = new TH1D("ht_di_emu","HT Distribution (Electron Muon) ;HT (GeV);Nr. of Events",200,0,1000);
+    TH1D* pt_e1_di_emu = new TH1D("pt_e1_di_emu","Electron pT Distribution (Electron Muon) ;Electron pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_e1_di_emu = new TH1D("eta_e1_di_emu","Electron eta Distribution (Electron Muon) ;Electron #eta; Nr. of Events",15,-3,3);
+    TH1D* phi_e1_di_emu = new TH1D("phi_e1_di_emu","Electron phi Distribution (Electron Muon) ;Electron #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_mu1_di_emu = new TH1D("pt_mu1_di_emu","Muon pT Distribution (Electron Muon) ;Muon pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_mu1_di_emu = new TH1D("eta_mu1_di_emu","Muon eta Distribution (Electron Muon) ;Muon #eta; Nr. of Events",10,-3,3);
+    TH1D* phi_mu1_di_emu = new TH1D("phi_mu1_di_emu","Muon phi Distribution (Electron Muon) ;Muon #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_jet1_di_emu = new TH1D("pt_jet1_di_emu","Leading Jet pT Distribution (Electron Muon) ;Jet 1 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet2_di_emu = new TH1D("pt_jet2_di_emu","2nd Leading Jet pT Distribution (Electron Muon) ;Jet 2 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet3_di_emu = new TH1D("pt_jet3_di_emu","3rd Leading Jet pT Distribution (Electron Muon) ;Jet 3 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet4_di_emu = new TH1D("pt_jet4_di_emu","4th Leading Jet pT Distribution (Electron Muon) ;Jet 4 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet5_di_emu = new TH1D("pt_jet5_di_emu","5th Leading Jet pT Distribution (Electron Muon) ;Jet 5 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet6_di_emu = new TH1D("pt_jet6_di_emu","6th Leading Jet pT Distribution (Electron Muon) ;Jet 6 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet_all_di_emu = new TH1D("pt_jet_all_di_emu","Jet (all) pT Distribution (Electron Muon) ;Jet pT (GeV);Nr. of Events",50,0,300);
+    TH1D* csv_jet_all_di_emu = new TH1D("csv_jet_all_di_emu","Jet (all) CSV Distribution (Electron Muon) ;Jet CSV (GeV);Nr. of Events",50,0,1);
+    TH1D* ht_di_emu = new TH1D("ht_di_emu","HT Distribution (Electron Muon) ;HT (GeV);Nr. of Events",50,0,1000);
+    TH2D* njets_ht_di_emu = new TH2D("njets_ht_2D_di_emu","Jet Multiplicity and HT 2D Distribution (Electron Muon) ;Nr. of jets ;HT (GeV)",15,0,15,50,0,1000);
     TH1D* njets_di_emu = new TH1D("njets_di_emu","Jet Multiplicity (Electron Muon) ;Nr. of jets; Nr. of Events",15,0,15);
     TH1D* nbtags_di_emu = new TH1D("nbtags_di_emu","B-jet Multiplicity (Electron Muon) ;Nr. of b-jets; Nr. of Events",8,0,8);
-    TH1D* npv_di_emu = new TH1D("npv_di_emu","Nr. of Primary Vertices (Electron Muon)  ;NPV; Nr. of Events",75,0,75);
+    TH1D* npv_di_emu = new TH1D("npv_di_emu","Nr. of Primary Vertices (Electron Muon)  ;NPV; Nr. of Events",20,0,75);
 
     // Double Muon Histograms
-    TH1D* pt_mu1_di_mumu = new TH1D("pt_mu1_di_mumu","Leading Muon pT Distribution (Double Muon) ;Leading Muon pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_mu1_di_mumu = new TH1D("eta_mu1_di_mumu","Leading Muon eta Distribution (Double Muon) ;Leading Muon #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_mu1_di_mumu = new TH1D("phi_mu1_di_mumu","Leading Muon phi Distribution (Double Muon) ;Leading Muon #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_mu2_di_mumu = new TH1D("pt_mu2_di_mumu","Sub-leading Muon pT Distribution (Double Muon) ;Sub-leading Muon pT (GeV);Nr. of Events",150,0,300);
-    TH1D* eta_mu2_di_mumu = new TH1D("eta_mu2_di_mumu","Sub-leading Muon eta Distribution (Double Muon) ;Sub-leading Muon #eta; Nr. of Events",30,-3,3);
-    TH1D* phi_mu2_di_mumu = new TH1D("phi_mu2_di_mumu","Sub-leading Muon phi Distribution (Double Muon) ;Sub-leading Muon #phi; Nr. of Events",30,-3,3);
-    TH1D* pt_jet1_di_mumu = new TH1D("pt_jet1_di_mumu","Leading Jet pT Distribution (Double Muon) ;Jet 1 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet2_di_mumu = new TH1D("pt_jet2_di_mumu","2nd Leading Jet pT Distribution (Double Muon) ;Jet 2 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet3_di_mumu = new TH1D("pt_jet3_di_mumu","3rd Leading Jet pT Distribution (Double Muon) ;Jet 3 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet4_di_mumu = new TH1D("pt_jet4_di_mumu","4th Leading Jet pT Distribution (Double Muon) ;Jet 4 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet5_di_mumu = new TH1D("pt_jet5_di_mumu","5th Leading Jet pT Distribution (Double Muon) ;Jet 5 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet6_di_mumu = new TH1D("pt_jet6_di_mumu","6th Leading Jet pT Distribution (Double Muon) ;Jet 6 pT (GeV);Nr. of Events",150,0,300);
-    TH1D* pt_jet_all_di_mumu = new TH1D("pt_jet_all_di_mumu","Jet (all) pT Distribution (Double Muon) ;Jet pT (GeV);Nr. of Events",150,0,300);
-    TH1D* csv_jet_all_di_mumu = new TH1D("csv_jet_all_di_mumu","Jet (all) CSV Distribution (Double Muon) ;Jet CSV (GeV);Nr. of Events",100,0,1);
-    TH1D* ht_di_mumu = new TH1D("ht_di_mumu","HT Distribution (Double Muon) ;HT (GeV);Nr. of Events",200,0,1000);
+    TH1D* pt_mu1_di_mumu = new TH1D("pt_mu1_di_mumu","Leading Muon pT Distribution (Double Muon) ;Leading Muon pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_mu1_di_mumu = new TH1D("eta_mu1_di_mumu","Leading Muon eta Distribution (Double Muon) ;Leading Muon #eta; Nr. of Events",15,-3,3);
+    TH1D* phi_mu1_di_mumu = new TH1D("phi_mu1_di_mumu","Leading Muon phi Distribution (Double Muon) ;Leading Muon #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_mu2_di_mumu = new TH1D("pt_mu2_di_mumu","Sub-leading Muon pT Distribution (Double Muon) ;Sub-leading Muon pT (GeV);Nr. of Events",50,0,300);
+    TH1D* eta_mu2_di_mumu = new TH1D("eta_mu2_di_mumu","Sub-leading Muon eta Distribution (Double Muon) ;Sub-leading Muon #eta; Nr. of Events",10,-3,3);
+    TH1D* phi_mu2_di_mumu = new TH1D("phi_mu2_di_mumu","Sub-leading Muon phi Distribution (Double Muon) ;Sub-leading Muon #phi; Nr. of Events",10,-3,3);
+    TH1D* pt_jet1_di_mumu = new TH1D("pt_jet1_di_mumu","Leading Jet pT Distribution (Double Muon) ;Jet 1 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet2_di_mumu = new TH1D("pt_jet2_di_mumu","2nd Leading Jet pT Distribution (Double Muon) ;Jet 2 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet3_di_mumu = new TH1D("pt_jet3_di_mumu","3rd Leading Jet pT Distribution (Double Muon) ;Jet 3 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet4_di_mumu = new TH1D("pt_jet4_di_mumu","4th Leading Jet pT Distribution (Double Muon) ;Jet 4 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet5_di_mumu = new TH1D("pt_jet5_di_mumu","5th Leading Jet pT Distribution (Double Muon) ;Jet 5 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet6_di_mumu = new TH1D("pt_jet6_di_mumu","6th Leading Jet pT Distribution (Double Muon) ;Jet 6 pT (GeV);Nr. of Events",50,0,300);
+    TH1D* pt_jet_all_di_mumu = new TH1D("pt_jet_all_di_mumu","Jet (all) pT Distribution (Double Muon) ;Jet pT (GeV);Nr. of Events",50,0,300);
+    TH1D* csv_jet_all_di_mumu = new TH1D("csv_jet_all_di_mumu","Jet (all) CSV Distribution (Double Muon) ;Jet CSV (GeV);Nr. of Events",50,0,1);
+    TH1D* ht_di_mumu = new TH1D("ht_di_mumu","HT Distribution (Double Muon) ;HT (GeV);Nr. of Events",50,0,1000);
+    TH2D* njets_ht_di_mumu = new TH2D("njets_ht_2D_di_mumu","Jet Multiplicity and HT 2D Distribution (Double Muon) ;Nr. of jets ;HT (GeV)",15,0,15,50,0,1000);
     TH1D* njets_di_mumu = new TH1D("njets_di_mumu","Jet Multiplicity (Double Muon) ;Nr. of jets; Nr. of Events",15,0,15);
     TH1D* nbtags_di_mumu = new TH1D("nbtags_di_mumu","B-jet Multiplicity (Double Muon) ;Nr. of b-jets; Nr. of Events",8,0,8);
-    TH1D* npv_di_mumu = new TH1D("npv_di_mumu","Nr. of Primary Vertices (Double Muon)  ;NPV; Nr. of Events",75,0,75);
-
+    TH1D* npv_di_mumu = new TH1D("npv_di_mumu","Nr. of Primary Vertices (Double Muon)  ;NPV; Nr. of Events",20,0,75);
+    
 
 	int nentries = chain->GetEntries();
 	int NeventsPerJob = int( double(nentries)/double(Njobs) + 0.000001 ) + 1;
@@ -211,6 +219,38 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     double q2_weight_up;
     double q2_weight_down;
 
+    std::vector<double> * genmu_pt = 0;
+    std::vector<double> * genmu_eta = 0;
+    std::vector<double> * genmu_phi = 0;
+    std::vector<double> * genmu_E = 0;
+    std::vector<int> * genmu_charge = 0;
+    std::vector<int> * genmu_genid = 0;
+    std::vector<int> * genmu_parentid = 0;
+    std::vector<int> * genmu_grandparentid = 0;
+
+    std::vector<double> * genele_pt = 0;
+    std::vector<double> * genele_eta = 0;
+    std::vector<double> * genele_phi = 0;
+    std::vector<double> * genele_E = 0;
+    std::vector<int> * genele_charge = 0;
+    std::vector<int> * genele_genid = 0;
+    std::vector<int> * genele_parentid = 0;
+    std::vector<int> * genele_grandparentid = 0;
+
+    std::vector<double> * genjet_pt = 0;
+    std::vector<double> * genjet_eta = 0;
+    std::vector<double> * genjet_phi = 0;
+    std::vector<double> * genjet_E = 0;
+
+    std::vector<double> * genbquarks_pt = 0;
+    std::vector<double> * genbquarks_eta = 0;
+    std::vector<double> * genbquarks_phi = 0;
+    std::vector<int> * genbquarks_genid = 0;
+    std::vector<int> * genbquarks_imm_parentid = 0;
+    std::vector<int> * genbquarks_imm_daughterid = 0;
+    std::vector<int> * genbquarks_parentid = 0;
+    std::vector<int> * genbquarks_grandparentid = 0;
+
 
     chain->SetBranchAddress("nEvent", &nEvent );
     chain->SetBranchAddress("n_lep", &n_lep );
@@ -249,6 +289,34 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     chain->SetBranchAddress("pdf_weight_down", &pdf_weight_down );
     chain->SetBranchAddress("q2_weight_up", &q2_weight_up );
     chain->SetBranchAddress("q2_weight_down", &q2_weight_down );
+    chain->SetBranchAddress("genmu_pt", &genmu_pt );
+    chain->SetBranchAddress("genmu_eta", &genmu_eta );
+    chain->SetBranchAddress("genmu_phi", &genmu_phi );
+    chain->SetBranchAddress("genmu_E", &genmu_E );
+    chain->SetBranchAddress("genmu_charge", &genmu_charge );
+    chain->SetBranchAddress("genmu_genid", &genmu_genid );
+    chain->SetBranchAddress("genmu_parentid", &genmu_parentid );
+    chain->SetBranchAddress("genmu_grandparentid", &genmu_grandparentid );
+    chain->SetBranchAddress("genele_pt", &genele_pt );
+    chain->SetBranchAddress("genele_eta", &genele_eta );
+    chain->SetBranchAddress("genele_phi", &genele_phi );
+    chain->SetBranchAddress("genele_E", &genele_E );
+    chain->SetBranchAddress("genele_charge", &genele_charge );
+    chain->SetBranchAddress("genele_genid", &genele_genid );
+    chain->SetBranchAddress("genele_parentid", &genele_parentid );
+    chain->SetBranchAddress("genele_grandparentid", &genele_grandparentid );
+    chain->SetBranchAddress("genjet_pt", &genjet_pt );
+    chain->SetBranchAddress("genjet_eta", &genjet_eta );
+    chain->SetBranchAddress("genjet_phi", &genjet_phi );
+    chain->SetBranchAddress("genjet_E", &genjet_E );
+    chain->SetBranchAddress("genbquarks_pt", &genbquarks_pt );
+    chain->SetBranchAddress("genbquarks_eta", &genbquarks_eta );
+    chain->SetBranchAddress("genbquarks_phi", &genbquarks_phi );
+    chain->SetBranchAddress("genbquarks_genid", &genbquarks_genid );
+    chain->SetBranchAddress("genbquarks_imm_parentid", &genbquarks_imm_parentid );
+    chain->SetBranchAddress("genbquarks_imm_daughterid", &genbquarks_imm_daughterid );
+    chain->SetBranchAddress("genbquarks_parentid", &genbquarks_parentid );
+    chain->SetBranchAddress("genbquarks_grandparentid", &genbquarks_grandparentid );
 
 
 	std::cout << "========  Starting Event Loop  ========" << std::endl;
@@ -310,14 +378,43 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         }
         */
 
-        // for taking tt jets hf filtered events only
-        //if(ttHFGenFilter!=1)
-        //    continue;
-
+        
         sum_gen_weights = sum_gen_weights + gen_weight;
 
-        double tot_weight = 1;
+        // for taking tt jets hf filtered events only
+        //if(ttHFGenFilter!=1)
+        //      continue;
 
+        //if(n_btags<4)
+        //    continue;
+        
+
+        for(unsigned int i=0; i< (*genbquarks_pt).size(); i++){
+            std::cout<<(*genbquarks_genid)[i]<<"  "<<(*genbquarks_imm_parentid)[i]<<"  "<<(*genbquarks_imm_daughterid)[i]<<"  "<<(*genbquarks_parentid)[i]<<"  "<<(*genbquarks_grandparentid)[i]<<"  "<<(*genbquarks_pt)[i]<<"  "<<(*genbquarks_eta)[i]<<"  "<<(*genbquarks_pt)[i]<<"\n";
+        }
+
+        // Checking at least 4 b-quarks at Gen Level
+        int n_bquarks = 0;
+        for(unsigned int i=0; i< (*genbquarks_pt).size(); i++){
+            if((*genbquarks_imm_parentid)[i] != -99 && (*genbquarks_imm_daughterid)[i] != -99){
+                if((*genbquarks_imm_parentid)[i] != 5 && (*genbquarks_imm_parentid)[i] != -5)
+                    n_bquarks++;
+            }
+        }
+        if(n_bquarks < 4)
+            continue;
+
+        ++N_4b_pass;
+
+        // Checking ttjets category = ttbb
+        double mod_ttHFcat = ttHf_cat%100;
+        if( (mod_ttHFcat < 53) || (mod_ttHFcat > 55) )
+            continue;
+
+        ++N_ttbb_pass;
+
+        // Event weight and SFs
+        double tot_weight = 1;
         if (n_lep == 1 || n_lep == 2){
             tot_weight = tot_weight * (*lep_sf_id)[0] * (*lep_sf_id)[1] * (*lep_sf_iso)[0] * (*lep_sf_iso)[1];
             tot_weight = tot_weight * lep_sf_trig * gen_weight * PU_weight * b_weight;
@@ -345,6 +442,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
 
                 ht_sl_e->Fill(ht, tot_weight);
+                njets_ht_sl_e->Fill(n_jets, ht, tot_weight);
                 njets_sl_e->Fill(n_jets, tot_weight);
                 nbtags_sl_e->Fill(n_btags, tot_weight);
                 npv_sl_e->Fill(npv, tot_weight);
@@ -367,6 +465,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
 
                 ht_sl_mu->Fill(ht, tot_weight);
+                njets_ht_sl_mu->Fill(n_jets, ht, tot_weight);
                 njets_sl_mu->Fill(n_jets, tot_weight);
                 nbtags_sl_mu->Fill(n_btags, tot_weight);
                 npv_sl_mu->Fill(npv, tot_weight);
@@ -397,6 +496,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
 
                 ht_di_ee->Fill(ht, tot_weight);
+                njets_ht_di_ee->Fill(n_jets, ht, tot_weight);
                 njets_di_ee->Fill(n_jets, tot_weight);
                 nbtags_di_ee->Fill(n_btags, tot_weight);
                 npv_di_ee->Fill(npv, tot_weight);
@@ -422,6 +522,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
 
                 ht_di_mumu->Fill(ht, tot_weight);
+                njets_ht_di_mumu->Fill(n_jets, ht, tot_weight);
                 njets_di_mumu->Fill(n_jets, tot_weight);
                 nbtags_di_mumu->Fill(n_btags, tot_weight);
                 npv_di_mumu->Fill(npv, tot_weight);
@@ -448,6 +549,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
 
                 ht_di_emu->Fill(ht, tot_weight);
+                njets_ht_di_emu->Fill(n_jets, ht, tot_weight);
                 njets_di_emu->Fill(n_jets, tot_weight);
                 nbtags_di_emu->Fill(n_btags, tot_weight);
                 npv_di_emu->Fill(npv, tot_weight);
@@ -460,7 +562,11 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     std::cout << " Done! " << std::endl;
  	std::cout<<"**********************************************************************************************\n";
-    std::cout<<"Total No. of events : "<<N_total<<"\n";   
+    std::cout<<"Total No. of Events : "<<N_total<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks : "<<N_4b_pass<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category : "<<N_ttbb_pass<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category + passing Selection : "<<N_sel<<"\n";
+    std::cout<<"**********************************************************************************************\n";
     std::cout<<"No. of Single Electron Events: "<<N_e<<"\n";
     std::cout<<"No. of Single Muon Events: "<<N_mu<<"\n";
     std::cout<<"No. of Double Electron Events: "<<N_ee<<"\n";
@@ -468,7 +574,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     std::cout<<"No. of Double Muon Events: "<<N_mumu<<"\n";
     std::cout<<"Total No. of Single Lepton Events: "<<N_SL<<"\n";
     std::cout<<"Total No. of Dilepton Events: "<<N_DL<<"\n";
-    std::cout<<"Total No. of Selected Events: "<<N_sel<<"\n";
+    std::cout<<"**********************************************************************************************\n";
     std::cout<<"Sum of Generator weights of all Events: "<<sum_gen_weights<<"\n";
     std::cout<<"**********************************************************************************************\n";
     histofile.Write();

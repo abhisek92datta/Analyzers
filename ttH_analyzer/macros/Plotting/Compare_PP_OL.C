@@ -30,7 +30,7 @@
 #include "THStack.h"
 
 
-void Compare_MC_MC() {
+void Compare_PP_OL() {
 
     TH1::SetDefaultSumw2();
 
@@ -63,8 +63,13 @@ void Compare_MC_MC() {
     ///////////////////////////////////////////////////////////////////////
 
 	//TFile *f1 = new TFile("Distribution_mc_ttjets_pp_all.root");
-    TFile *f1 = new TFile("Distribution_mc_ttjets_pp_hf.root");
-    TFile *f2 = new TFile("Distribution_mc_ttjets_ol.root");
+    //TFile *f1 = new TFile("Distribution_mc_ttjets_pp_hf.root");
+    //TFile *f1 = new TFile("Distribution_mc_ttjets_pp_hf_ttbb.root");
+    TFile *f1 = new TFile("Distribution_mc_ttjets_pp_hf_ttbb_4bjet.root");
+    //TFile *f2 = new TFile("Distribution_mc_ttjets_ol.root");
+    //TFile *f2 = new TFile("Distribution_mc_ttjets_ol_hf.root");
+    //TFile *f2 = new TFile("Distribution_mc_ttjets_ol_hf_ttbb.root");
+    TFile *f2 = new TFile("Distribution_mc_ttjets_ol_hf_ttbb_4bjet.root");
     //TFile *f3 = new TFile("Distribution_data.root");
 
     std::vector<TH1D*> ttjets_pp_e;
@@ -168,13 +173,13 @@ void Compare_MC_MC() {
     ///////////////////////////////////////////////////////////////////////
 
     //ttjets_pp
+    
     double factor_ttjets_pp = 1.0;
     double sigma_ttjets_pp = 831.76; // pb
     double N_total_ttjets_pp = 77078997;
     double sum_gen_weight_ttjets_pp = 7.7079e+07;
     double norm_ttjets_pp = (L*sigma_ttjets_pp*1000)/(sum_gen_weight_ttjets_pp);
     double scale_ttjets_pp = factor_ttjets_pp*norm_ttjets_pp;
-
 
     //ttjets_ol
     double factor_ttjets_ol = 1.0;
@@ -313,105 +318,120 @@ void Compare_MC_MC() {
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(1000);
+    //y_u_sl.push_back(1000);
+    y_u_sl.push_back(75);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Lepton eta
     x_l_sl.push_back(-3);
     y_l_sl.push_back(0);
     x_u_sl.push_back(3);
-    y_u_sl.push_back(2000);
+    //y_u_sl.push_back(2000);
+    y_u_sl.push_back(100);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.15);
     // Lepton phi
     x_l_sl.push_back(-3);
     y_l_sl.push_back(0);
     x_u_sl.push_back(3);
-    y_u_sl.push_back(2000);
+    //y_u_sl.push_back(2000);
+    y_u_sl.push_back(100);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 1 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 2 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 3 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 4 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 5 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet 6 pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(700);
+    //y_u_sl.push_back(700);
+    y_u_sl.push_back(50);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet (all) pT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(300);
-    y_u_sl.push_back(10000);
+    //y_u_sl.push_back(10000);
+    y_u_sl.push_back(500);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Jet (all) CSV
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(1);
-    y_u_sl.push_back(1000);
+    //y_u_sl.push_back(1000);
+    y_u_sl.push_back(500);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.16);
     // HT
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(1000);
-    y_u_sl.push_back(1500);
+    //y_u_sl.push_back(1500);
+    y_u_sl.push_back(30);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.1);
     // Nr. of jets
     x_l_sl.push_back(4);
     y_l_sl.push_back(0);
     x_u_sl.push_back(13);
-    y_u_sl.push_back(10000);
+    //y_u_sl.push_back(10000);
+    y_u_sl.push_back(350);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.7);
     // Nr. of btags
     x_l_sl.push_back(2);
     y_l_sl.push_back(0);
     x_u_sl.push_back(9);
-    y_u_sl.push_back(10000);
+    //y_u_sl.push_back(10000);
+    y_u_sl.push_back(500);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(1);
     // Nr. of primary vertices
     x_l_sl.push_back(0);
     y_l_sl.push_back(0);
     x_u_sl.push_back(80);
-    y_u_sl.push_back(1000);
+    //y_u_sl.push_back(1000);
+    y_u_sl.push_back(100);
     y_n_l_sl.push_back(0);
     y_n_u_sl.push_back(0.2);
 
@@ -419,126 +439,144 @@ void Compare_MC_MC() {
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(1000);
+    //y_u_di.push_back(1000);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Lepton 1 eta
     x_l_di.push_back(-3);
     y_l_di.push_back(0);
     x_u_di.push_back(3);
-    y_u_di.push_back(2000);
+    //y_u_di.push_back(2000);
+    y_u_di.push_back(10);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.15);
     // Lepton 1 phi
     x_l_di.push_back(-3);
     y_l_di.push_back(0);
     x_u_di.push_back(3);
-    y_u_di.push_back(2000);
+    //y_u_di.push_back(2000);
+    y_u_di.push_back(20);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Lepton 2 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(1000);
+    //y_u_di.push_back(1000);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Lepton 2 eta
     x_l_di.push_back(-3);
     y_l_di.push_back(0);
     x_u_di.push_back(3);
-    y_u_di.push_back(2000);
+    //y_u_di.push_back(2000);
+    y_u_di.push_back(10);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.15);
     // Lepton 2 phi
     x_l_di.push_back(-3);
     y_l_di.push_back(0);
     x_u_di.push_back(3);
-    y_u_di.push_back(2000);
+    //y_u_di.push_back(2000);
+    y_u_di.push_back(20);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 1 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 2 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 3 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 4 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 5 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet 6 pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(700);
+    //y_u_di.push_back(700);
+    y_u_di.push_back(15);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet (all) pT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(300);
-    y_u_di.push_back(10000);
+    //y_u_di.push_back(10000);
+    y_u_di.push_back(100);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Jet (all) CSV
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(1);
-    y_u_di.push_back(1000);
+    //y_u_di.push_back(1000);
+    y_u_di.push_back(50);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.16);
     // HT
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(1000);
-    y_u_di.push_back(1500);
+    //y_u_di.push_back(1500);
+    y_u_di.push_back(10);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.1);
     // Nr. of jets
     x_l_di.push_back(2);
     y_l_di.push_back(0);
     x_u_di.push_back(13);
-    y_u_di.push_back(10000);
+    //y_u_di.push_back(10000);
+    y_u_di.push_back(100);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.7);
     // Nr. of btags
     x_l_di.push_back(1);
     y_l_di.push_back(0);
     x_u_di.push_back(9);
-    y_u_di.push_back(10000);
+    //y_u_di.push_back(10000);
+    y_u_di.push_back(100);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(1);
     // Nr. of primary vertices
     x_l_di.push_back(0);
     y_l_di.push_back(0);
     x_u_di.push_back(80);
-    y_u_di.push_back(1000);
+    //y_u_di.push_back(1000);
+    y_u_di.push_back(20);
     y_n_l_di.push_back(0);
     y_n_u_di.push_back(0.2);
 

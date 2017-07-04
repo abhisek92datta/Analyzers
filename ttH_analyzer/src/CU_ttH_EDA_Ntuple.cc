@@ -278,6 +278,21 @@ CU_ttH_EDA_Ntuple::fill_ntuple_bjets(const std::vector<pat::Jet> &bjets,
     
 }
 
+void
+CU_ttH_EDA_Ntuple::fill_ntuple_gen_b(const CU_ttH_EDA_event_vars &local){
+
+    for( unsigned int i=0; i<local.genbquarks.size(); i++ ){
+        genbquarks_pt.push_back(local.genbquarks[i].pt());
+        genbquarks_eta.push_back(local.genbquarks[i].eta());
+        genbquarks_phi.push_back(local.genbquarks[i].phi());
+        genbquarks_genid.push_back(local.genbquarks[i].pdgId());
+        genbquarks_imm_parentid.push_back(local.genbquarks_imm_parentid[i]);
+        genbquarks_imm_daughterid.push_back(local.genbquarks_imm_daughterid[i]);
+        genbquarks_parentid.push_back(local.genbquarks_parentid[i]);
+        genbquarks_grandparentid.push_back(local.genbquarks_grandparentid[i]);
+    }
+}
+
 inline void
 CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &local){
 
@@ -366,6 +381,9 @@ CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &local){
         genele_phi.push_back(local.genelectrons_selected[i].phi());
         genele_E.push_back(local.genelectrons_selected[i].energy());
         genele_charge.push_back(local.genelectrons_selected[i].charge());
+        genele_genid.push_back(local.genelectrons_selected[i].pdgId());
+        genele_parentid.push_back(local.genelectrons_selected_parentid[i]);
+        genele_grandparentid.push_back(local.genelectrons_selected_grandparentid[i]);
     }
     for( unsigned int i=0; i<local.genmuons_selected.size(); i++ ){
         genmu_pt.push_back(local.genmuons_selected[i].pt());
@@ -373,6 +391,9 @@ CU_ttH_EDA_Ntuple::fill_ntuple_gen(const CU_ttH_EDA_event_vars &local){
         genmu_phi.push_back(local.genmuons_selected[i].phi());
         genmu_E.push_back(local.genmuons_selected[i].energy());
         genmu_charge.push_back(local.genmuons_selected[i].charge());
+        genmu_genid.push_back(local.genmuons_selected[i].pdgId());
+        genmu_parentid.push_back(local.genmuons_selected_parentid[i]);
+        genmu_grandparentid.push_back(local.genmuons_selected_grandparentid[i]);
     }
     for( unsigned int i=0; i<local.genjets_selected.size(); i++ ){
         genjet_pt.push_back(local.genjets_selected[i].pt());
@@ -591,17 +612,32 @@ void CU_ttH_EDA_Ntuple::initialize() {
   genmu_phi.clear();
   genmu_E.clear();
   genmu_charge.clear();
+  genmu_genid.clear();
+  genmu_parentid.clear();
+  genmu_grandparentid.clear();
 
   genele_pt.clear();
   genele_eta.clear();
   genele_phi.clear();
   genele_E.clear();
   genele_charge.clear();
+  genele_genid.clear();
+  genele_parentid.clear();
+  genele_grandparentid.clear();
 
   genjet_pt.clear();
   genjet_eta.clear();
   genjet_phi.clear();
   genjet_E.clear();
+
+  genbquarks_pt.clear();
+  genbquarks_eta.clear();
+  genbquarks_phi.clear();
+  genbquarks_genid.clear();
+  genbquarks_imm_parentid.clear();
+  genbquarks_imm_daughterid.clear();
+  genbquarks_parentid.clear();
+  genbquarks_grandparentid.clear();
 
   // SF and event_weight
 
@@ -761,17 +797,32 @@ void CU_ttH_EDA_Ntuple::set_up_branches(TTree *tree) {
   tree->Branch("genmu_phi", &genmu_phi);
   tree->Branch("genmu_E", &genmu_E);
   tree->Branch("genmu_charge", &genmu_charge);
+  tree->Branch("genmu_genid", &genmu_genid);
+  tree->Branch("genmu_parentid", &genmu_parentid);
+  tree->Branch("genmu_grandparentid", &genmu_grandparentid);
 
   tree->Branch("genele_pt", &genele_pt);
   tree->Branch("genele_eta", &genele_eta);
   tree->Branch("genele_phi", &genele_phi);
   tree->Branch("genele_E", &genele_E);
   tree->Branch("genele_charge", &genele_charge);
+  tree->Branch("genele_genid", &genele_genid);
+  tree->Branch("genele_parentid", &genele_parentid);
+  tree->Branch("genele_grandparentid", &genele_grandparentid);
 
   tree->Branch("genjet_pt", &genjet_pt);
   tree->Branch("genjet_eta", &genjet_eta);
   tree->Branch("genjet_phi", &genjet_phi);
   tree->Branch("genjet_E", &genjet_E);
+
+  tree->Branch("genbquarks_pt", &genbquarks_pt);
+  tree->Branch("genbquarks_eta", &genbquarks_eta);
+  tree->Branch("genbquarks_phi", &genbquarks_phi);
+  tree->Branch("genbquarks_genid", &genbquarks_genid);
+  tree->Branch("genbquarks_imm_parentid", &genbquarks_imm_parentid);
+  tree->Branch("genbquarks_imm_daughterid", &genbquarks_imm_daughterid);
+  tree->Branch("genbquarks_parentid", &genbquarks_parentid);
+  tree->Branch("genbquarks_grandparentid", &genbquarks_grandparentid);
 
   // SF and event-weight
   tree->Branch("lep_sf_id", &lep_sf_id);

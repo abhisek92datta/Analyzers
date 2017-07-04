@@ -36,6 +36,8 @@ private:
                                  const MiniAODHelper &);
   inline void fill_ntuple_gen(const CU_ttH_EDA_event_vars &);
 
+  void fill_ntuple_gen_b(const CU_ttH_EDA_event_vars &);
+
   inline void fill_SF_SL(const CU_ttH_EDA_event_vars &);
   inline void fill_SF_DL(const CU_ttH_EDA_event_vars &);
 
@@ -189,17 +191,32 @@ public:
   std::vector<double> genmu_phi;
   std::vector<double> genmu_E;
   std::vector<int> genmu_charge;
+  std::vector<int> genmu_genid;
+  std::vector<int> genmu_parentid;
+  std::vector<int> genmu_grandparentid;
 
   std::vector<double> genele_pt;
   std::vector<double> genele_eta;
   std::vector<double> genele_phi;
   std::vector<double> genele_E;
   std::vector<int> genele_charge;
+  std::vector<int> genele_genid;
+  std::vector<int> genele_parentid;
+  std::vector<int> genele_grandparentid;
 
   std::vector<double> genjet_pt;
   std::vector<double> genjet_eta;
   std::vector<double> genjet_phi;
   std::vector<double> genjet_E;
+
+  std::vector<double> genbquarks_pt;
+  std::vector<double> genbquarks_eta;
+  std::vector<double> genbquarks_phi;
+  std::vector<int> genbquarks_genid;
+  std::vector<int> genbquarks_imm_parentid;
+  std::vector<int> genbquarks_imm_daughterid;
+  std::vector<int> genbquarks_parentid;
+  std::vector<int> genbquarks_grandparentid;
 
 
   // SF and event weight

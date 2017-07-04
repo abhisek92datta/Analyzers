@@ -341,6 +341,12 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     gen_FH_count = gen_FH_count + local.FH_tag;
     gen_tot_count = gen_SL_count + gen_DL_count + gen_FH_count;
 
+    // Generator Level b-quark info
+    if (!isdata){
+        Fill_Gen_b_info(*(handle.genparticles), local);
+        hbbNtuple.fill_ntuple_gen_b(local);
+    }
+
 
     /// Check tags, fill ntuple, print events
     if (local.event_selection_SL != 0) {

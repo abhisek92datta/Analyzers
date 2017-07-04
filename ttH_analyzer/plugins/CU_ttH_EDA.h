@@ -191,8 +191,8 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline void GetElectronSeeds(std::vector<unsigned int> &, const std::vector<pat::Electron> &);
     inline std::vector<pat::Muon> GetSelectedMuons(std::vector<TLorentzVector> &, std::vector<unsigned int> &, const std::vector<pat::Muon> &, const float, const coneSize::coneSize = coneSize::R04, const corrType::corrType = corrType::deltaBeta, const float = 2.5, const float = 0.25);
     void Lepton_Tag(const std::vector<reco::GenParticle> & , CU_ttH_EDA_event_vars &);
-    inline void find_link(const reco::GenParticle &, const int &);
-    inline int find_id(const int &, const int &);
+    inline void find_link(const reco::GenParticle &);
+    inline int find_id(const int &);
 
     // Jet operations
     inline std::vector<pat::Jet> CheckJetID(const std::vector<pat::Jet> &,
@@ -282,6 +282,7 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     inline void get_bjetness_vars( vector<pat::Jet> , const reco::Vertex& , const TransientTrackBuilder& , edm::Handle<edm::View<pat::Electron> > , edm::Handle<edm::View<pat::Muon> > , double& , double& , double& , double& , double& , double& );  
 
     inline void Fill_Gen_info(const std::vector<reco::GenParticle> & , const std::vector<reco::GenJet> & , CU_ttH_EDA_event_vars &);
+    void Fill_Gen_b_info(const std::vector<reco::GenParticle> & , CU_ttH_EDA_event_vars &);
 
     /// Other functions
     void Check_Fill_Print_single_lepton(const CU_ttH_EDA_event_vars &);

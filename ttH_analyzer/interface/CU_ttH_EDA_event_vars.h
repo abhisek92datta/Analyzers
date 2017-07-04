@@ -117,8 +117,18 @@ struct CU_ttH_EDA_event_vars {
   std::vector<pat::Jet> jets_inp_bjetness;
 
   std::vector<reco::GenParticle> genelectrons_selected;
+  std::vector<int> genelectrons_selected_parentid;
+  std::vector<int> genelectrons_selected_grandparentid;
   std::vector<reco::GenParticle> genmuons_selected;
+  std::vector<int> genmuons_selected_parentid;
+  std::vector<int> genmuons_selected_grandparentid;
   std::vector<reco::GenJet> genjets_selected;
+
+  std::vector<reco::GenParticle> genbquarks;
+  std::vector<int> genbquarks_imm_parentid;
+  std::vector<int> genbquarks_imm_daughterid;
+  std::vector<int> genbquarks_parentid;
+  std::vector<int> genbquarks_grandparentid;
 
   std::vector<double> vec_jet_pt;
   std::vector<double> vec_jet_eta;

@@ -1844,21 +1844,58 @@ void CU_ttH_EDA::Fill_addn_quant(CU_ttH_EDA_event_vars &local,
     }
 }
 
+void
+CU_ttH_EDA::Fill_Gen_b_info(const std::vector<reco::GenParticle> & genparticles , CU_ttH_EDA_event_vars & local)
+{
+    local.genbquarks.clear();
+    local.genbquarks_imm_parentid.clear();
+    local.genbquarks_imm_daughterid.clear();
+    local.genbquarks_parentid.clear();
+    local.genbquarks_grandparentid.clear();
+
+    for( std::vector<reco::GenParticle>::const_iterator gen = genparticles.begin(), ed = genparticles.end(); gen != ed; ++gen ){
+        if( gen->pdgId() == 5 || gen->pdgId() == -5 ){
+            local.genbquarks.push_back(*gen);
+            find_link(*gen);
+            if( gen->numberOfMothers()>=1 )
+                local.genbquarks_imm_parentid.push_back(gen->mother(0)->pdgId());
+            else
+                local.genbquarks_imm_parentid.push_back(-99);
+            if( gen->numberOfDaughters()>=1 )
+                local.genbquarks_imm_daughterid.push_back(gen->daughter(0)->pdgId());
+            else
+                local.genbquarks_imm_daughterid.push_back(-99);
+            local.genbquarks_parentid.push_back(find_id(1));
+            local.genbquarks_grandparentid.push_back(find_id(2));
+        }
+    }
+}
+
 inline void
 CU_ttH_EDA::Fill_Gen_info(const std::vector<reco::GenParticle> & genparticles , const std::vector<reco::GenJet> & genjets , CU_ttH_EDA_event_vars & local)
 {
     local.genelectrons_selected.clear();
+    local.genelectrons_selected_parentid.clear();
+    local.genelectrons_selected_grandparentid.clear();
     local.genmuons_selected.clear();
+    local.genmuons_selected_parentid.clear();
+    local.genmuons_selected_grandparentid.clear();
     local.genjets_selected.clear();
 
     for( std::vector<reco::GenParticle>::const_iterator gen = genparticles.begin(), ed = genparticles.end(); gen != ed; ++gen ){
         if( gen->pdgId() == 11 || gen->pdgId() == -11 ){
             //if( gen->pt() > 15 && fabs(gen->eta()) < 2.4 )
                 local.genelectrons_selected.push_back(*gen);
+                find_link(*gen);
+                local.genelectrons_selected_parentid.push_back(find_id(1));
+                local.genelectrons_selected_grandparentid.push_back(find_id(2));
         }
         else if( gen->pdgId() == 13 || gen->pdgId() == -13 ){
             //if( gen->pt() > 15 && fabs(gen->eta()) < 2.4 )
                 local.genmuons_selected.push_back(*gen);
+                find_link(*gen);
+                local.genmuons_selected_parentid.push_back(find_id(1));
+                local.genmuons_selected_grandparentid.push_back(find_id(2));
         }
     }
 
@@ -1870,7 +1907,7 @@ CU_ttH_EDA::Fill_Gen_info(const std::vector<reco::GenParticle> & genparticles , 
 
 
 inline void
-CU_ttH_EDA::find_link( const reco::GenParticle &gen, const int &genId)
+CU_ttH_EDA::find_link( const reco::GenParticle &gen)
 {
 
     for(int j=0; j<15; j++)
@@ -1969,8 +2006,9 @@ CU_ttH_EDA::find_link( const reco::GenParticle &gen, const int &genId)
 }
 
 inline int
-CU_ttH_EDA::find_id(const int &n, const int &genId)
+CU_ttH_EDA::find_id(const int &n)
 {
+
     int j=0;
     if(j==n)
         return gen_id_list[j];
@@ -2023,17 +2061,10 @@ CU_ttH_EDA::Lepton_Tag(const std::vector<reco::GenParticle> &genparticles , CU_t
         genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;
         genId = gen->pdgId();
 
-        find_link(*gen, genId);
-
-        /*
-        for(unsigned int i=0; i<15; i++){
-            std::cout<<gen_id_list[i]<<"  ";
-        }
-        std::cout<<"\n";
-        */
-
-        genParentId = find_id(1, genId );
-        genGrandParentId = find_id(2, genId);
+        // find_id() must have a find_link() just before it
+        find_link(*gen);
+        genParentId = find_id(1);
+        genGrandParentId = find_id(2);
 
         /*
         if( gen->numberOfMothers()>=1 ){
