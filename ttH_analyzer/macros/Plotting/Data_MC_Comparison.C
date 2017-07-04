@@ -45,10 +45,12 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     int isttbar = 0;  // Set 1 for ttbar datasets
 
     // input filename
-    std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
+    std::string treefilename = "ttHbbNtuple.root";
+    //std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/ttH_Analyzer_ttjets_pp/170603_213946/0000/ttHbbNtuple*.root";
     //std::string treefilename = "/eos/uscms/store/user/adatta/ttH_Analysis/v1/ttbb_4FS_OpenLoops_13TeV-sherpa/ttH_Analyzer_ttjets_ol/170606_013446/0000/ttHbbNtuple*.root";
 
-	std::string histofilename = "Distribution_pp.root";
+    std::string histofilename = "Distribution.root";
+	//std::string histofilename = "Distribution_pp.root";
     //std::string histofilename = "Distribution_ol.root";
 	
 	TChain *chain = new TChain("ttHbb/eventTree");
@@ -382,29 +384,31 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         sum_gen_weights = sum_gen_weights + gen_weight;
 
         // for taking tt jets hf filtered events only
-        //if(ttHFGenFilter!=1)
-        //      continue;
+        if(ttHFGenFilter!=1)
+              continue;
 
         //if(n_btags<4)
         //    continue;
         
 
-        for(unsigned int i=0; i< (*genbquarks_pt).size(); i++){
-            std::cout<<(*genbquarks_genid)[i]<<"  "<<(*genbquarks_imm_parentid)[i]<<"  "<<(*genbquarks_imm_daughterid)[i]<<"  "<<(*genbquarks_parentid)[i]<<"  "<<(*genbquarks_grandparentid)[i]<<"  "<<(*genbquarks_pt)[i]<<"  "<<(*genbquarks_eta)[i]<<"  "<<(*genbquarks_pt)[i]<<"\n";
-        }
+        //for(unsigned int i=0; i< (*genbquarks_pt).size(); i++){
+        //    std::cout<<(*genbquarks_genid)[i]<<"  "<<(*genbquarks_imm_parentid)[i]<<"  "<<(*genbquarks_imm_daughterid)[i]<<"  "<<(*genbquarks_parentid)[i]<<"  "<<(*genbquarks_grandparentid)[i]<<"  "<<(*genbquarks_pt)[i]<<"  "<<(*genbquarks_eta)[i]<<"  "<<(*genbquarks_phi)[i]<<"\n";
+        //}
 
         // Checking at least 4 b-quarks at Gen Level
         int n_bquarks = 0;
         for(unsigned int i=0; i< (*genbquarks_pt).size(); i++){
             if((*genbquarks_imm_parentid)[i] != -99 && (*genbquarks_imm_daughterid)[i] != -99){
-                if((*genbquarks_imm_parentid)[i] != 5 && (*genbquarks_imm_parentid)[i] != -5)
-                    n_bquarks++;
+                if((*genbquarks_imm_daughterid)[i] != 5 && (*genbquarks_imm_daughterid)[i] != -5){
+                    if( (*genbquarks_pt)[i] > 30 )
+                        n_bquarks++;
+                }
             }
         }
         if(n_bquarks < 4)
             continue;
 
-        ++N_4b_pass;
+         ++N_4b_pass;
 
         // Checking ttjets category = ttbb
         double mod_ttHFcat = ttHf_cat%100;
@@ -563,9 +567,9 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
     std::cout << " Done! " << std::endl;
  	std::cout<<"**********************************************************************************************\n";
     std::cout<<"Total No. of Events : "<<N_total<<"\n";
-    std::cout<<"Total No. of Events having more than 4 b-quarks : "<<N_4b_pass<<"\n";
-    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category : "<<N_ttbb_pass<<"\n";
-    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category + passing Selection : "<<N_sel<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks : "<<N_4b_pass<<" , "<<((double)N_4b_pass/N_total)*100<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category : "<<N_ttbb_pass<<" , "<<((double)N_ttbb_pass/N_total)*100<<"\n";
+    std::cout<<"Total No. of Events having more than 4 b-quarks + in ttbb category + passing Selection : "<<N_sel<<" , "<<((double)N_sel/N_total)*100<<"\n";
     std::cout<<"**********************************************************************************************\n";
     std::cout<<"No. of Single Electron Events: "<<N_e<<"\n";
     std::cout<<"No. of Single Muon Events: "<<N_mu<<"\n";

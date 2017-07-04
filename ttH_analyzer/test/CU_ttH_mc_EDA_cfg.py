@@ -89,6 +89,8 @@ process.source = cms.Source("PoolSource",
     #'/store/mc/RunIISummer16MiniAODv2/TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/0049997C-51CB-E611-9B50-0CC47A009258.root'
     #tt+jets DL
     #'/store/mc/RunIISummer16MiniAODv2/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/029774B9-48C1-E611-B4C3-0CC47A4D760A.root'
+    #Sherpa+OL
+    #'/store/mc/RunIISummer16MiniAODv2/ttbb_4FS_OpenLoops_13TeV-sherpa/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/0276379A-5B26-E711-AD7B-008CFA197424.root'
     )
 )
 

@@ -1910,7 +1910,7 @@ inline void
 CU_ttH_EDA::find_link( const reco::GenParticle &gen)
 {
 
-    for(int j=0; j<15; j++)
+    for(int j=0; j<20; j++)
         gen_id_list[j] = -99;
 
     int i=0;
@@ -2001,6 +2001,36 @@ CU_ttH_EDA::find_link( const reco::GenParticle &gen)
     else
         return;
 
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
+    if( gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->numberOfMothers()>=1 ){
+        gen_id_list[i++] = gen.mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->pdgId();
+    }
+    else
+        return;
+
     return;
 
 }
@@ -2013,7 +2043,7 @@ CU_ttH_EDA::find_id(const int &n)
     if(j==n)
         return gen_id_list[j];
     j++;
-    for(unsigned int i=1; i<15; i++){
+    for(unsigned int i=1; i<20; i++){
 
         if( gen_id_list[i] != gen_id_list[i-1]){
 
@@ -2026,7 +2056,7 @@ CU_ttH_EDA::find_id(const int &n)
         }
     }
 
-    return gen_id_list[14];
+    return gen_id_list[19];
 }
 
 void

@@ -36,8 +36,6 @@ private:
                                  const MiniAODHelper &);
   inline void fill_ntuple_gen(const CU_ttH_EDA_event_vars &);
 
-  void fill_ntuple_gen_b(const CU_ttH_EDA_event_vars &);
-
   inline void fill_SF_SL(const CU_ttH_EDA_event_vars &);
   inline void fill_SF_DL(const CU_ttH_EDA_event_vars &);
 
@@ -50,6 +48,8 @@ public:
   void set_up_branches(TTree *);
   void write_ntuple_SL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
   void write_ntuple_DL(const CU_ttH_EDA_event_vars &, const MiniAODHelper &);
+
+  void fill_ntuple_gen_b(const CU_ttH_EDA_event_vars &);
 
   /// variables
 
