@@ -355,7 +355,15 @@ class CU_ttH_EDA : public edm::EDAnalyzer
     int gen_SL_count;
     int gen_DL_count;
     int gen_FH_count;
+	int gen_SL_hf_count;
+	int gen_SL_nonhf_count;
+	int gen_DL_hf_count;
+	int gen_DL_nonhf_count;
+	int gen_FH_hf_count;
+	int gen_FH_nonhf_count;
     int gen_tot_count;
+	int gen_tot_hf_count;
+	int gen_tot_nonhf_count;
 
     double total_xs;      // total cross section
     double int_lumi;      // integrated luminosity

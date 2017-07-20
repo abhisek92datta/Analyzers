@@ -409,7 +409,7 @@ genJetInputParticleCollection = 'packedGenParticles'
 ## producing a subset of particles to be used for jet clustering
 from RecoJets.Configuration.GenJetParticles_cff import genParticlesForJetsNoNu
 process.genParticlesForJetsNoNu = genParticlesForJetsNoNu.clone(
-	src = genJetInputParticleCollection
+	src = cms.InputTag(genJetInputParticleCollection)
 )
 seq += process.genParticlesForJetsNoNu
 
@@ -417,48 +417,52 @@ seq += process.genParticlesForJetsNoNu
 # Producing own jets for testing purposes
 from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
 process.ak4GenJetsCustom = ak4GenJets.clone(
-        src = 'genParticlesForJetsNoNu',
+        src = cms.InputTag("genParticlesForJetsNoNu"),
         #    src = genJetInputParticleCollection,
-        rParam = cms.double(0.4),
-        jetAlgorithm = cms.string("AntiKt")
+		jetAlgorithm = cms.string("AntiKt"),
+        rParam = cms.double(0.4)
 )
 seq += process.ak4GenJetsCustom
+
     
 # Ghost particle collection used for Hadron-Jet association 
 # MUST use proper input particle collection
 from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
 process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone(
-        particles = genParticleCollection
+        particles = cms.InputTag(genParticleCollection)
 )
 seq += process.selectedHadronsAndPartons
+
+from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
+	jets = cms.InputTag(genJetCollection)
+)
+seq += process.genJetFlavourInfos
     
 # Input particle collection for matching to gen jets (partons + leptons) 
 # MUST use use proper input jet collection: the jets to which hadrons should be associated
 # rParam and jetAlgorithm MUST match those used for jets to be associated with hadrons
 # More details on the tool: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagMCTools#New_jet_flavour_definition
 
-from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
-process.genJetFlavourInfos = ak4JetFlavourInfos.clone(
-        jets = genJetCollection,
-        rParam = cms.double(0.4),
-        jetAlgorithm = cms.string("AntiKt")
-)
-seq += process.genJetFlavourInfos
+
     
-from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import *
+from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenBHadron
 # Plugin for analysing B hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
 process.matchGenBHadron = matchGenBHadron.clone(
-        genParticles = genParticleCollection,
-        jetFlavourInfos = "genJetFlavourInfos"
+        genParticles = cms.InputTag(genParticleCollection),
+        jetFlavourInfos = cms.InputTag("genJetFlavourInfos"),
+		onlyJetClusteredHadrons = cms.bool(False)
 )
 seq += process.matchGenBHadron
     
 # Plugin for analysing C hadrons
 # MUST use the same particle collection as in selectedHadronsAndPartons
+from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
 process.matchGenCHadron = matchGenCHadron.clone(
-        genParticles = genParticleCollection,
-        jetFlavourInfos = "genJetFlavourInfos"
+        genParticles = cms.InputTag(genParticleCollection),
+        jetFlavourInfos = cms.InputTag("genJetFlavourInfos"),
+		onlyJetClusteredHadrons = cms.bool(False)
 )
 seq += process.matchGenCHadron
     
@@ -467,21 +471,21 @@ seq += process.matchGenCHadron
 from PhysicsTools.JetMCAlgos.GenTtbarCategorizer_cfi import categorizeGenTtbar
 #from TopQuarkAnalysis.TopTools.GenTtbarCategorizer_cfi import categorizeGenTtbar
 process.categorizeGenTtbar = categorizeGenTtbar.clone(
-        genJetPtMin = 20.,
-        genJetAbsEtaMax = 2.4,
-        genJets = genJetCollection,
+		genJets = cms.InputTag(genJetCollection),
+		genJetPtMin     = cms.double(20.),
+		genJetAbsEtaMax = cms.double(2.4)
 )
 
 seq += process.categorizeGenTtbar
 
-if options.isTtbar:
-    # the ttHFGen filter, used as a tagger
-    from PhysicsTools.JetMCAlgos.ttHFGenFilter_cfi import ttHFGenFilter
-    process.ttHFGenFilter = ttHFGenFilter.clone(
-       genParticles = cms.InputTag(genParticleCollection),
-       taggingMode  = cms.bool(True)
-    )
-    seq += process.ttHFGenFilter
+
+# the ttHFGen filter, used as a tagger
+from PhysicsTools.JetMCAlgos.ttHFGenFilter_cfi import ttHFGenFilter
+process.ttHFGenFilter = ttHFGenFilter.clone(
+	genParticles = cms.InputTag(genParticleCollection),
+	taggingMode  = cms.bool(True)
+)
+seq += process.ttHFGenFilter
 
 process.ttHbb.input_tags.ttHFGenFilter = cms.InputTag("ttHFGenFilter")
 

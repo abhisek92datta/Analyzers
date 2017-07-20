@@ -15,10 +15,6 @@ CU_ttH_EDA_Ntuple::~CU_ttH_EDA_Ntuple() {}
 
 void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
                                         const MiniAODHelper &miniAODhelper) {
-  // Event variales
-  nEvent = local.event_nr;
-  ls = local.lumisection_nr;
-  run = local.run_nr;
 
   npv = local.truenpv;
 
@@ -50,10 +46,6 @@ void CU_ttH_EDA_Ntuple::write_ntuple_SL(const CU_ttH_EDA_event_vars &local,
 
 void CU_ttH_EDA_Ntuple::write_ntuple_DL(const CU_ttH_EDA_event_vars &local,
                                         const MiniAODHelper &miniAODhelper) {
-  // Event variables
-  nEvent = local.event_nr;
-  ls = local.lumisection_nr;
-  run = local.run_nr;
 
   n_ele = local.n_di_electrons;
   n_mu = local.n_di_muons;

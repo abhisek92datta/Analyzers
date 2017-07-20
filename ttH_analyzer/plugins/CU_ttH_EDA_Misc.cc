@@ -2071,8 +2071,8 @@ CU_ttH_EDA::Lepton_Tag(const std::vector<reco::GenParticle> &genparticles , CU_t
     int genid_eplus = -11;
     int genid_muminus = 13;
     int genid_muplus = -13;
-    int genid_tauplus = 15;
-    int genid_tauminus = -15;
+    int genid_tauminus = 15;
+    int genid_tauplus = -15;
     int genid_t = 6;
     int genid_tbar = -6;
     int genid_Wplus = 24;
@@ -2084,8 +2084,10 @@ CU_ttH_EDA::Lepton_Tag(const std::vector<reco::GenParticle> &genparticles , CU_t
 
     for( std::vector<reco::GenParticle>::const_iterator gen = genparticles.begin(), ed = genparticles.end(); gen != ed; ++gen ){
 
-        if(!gen->isHardProcess())
-            continue;
+		if(!is_OLS){
+			if(!gen->isHardProcess())
+				continue;
+		}
 
         int genId, genParentId, genGrandParentId, genGreatGrandParentId, genGreatGreatGrandParentId;
         genId = genParentId = genGrandParentId = genGreatGrandParentId = genGreatGreatGrandParentId = -99;

@@ -303,8 +303,13 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
      */
 
 
-    // Initialize Ntuple and record generator weight
+    // Initialize Ntuple and filling some general info
     hbbNtuple.initialize();
+
+	// Event variables
+	hbbNtuple.nEvent = local.event_nr;
+	hbbNtuple.ls = local.lumisection_nr;
+	hbbNtuple.run = local.run_nr;
 
     // generator weight
     local.gen_weight = 1;
@@ -319,11 +324,16 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     hbbNtuple.ttHf_cat = local.ttHf_cat;
 
     // ttHFGenFilter
-    local.ttHFGenFilter = -1;
+    local.ttHFGenFilter = false;
     if(!isdata) {
-        local.ttHFGenFilter = *handle.ttHFGenFilter;
+        local.ttHFGenFilter = *(handle.ttHFGenFilter);
+		if(local.ttHFGenFilter == true)
+			hbbNtuple.ttHFGenFilter = 1;
+		else
+			hbbNtuple.ttHFGenFilter = 0;
     }
-    hbbNtuple.ttHFGenFilter = local.ttHFGenFilter;
+	else
+		hbbNtuple.ttHFGenFilter = -1;
 
     //SL, DL and FH tagger
     if (!isdata)
@@ -339,6 +349,18 @@ void CU_ttH_EDA::analyze(const edm::Event &iEvent,
     gen_SL_count = gen_SL_count + local.SL_tag;
     gen_DL_count = gen_DL_count + local.DL_tag;
     gen_FH_count = gen_FH_count + local.FH_tag;
+	if(local.ttHFGenFilter){
+		gen_SL_hf_count = gen_SL_hf_count + local.SL_tag;
+		gen_DL_hf_count = gen_DL_hf_count + local.DL_tag;
+		gen_FH_hf_count = gen_FH_hf_count + local.FH_tag;
+	}
+	else{
+		gen_SL_nonhf_count = gen_SL_nonhf_count + local.SL_tag;
+		gen_DL_nonhf_count = gen_DL_nonhf_count + local.DL_tag;
+		gen_FH_nonhf_count = gen_FH_nonhf_count + local.FH_tag;
+	}
+	gen_tot_hf_count = gen_SL_hf_count + gen_DL_hf_count + gen_FH_hf_count;
+	gen_tot_nonhf_count = gen_SL_nonhf_count + gen_DL_nonhf_count + gen_FH_nonhf_count;
     gen_tot_count = gen_SL_count + gen_DL_count + gen_FH_count;
 
     // Generator Level b-quark info
@@ -375,7 +397,7 @@ void CU_ttH_EDA::beginJob()
     event_count = 0;
     selection_count = 0;
     sl_e = sl_mu = dl_ee = dl_emu = dl_mumu = 0;
-    gen_SL_count = gen_DL_count = gen_FH_count = gen_tot_count = 0;
+    gen_SL_count = gen_DL_count = gen_FH_count = gen_tot_count = gen_SL_hf_count = gen_SL_nonhf_count = gen_DL_hf_count = gen_DL_nonhf_count = gen_FH_hf_count = gen_FH_nonhf_count = gen_tot_hf_count = gen_tot_nonhf_count = 0;
 }
 
 // ------------ method called once each job just after ending the event loop
@@ -492,10 +514,10 @@ void CU_ttH_EDA::endRun(const edm::Run &, const edm::EventSetup &)
     std::cout
         << "***************************************************************"
         << std::endl;
-    std::cout << "Total number of SL tagged events = " << gen_SL_count << std::endl;
-    std::cout << "Total number of DL tagged events = " << gen_DL_count << std::endl;
-    std::cout << "Total number of FH tagged events = " << gen_FH_count << std::endl;
-    std::cout << "Total number of tagged events = " << gen_tot_count << std::endl;
+    std::cout << "Total number of SL tagged events = " << gen_SL_count << ", SL hf : "<< gen_SL_hf_count<<", SL nonhf : "<< gen_SL_nonhf_count<< std::endl;
+    std::cout << "Total number of DL tagged events = " << gen_DL_count << ", DL hf : "<< gen_DL_hf_count<<", DL nonhf : "<< gen_DL_nonhf_count<< std::endl;
+    std::cout << "Total number of FH tagged events = " << gen_FH_count << ", FH hf : "<< gen_FH_hf_count<<", FH nonhf : "<< gen_FH_nonhf_count<< std::endl;
+    std::cout << "Total number of tagged events = " << gen_tot_count << ", Total hf : "<< gen_tot_hf_count<<", Total nonhf : "<< gen_tot_nonhf_count<< std::endl;
     std::cout
         << "***************************************************************"
         << std::endl;
