@@ -415,7 +415,7 @@ process.badGlobalMuonTaggerMAOD.taggingMode   = cms.bool(True)
 process.cloneGlobalMuonTaggerMAOD.muons       = muonCollection
 process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
 
-seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
+#seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
 
 
 #

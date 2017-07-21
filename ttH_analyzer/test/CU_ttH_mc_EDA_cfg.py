@@ -334,7 +334,7 @@ process.badGlobalMuonTaggerMAOD.taggingMode   = cms.bool(True)
 process.cloneGlobalMuonTaggerMAOD.muons       = muonCollection
 process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
 
-seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
+#seq += process.BadPFMuonFilter + process.BadChargedCandidateFilter + process.badGlobalMuonTaggerMAOD + process.cloneGlobalMuonTaggerMAOD
 
 #
 # update PUJetId values
@@ -367,36 +367,6 @@ if options.updatePUJetId:
 #for idmod in my_id_modules:
 #	setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
 
-
-
-# load the analysis:
-process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
-
-# pat object collections
-process.ttHbb.input_tags.electrons = electronCollection
-process.ttHbb.input_tags.muons     = muonCollection
-process.ttHbb.input_tags.mets      = METCollection
-process.ttHbb.input_tags.jets     = jetCollection
-
-#electron VID collections
-#process.ttHbb.electronVIDCollections = cms.VInputTag(
-#     "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp80",
-#     "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp90",
-#     "egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp80",
-#     "egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp90",
-#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
-#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
-#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
-#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
-#)
-
-# additional MET filters
-process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
-     "BadPFMuonFilter",
-     "BadChargedCandidateFilter",
-     "badGlobalMuonTaggerMAOD",
-     "cloneGlobalMuonTaggerMAOD"
-)
 
 #ttHf categorization
 
@@ -486,6 +456,35 @@ process.ttHFGenFilter = ttHFGenFilter.clone(
 	taggingMode  = cms.bool(True)
 )
 seq += process.ttHFGenFilter
+
+# load the analysis:
+process.load("Analyzers.ttH_analyzer.ttHbb_cfi")
+
+# pat object collections
+process.ttHbb.input_tags.electrons = electronCollection
+process.ttHbb.input_tags.muons     = muonCollection
+process.ttHbb.input_tags.mets      = METCollection
+process.ttHbb.input_tags.jets     = jetCollection
+
+#electron VID collections
+#process.ttHbb.electronVIDCollections = cms.VInputTag(
+#     "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp80",
+#     "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp90",
+#     "egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp80",
+#     "egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp90",
+#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
+#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
+#     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+#)
+
+# additional MET filters
+process.ttHbb.additionalMETFilterCollections = cms.VInputTag(
+	  "BadPFMuonFilter",
+	  "BadChargedCandidateFilter",
+	  "badGlobalMuonTaggerMAOD",
+	  "cloneGlobalMuonTaggerMAOD"
+)
 
 process.ttHbb.input_tags.ttHFGenFilter = cms.InputTag("ttHFGenFilter")
 
