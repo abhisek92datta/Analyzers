@@ -171,7 +171,7 @@ inline void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(
     ele_phi.push_back(electrons[0].phi());
     ele_E.push_back(electrons[0].energy());
     ele_charge.push_back(electrons[0].charge());
-    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[0], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[0], coneSize::R03, corrType::rhoEA, effAreaType::summer16));
     /*
     ele0_jetNDauChargedMVASel = electrons[0].userFloat("nearestJetNDauCharged");
     ele0_miniRelIso = electrons[0].userFloat("miniIso");
@@ -210,14 +210,14 @@ inline void CU_ttH_EDA_Ntuple::fill_ntuple_electrons(
     ele_phi.push_back(electrons[lead].phi());
     ele_E.push_back(electrons[lead].energy());
     ele_charge.push_back(electrons[lead].charge());
-    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[lead], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[lead], coneSize::R03, corrType::rhoEA, effAreaType::summer16));
       
     ele_pt.push_back(electrons[sublead].pt());
     ele_eta.push_back(electrons[sublead].eta());
     ele_phi.push_back(electrons[sublead].phi());
     ele_E.push_back(electrons[sublead].energy());
     ele_charge.push_back(electrons[sublead].charge());
-    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[sublead], coneSize::R03, corrType::rhoEA, effAreaType::spring15));
+    ele_iso.push_back(miniAODhelper.GetElectronRelIso(electrons[sublead], coneSize::R03, corrType::rhoEA, effAreaType::summer16));
     /*
     ele1_jetNDauChargedMVASel = electrons[1].userFloat("nearestJetNDauCharged");
     ele1_miniRelIso = electrons[1].userFloat("miniIso");
